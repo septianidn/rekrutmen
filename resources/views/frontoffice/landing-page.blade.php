@@ -7,7 +7,7 @@
     <title>CDC Unand</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+    <link rel="shortcut icon" type="image/x-icon"href="{{ asset('images/frontoffice/favicon.png') }}" />
     <!-- Place favicon.ico in the root directory -->
 
     <!-- Web Font -->
@@ -60,12 +60,9 @@
                 >
                   <ul id="nav" class="navbar-nav ml-auto">
                     <li class="nav-item">
-                      <a class="active" href="index.html">Home</a>
+                      <a class="active" href="/">Home</a>
                       <ul class="sub-menu">
-                        <li><a class="active" href="index.html">Home 1</a></li>
-                        <li><a href="index2.html">Home 2</a></li>
-                        <li><a href="index3.html">Home 3</a></li>
-                        <li><a href="index4.html">Home 4</a></li>
+                        <li><a class="active" href="/">Home</a></li>
                       </ul>
                     </li>
                     <li class="nav-item">
@@ -155,7 +152,109 @@
     </header>
     <!-- End Header Area -->
 
+    
+
     <!-- Start Hero Area -->
+    <section class="hero-area style2">
+        <div class="hero-inner">
+          <div class="home-slider">
+            <div class="single-slider">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6 co-12">
+                    <div class="inner-content">
+                      <div class="hero-text">
+                        <h1 class="wow fadeInUp" data-wow-delay=".3s">
+                          Find Your Career <br />to Make a Better Life
+                        </h1>
+                        <p class="wow fadeInUp" data-wow-delay=".5s">
+                          Creating a beautiful job website is not easy always. To
+                          make your life easier we are introducing Jobcamp
+                          template, Leverage agile frameworks to high level
+                          overviews.
+                        </p>
+                        <div class="button wow fadeInUp" data-wow-delay=".7s">
+                          <a href="#" class="btn">Post a Job</a>
+                          <a href="#" class="btn btn-alt">See Our Jobs</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 co-12">
+                    <div class="hero-image wow fadeInRight" data-wow-delay=".4s">
+                      <script data-pagespeed-no-defer>
+                        window["pagespeed"] = window["pagespeed"] || {};
+                        var pagespeed = window["pagespeed"];
+                        pagespeed.switchToHighResAndMaybeBeacon = function (
+                          elem
+                        ) {
+                          setTimeout(function () {
+                            elem.onload = null;
+                            var srcset = elem.getAttribute(
+                              "data-pagespeed-high-res-srcset"
+                            );
+                            if (srcset) {
+                              elem.srcset = srcset;
+                            }
+                            elem.src = elem.getAttribute(
+                              "data-pagespeed-high-res-src"
+                            );
+                            if (pagespeed.CriticalImages) {
+                              elem.onload =
+                                pagespeed.CriticalImages.checkImageForCriticality(
+                                  elem
+                                );
+                            }
+                          }, 0);
+                        };
+                      </script>
+                      <img
+                      src="{{ asset('images/frontoffice/hero/hero-image.png') }}"  alt="#" 
+                    
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="single-slider">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-6 co-12">
+                    <div class="inner-content">
+                      <div class="hero-text">
+                        <h1 class="wow fadeInUp" data-wow-delay=".3s">
+                          Find Your Career <br />to Make a Better Life
+                        </h1>
+                        <p class="wow fadeInUp" data-wow-delay=".5s">
+                          Creating a beautiful job website is not easy always. To
+                          make your life easier we are introducing Jobcamp
+                          template, Leverage agile frameworks to high level
+                          overviews.
+                        </p>
+                        <div class="button wow fadeInUp" data-wow-delay=".7s">
+                          <a href="#" class="btn">Post a Job</a>
+                          <a href="#" class="btn btn-alt">See Our Jobs</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 co-12">
+                    <div class="hero-image wow fadeInRight" data-wow-delay=".ss">
+                      <img
+                      src="{{ asset('images/frontoffice/hero/hero-image.png') }}"  alt="#" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--/ End Hero Area -->
+
+
     <section class="hero-area">
       <div class="hero-inner">
         <div class="container">
@@ -1717,6 +1816,29 @@
                 }
             }
         });
+        var slider = new tns({
+            container: '.home-slider',
+            slideBy: 'page',
+            autoplay: true,
+            autoplayButtonOutput: false,
+            mouseDrag: true,
+            gutter: 0,
+            items: 1,
+            nav: false,
+            controls: true,
+            controlsText: ['<i class="lni lni-arrow-left prev"></i>', '<i class="lni lni-arrow-right next"></i>'],
+            responsive: {
+                1200: {
+                    items: 1,
+                },
+                992: {
+                    items: 1,
+                },
+                0: {
+                    items: 1,
+                }
+            }
+            });
         //========= glightbox
         GLightbox({
             'href': 'https://www.youtube.com/watch?v=cz4z8CyvDas',
@@ -1726,3 +1848,5 @@
             'autoplayVideos': true,
         });
     </script>
+  </body>
+</html>
