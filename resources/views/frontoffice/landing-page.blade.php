@@ -7,7 +7,7 @@
     <title>CDC Unand</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon"href="{{ asset('images/frontoffice/favicon.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/frontoffice/favicon.png') }}" />
     <!-- Place favicon.ico in the root directory -->
 
     <!-- Web Font -->
@@ -34,13 +34,16 @@
 
     <div id="loading-area"></div>
     <!-- Start Header Area -->
-    <header class="header">
+    {{-- TODO : FETCH FROM DB --}}
+    <header class="header style4">
       <div class="navbar-area">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-12">
               <nav class="navbar navbar-expand-lg">
-                <a class="navbar-brand logo" href="index.html"> </a>
+                <a class="navbar-brand logo" href="/">
+                    <img class="logo1" src="{{ asset('images/frontoffice/logo/logo.svg') }}" alt="Logo CDC Unand" >
+                </a>
                 <button
                   class="navbar-toggler"
                   type="button"
@@ -61,69 +64,45 @@
                   <ul id="nav" class="navbar-nav ml-auto">
                     <li class="nav-item">
                       <a class="active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#">Karir</a>
                       <ul class="sub-menu">
-                        <li><a class="active" href="/">Home</a></li>
+                        <li><a href="#">Vacancy</a></li>
+                        <li><a href="#">Test Call</a></li>
+                        <li><a href="#">Article</a></li>
                       </ul>
                     </li>
                     <li class="nav-item">
-                      <a href="#">Pages</a>
+                      <a href="/tracer-study">Tracer Study</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#">Konseling </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#">Publikasi</a>
                       <ul class="sub-menu">
-                        <li><a href="about-us.html">About Us</a></li>
-                        <li><a href="job-list.html">Job List</a></li>
-                        <li><a href="job-details.html">Job Details</a></li>
-                        <li><a href="resume.html">Resume Page</a></li>
                         <li>
-                          <a href="privacy-policy.html">Privacy Policy</a>
+                          <a href="#">Laporan Tracer Study</a>
                         </li>
-                        <li><a href="faq.html">Faq</a></li>
-                        <li><a href="pricing.html">Our Pricing</a></li>
-                        <li><a href="404.html">404 Error</a></li>
-                        <li><a href="mail-success.html">Mail Success</a></li>
-                      </ul>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">Candidates</a>
-                      <ul class="sub-menu">
-                        <li><a href="browse-jobs.html">Browse Jobs</a></li>
+                        <li><a href="#">Laporan Pertanyaan Tracer Study</a></li>
                         <li>
-                          <a href="browse-categories.html">Browse Categories</a>
-                        </li>
-                        <li><a href="add-resume.html">Add Resume</a></li>
-                        <li><a href="job-alerts.html">Job Alerts</a></li>
-                      </ul>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">Employers </a>
-                      <ul class="sub-menu">
-                        <li><a href="post-job.html">Add Job</a></li>
-                        <li><a href="manage-jobs.html">Manage Jobs</a></li>
-                        <li>
-                          <a href="manage-applications.html"
-                            >Manage Applications</a
+                          <a href="#"
+                            >Dashboard Progress</a
                           >
                         </li>
-                        <li><a href="manage-resumes.html">Manage Resume</a></li>
                         <li>
-                          <a href="browse-resumes.html">Browse Resumes</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">Blog</a>
-                      <ul class="sub-menu">
-                        <li>
-                          <a href="blog-grid-sidebar.html">Blog Grid Sidebar</a>
-                        </li>
-                        <li><a href="blog-single.html">Blog Single</a></li>
-                        <li>
-                          <a href="blog-single-sidebar.html"
-                            >Blog Single Sibebar</a
+                          <a href="#"
+                            >Laporan Pelaksanaan Konseling</a
                           >
                         </li>
                       </ul>
                     </li>
                     <li class="nav-item">
-                      <a href="contact.html">Contact </a>
+                        <a href="#">Tentang Kami</a>
+                      </li>
+                    <li class="nav-item">
+                      <a href="#">Kontak </a>
                     </li>
                   </ul>
                 </div>
@@ -134,14 +113,14 @@
                     data-toggle="modal"
                     data-target="#login"
                     class="login"
-                    ><i class="lni lni-lock-alt"></i> Login</a
+                    ><i class="lni lni-lock-alt"></i> Masuk</a
                   >
                   <a
                     href="javacript:"
                     data-toggle="modal"
                     data-target="#signup"
                     class="btn"
-                    >Sign Up</a
+                    >Daftar</a
                   >
                 </div>
               </nav>
@@ -155,78 +134,49 @@
     
 
     <!-- Start Hero Area -->
+    {{-- TODO : FETCH FROM DB --}}
     <section class="hero-area style2">
         <div class="hero-inner">
           <div class="home-slider">
             <div class="single-slider">
+              <img
+              class="slider-background"   
+             src="{{ asset('images/frontoffice/hero/unand.jpg') }}"  alt="#"
+            />
               <div class="container">
                 <div class="row">
                   <div class="col-lg-6 co-12">
                     <div class="inner-content">
                       <div class="hero-text">
-                        <h1 class="wow fadeInUp" data-wow-delay=".3s">
-                          Find Your Career <br />to Make a Better Life
+                        <h1 class="wow fadeInUp text-white" data-wow-delay=".3s">
+                          Career Development Center <br />Andalas University
                         </h1>
-                        <p class="wow fadeInUp" data-wow-delay=".5s">
-                          Creating a beautiful job website is not easy always. To
-                          make your life easier we are introducing Jobcamp
-                          template, Leverage agile frameworks to high level
-                          overviews.
+                        <p class="wow fadeInUp text-white" data-wow-delay=".5s">
+                          Lorem ipsum dolor sit amet consectetur. Sit est porttitor platea tellus luctus sagittis. Eget eget sit quam nam. Netus condimentum pretium nulla nisi est purus lorem nec. Nulla malesuada lorem urna est. Diam consectetur vel vestibulum leo amet gravida in aliquam. Nulla turpis sit turpis aliquet. Tincidunt tempor odio proin erat pellentesque. Risus massa leo habitant nisl enim mus sed. Eget mauris tristique tempor lectus lectus massa ac nec morbi. 
                         </p>
-                        <div class="button wow fadeInUp" data-wow-delay=".7s">
-                          <a href="#" class="btn">Post a Job</a>
-                          <a href="#" class="btn btn-alt">See Our Jobs</a>
+                        <div class="button wow fadeInUp " data-wow-delay=".7s">
+                          <a href="#" class="btn">Selengkapnya</a>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 co-12">
-                    <div class="hero-image wow fadeInRight" data-wow-delay=".4s">
-                      <script data-pagespeed-no-defer>
-                        window["pagespeed"] = window["pagespeed"] || {};
-                        var pagespeed = window["pagespeed"];
-                        pagespeed.switchToHighResAndMaybeBeacon = function (
-                          elem
-                        ) {
-                          setTimeout(function () {
-                            elem.onload = null;
-                            var srcset = elem.getAttribute(
-                              "data-pagespeed-high-res-srcset"
-                            );
-                            if (srcset) {
-                              elem.srcset = srcset;
-                            }
-                            elem.src = elem.getAttribute(
-                              "data-pagespeed-high-res-src"
-                            );
-                            if (pagespeed.CriticalImages) {
-                              elem.onload =
-                                pagespeed.CriticalImages.checkImageForCriticality(
-                                  elem
-                                );
-                            }
-                          }, 0);
-                        };
-                      </script>
-                      <img
-                      src="{{ asset('images/frontoffice/hero/hero-image.png') }}"  alt="#" 
-                    
-                      />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="single-slider">
+              <img
+              class="slider-background"   
+             src="{{ asset('images/frontoffice/hero/unand.jpg') }}"  alt="#"
+            />
               <div class="container">
                 <div class="row">
                   <div class="col-lg-6 co-12">
                     <div class="inner-content">
                       <div class="hero-text">
-                        <h1 class="wow fadeInUp" data-wow-delay=".3s">
+                        <h1 class="wow fadeInUp text-white" data-wow-delay=".3s">
                           Find Your Career <br />to Make a Better Life
                         </h1>
-                        <p class="wow fadeInUp" data-wow-delay=".5s">
+                        <p class="wow fadeInUp text-white" data-wow-delay=".5s">
                           Creating a beautiful job website is not easy always. To
                           make your life easier we are introducing Jobcamp
                           template, Leverage agile frameworks to high level
@@ -237,13 +187,6 @@
                           <a href="#" class="btn btn-alt">See Our Jobs</a>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 co-12">
-                    <div class="hero-image wow fadeInRight" data-wow-delay=".ss">
-                      <img
-                      src="{{ asset('images/frontoffice/hero/hero-image.png') }}"  alt="#" 
-                      />
                     </div>
                   </div>
                 </div>
@@ -254,283 +197,9 @@
       </section>
       <!--/ End Hero Area -->
 
+   
 
-    <section class="hero-area">
-      <div class="hero-inner">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 co-12">
-              <div class="inner-content">
-                <div class="hero-text">
-                  <h1 class="wow fadeInUp" data-wow-delay=".3s">
-                    Find Your Career <br />to Make a Better Life
-                  </h1>
-                  <p class="wow fadeInUp" data-wow-delay=".5s">
-                    Creating a beautiful job website is not easy <br />
-                    always. To make your life easier, we are<br />
-                    introducing Jobcamp template.
-                  </p>
-                </div>
-                <div
-                  class="job-search-wrap-two mt-50 wow fadeInUp"
-                  data-wow-delay=".7s"
-                >
-                  <!-- Single Field Item Start  -->
-                  <div class="job-search-form">
-                    <form action="#">
-                      <div class="single-field-item keyword">
-                        <label for="keyword">What</label>
-                        <input
-                          id="keyword"
-                          placeholder="What jobs you want?"
-                          name="keyword"
-                          type="text"
-                        />
-                      </div>
-                      <!-- Single Field Item End  -->
-                      <!-- Single Field Item Start  -->
-                      <div class="single-field-item location">
-                        <label for="location">Where</label>
-                        <input
-                          id="location"
-                          class="input-field input-field-location"
-                          placeholder="Location"
-                          name="location"
-                          type="text"
-                        />
-                      </div>
-
-                      <div class="submit-btn">
-                        <button class="btn" type="submit">Search</button>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="trending-keywords mt-30">
-                    <div class="keywords style-two">
-                      <span class="title">Popular Keywords:</span>
-                      <ul>
-                        <li><a href="#">Administrative</a></li>
-                        <li><a href="#">Android</a></li>
-                        <li><a href="#">app</a></li>
-                        <li><a href="#">ASP.NET</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 co-12">
-              <div class="hero-video-head wow fadeInRight" data-wow-delay=".5s">
-                <div class="video-inner">
-
-                  <img src="{{ asset('images/frontoffice/hero/hero-image.png') }}"  alt="#" />
-                  <a
-                    href="https://www.youtube.com/watch?v=cz4z8CyvDas"
-                    class="glightbox hero-video"
-                    ><i class="lni lni-play"></i
-                  ></a>
-                  <!-- Video Animation -->
-                  <div class="promo-video">
-                    <div class="waves-block">
-                      <div class="waves wave-1"></div>
-                      <div class="waves wave-2"></div>
-                      <div class="waves wave-3"></div>
-                    </div>
-                  </div>
-                  <!--/ End Video Animation -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--/ End Hero Area -->
-
-    <!-- Start Apply Process Area -->
-    <section class="apply-process section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-12">
-            <div class="process-item">
-              <i class="lni lni-user"></i>
-              <h4>Register Your Account</h4>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-12">
-            <div class="process-item">
-              <i class="lni lni-book"></i>
-              <h4>Upload Your Resume</h4>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-4 col-12">
-            <div class="process-item">
-              <i class="lni lni-briefcase"></i>
-              <h4>Apply for Dream Job</h4>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="job-category section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="section-title">
-              <span class="wow fadeInDown" data-wow-delay=".2s"
-                >Job Category</span
-              >
-              <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Choose Your Desire Category
-              </h2>
-              <p class="wow fadeInUp" data-wow-delay=".6s">
-                There are many variations of passages of Lorem Ipsum available,
-                but the majority have suffered alteration in some form.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="cat-head">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".2s"
-              >
-                <div class="icon">
-                  <i class="lni lni-cog"></i>
-                </div>
-                <h3>
-                  Technical<br />
-                  Support
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".4s"
-              >
-                <div class="icon">
-                  <i class="lni lni-layers"></i>
-                </div>
-                <h3>
-                  Business<br />
-                  Development
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".6s"
-              >
-                <div class="icon">
-                  <i class="lni lni-home"></i>
-                </div>
-                <h3>
-                  Real Estate<br />
-                  Business
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".8s"
-              >
-                <div class="icon">
-                  <i class="lni lni-search"></i>
-                </div>
-                <h3>
-                  Share Maeket<br />
-                  Analysis
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".2s"
-              >
-                <div class="icon">
-                  <i class="lni lni-investment"></i>
-                </div>
-                <h3>
-                  Finance & Banking <br />
-                  Service
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".4s"
-              >
-                <div class="icon">
-                  <i class="lni lni-cloud-network"></i>
-                </div>
-                <h3>
-                  IT & Networing <br />
-                  Sevices
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".6s"
-              >
-                <div class="icon">
-                  <i class="lni lni-restaurant"></i>
-                </div>
-                <h3>
-                  Restaurant <br />
-                  Services
-                </h3>
-              </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-              <a
-                href="browse-jobs.html"
-                class="single-cat wow fadeInUp"
-                data-wow-delay=".8s"
-              >
-                <div class="icon">
-                  <i class="lni lni-fireworks"></i>
-                </div>
-                <h3>
-                  Defence & Fire <br />
-                  Service
-                </h3>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="about-us section">
+   <section class="about-us section">
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-lg-6 col-md-10 col-12">
@@ -578,15 +247,15 @@
           <div class="col-lg-6 col-md-10 col-12">
             <div class="content-right wow fadeInRight" data-wow-delay=".5s">
               <h2>
-                Help you to get the <br />
-                best job that fits you
+                Membantu Pengembangan Karir  <br/> Yang Adaptif Dan Responsif <br />
+                Terhadap Dunia Kerja
               </h2>
 
               <div class="single-list">
                 <i class="lni lni-grid-alt"></i>
 
                 <div class="list-bod">
-                  <h5>#1 Jobs site in UK</h5>
+                  <h5>Informasi Ketenagakerjaan</h5>
                   <p>
                     Leverage agile frameworks to provide a robust synopsis for
                     high level overviews. Iterative
@@ -598,7 +267,7 @@
                 <i class="lni lni-search"></i>
 
                 <div class="list-bod">
-                  <h5>Seamless searching</h5>
+                  <h5>Tracer Study</h5>
                   <p>
                     Capitalize on low hanging fruit to identify a ballpark value
                     added activity to beta test.
@@ -610,7 +279,7 @@
                 <i class="lni lni-stats-up"></i>
 
                 <div class="list-bod">
-                  <h5>Hired in top companies</h5>
+                  <h5>Konseling Karir</h5>
                   <p>
                     Podcasting operational change management inside of workflows
                     to establish.
@@ -653,14 +322,15 @@
       </div>
     </section>
 
+        {{-- TODO : FETCH FROM DB --}}
     <section class="find-job section">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <div class="section-title">
-              <span class="wow fadeInDown" data-wow-delay=".2s">Hot Jobs</span>
+              <span class="wow fadeInDown" data-wow-delay=".2s">Lowongan Kerja</span>
               <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Browse Recent Jobs
+                Temukan Lowongan
               </h2>
               <p class="wow fadeInUp" data-wow-delay=".6s">
                 There are many variations of passages of Lorem Ipsum available,
@@ -921,305 +591,17 @@
       </div>
     </section>
 
-    <section class="featured-job section">
+    {{-- TODO : FETCH FROM DB --}}
+     <div class="latest-news-area section">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <div class="section-title">
               <span class="wow fadeInDown" data-wow-delay=".2s"
-                >Featured Jobs</span
+                >Publikasi Terkini</span
               >
               <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Browse Featured Jobs
-              </h2>
-              <p class="wow fadeInUp" data-wow-delay=".6s">
-                There are many variations of passages of Lorem Ipsum available,
-                but the majority have suffered alteration in some form.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="single-head">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".2s">
-                <div class="shape"></div>
-                <div class="feature">Featured</div>
-                <div class="image">
-                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
-                  
-                </div>
-                <div class="content">
-                  <h4><a href="job-details.html">Graphics Design</a></h4>
-                  <ul>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                    <li><i class="lni lni-briefcase"></i> Full-time</li>
-                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
-                  </ul>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <div class="button">
-                    <a href="job-details.html" class="btn">Apply Now</a>
-                    <a href="bookmarked.html" class="btn save"
-                      ><i class="lni lni-bookmark"></i> Save It</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".4s">
-                <div class="shape"></div>
-                <div class="feature">Featured</div>
-                <div class="image">
-                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
-                </div>
-                <div class="content">
-                  <h4><a href="job-details.html">Restaurant Services</a></h4>
-                  <ul>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                    <li><i class="lni lni-briefcase"></i> Full-time</li>
-                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
-                  </ul>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <div class="button">
-                    <a href="job-details.html" class="btn">Apply Now</a>
-                    <a href="bookmarked.html" class="btn save"
-                      ><i class="lni lni-bookmark"></i> Save It</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".6s">
-                <div class="shape"></div>
-                <div class="feature">Featured</div>
-                <div class="image">
-                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
-                </div>
-                <div class="content">
-                  <h4><a href="job-details.html">Share Maeket Analysis</a></h4>
-                  <ul>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                    <li><i class="lni lni-briefcase"></i> Full-time</li>
-                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
-                  </ul>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <div class="button">
-                    <a href="job-details.html" class="btn">Apply Now</a>
-                    <a href="bookmarked.html" class="btn save"
-                      ><i class="lni lni-bookmark"></i> Save It</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".2s">
-                <div class="shape"></div>
-                <div class="feature">Featured</div>
-                <div class="image">
-                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
-                </div>
-                <div class="content">
-                  <h4><a href="job-details.html">Medical services</a></h4>
-                  <ul>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                    <li><i class="lni lni-briefcase"></i> Full-time</li>
-                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
-                  </ul>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <div class="button">
-                    <a href="job-details.html" class="btn">Apply Now</a>
-                    <a href="bookmarked.html" class="btn save"
-                      ><i class="lni lni-bookmark"></i> Save It</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".4s">
-                <div class="shape"></div>
-                <div class="feature">Featured</div>
-                <div class="image">
-                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
-                </div>
-                <div class="content">
-                  <h4><a href="job-details.html">Auto Mobile Services</a></h4>
-                  <ul>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                    <li><i class="lni lni-briefcase"></i> Full-time</li>
-                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
-                  </ul>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <div class="button">
-                    <a href="job-details.html" class="btn">Apply Now</a>
-                    <a href="bookmarked.html" class="btn save"
-                      ><i class="lni lni-bookmark"></i> Save It</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".6s">
-                <div class="shape"></div>
-                <div class="feature">Featured</div>
-                <div class="image">
-                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
-                </div>
-                <div class="content">
-                  <h4><a href="job-details.html">IT & Networing Sevices</a></h4>
-                  <ul>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                    <li><i class="lni lni-briefcase"></i> Full-time</li>
-                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
-                  </ul>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <div class="button">
-                    <a href="job-details.html" class="btn">Apply Now</a>
-                    <a href="bookmarked.html" class="btn save"
-                      ><i class="lni lni-bookmark"></i> Save It</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="pricing-table section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="section-title">
-              <span class="wow fadeInDown" data-wow-delay=".2s"
-                >Pricing Table</span
-              >
-              <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Our Pricing Plan
-              </h2>
-              <p class="wow fadeInUp" data-wow-delay=".6s">
-                There are many variations of passages of Lorem Ipsum available,
-                but the majority have suffered alteration in some form.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-table wow fadeInUp" data-wow-delay=".2s">
-              <div class="table-head">
-                <h4 class="title">BASIC PACK</h4>
-                <div class="price">
-                  <p class="amount">
-                    $30<span class="duration">per month</span>
-                  </p>
-                </div>
-              </div>
-
-              <ul class="table-list">
-                <li>5+ Listings</li>
-                <li>Contact With Agent</li>
-                <li>Contact With Agent</li>
-                <li>7×24 Fully Support</li>
-                <li>50GB Space</li>
-              </ul>
-
-              <div class="button">
-                <a class="btn" href="#">Register Now</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-table wow fadeInUp" data-wow-delay=".4s">
-              <div class="table-head">
-                <h4 class="title">STANDARD PACK</h4>
-                <div class="price">
-                  <p class="amount">
-                    $40<span class="duration">per month</span>
-                  </p>
-                </div>
-              </div>
-
-              <ul class="table-list">
-                <li>5+ Listings</li>
-                <li>Contact With Agent</li>
-                <li>Contact With Agent</li>
-                <li>7×24 Fully Support</li>
-                <li>50GB Space</li>
-              </ul>
-
-              <div class="button">
-                <a class="btn" href="#">Register Now</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-table wow fadeInUp" data-wow-delay=".6s">
-              <div class="table-head">
-                <h4 class="title">PREMIUM PACK</h4>
-                <div class="price">
-                  <p class="amount">
-                    $60<span class="duration">per month</span>
-                  </p>
-                </div>
-              </div>
-
-              <ul class="table-list">
-                <li>5+ Listings</li>
-                <li>Contact With Agent</li>
-                <li>Contact With Agent</li>
-                <li>7×24 Fully Support</li>
-                <li>50GB Space</li>
-              </ul>
-
-              <div class="button">
-                <a class="btn" href="#">Register Now</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="latest-news-area section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="section-title">
-              <span class="wow fadeInDown" data-wow-delay=".2s"
-                >latest news</span
-              >
-              <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Latest News & Blog
+                Artikel dan Berita
               </h2>
               <p class="wow fadeInUp" data-wow-delay=".6s">
                 There are many variations of passages of Lorem Ipsum available,
@@ -1260,7 +642,7 @@
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
                 <div class="button">
-                  <a href="blog-single.html" class="btn">Read More</a>
+                  <a href="blog-single.html" class="btn">Selengkapnya</a>
                 </div>
               </div>
             </div>
@@ -1296,7 +678,7 @@
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
                 <div class="button">
-                  <a href="blog-single.html" class="btn">Read More</a>
+                  <a href="blog-single.html" class="btn">Selengkapnya</a>
                 </div>
               </div>
             </div>
@@ -1332,7 +714,7 @@
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
                 <div class="button">
-                  <a href="blog-single.html" class="btn">Read More</a>
+                  <a href="blog-single.html" class="btn">Selengkapnya</a>
                 </div>
               </div>
             </div>
@@ -1349,47 +731,47 @@
           >
             <div class="client-logo">
               <img
-                 src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+                 src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
+              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
               />
             </div>
           </div>
@@ -1397,6 +779,7 @@
       </div>
     </div>
 
+    {{-- TODO : LOGIN MODAL JOBSEEKER AND Employer --}}
     <div
       class="modal fade form-modal"
       id="login"
@@ -1416,7 +799,7 @@
             <div class="col-12">
               <div class="row">
                 <div class="heading">
-                  <h3>Login From Here</h3>
+                  <h3>Masuk Disini</h3>
                   <p>
                     Log in to continue your account <br />
                     and explore new jobs.
@@ -1463,7 +846,7 @@
                         type="password"
                         class="form-control"
                         id="password"
-                        placeholder="Enter password"
+                        placeholder="Masukkan password"
                       />
                     </div>
                   </div>
@@ -1482,11 +865,11 @@
                       >
                     </div>
                     <a href class="font-size-3 text-dodger line-height-reset"
-                      >Forget Password</a
+                      >Lupa Password</a
                     >
                   </div>
                   <div class="form-group mb-8 button">
-                    <button class="btn">Log in</button>
+                    <button class="btn">Masuk</button>
                   </div>
                   <p class="text-center create-new-account">
                     Don’t have an account? <a href="#">Create a free account</a>
@@ -1602,63 +985,30 @@
     </div>
 
     <footer class="footer">
-      <div class="footer-top">
-        <div class="container">
-          <div class="row align-items-center justify-content-center">
-            <div class="col-lg-6 col-12">
-              <div class="download-text">
-                <h3>Download Our Best Apps</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do<br />
-                  eiusmod tempor incididunt ut labore et dolore
-                </p>
-              </div>
-            </div>
-            <div class="col-lg-6 col-12">
-              <div class="download-button">
-                <div class="button">
-                  <a class="btn" href="#"
-                    ><i class="lni lni-apple"></i> App Store</a
-                  >
-                  <a class="btn" href="#"
-                    ><i class="lni lni-play-store"></i> Google Play</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="footer-middle">
         <div class="container">
           <div class="row">
             <div class="col-lg-4 col-md-6 col-12">
               <div class="f-about single-footer">
                 <div class="logo">
-                  <a href="index.html"
+                  <a href="/"
                     ><img
                      src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#" />
-                    
-                  /></a>
+                
+                  </a>
                 </div>
                 <p>
                   Start building your creative website with our awesome template
                   Massive.
                 </p>
                 <ul class="contact-address">
-                  <li><span>Address:</span> 555 Wall Street, USA, NY</li>
+                  <li><span>Alamat:</span> UPT Pusat Karir dan Konseling Universitas Andalas</li>
                   <li>
                     <span>Email:</span>
                     <a
-                      href="/cdn-cgi/l/email-protection"
-                      class="__cf_email__"
-                      data-cfemail="b9dcc1d8d4c9d5dcf9d8c9ccca97dad6d4"
-                      >[email&#160;protected]</a
-                    >
+                      href="mailto:karir@adm.unand.ac.id">karir@adm.unand.ac.id </a>
                   </li>
-                  <li><span>Call:</span> 555-555-1234</li>
+                  <li><span>Telpon:</span>+62 8516 1476 546</li>
                 </ul>
                 <div class="footer-social">
                   <ul>
@@ -1682,7 +1032,7 @@
               <div class="row">
                 <div class="col-lg-4 col-md-6 col-12">
                   <div class="single-footer f-link">
-                    <h3>For Candidates</h3>
+                    <h3>Untuk Jobseeker</h3>
                     <ul>
                       <li><a href="resume.html">User Dashboard</a></li>
                       <li><a href="#">CV Packages</a></li>
@@ -1695,7 +1045,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
                   <div class="single-footer f-link">
-                    <h3>For Employers</h3>
+                    <h3>Untuk Employers</h3>
                     <ul>
                       <li><a href="#">Post New</a></li>
                       <li><a href="#">Employer List</a></li>
@@ -1707,31 +1057,14 @@
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-12">
-                  <div class="single-footer newsletter">
-                    <h3>Join Our Newsletter</h3>
-                    <p>
-                      Subscribe to get the latest jobs posted, candidates...
-                    </p>
-                    <form
-                      action="mail/mail.php"
-                      method="get"
-                      target="_blank"
-                      class="newsletter-inner"
-                    >
-                      <input
-                        name="EMAIL"
-                        placeholder="Your email address"
-                        class="common-input"
-                        onfocus="this.placeholder = ''"
-                        onblur="this.placeholder = 'Your email address'"
-                        required
-                        type="email"
-                      />
-                      <div class="button">
-                        <button class="btn">
-                          Subscribe Now! <span class="dir-part"></span>
-                        </button>
-                      </div>
+                  <div class="single-footer f-link">
+                    <h3>Navigasi</h3>
+                    <ul>
+                      <li><a href="#">Tentang Kami</a></li>
+                      <li><a href="#">Kontak</a></li>
+                    </ul>
+                    <h3 class="visitor">Visitor</h3><a href="https://info.flagcounter.com/tNou"><img src="https://s01.flagcounter.com/count2/tNou/bg_FFFFFF/txt_000000/border_FFFFFF/columns_3/maxflags_12/viewers_3/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+                      
                     </form>
                   </div>
                 </div>
@@ -1749,10 +1082,10 @@
                 <div class="left">
                   <p>
                     Designed and Developed by<a
-                      href="https://graygrids.com/"
+                      href="/"
                       rel="nofollow"
                       target="_blank"
-                      >GrayGrids</a
+                      >Sistem Informasi Unand</a
                     >
                   </p>
                 </div>
@@ -1761,9 +1094,9 @@
                 <div class="right">
                   <ul>
                     <li><a href="#">Terms of use</a></li>
-                    <li><a href="#"> Privacy Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Faq</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Kontak</a></li>
                   </ul>
                 </div>
               </div>
@@ -1839,14 +1172,7 @@
                 }
             }
             });
-        //========= glightbox
-        GLightbox({
-            'href': 'https://www.youtube.com/watch?v=cz4z8CyvDas',
-            'type': 'video',
-            'source': 'youtube', //vimeo, youtube or local
-            'width': 900,
-            'autoplayVideos': true,
-        });
+        
     </script>
   </body>
 </html>
