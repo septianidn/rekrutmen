@@ -2,6 +2,7 @@
 
 // Controllers
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -27,10 +28,28 @@ Route::get('/storage', function () {
     Artisan::call('storage:link');
 });
 
-//UI Pages Routs
-Route::get('/', [HomeController::class, 'uisheet'])->name('uisheet');
+//Front Office Without Auth
+Route::group(['prefix' => '/'], function() {
 
-Route::group(['middleware' => 'auth'], function () {
+    //UI Pages Routs
+    Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');;
+
+    //UI Pages Routs
+    Route::get('/home', [HomeController::class, 'uisheet'])->name('uisheet');
+});
+
+//Back Office
+
+
+//Front Office With Auth
+Route::group(['prefix' => '/', 'middleware' => 'auth'], function() {
+
+    
+});
+
+
+Route::group(['prefix' => '/backoffic3', 'middleware' => 'auth'], function () {
+  
     // Permission Module
     Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
     Route::resource('permission',PermissionController::class);
@@ -43,6 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UserController::class);
 });
 
+
+
+//TEMPLATE 
 //App Details Page => 'Dashboard'], function() {
 Route::group(['prefix' => 'menu-style'], function() {
     //MenuStyle Page Routs
@@ -116,6 +138,7 @@ Route::group(['prefix' => 'icons'], function() {
     Route::get('dualtone', [HomeController::class, 'dualtone'])->name('icons.dualtone');
     Route::get('colored', [HomeController::class, 'colored'])->name('icons.colored');
 });
+
 //Extra Page Routs
 Route::get('privacy-policy', [HomeController::class, 'privacypolicy'])->name('pages.privacy-policy');
 Route::get('terms-of-use', [HomeController::class, 'termsofuse'])->name('pages.term-of-use');
