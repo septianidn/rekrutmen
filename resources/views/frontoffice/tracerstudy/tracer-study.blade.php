@@ -7,7 +7,7 @@
     <title>CDC Unand</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/frontoffice/favicon.png') }}" />
+    <link rel="shortcut icon" type="image/x-icon"href="{{ asset('images/frontoffice/favicon.png') }}" />
     <!-- Place favicon.ico in the root directory -->
 
     <!-- Web Font -->
@@ -129,77 +129,264 @@
         </div>
       </div>
     </header>
+
+
     <!-- End Header Area -->
-
-    
-
     <!-- Start Hero Area -->
-    {{-- TODO : FETCH FROM DB --}}
-    <section class="hero-area style2">
-        <div class="hero-inner">
-          <div class="home-slider">
-            <div class="single-slider">
-              <img
-              class="slider-background"   
-             src="{{ asset('images/frontoffice/hero/unand.jpg') }}"  alt="#"
-            />
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-6 co-12">
-                    <div class="inner-content">
-                      <div class="hero-text">
-                        <h1 class="wow fadeInUp text-white" data-wow-delay=".3s">
-                          Career Development Center <br />Andalas University
-                        </h1>
-                        <p class="wow fadeInUp text-white" data-wow-delay=".5s">
-                          Lorem ipsum dolor sit amet consectetur. Sit est porttitor platea tellus luctus sagittis. Eget eget sit quam nam. Netus condimentum pretium nulla nisi est purus lorem nec. Nulla malesuada lorem urna est. Diam consectetur vel vestibulum leo amet gravida in aliquam. Nulla turpis sit turpis aliquet. Tincidunt tempor odio proin erat pellentesque. Risus massa leo habitant nisl enim mus sed. Eget mauris tristique tempor lectus lectus massa ac nec morbi. 
-                        </p>
-                        <div class="button wow fadeInUp " data-wow-delay=".7s">
-                          <a href="#" class="btn">Selengkapnya</a>
-                        </div>
+    <section class="hero-area">
+      <div class="hero-inner">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 co-12">
+              <div class="inner-content">
+                <div class="hero-text">
+                  <h1 class="wow fadeInUp" data-wow-delay=".3s">
+                    Tracer Study <br />Universitas Andalas
+                  </h1>
+                  <p class="wow fadeInUp" data-wow-delay=".5s">
+                    Creating a beautiful job website is not easy <br />
+                    always. To make your life easier, we are<br />
+                    introducing Jobcamp template.
+                  </p>
+                </div>
+                <div
+                  class="job-search-wrap-two mt-50 wow fadeInUp"
+                  data-wow-delay=".7s"
+                >
+                  <!-- Single Field Item Start  -->
+                  {{-- TODO CHANGE FROM ACTION --}}
+                  <div class="job-search-form">
+                    <form action="#">
+                      <div class="single-field-item">
+                        <p>Tahun</p>
+                          </div>
+                      <!-- Single Field Item End  -->
+                      <!-- Single Field Item Start  -->
+                      {{-- TODO FETCH FROM DB --}}
+                      <div class="single-field-item">
+                        <select class="form-select">
+                          <option selected>2022</option>
+                          <option value="option1">Opsi 1</option>
+                          <option value="option2">Opsi 2</option>
+                          <option value="option3">Opsi 3</option>
+                        </select>
+                       
                       </div>
-                    </div>
+
+                      <div class="submit-btn">
+                        <button class="btn" type="submit">Isi Kuesioner</button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="single-slider">
-              <img
-              class="slider-background"   
-             src="{{ asset('images/frontoffice/hero/unand.jpg') }}"  alt="#"
-            />
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-6 co-12">
-                    <div class="inner-content">
-                      <div class="hero-text">
-                        <h1 class="wow fadeInUp text-white" data-wow-delay=".3s">
-                          Find Your Career <br />to Make a Better Life
-                        </h1>
-                        <p class="wow fadeInUp text-white" data-wow-delay=".5s">
-                          Creating a beautiful job website is not easy always. To
-                          make your life easier we are introducing Jobcamp
-                          template, Leverage agile frameworks to high level
-                          overviews.
-                        </p>
-                        <div class="button wow fadeInUp" data-wow-delay=".7s">
-                          <a href="#" class="btn">Post a Job</a>
-                          <a href="#" class="btn btn-alt">See Our Jobs</a>
-                        </div>
-                      </div>
+            {{-- TODO FETCH VIDEO AND THUMBNAIL FROM DB --}}
+            <div class="col-lg-6 co-12">
+              <div class="hero-video-head wow fadeInRight" data-wow-delay=".5s">
+                <div class="video-inner">
+
+                  <img src="{{ asset('images/frontoffice/hero/tracerstudy/sambutan.png') }}"  alt="#" />
+                  <a
+                    href="https://www.youtube.com/watch?v=Lqf8k2eMF2k"
+                    class="glightbox hero-video"
+                    ><i class="lni lni-play"></i
+                  ></a>
+                  <!-- Video Animation -->
+                  <div class="promo-video">
+                    <div class="waves-block">
+                      <div class="waves wave-1"></div>
+                      <div class="waves wave-2"></div>
+                      <div class="waves wave-3"></div>
                     </div>
                   </div>
+                  <!--/ End Video Animation -->
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <!--/ End Hero Area -->
+      </div>
+    </section>
+    <!--/ End Hero Area -->
 
-   
+    <!-- Start Counting Area -->
+    <section class="counter-section section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-12 counter-col">
+            <div class="counter-RANDOM"> <span class="counter-value" data-vanilla-counter="" data-start-at="0" data-end-at="53" data-time="1000" data-delay="60" data-format="{}+"></span> </div>
+            <div class="counter-text">Lulusan D3</div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-12 counter-col">
+            <div class="counter-RANDOM "> <span class="counter-value" data-vanilla-counter="" data-start-at="0" data-end-at="20" data-time="1000" data-delay="60" data-format="{}K+"></span></div>
+            <div class="counter-text">Lulusan S1</div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-12 counter-col">
+            <div class="counter-RANDOM"> <span class="counter-value" data-vanilla-counter="" data-start-at="0" data-end-at="18" data-time="1000" data-delay="60" data-format="{}K+"></span> </div>
+            <div class="counter-text">Lulusan</div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-12 counter-col">
+            <div class="counter-RANDOM"> <span class="counter-value" data-vanilla-counter="" data-start-at="0" data-end-at="5" data-time="1000" data-delay="60" data-format="{}"></span> </div>
+            <div class="counter-text">Pelaksanaan Tracer Study</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-   <section class="about-us section">
+     
+  
+    
+
+	
+ 
+  
+    {{-- <section class="job-category section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title">
+              <span class="wow fadeInDown" data-wow-delay=".2s"
+                >Job Category</span
+              >
+              <h2 class="wow fadeInUp" data-wow-delay=".4s">
+                Choose Your Desire Category
+              </h2>
+              <p class="wow fadeInUp" data-wow-delay=".6s">
+                There are many variations of passages of Lorem Ipsum available,
+                but the majority have suffered alteration in some form.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="cat-head">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".2s"
+              >
+                <div class="icon">
+                  <i class="lni lni-cog"></i>
+                </div>
+                <h3>
+                  Technical<br />
+                  Support
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".4s"
+              >
+                <div class="icon">
+                  <i class="lni lni-layers"></i>
+                </div>
+                <h3>
+                  Business<br />
+                  Development
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".6s"
+              >
+                <div class="icon">
+                  <i class="lni lni-home"></i>
+                </div>
+                <h3>
+                  Real Estate<br />
+                  Business
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".8s"
+              >
+                <div class="icon">
+                  <i class="lni lni-search"></i>
+                </div>
+                <h3>
+                  Share Maeket<br />
+                  Analysis
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".2s"
+              >
+                <div class="icon">
+                  <i class="lni lni-investment"></i>
+                </div>
+                <h3>
+                  Finance & Banking <br />
+                  Service
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".4s"
+              >
+                <div class="icon">
+                  <i class="lni lni-cloud-network"></i>
+                </div>
+                <h3>
+                  IT & Networing <br />
+                  Sevices
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".6s"
+              >
+                <div class="icon">
+                  <i class="lni lni-restaurant"></i>
+                </div>
+                <h3>
+                  Restaurant <br />
+                  Services
+                </h3>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              <a
+                href="browse-jobs.html"
+                class="single-cat wow fadeInUp"
+                data-wow-delay=".8s"
+              >
+                <div class="icon">
+                  <i class="lni lni-fireworks"></i>
+                </div>
+                <h3>
+                  Defence & Fire <br />
+                  Service
+                </h3>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> --}}
+
+    <section class="about-us section">
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-lg-6 col-md-10 col-12">
@@ -235,8 +422,8 @@
                     <div class="col-lg-6 col-md-6 col-6">
                       <div class="media-body">
                         <i class="lni lni-checkmark"></i>
-                        <h6 class>Job alert!</h6>
-                        <p class>104 new jobs are available in this week!</p>
+                        <h6 class>Tracer Study!</h6>
+                        <p class>Isi kuesioner mu sekarang juga!</p>
                       </div>
                     </div>
                   </div>
@@ -247,15 +434,18 @@
           <div class="col-lg-6 col-md-10 col-12">
             <div class="content-right wow fadeInRight" data-wow-delay=".5s">
               <h2>
-                Membantu Pengembangan Karir  <br/> Yang Adaptif Dan Responsif <br />
-                Terhadap Dunia Kerja
+                Tentang Tracer Study  <br />
+                Universitas Andalas
               </h2>
+              <p class="about-text">
+                Tracer Study dapat juga dikatakan sebagai alumni survei atau graduate survey, yang merupakan kegiatan yang dilakukan suatu institusi untuk melacak kembali alumninya. Pelacakan tersebut bertujuan mendapatkan gambaran tentang kompetensi alumni dan melihat apakah ada perbedaan kompetensi yang didapatkan selama menjalani pendidikan dengan kompetensi yang dituntut oleh dunia kerja. Tracer Study penting dilaksanakan untuk kepentingan universitas dan semua pihak, seperti berikut
+              </p>
 
               <div class="single-list">
                 <i class="lni lni-grid-alt"></i>
 
                 <div class="list-bod">
-                  <h5>Informasi Ketenagakerjaan</h5>
+                  <h5>#1 Jobs site in UK</h5>
                   <p>
                     Leverage agile frameworks to provide a robust synopsis for
                     high level overviews. Iterative
@@ -267,7 +457,7 @@
                 <i class="lni lni-search"></i>
 
                 <div class="list-bod">
-                  <h5>Tracer Study</h5>
+                  <h5>Seamless searching</h5>
                   <p>
                     Capitalize on low hanging fruit to identify a ballpark value
                     added activity to beta test.
@@ -279,7 +469,7 @@
                 <i class="lni lni-stats-up"></i>
 
                 <div class="list-bod">
-                  <h5>Konseling Karir</h5>
+                  <h5>Hired in top companies</h5>
                   <p>
                     Podcasting operational change management inside of workflows
                     to establish.
@@ -292,7 +482,42 @@
       </div>
     </section>
 
-    <section class="call-action overlay section">
+     <!-- Start Apply Process Area -->
+     <section class="apply-process section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-12">
+            <div class="process-item">
+              <i class="lni lni-user"></i>
+              <h4>Kunjungi Halaman Pengisian</h4>
+              <p>
+                Kunjungi halaman pengisian tracer study sesuai tahun yang ditentukan
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-12">
+            <div class="process-item">
+              <i class="lni lni-book"></i>
+              <h4>Masukan PIN</h4>
+              <p>
+                Masukan PIN yang telah dikirim tim tracer ke email masing-masing responden
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-12">
+            <div class="process-item">
+              <i class="lni lni-briefcase"></i>
+              <h4>Isi Kuesioner</h4>
+              <p>
+                Isi kuesioner dengan tepat
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {{-- <section class="call-action overlay section">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 offset-lg-2 col-12">
@@ -320,17 +545,16 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> --}}
 
-        {{-- TODO : FETCH FROM DB --}}
     <section class="find-job section">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <div class="section-title">
-              <span class="wow fadeInDown" data-wow-delay=".2s">Lowongan Kerja</span>
+              <span class="wow fadeInDown" data-wow-delay=".2s">Progress Tracer Study</span>
               <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Temukan Lowongan
+                Dashboard Progress Tracer Study
               </h2>
               <p class="wow fadeInUp" data-wow-delay=".6s">
                 There are many variations of passages of Lorem Ipsum available,
@@ -341,249 +565,15 @@
         </div>
         <div class="single-head">
           <div class="row">
-            <div class="col-lg-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".3s">
-                <div class="job-image">
-                  <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Software Engineer</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> winbrans.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> New York</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>full time</span></li>
-                  </ul>
-                </div>
-              </div>
 
-              <div class="single-job wow fadeInUp" data-wow-delay=".3s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Graphics Design</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> designhub.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> Washington, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>Intern</span></li>
-                  </ul>
-                </div>
-              </div>
+            {{-- TC DASHBOARD --}}
 
-              <div class="single-job wow fadeInUp" data-wow-delay=".3s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Ui/Ux Design</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> uddesign.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> Cupertino, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>Part Time</span></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="single-job wow fadeInUp" data-wow-delay=".3s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Web Developer</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> webinner.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> Delaware, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>Intern</span></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-12">
-              <div class="single-job wow fadeInUp" data-wow-delay=".5s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Digital Marketer</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> marketers.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> New York, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>Part Time</span></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="single-job wow fadeInUp" data-wow-delay=".5s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Sales Manager</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> winbrans.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> Delaware, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>full time</span></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="single-job wow fadeInUp" data-wow-delay=".5s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Product Designer</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> winbrans.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> New York, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>full time</span></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="single-job wow fadeInUp" data-wow-delay=".5s">
-                <div class="job-image">
-                    <img src="{{ asset('images/frontoffice/jobs/job-logo.png') }}"  alt="#" />
-                </div>
-                <div class="job-content">
-                  <h4><a href="job-details.html">Android Developer</a></h4>
-                  <p>
-                    We are looking for Enrollment Advisors who are looking to
-                    take 30-35 appointments per week. All leads are
-                    pre-scheduled.
-                  </p>
-                  <ul>
-                    <li>
-                      <i class="lni lni-website"></i
-                      ><a href="#"> androidplex.com</a>
-                    </li>
-                    <li><i class="lni lni-dollar"></i> $20k - $25k</li>
-                    <li><i class="lni lni-map-marker"></i> Cupertino, USA</li>
-                  </ul>
-                </div>
-                <div class="job-button">
-                  <ul>
-                    <li><a href="job-details.html">Apply</a></li>
-                    <li><span>Part Time</span></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div class="row">
             <div class="col-12">
-              <div class="pagination center wow fadeInUp" data-wow-delay=".3s">
-                <ul class="pagination-list">
-                  <li>
-                    <a href="#"><i class="lni lni-arrow-left"></i></a>
-                  </li>
-                  <li class="active"><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li>
-                    <a href="#"><i class="lni lni-arrow-right"></i></a>
-                  </li>
-                </ul>
+              <div class="button selengkapnya">
+                <a href="blog-single.html" class="btn">Selengkapnya</a>
               </div>
             </div>
           </div>
@@ -591,17 +581,305 @@
       </div>
     </section>
 
-    {{-- TODO : FETCH FROM DB --}}
-     <div class="latest-news-area section">
+    {{-- <section class="featured-job section">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <div class="section-title">
               <span class="wow fadeInDown" data-wow-delay=".2s"
-                >Publikasi Terkini</span
+                >Featured Jobs</span
               >
               <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                Artikel dan Berita
+                Browse Featured Jobs
+              </h2>
+              <p class="wow fadeInUp" data-wow-delay=".6s">
+                There are many variations of passages of Lorem Ipsum available,
+                but the majority have suffered alteration in some form.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="single-head">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="single-job wow fadeInUp" data-wow-delay=".2s">
+                <div class="shape"></div>
+                <div class="feature">Featured</div>
+                <div class="image">
+                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
+                  
+                </div>
+                <div class="content">
+                  <h4><a href="job-details.html">Graphics Design</a></h4>
+                  <ul>
+                    <li><i class="lni lni-map-marker"></i> New York</li>
+                    <li><i class="lni lni-briefcase"></i> Full-time</li>
+                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
+                  </ul>
+                  <p>
+                    We are looking for Enrollment Advisors who are looking to
+                    take 30-35 appointments per week. All leads are
+                    pre-scheduled.
+                  </p>
+                  <div class="button">
+                    <a href="job-details.html" class="btn">Apply Now</a>
+                    <a href="bookmarked.html" class="btn save"
+                      ><i class="lni lni-bookmark"></i> Save It</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="single-job wow fadeInUp" data-wow-delay=".4s">
+                <div class="shape"></div>
+                <div class="feature">Featured</div>
+                <div class="image">
+                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
+                </div>
+                <div class="content">
+                  <h4><a href="job-details.html">Restaurant Services</a></h4>
+                  <ul>
+                    <li><i class="lni lni-map-marker"></i> New York</li>
+                    <li><i class="lni lni-briefcase"></i> Full-time</li>
+                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
+                  </ul>
+                  <p>
+                    We are looking for Enrollment Advisors who are looking to
+                    take 30-35 appointments per week. All leads are
+                    pre-scheduled.
+                  </p>
+                  <div class="button">
+                    <a href="job-details.html" class="btn">Apply Now</a>
+                    <a href="bookmarked.html" class="btn save"
+                      ><i class="lni lni-bookmark"></i> Save It</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="single-job wow fadeInUp" data-wow-delay=".6s">
+                <div class="shape"></div>
+                <div class="feature">Featured</div>
+                <div class="image">
+                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
+                </div>
+                <div class="content">
+                  <h4><a href="job-details.html">Share Maeket Analysis</a></h4>
+                  <ul>
+                    <li><i class="lni lni-map-marker"></i> New York</li>
+                    <li><i class="lni lni-briefcase"></i> Full-time</li>
+                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
+                  </ul>
+                  <p>
+                    We are looking for Enrollment Advisors who are looking to
+                    take 30-35 appointments per week. All leads are
+                    pre-scheduled.
+                  </p>
+                  <div class="button">
+                    <a href="job-details.html" class="btn">Apply Now</a>
+                    <a href="bookmarked.html" class="btn save"
+                      ><i class="lni lni-bookmark"></i> Save It</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="single-job wow fadeInUp" data-wow-delay=".2s">
+                <div class="shape"></div>
+                <div class="feature">Featured</div>
+                <div class="image">
+                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
+                </div>
+                <div class="content">
+                  <h4><a href="job-details.html">Medical services</a></h4>
+                  <ul>
+                    <li><i class="lni lni-map-marker"></i> New York</li>
+                    <li><i class="lni lni-briefcase"></i> Full-time</li>
+                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
+                  </ul>
+                  <p>
+                    We are looking for Enrollment Advisors who are looking to
+                    take 30-35 appointments per week. All leads are
+                    pre-scheduled.
+                  </p>
+                  <div class="button">
+                    <a href="job-details.html" class="btn">Apply Now</a>
+                    <a href="bookmarked.html" class="btn save"
+                      ><i class="lni lni-bookmark"></i> Save It</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="single-job wow fadeInUp" data-wow-delay=".4s">
+                <div class="shape"></div>
+                <div class="feature">Featured</div>
+                <div class="image">
+                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
+                </div>
+                <div class="content">
+                  <h4><a href="job-details.html">Auto Mobile Services</a></h4>
+                  <ul>
+                    <li><i class="lni lni-map-marker"></i> New York</li>
+                    <li><i class="lni lni-briefcase"></i> Full-time</li>
+                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
+                  </ul>
+                  <p>
+                    We are looking for Enrollment Advisors who are looking to
+                    take 30-35 appointments per week. All leads are
+                    pre-scheduled.
+                  </p>
+                  <div class="button">
+                    <a href="job-details.html" class="btn">Apply Now</a>
+                    <a href="bookmarked.html" class="btn save"
+                      ><i class="lni lni-bookmark"></i> Save It</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="single-job wow fadeInUp" data-wow-delay=".6s">
+                <div class="shape"></div>
+                <div class="feature">Featured</div>
+                <div class="image">
+                    <img src="{{ asset('images/frontoffice/featured-job/ximg1.jpg') }}"  alt="#" />
+                </div>
+                <div class="content">
+                  <h4><a href="job-details.html">IT & Networing Sevices</a></h4>
+                  <ul>
+                    <li><i class="lni lni-map-marker"></i> New York</li>
+                    <li><i class="lni lni-briefcase"></i> Full-time</li>
+                    <li><i class="lni lni-dollar"></i> 80K-90K</li>
+                  </ul>
+                  <p>
+                    We are looking for Enrollment Advisors who are looking to
+                    take 30-35 appointments per week. All leads are
+                    pre-scheduled.
+                  </p>
+                  <div class="button">
+                    <a href="job-details.html" class="btn">Apply Now</a>
+                    <a href="bookmarked.html" class="btn save"
+                      ><i class="lni lni-bookmark"></i> Save It</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> --}}
+
+    {{-- <section class="pricing-table section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title">
+              <span class="wow fadeInDown" data-wow-delay=".2s"
+                >Pricing Table</span
+              >
+              <h2 class="wow fadeInUp" data-wow-delay=".4s">
+                Our Pricing Plan
+              </h2>
+              <p class="wow fadeInUp" data-wow-delay=".6s">
+                There are many variations of passages of Lorem Ipsum available,
+                but the majority have suffered alteration in some form.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-table wow fadeInUp" data-wow-delay=".2s">
+              <div class="table-head">
+                <h4 class="title">BASIC PACK</h4>
+                <div class="price">
+                  <p class="amount">
+                    $30<span class="duration">per month</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul class="table-list">
+                <li>5+ Listings</li>
+                <li>Contact With Agent</li>
+                <li>Contact With Agent</li>
+                <li>7×24 Fully Support</li>
+                <li>50GB Space</li>
+              </ul>
+
+              <div class="button">
+                <a class="btn" href="#">Register Now</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-table wow fadeInUp" data-wow-delay=".4s">
+              <div class="table-head">
+                <h4 class="title">STANDARD PACK</h4>
+                <div class="price">
+                  <p class="amount">
+                    $40<span class="duration">per month</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul class="table-list">
+                <li>5+ Listings</li>
+                <li>Contact With Agent</li>
+                <li>Contact With Agent</li>
+                <li>7×24 Fully Support</li>
+                <li>50GB Space</li>
+              </ul>
+
+              <div class="button">
+                <a class="btn" href="#">Register Now</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-table wow fadeInUp" data-wow-delay=".6s">
+              <div class="table-head">
+                <h4 class="title">PREMIUM PACK</h4>
+                <div class="price">
+                  <p class="amount">
+                    $60<span class="duration">per month</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul class="table-list">
+                <li>5+ Listings</li>
+                <li>Contact With Agent</li>
+                <li>Contact With Agent</li>
+                <li>7×24 Fully Support</li>
+                <li>50GB Space</li>
+              </ul>
+
+              <div class="button">
+                <a class="btn" href="#">Register Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> --}}
+
+    <div class="latest-news-area section">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title">
+              <span class="wow fadeInDown" data-wow-delay=".2s"
+                >Publikasi</span
+              >
+              <h2 class="wow fadeInUp" data-wow-delay=".4s">
+                Publikasi dan Laporan Tracer Study
               </h2>
               <p class="wow fadeInUp" data-wow-delay=".6s">
                 There are many variations of passages of Lorem Ipsum available,
@@ -613,110 +891,119 @@
         <div class="row">
           <div class="col-lg-4 col-md-6 col-12">
             <div class="single-news wow fadeInUp" data-wow-delay=".3s">
-              <div class="image">
-                <img src="{{ asset('images/frontoffice/blog/ximg1.jpg') }}"  alt="#" />
-              </div>
               <div class="content-body">
                 <h4 class="title">
                   <a href="blog-single.html"
-                    >The Internet Is A Job Seeker Most Crucial Success</a
+                  >Laporan Tracer Study Tahun 2022</a
                   >
                 </h4>
-                <div class="meta-details">
-                  <ul>
-                    <li>
-                      <a href="#"><i class="lni lni-tag"></i> Job skills</a>
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><i class="lni lni-calendar"></i> 12-09-2023</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"><i class="lni lni-eye"></i> 55</a>
-                    </li>
-                  </ul>
-                </div>
                 <p>
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
-                <div class="button">
-                  <a href="blog-single.html" class="btn">Selengkapnya</a>
+                <div class="button buttontc">
+                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-news wow fadeInUp" data-wow-delay=".5s">
-              <div class="image">
-                <img src="{{ asset('images/frontoffice/blog/ximg1.jpg') }}"  alt="#" />
-              </div>
+            <div class="single-news wow fadeInUp" data-wow-delay=".3s">
               <div class="content-body">
                 <h4 class="title">
                   <a href="blog-single.html"
-                    >Today From Connecting With Potential Employers</a
+                  >Laporan Tracer Study Tahun 2020</a
                   >
                 </h4>
-                <div class="meta-details">
-                  <ul>
-                    <li>
-                      <a href="#"><i class="lni lni-tag"></i> Career advice</a>
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><i class="lni lni-calendar"></i> 10-10-2023</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"><i class="lni lni-eye"></i> 55</a>
-                    </li>
-                  </ul>
-                </div>
                 <p>
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
-                <div class="button">
-                  <a href="blog-single.html" class="btn">Selengkapnya</a>
+                <div class="button buttontc">
+                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 col-12">
-            <div class="single-news wow fadeInUp" data-wow-delay=".7s">
-              <div class="image">
-                <img src="{{ asset('images/frontoffice/blog/ximg1.jpg') }}"  alt="#" />
-              </div>
+            <div class="single-news wow fadeInUp" data-wow-delay=".3s">
               <div class="content-body">
                 <h4 class="title">
                   <a href="blog-single.html"
-                    >We’ve Weeded Through Hundreds Of Job Hunting</a
+                    >Laporan Tracer Study Tahun 2020</a
                   >
                 </h4>
-                <div class="meta-details">
-                  <ul>
-                    <li>
-                      <a href="#"><i class="lni lni-tag"></i> Future plan</a>
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><i class="lni lni-calendar"></i> 09-05-2023</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"><i class="lni lni-eye"></i> 55</a>
-                    </li>
-                  </ul>
-                </div>
                 <p>
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
-                <div class="button">
-                  <a href="blog-single.html" class="btn">Selengkapnya</a>
+                <div class="button buttontc">
+                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-news wow fadeInUp" data-wow-delay=".3s">
+              <div class="content-body">
+                <h4 class="title">
+                  <a href="blog-single.html"
+                  >Laporan Tracer Study Tahun 2022</a
+                  >
+                </h4>
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the standard.
+                </p>
+                <div class="button buttontc">
+                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-news wow fadeInUp" data-wow-delay=".3s">
+              <div class="content-body">
+                <h4 class="title">
+                  <a href="blog-single.html"
+                  >Laporan Tracer Study Tahun 2020</a
+                  >
+                </h4>
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the standard.
+                </p>
+                <div class="button buttontc">
+                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12">
+            <div class="single-news wow fadeInUp" data-wow-delay=".3s">
+              <div class="content-body">
+                <h4 class="title">
+                  <a href="blog-single.html"
+                    >Laporan Tracer Study Tahun 2020</a
+                  >
+                </h4>
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the standard.
+                </p>
+                <div class="button buttontc">
+                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="button selengkapnya">
+              <a href="blog-single.html" class="btn">Selengkapnya</a>
             </div>
           </div>
         </div>
@@ -731,47 +1018,47 @@
           >
             <div class="client-logo">
               <img
-                 src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
+                 src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client1.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
             <div class="client-logo">
               <img
-              src="{{ asset('images/frontoffice/clients/client2.png') }}"  alt="#"
+              src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#""
               />
             </div>
           </div>
@@ -779,7 +1066,6 @@
       </div>
     </div>
 
-    {{-- TODO : LOGIN MODAL JOBSEEKER AND Employer --}}
     <div
       class="modal fade form-modal"
       id="login"
@@ -799,7 +1085,7 @@
             <div class="col-12">
               <div class="row">
                 <div class="heading">
-                  <h3>Masuk Disini</h3>
+                  <h3>Login From Here</h3>
                   <p>
                     Log in to continue your account <br />
                     and explore new jobs.
@@ -846,7 +1132,7 @@
                         type="password"
                         class="form-control"
                         id="password"
-                        placeholder="Masukkan password"
+                        placeholder="Enter password"
                       />
                     </div>
                   </div>
@@ -865,11 +1151,11 @@
                       >
                     </div>
                     <a href class="font-size-3 text-dodger line-height-reset"
-                      >Lupa Password</a
+                      >Forget Password</a
                     >
                   </div>
                   <div class="form-group mb-8 button">
-                    <button class="btn">Masuk</button>
+                    <button class="btn">Log in</button>
                   </div>
                   <p class="text-center create-new-account">
                     Don’t have an account? <a href="#">Create a free account</a>
@@ -1120,59 +1406,37 @@
     <script src="{{ asset('js/frontoffice/tiny-slider.js') }}"></script>
     <script src="{{ asset('js/frontoffice/glightbox.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/main.js') }}"></script>
+    <script defer="" src="https://unpkg.com/vanilla-counter" onload="initializeCounterRANDOMID()"></script>
+<!-- check info at https://github.com/yunisdev/vanilla-counter -->
+<!-- lc-needs-hard-refresh -->
+
+<script>
+
+	function initializeCounterRANDOMID(){
+		
+		const options = {};
+		
+		const observer = new IntersectionObserver(function
+		(entries, observer){
+		    entries.forEach(entry => {
+		        console.log(entry);
+		         VanillaCounter();
+		    });
+		}, options);
+		
+		observer.observe(document.querySelector('.counter-RANDOM'));
+	}
+
+</script>
     <script type="text/javascript">
-        //====== Clients Logo Slider
-        tns({
-            container: '.client-logo-carousel',
-            slideBy: 'page',
-            autoplay: true,
-            autoplayButtonOutput: false,
-            mouseDrag: true,
-            gutter: 15,
-            nav: false,
-            controls: false,
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                540: {
-                    items: 2,
-                },
-                768: {
-                    items: 3,
-                },
-                992: {
-                    items: 4,
-                },
-                1170: {
-                    items: 6,
-                }
-            }
+        //========= glightbox
+        GLightbox({
+            'href': 'https://www.youtube.com/watch?v=cz4z8CyvDas',
+            'type': 'video',
+            'source': 'youtube', //vimeo, youtube or local
+            'width': 900,
+            'autoplayVideos': true,
         });
-        var slider = new tns({
-            container: '.home-slider',
-            slideBy: 'page',
-            autoplay: true,
-            autoplayButtonOutput: false,
-            mouseDrag: true,
-            gutter: 0,
-            items: 1,
-            nav: false,
-            controls: true,
-            controlsText: ['<i class="lni lni-arrow-left prev"></i>', '<i class="lni lni-arrow-right next"></i>'],
-            responsive: {
-                1200: {
-                    items: 1,
-                },
-                992: {
-                    items: 1,
-                },
-                0: {
-                    items: 1,
-                }
-            }
-            });
-        
     </script>
   </body>
 </html>

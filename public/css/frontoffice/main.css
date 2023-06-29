@@ -2270,6 +2270,7 @@ ol {
   border: 1px solid #e2e4ea;
   background: #fff;
   border-radius: 4px;
+  width: 80%;
 }
 
 .job-search-wrap-two .job-search-form form {
@@ -2284,21 +2285,31 @@ ol {
 .job-search-wrap-two .job-search-form form .single-field-item {
   position: relative;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 37%;
-  flex: 0 0 37%;
-  max-width: 37%;
-  padding: 0 30px;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 40%;
+  padding: 0 10px;
   height: 100%;
   margin-bottom: 0;
+  margin: auto 0;
 }
-
-.job-search-wrap-two .job-search-form form .single-field-item label {
+.job-search-wrap-two .job-search-form form .single-field-item .form-select {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.job-search-wrap-two .job-search-form form .single-field-item .form-select:hover {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.job-search-wrap-two .job-search-form form .single-field-item p {
   display: block;
   font-size: 15px;
   color: #000;
   font-weight: 600;
   text-transform: capitalize;
-  margin: 0;
+  margin-left: 5px;
 }
 
 .job-search-wrap-two .job-search-form form .single-field-item input {
@@ -2328,7 +2339,7 @@ ol {
 .job-search-wrap-two .job-search-form form .submit-btn .btn:hover {
   -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
           box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
-  background-color: #081828;
+  background-color: #074f2a;
   color: #fff;
   border-color: transparent;
 }
@@ -2344,6 +2355,7 @@ ol {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
 
 .keywords {
   display: -webkit-box;
@@ -2401,6 +2413,37 @@ ol {
   position: relative;
   top: -2px;
 }
+
+/*======================================
+    Counter CSS
+========================================*/
+
+.counter-section {
+  background-color: #009A4B;
+  padding: 50px 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+    
+    .counter-col {
+      text-align: center;
+     
+    }
+    
+    .counter-value {
+      font-size: 48px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .counter-text {
+      font-size: 16px;
+      color: #777;
+      color: white;
+    }
 
 /*======================================
     About Us CSS
@@ -2477,11 +2520,15 @@ ol {
 
 .about-us .content-right h2 {
   font-size: 32px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   line-height: 45px;
   text-transform: capitalize;
   position: relative;
   font-weight: 700;
+}
+
+.about-us .content-right .about-text {
+  margin-bottom: 30px;
 }
 
 .about-us .content-right .single-list {
@@ -2930,6 +2977,30 @@ ol {
           transform: scale(1.1) rotate(1deg);
 }
 
+/*======================================
+    Laporan TC CSS
+========================================*/
+.latest-news-area .buttontc .btn {
+  background-color: white;
+  color: #081828 ;
+  padding: 0px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.latest-news-area .buttontc .btn:hover {
+  background-color: white;
+  padding: 0px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #009A4B;
+  -webkit-box-shadow: 0 0rem 0rem rgba(255, 255, 255, 0.15) !important;
+          box-shadow: 0 0rem 0rem rgba(255, 255, 255, 0.15) !important;
+}
+
+.selengkapnya{
+  text-align: center;
+  margin-top: 50px;
+}
 .blog-list {
   background: #f6f9fc;
 }
@@ -3728,14 +3799,28 @@ blockquote .shape {
     Apply Process CSS
 ========================================*/
 .apply-process {
-  background-color: #009A4B;
+  position: relative;
+  background-image:  url("../../images/frontoffice/hero/tracerstudy/tc-method-bakground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 80px 0;
+}
+
+.apply-process::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 154, 75, 0.83); /* Ubah nilai alpha (0.83) sesuai dengan kebutuhan Anda */
 }
 
 .apply-process .process-item {
   padding-left: 92px;
   position: relative;
   padding-right: 25px;
+  z-index: 1;
 }
 
 .apply-process .process-item i {

@@ -3,6 +3,7 @@
 // Controllers
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
+use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -31,8 +32,11 @@ Route::get('/storage', function () {
 //Front Office Without Auth
 Route::group(['prefix' => '/'], function() {
 
-    //UI Pages Routs
-    Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');;
+    //Landing Page
+    Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');
+
+    //Tracer Study
+    Route::get('/tracerstudy',[TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
 
     //UI Pages Routs
     Route::get('/home', [HomeController::class, 'uisheet'])->name('uisheet');
