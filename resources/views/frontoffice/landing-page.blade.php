@@ -63,7 +63,7 @@
                 >
                   <ul id="nav" class="navbar-nav ml-auto">
                     <li class="nav-item">
-                      <a class="active" href="/">Home</a>
+                      <a href="{{ route('landingpage') }}" class="{{ request()->routeIs('landingpage') ? 'active' : '' }}">Home</a>
                     </li>
                     <li class="nav-item">
                       <a href="#">Karir</a>
@@ -74,7 +74,7 @@
                       </ul>
                     </li>
                     <li class="nav-item">
-                      <a href="/tracer-study">Tracer Study</a>
+                      <a href="#">Tracer Study</a>
                     </li>
                     <li class="nav-item">
                       <a href="#">Konseling </a>
