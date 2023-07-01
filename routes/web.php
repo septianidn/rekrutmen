@@ -29,16 +29,7 @@ Route::get('/storage', function () {
 });
 
 //Front Office Without Auth
-Route::group(['prefix' => '/'], function() {
-
-    //UI Pages Routs
-    Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');;
-
-    //UI Pages Routs
-    Route::get('/home', [HomeController::class, 'uisheet'])->name('uisheet');
-});
-
-//Back Office
+Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');;
 
 
 //Front Office With Auth
@@ -47,24 +38,35 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function() {
     
 });
 
+//Bavk Office Without Auth
+Route::get('/backoffic3', [HomeController::class, 'signin'])->name('auth.signin');
 
-Route::group(['prefix' => '/backoffic3', 'middleware' => 'auth'], function () {
+//Back Office With Auth
+Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
   
+       // Dashboard Routes
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');  
+    Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
+    Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
+    Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
+    Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
+    
+     // Users Module
+     Route::resource('/users', UserController::class);
+
     // Permission Module
     Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
-    Route::resource('permission',PermissionController::class);
-    Route::resource('role', RoleController::class);
+    Route::resource('/permission',PermissionController::class);
+    Route::resource('/role', RoleController::class);
 
-    // Dashboard Routes
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-
-    // Users Module
-    Route::resource('users', UserController::class);
 });
 
 
 
-//TEMPLATE 
+//TEMPLATE
+//UI Pages Routs
+Route::get('/home', [HomeController::class, 'uisheet'])->name('uisheet');
+
 //App Details Page => 'Dashboard'], function() {
 Route::group(['prefix' => 'menu-style'], function() {
     //MenuStyle Page Routs
@@ -99,15 +101,6 @@ Route::group(['prefix' => 'maps'], function() {
     Route::get('vector', [HomeController::class, 'vector'])->name('maps.vector');
 });
 
-//Auth pages Routs
-Route::group(['prefix' => 'auth'], function() {
-    Route::get('signin', [HomeController::class, 'signin'])->name('auth.signin');
-    Route::get('signup', [HomeController::class, 'signup'])->name('auth.signup');
-    Route::get('confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
-    Route::get('lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
-    Route::get('recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
-    Route::get('userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
-});
 
 //Error Page Route
 Route::group(['prefix' => 'errors'], function() {

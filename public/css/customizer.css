@@ -24,17 +24,17 @@ body {
 
 :root {
   --bs-heading-color: #0c112e;
-  --bs-primary: #3a57e8;
-  --bs-primary-shade-80: #0c112e;
-  --bs-primary-shade-60: #17235d;
-  --bs-primary-shade-40: #23348b;
-  --bs-primary-shade-20: #2e46ba;
-  --bs-primary-tint-90: #ebeefd;
-  --bs-primary-tint-80: #d8ddfa;
-  --bs-primary-tint-60: #b0bcf6;
-  --bs-primary-tint-40: #899af1;
-  --bs-primary-tint-20: #6179ed;
-  --bs-primary-rgb: 58, 87, 232;
+  --bs-primary: #009A4B;
+  --bs-primary-shade-80: #001F0F;
+  --bs-primary-shade-60: #003E1E;
+  --bs-primary-shade-40: #005C2D;
+  --bs-primary-shade-20: #007B3C;
+  --bs-primary-tint-90: #E6F5ED;
+  --bs-primary-tint-80: #CCEBDB;
+  --bs-primary-tint-60: #99D7B7;
+  --bs-primary-tint-40: #66C393;
+  --bs-primary-tint-20: #33AE6F;
+  --bs-primary-rgb: 0, 154, 75;
   --bs-heading-color: #011f20;
   --bs-info: #079aa2;
   --bs-info-shade-80: #011f20;
