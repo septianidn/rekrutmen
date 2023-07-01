@@ -30,7 +30,10 @@ Route::get('/storage', function () {
 });
 
 //Front Office Without Auth
+
 Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');;
+ //Tracer Study
+Route::get('/tracerstudy',[TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
 
 
 //Front Office With Auth
