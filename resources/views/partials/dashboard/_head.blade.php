@@ -16,6 +16,8 @@
 <link rel='stylesheet' href="{{asset('vendor/fullcalendar/timegrid/main.css')}}" />
 <link rel='stylesheet' href="{{asset('vendor/fullcalendar/list/main.css')}}" />
 <link rel="stylesheet" href="{{asset('vendor/Leaflet/leaflet.css')}}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+
 
 <link rel="stylesheet" href="{{asset('vendor/aos/dist/aos.css')}}" />
 <style>
