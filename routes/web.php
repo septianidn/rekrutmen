@@ -42,9 +42,6 @@ Route::group(['prefix' => '/', 'middleware' => 'auth'], function() {
     
 });
 
-//Bavk Office Without Auth
-Route::get('/backoffic3', [HomeController::class, 'signin'])->name('auth.signin');
-
 //Back Office With Auth
 Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
   

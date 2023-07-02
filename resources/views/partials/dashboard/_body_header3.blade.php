@@ -210,7 +210,7 @@
             <li><a class="dropdown-item" href="{{route('users.show', auth()->id() || 1)}}">Profile</a></li>
             <li><a class="dropdown-item" href="{{route('auth.userprivacysetting')}}">Privacy Setting</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{route('auth.signin')}}">Logout</a></li>
+            <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
           </ul>
         </li>
       </ul>

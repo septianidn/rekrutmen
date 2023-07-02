@@ -86,7 +86,7 @@
                               </ul>
                            </div>
                            <p class="mt-3 text-center">
-                              Already have an Account  <a href="{{route('auth.signin')}}" class="text-underline">Sign In</a>
+                              Already have an Account  <a href="{{route('login')}}" class="text-underline">Sign In</a>
                            </p>
                         </form>
                      </div>
