@@ -85,10 +85,41 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('<"row align-items-center"<"col-md-2" l><"col-md-6" B><"col-md-4"f>><"table-responsive my-3" rt><"row align-items-center" <"col-md-6" i><"col-md-6" p>><"clear">')
-
+                    ->headerCallback('function(thead, data, start, end, display){
+                        $(thead).find("th").addClass("text-center");
+                    }')
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
+                        "serverSide" => true,
+                        "initComplete" => 'function () {
+                            this.api().columns([0,1,2,3,4,6,7]).every(function () {
+                                var column = this;
+                                var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
+                            
+                                $(input).appendTo($(column.footer()).empty())
+                                .on(\'keyup\', function () {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+
+                                $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
+                            });
+                           
+                            this.api().columns([5]).every(function () {
+                                var column = this;
+                                var select = $(\'<select class="form-control form-control-sm"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="banned">Banned</option></select>\')
+                                    .appendTo($(column.footer()).empty())
+                                    .on(\'change\', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
+                    
+                                        column
+                                            .search(val ? \'^\' + val + \'$\' : \'\', true, false)
+                                            .draw();
+                                    });
+                            });
+                        }',
                     ]);
     }
 
@@ -100,19 +131,26 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'id'],
-            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'FULL NAME', 'orderable' => false],
-            ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'Phone Number'],
-            ['data' => 'email', 'name' => 'email', 'title' => 'Email'],
+            ['data' => 'id', 'name' => 'id', 'title' => 'id',  'searchable' => true, 'class' => 'text-center'],
+            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
+            ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'Phone Number',  'searchable' => true,],
+            ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
             ['data' => 'userProfile.country', 'name' => 'userProfile.country', 'title' => 'Country'],
-            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            [
+                'data' => 'status',
+                'name' => 'status',
+                'title' => 'Status',
+                'render' => null,
+                'orderable' => true,
+                'searchable' => true,
+            ],
             ['data' => 'userProfile.company_name', 'name' => 'userProfile.company_name', 'title' => 'Company'],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Join Date'],
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->searchable(false)
-                  ->width(60)
+                  ->exportable(true)
+                  ->printable(true)
+                  ->searchable(true)
+                  ->width(100)
                   ->addClass('text-center hide-search'),
         ];
     }

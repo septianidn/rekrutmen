@@ -1,5 +1,6 @@
 @push('scripts')
     {{ $dataTable->scripts() }}
+   
 @endpush
 <x-app-layout :assets="$assets ?? []">
 <div>
@@ -16,7 +17,7 @@
             </div>
             <div class="card-body px-0">
                <div class="table-responsive">
-                    {{ $dataTable->table(['class' => 'table text-center table-striped w-100'],true) }}
+                    {{ $dataTable->table(['class' => 'datatable table table-striped w-100'],true) }}
                </div>
             </div>
          </div>
