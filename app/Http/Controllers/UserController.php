@@ -58,7 +58,7 @@ class UserController extends Controller
         // Save user Profile data...
         $user->userProfile()->create($request->userProfile);
 
-        return redirect()->route('users.index')->withSuccess(__('message.msg_added',['name' => __('users.store')]));
+        return redirect()->route('users.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
     }
 
     /**

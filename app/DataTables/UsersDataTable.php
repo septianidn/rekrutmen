@@ -17,6 +17,7 @@ class UsersDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $index = 1;
         return datatables()
             ->eloquent($query)
             ->editColumn('userProfile.country', function($query) {
@@ -57,6 +58,9 @@ class UsersDataTable extends DataTable
                     $q->where('country', 'like', "%{$keyword}%");
                 });
             })
+            ->addColumn('id', function () use (&$index) {
+                return $index++;
+            })
             ->addColumn('action', 'users.action')
             ->rawColumns(['action','status']);
     }
@@ -93,7 +97,7 @@ class UsersDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([0,1,2,3,4,6,7]).every(function () {
+                            this.api().columns([1,2,3,4,6,7]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -131,9 +135,9 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'id',  'searchable' => true, 'class' => 'text-center'],
+            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'orderable' => false, 'class' => 'text-center'],
             ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
-            ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'Phone Number',  'searchable' => true,],
+            ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
             ['data' => 'userProfile.country', 'name' => 'userProfile.country', 'title' => 'Country'],
             [

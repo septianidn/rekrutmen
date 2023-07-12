@@ -59,7 +59,7 @@ class KelolaAdminController extends Controller
         // Save user Profile data...
         $user->userProfile()->create($request->userProfile);
 
-        return redirect()->route('kelolaadmin.index')->withSuccess(__('message.msg_added',['name' => __('users.store')]));
+        return redirect()->route('kelolaadmin.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
     }
 
     /**

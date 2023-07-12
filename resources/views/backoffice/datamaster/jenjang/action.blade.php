@@ -1,5 +1,6 @@
-<div class="flex align-items-center list-user-action">
-    <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit User" href="{{ route('users.edit',$id) }}">
+
+<div class="flex align-items-center list-jenjang-action">
+    <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="modal" data-bs-target="#addOrUpdateDataJenjang{{$data->id}}" title="Edit Jenjang">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -8,11 +9,10 @@
             </svg>
         </span>
     </a>
-    @if(auth()->user()->hasRole('admin') && auth()->id() !== $id)
     <?php 
-    $message = __('global-message.delete_alert', ['form' => __('users.title')])
+    $message = __('global-message.delete_alert', ['form' => __('jenjang.title')])
     ?>
-    <a class="btn btn-sm btn-icon btn-danger" onclick="return confirm('{{$message}}') ? document.getElementById('user-delete-{{$id}}').submit() : false" data-bs-toggle="tooltip" title="Delete User" href="#">
+    <a class="btn btn-sm btn-icon btn-danger"  onclick="showDeleteConfirmation({{$data->id}})" data-bs-toggle="tooltip" title="Hapus Jenjang" href="#">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                 <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -21,9 +21,50 @@
             </svg>
         </span>
     </a>
-    <form action="{{route('users.destroy',$id)}}" id="user-delete-{{$id}}" method="post">
+    {{-- <form action="{{route('jenjang.destroy',$id)}}" id="jenjang-delete-{{$id}}" method="post">
         @method('delete')
         @csrf()
-    </form>
-    @endif
+    </form> --}}
 </div>
+
+@include('backoffice.datamaster.jenjang.form')
+
+<script>
+    function showDeleteConfirmation(id) {
+        var message = "{!! __('global-message.delete_alert', ['form' => __('users.title')]) !!}";
+    
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: message,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                var form = document.createElement('form');
+                form.action = "{{route('jenjang.destroy', '')}}/" + id;
+                form.method = 'POST';
+    
+                var csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = "{{ csrf_token() }}";
+    
+                var methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'DELETE';
+    
+                form.appendChild(csrfToken);
+                form.appendChild(methodInput);
+    
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+    </script>
+    

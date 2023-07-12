@@ -25,3 +25,4 @@
        display: none;
     }
  </style>
+ @include('sweetalert::alert')

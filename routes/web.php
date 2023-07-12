@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
+use App\Http\Controllers\BackOffice\JenjangController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
     Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
     Route::resource('/permission',PermissionController::class);
     Route::resource('/role', RoleController::class);
+    Route::resource('/jenjang', JenjangController::class);
 
 });
 
