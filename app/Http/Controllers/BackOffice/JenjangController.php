@@ -23,8 +23,9 @@ class JenjangController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('jenjang.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
+        $returnView = 'backoffice.datamaster.jenjang.form';
         $buttonAddTitle = 'Jenjang';
-        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets', 'buttonAddTitle'));
+        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets', 'buttonAddTitle', 'returnView'));
     }
 
     /**

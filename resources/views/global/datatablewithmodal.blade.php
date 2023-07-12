@@ -9,11 +9,11 @@
          <div class="card">
             <div class="card-header d-flex justify-content-between">
                <div class="header-title">
-                  <h4 class="card-title">{{ $pageTitle ?? 'Daftar Jenjang'}}</h4>
+                  <h4 class="card-title">{{ $pageTitle ?? 'Data'}}</h4>
                </div>
                 <div class="card-action">
-                  <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addOrUpdateDataJenjang">
-                      Tambah {{$buttonAddTitle}}
+                  <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addOrUpdateData">
+                      Tambah {{$buttonAddTitle ?? ''}}
                      </button>
                 </div>
             </div>
@@ -27,6 +27,6 @@
    </div>
 </div>
 
-@include('backoffice.datamaster.jenjang.form')
+@include($returnView ?? null)
 
 </x-app-layout>

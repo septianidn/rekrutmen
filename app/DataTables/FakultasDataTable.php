@@ -2,12 +2,13 @@
 
 namespace App\DataTables;
 
+use App\Models\Fakultas;
 use App\Models\Jenjang;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class JenjangDataTable extends DataTable
+class FakultasDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,11 +25,11 @@ class JenjangDataTable extends DataTable
                 return $index++;
             })
             ->addColumn('action', function ($data) {
-                return view('backoffice.datamaster.jenjang.action', compact('data'));
+                return view('backoffice.datamaster.fakultas.action', compact('data'));
             })
             
-            ->filterColumn('nama_jenjang', function($query, $keyword) {
-                $sql = "nama_jenjang LIKE ?";
+            ->filterColumn('nama_fakultas', function($query, $keyword) {
+                $sql = "nama_fakultas LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             });
             
@@ -37,12 +38,12 @@ class JenjangDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\User $model
+     * @param \App\Models\Fakultas $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query()
     {
-        $model = Jenjang::query();
+        $model = Fakultas::query();
         return $this->applyScopes($model);
     }
 
@@ -77,7 +78,7 @@ class JenjangDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
-            ['data' => 'nama_jenjang', 'name' => 'nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
+            ['data' => 'nama_fakultas', 'name' => 'nama_fakultas', 'title' => 'Fakultas', 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

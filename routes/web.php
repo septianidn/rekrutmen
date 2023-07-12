@@ -1,11 +1,14 @@
 <?php
 
 // Controllers
+
+use App\Http\Controllers\BackOffice\FakultasController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
+use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -62,9 +65,13 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
     // Permission Module
     Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
     Route::resource('/permission',PermissionController::class);
-    Route::resource('/role', RoleController::class);
-    Route::resource('/jenjang', JenjangController::class);
 
+    Route::group(['prefix' => 'datamaster'], function() {
+        Route::resource('/role', RoleController::class);
+        Route::resource('/jenjang', JenjangController::class);
+        Route::resource('/prodi', ProdiController::class);
+        Route::resource('/fakultas', FakultasController::class);
+    });
 });
 
 

@@ -210,7 +210,7 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-datamaster" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link">
+                <a class="nav-link"  {{activeRoute(route('fakultas.index'))}}" href="{{route('fakultas.index')}}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -236,7 +236,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">
+                <a class="nav-link"  {{activeRoute(route('prodi.index'))}}" href="{{route('prodi.index')}}">
                    <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
