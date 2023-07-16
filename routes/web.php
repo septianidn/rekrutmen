@@ -3,6 +3,7 @@
 // Controllers
 
 use App\Http\Controllers\BackOffice\FakultasController;
+use App\Http\Controllers\BackOffice\FakultasProdiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
@@ -71,6 +72,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/jenjang', JenjangController::class);
         Route::resource('/prodi', ProdiController::class);
         Route::resource('/fakultas', FakultasController::class);
+        Route::resource('/fakultasprodi', FakultasProdiController::class);
     });
 });
 

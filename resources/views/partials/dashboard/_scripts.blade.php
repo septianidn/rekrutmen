@@ -24,7 +24,12 @@
 <!-- settings JavaScript -->
 <script src="{{asset('js/plugins/setting.js')}}"></script>
 
-<script src="{{asset('js/plugins/circle-progress.js') }}"></script>
+
+<!-- Select2 JavaScript -->
+<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+
+
+script src="{{asset('js/plugins/circle-progress.js') }}"></script>
 @if(in_array('animation',$assets ?? []))
 <!--aos javascript-->
 <script src="{{asset('vendor/aos/dist/aos.js')}}"></script>
