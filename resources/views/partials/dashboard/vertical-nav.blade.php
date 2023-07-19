@@ -118,7 +118,7 @@
         </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link">
+        <a class="nav-link {{activeRoute(route('databasealumni.index'))}}" aria-current="page" href="{{route('databasealumni.index')}}">
             <i class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24" fill="none">
                     <path d="M2 5C2 4.44772 2.44772 4 3 4H8.66667H21C21.5523 4 22 4.44772 22 5V8H15.3333H8.66667H2V5Z" fill="currentColor" stroke="white"/>

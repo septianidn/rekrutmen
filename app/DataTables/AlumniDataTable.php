@@ -82,11 +82,12 @@ class AlumniDataTable extends DataTable
             ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'searchable' => true,],
             ['data' => 'nim', 'name' => 'nama', 'title' => 'NIM', 'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email', 'searchable' => true,],
-            ['data' => 'nama_fakultas', 'name' => 'nama_fakultas', 'title' => 'Fakultas', 'searchable' => true,],
-            ['data' => 'nama_prodi', 'name' => 'nama_prodi', 'title' => 'Prodi', 'searchable' => true,],
-            ['data' => 'nama_jenjang', 'name' => 'nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
-            ['data' => 'thn_keluar', 'name' => 'nama', 'title' => 'Tahun Keluar', 'searchable' => true,],
+            ['data' => 'fakultas_prodi.fakultas.nama_fakultas', 'name' => 'fakultasProdi.fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true],
+            ['data' => 'fakultas_prodi.prodi.nama_prodi', 'name' => 'fakultasProdi.prodi.nama_prodi', 'title' => 'Prodi', 'searchable' => true,],
+            ['data' => 'fakultas_prodi.jenjang.nama_jenjang', 'name' => 'fakultasProdi.jenjang.nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
             ['data' => 'thn_masuk', 'name' => 'thn_masuk', 'title' => 'Tahun Masuk', 'searchable' => true,],
+            ['data' => 'thn_lulus', 'name' => 'nama', 'title' => 'Tahun Lulus', 'searchable' => true,],
+
 
             Column::computed('action')
                   ->exportable(true)

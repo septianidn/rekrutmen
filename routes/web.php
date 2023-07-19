@@ -2,6 +2,7 @@
 
 // Controllers
 
+use App\Http\Controllers\BackOffice\AlumniController;
 use App\Http\Controllers\BackOffice\FakultasController;
 use App\Http\Controllers\BackOffice\FakultasProdiController;
 use App\Http\Controllers\HomeController;
@@ -73,6 +74,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/prodi', ProdiController::class);
         Route::resource('/fakultas', FakultasController::class);
         Route::resource('/fakultasprodi', FakultasProdiController::class);
+        Route::resource('/databasealumni', AlumniController::class);
     });
 });
 

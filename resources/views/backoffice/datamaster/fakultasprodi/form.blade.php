@@ -2,14 +2,16 @@
 $data = $data ?? null;
 $prodiOptions = \App\Models\Prodi::all() ?? null;
 $fakultasOptions = \App\Models\Fakultas::all() ?? null;
+$jenjangOptions = \App\Models\Jenjang::all() ?? null;
 @endphp
 
 @if(isset($data))
-{!! Form::model($data, ['route' => ['fakultasprodi.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['fakultasprodi.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data', 'id' => 'formUpdate']) !!}
 @else
-{!! Form::open(['route' => ['fakultasprodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['route' => ['fakultasprodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formAdd']) !!}
 @endif
-<div class="modal fade" id="addOrUpdateData{{$data->id ?? null }}" tabindex="-1" aria-labelledby="addOrUpdateDataLabel" aria-hidden="true">
+
+<div class="modal fade" id="addOrUpdateData{{$data->id ?? null}}"  aria-labelledby="addOrUpdateDataLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered">
        <div class="modal-content">
            <div class="modal-header">
@@ -18,25 +20,27 @@ $fakultasOptions = \App\Models\Fakultas::all() ?? null;
            </div>
            <div class="modal-body">
             <div class="row">
-   
-                <div class="form-group col-md-12">
-                    <label class="form-label" for="prodi">Fakultas <span class="text-danger">*</span></label>
-                    <select class="form-control" name="kode_prodi_id" id="fakultas">
-                        <option value="">Pilih Fakultas</option>
-                        @foreach($fakultasOptions as $fakultas)
-                            <option value="{{ $fakultas->id }}" {{ old('nama_fakultas') == $fakultas->nama_fakultas ? 'selected' : '' }}> {{$fakultas->nama_fakultas }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            <div class="form-group col-md-12">
-                <label class="form-label" for="prodi">Prodi <span class="text-danger">*</span></label>
-                <select class="form-control" name="kode_prodi_id" id="prodi">
-                    <option value="">Pilih Prodi</option>
-                    @foreach($prodiOptions as $prodi)
-                        <option value="{{ $prodi->kode_prodi }}" {{ old('nama_prodi') == $prodi->nama_prodi ? 'selected' : '' }}>{{ $prodi->kode_prodi}} | {{$prodi->nama_prodi }}</option>
-                    @endforeach
+              <div class="form-group col-md-12">
+                <label class="form-label" for="fakultas">Fakultas <span class="text-danger">*</span></label>
+                <select id="mySelect">
+                  <option value="option1">Opsi 1</option>
+                  <option value="option2">Opsi 2</option>
+                  <option value="option3">Opsi 3</option>
                 </select>
             </div>
+                <div class="form-group col-md-12">
+                    <label class="form-label" for="fakultas">Fakultas <span class="text-danger">*</span></label>
+                    {{ Form::select('fakultas_id', $fakultasOptions->pluck('nama_fakultas', 'id'), old('fakultas_id'), ['class' => 'form-control', 'id' => 'fakultas', 'placeholder' => 'Pilih Fakultas', 'required']) }}
+                </div>
+                <div class="form-group col-md-12">
+                  <label class="form-label" for="prodi">Prodi <span class="text-danger">*</span></label>
+                  {{ Form::select('kode_prodi_id', $prodiOptions->pluck('nama_prodi', 'kode_prodi'), old('nama_prodi'), ['class' => 'form-control', 'id' => 'prodi', 'placeholder' => 'Pilih Prodi', 'required']) }}
+              </div>
+              <div class="form-group col-md-12">
+                  <label class="form-label text-left" for="jenjang">Jenjang <span class="text-danger">*</span></label>
+                  {{ Form::select('jenjang_id', $jenjangOptions->pluck('nama_jenjang', 'id'), old('jenjang_id'), ['class' => 'form-control', 'id' => 'jenjang', 'placeholder' => 'Pilih Jenjang', 'required']) }}
+              </div>
+              
             </div>     
            </div>
            <div class="modal-footer">
@@ -48,32 +52,19 @@ $fakultasOptions = \App\Models\Fakultas::all() ?? null;
    {!! Form::close() !!}
    </div>
 
-   @push('scripts')
-    <script>
-             var dataId = {{$data->id ?? 'null'}};
-            //  console.log(dataId);
-           $(document).ready(function() {
-  $("#prodi").select2({
-    dropdownParent: $("#addOrUpdateData"),
-    theme: "bootstrap"
-  });
-  $("#fakultas").select2({
-    dropdownParent: $("#addOrUpdateData"),
-    theme: "bootstrap"
-  });
 
-  if (dataId !== null) {
-    $('#prodi').select2({
-      dropdownParent: $('#addOrUpdateData[data-id="' + dataId + '"]'),
-      theme: 'bootstrap'
-    });
+ @push('scripts')
 
-    $('#fakultas').select2({
-      dropdownParent: $('#addOrUpdateData[data-id="' + dataId + '"]'),
-      theme: 'bootstrap'
-    });
-  }
+   <script type="text/javascript">
+
+
+var select_box_element = document.querySelector('#fakultas');
+
+dselect(select_box_element, {
+    search: true
 });
-        </script>
+       </script>    
+
+@endpush
+
        
-   @endpush
