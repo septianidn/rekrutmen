@@ -14,14 +14,14 @@
                @if (isset ($buttonAddTitle))
                 <div class="card-action"> 
                   <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addOrUpdateData">
-                      Tambah{{ isset($buttonAddTitle) ? $buttonAddTitle : '' }}
+                      Tambah {{ isset($buttonAddTitle) ? $buttonAddTitle : '' }}
                      </button>
                 </div>
                 @endif
             </div>
             <div class="card-body px-0">
                <div class="table-responsive">
-                    {{ $dataTable->table(['class' => 'datatable table table-striped w-100'],true) }}
+                    {{ $dataTable->table(['class' => 'datatable table'],true) }}
                </div>
             </div>
          </div>

@@ -86,9 +86,7 @@ class EmailBoxDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('<"row align-items-center"<"col-md-2" l><"col-md-6" B><"col-md-4"f>><"table-responsive my-3" rt><"row align-items-center"<"col-md-6" i><"col-md-6" p>><"clear">')
-                    ->headerCallback('function(thead, data, start, end, display){
-                        $(thead).find("th").addClass("text-center");
-                    }')
+                   
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
@@ -96,14 +94,16 @@ class EmailBoxDataTable extends DataTable
                         "initComplete" => 'function () {
                             this.api().columns([1,2,3,4,5]).every(function () {
                                 var column = this;
-                                var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
-                            
+                                var title = $(column.header()).text();
+    
+                                var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="\' + title + \'"/>\');
+    
                                 $(input).appendTo($(column.footer()).empty())
                                 .on(\'keyup\', function () {
                                     column.search($(this).val(), false, false, true).draw();
                                 });
 
-                                $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
+                               
                             });
                         }'
                     ]);

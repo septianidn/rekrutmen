@@ -865,7 +865,7 @@
                       >
                     </div>
                     <a href class="font-size-3 text-dodger line-height-reset"
-                      >Lupa Password</a
+                      >Lupa Password?</a
                     >
                   </div>
                   <div class="form-group mb-8 button">

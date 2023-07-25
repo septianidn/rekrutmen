@@ -15,9 +15,9 @@
                     {!! $headerAction ?? '' !!}
                 </div>
             </div>
-            <div class="card-body px-0">
+            <div class="card-body">
                <div class="table-responsive">
-                    {{ $dataTable->table(['class' => 'datatable table table-striped w-100'],true) }}
+                    {{ $dataTable->table(['class' => 'datatable table'],true) }}
                </div>
             </div>
          </div>

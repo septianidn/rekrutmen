@@ -2,7 +2,7 @@
    <section class="login-content">
       <div class="row m-0 align-items-center bg-white vh-100">
          <div class="col-md-6 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
-            <img src="{{asset('images/auth/02.png')}}" class="img-fluid gradient-main animated-scaleX" alt="images">
+            <img src="{{asset('images/backoffice/hero/unand.jpg')}}" class="img-fluid gradient-main animated-scaleX" alt="images">
          </div>
          <div class="col-md-6 p-0">               
             <div class="card card-transparent auth-card shadow-none d-flex justify-content-center mb-0">
@@ -12,9 +12,9 @@
                      <h4 class="logo-title ms-3">{{env('APP_NAME')}}</h4>
                   </a>
                   <h2 class="mb-2">Reset Password</h2>
-                  <p>Enter your email address and we'll send you an email with instructions to reset your password.</p>
+                  <p>Masukkan alamat email Anda dan kami akan mengirimkan email dengan instruksi untuk me-reset kata sandi Anda</p>
                   <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                  <form>
+                  <form action="{{ route('password.request') }}" method="post" enctype="multipart/form-data">
                      <div class="row">
                         <div class="col-lg-12">
                            <div class="floating-label form-group">

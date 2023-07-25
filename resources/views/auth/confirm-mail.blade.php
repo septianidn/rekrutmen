@@ -9,18 +9,16 @@
                      <h4 class="logo-title ms-3">{{env('APP_NAME')}}I</h4>
                   </a>
                   <img src="{{asset('images/auth/mail.png')}}" class="img-fluid" width="80" alt="">
-                  <h2 class="mt-3 mb-0">Success !</h2>
-                  <p class="cnf-mail mb-1">A email has been send to youremail@domain.com. Please check for an
-                     email from company and click
-                     on the included link to reset your password.</p>
+                  <h2 class="mt-3 mb-0">Sukses Reset Password!</h2>
+                  <p class="cnf-mail mb-1">Sebuah email telah dikirimkan ke youremail@domain.com. Silakan cek email dari perusahaan dan klik tautan yang disertakan untuk me-reset kata sandi Anda.</p>
                   <div class="d-inline-block w-100">
-                     <a href="{{route('dashboard')}}" class="btn btn-primary mt-3">Back to Home</a>
+                     <a href="{{route('dashboard')}}" class="btn btn-primary mt-3">Kembali</a>
                   </div>
                </div>
             </div>                  
          </div>
          <div class="col-md-6 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
-            <img src="{{asset('images/auth/03.png')}}" class="img-fluid gradient-main animated-scaleX" alt="images">
+            <img src="{{asset('images/backoffice/hero/unand.jpg')}}"  class="img-fluid gradient-main animated-scaleX" alt="images">
          </div>
       </div>
    </section>

@@ -67,6 +67,19 @@ class AlumniDataTable extends DataTable
                         "processing" => true,
                         "autoWidth" => false,
                         "serverSide" => true,
+                        "initComplete" => 'function () {
+                            this.api().columns([1, 2, 3, 4, 5,6,7,8]).every(function () {
+                                var column = this;
+                                var title = $(column.header()).text();
+    
+                                var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="\' + title + \'"/>\');
+    
+                                $(input).appendTo($(column.footer()).empty())
+                                .on(\'keyup\', function () {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }'
                     ]);
     }
 
