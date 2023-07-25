@@ -208,9 +208,9 @@
                 </svg>
             </i>
         </a>
-        <ul class="sub-nav collapse" id="sidebar-kelola-datamaster" data-bs-parent="#sidebar">
+        <ul class="sub-nav collapse" id="sidebar-kelola-datamaster" data-bs-parent="#sidebar-kelola-datamaster">
             <li class="nav-item">
-                <a class="nav-link"  {{activeRoute(route('fakultas.index'))}}" href="{{route('fakultas.index')}}">
+                <a class="nav-link {{activeRoute(route('fakultas.index'))}}" href="{{route('fakultas.index')}}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -223,7 +223,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"  {{activeRoute(route('jenjang.index'))}}" href="{{route('jenjang.index')}}">
+                <a class="nav-link {{activeRoute(route('jenjang.index'))}}" href="{{route('jenjang.index')}}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -236,7 +236,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"  {{activeRoute(route('prodi.index'))}}" href="{{route('prodi.index')}}">
+                <a class="nav-link {{activeRoute(route('prodi.index'))}}" href="{{route('prodi.index')}}">
                    <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -249,7 +249,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link"  {{activeRoute(route('fakultasprodi.index'))}}" href="{{route('fakultasprodi.index')}}">
+                <a class="nav-link {{activeRoute(route('fakultasprodi.index'))}}" href="{{route('fakultasprodi.index')}}">
                    <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -273,93 +273,30 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-kelola-kirimemail" role="button"  aria-expanded="false" aria-controls="sidebar-special-pages">
+        <a class="nav-link {{activeRoute(route('send.create'))}}" aria-current="page" href="{{route('send.create')}}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path opacity="0.4" d="M12.02 2C6.21 2 2 6.74 2 12C2 13.68 2.49 15.41 3.35 16.99C3.51 17.25 3.53 17.58 3.42 17.89L2.75 20.13C2.6 20.67 3.06 21.07 3.57 20.91L5.59 20.31C6.14 20.13 6.57 20.36 7.081 20.67C8.541 21.53 10.36 21.97 12 21.97C16.96 21.97 22 18.14 22 11.97C22 6.65 17.7 2 12.02 2Z" fill="currentColor"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9807 13.2901C11.2707 13.2801 10.7007 12.7101 10.7007 12.0001C10.7007 11.3001 11.2807 10.7201 11.9807 10.7301C12.6907 10.7301 13.2607 11.3001 13.2607 12.0101C13.2607 12.7101 12.6907 13.2901 11.9807 13.2901ZM7.37033 13.2901C6.67033 13.2901 6.09033 12.7101 6.09033 12.0101C6.09033 11.3001 6.66033 10.7301 7.37033 10.7301C8.08033 10.7301 8.65033 11.3001 8.65033 12.0101C8.65033 12.7101 8.08033 13.2801 7.37033 13.2901ZM15.3105 12.0101C15.3105 12.7101 15.8805 13.2901 16.5905 13.2901C17.3005 13.2901 17.8705 12.7101 17.8705 12.0101C17.8705 11.3001 17.3005 10.7301 16.5905 10.7301C15.8805 10.7301 15.3105 11.3001 15.3105 12.0101Z" fill="currentColor"></path>                                </svg>                            
             </i>
             <span class="item-name">Kirim Email</span>
-            <i class="right-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </i>
+           
         </a>
-        <ul class="sub-nav collapse" id="sidebar-kelola-kirimemail" data-bs-parent="#sidebar">
-            <li class="nav-item">
-                <a class="nav-link">
-                    <i class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                            <g>
-                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                            </g>
-                        </svg>
-                    </i>
-                    <i class="sidenav-mini-icon"> C </i>
-                    <span class="item-name">Email Single</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">
-                   <i class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                            <g>
-                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                            </g>
-                        </svg>
-                    </i>
-                   <i class="sidenav-mini-icon"> K </i>
-                   <span class="item-name">Email Blasting</span>
-                </a>
-            </li>
-        </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link">
+        <a class="nav-link {{activeRoute(route('outbox.index'))}}" aria-current="page" href="{{route('outbox.index')}}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path opacity="0.4" d="M2 6.447C2 3.996 4.03024 2 6.52453 2H11.4856C13.9748 2 16 3.99 16 6.437V17.553C16 20.005 13.9698 22 11.4744 22H6.51537C4.02515 22 2 20.01 2 17.563V16.623V6.447Z" fill="currentColor"></path>                                <path d="M21.7787 11.4548L18.9329 8.5458C18.6388 8.2458 18.1655 8.2458 17.8723 8.5478C17.5802 8.8498 17.5811 9.3368 17.8743 9.6368L19.4335 11.2298H17.9386H9.54826C9.13434 11.2298 8.79834 11.5748 8.79834 11.9998C8.79834 12.4258 9.13434 12.7698 9.54826 12.7698H19.4335L17.8743 14.3628C17.5811 14.6628 17.5802 15.1498 17.8723 15.4518C18.0194 15.6028 18.2113 15.6788 18.4041 15.6788C18.595 15.6788 18.7868 15.6028 18.9329 15.4538L21.7787 12.5458C21.9199 12.4008 21.9998 12.2048 21.9998 11.9998C21.9998 11.7958 21.9199 11.5998 21.7787 11.4548Z" fill="currentColor"></path>                                </svg>                              </i>
             <span class="item-name">Outbox</span>
         </a>
     </li>
+    
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-kelola-template" role="button"  aria-expanded="false" aria-controls="sidebar-special-pages">
+        <a class="nav-link {{activeRoute(route('template.index'))}}" aria-current="page" href="{{route('template.index')}}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path opacity="0.4" d="M19.9927 18.9534H14.2984C13.7429 18.9534 13.291 19.4124 13.291 19.9767C13.291 20.5422 13.7429 21.0001 14.2984 21.0001H19.9927C20.5483 21.0001 21.0001 20.5422 21.0001 19.9767C21.0001 19.4124 20.5483 18.9534 19.9927 18.9534Z" fill="currentColor"></path>                                <path d="M10.309 6.90385L15.7049 11.2639C15.835 11.3682 15.8573 11.5596 15.7557 11.6929L9.35874 20.0282C8.95662 20.5431 8.36402 20.8344 7.72908 20.8452L4.23696 20.8882C4.05071 20.8903 3.88775 20.7613 3.84542 20.5764L3.05175 17.1258C2.91419 16.4915 3.05175 15.8358 3.45388 15.3306L9.88256 6.95545C9.98627 6.82108 10.1778 6.79743 10.309 6.90385Z" fill="currentColor"></path>                                <path opacity="0.4" d="M18.1208 8.66544L17.0806 9.96401C16.9758 10.0962 16.7874 10.1177 16.6573 10.0124C15.3927 8.98901 12.1545 6.36285 11.2561 5.63509C11.1249 5.52759 11.1069 5.33625 11.2127 5.20295L12.2159 3.95706C13.126 2.78534 14.7133 2.67784 15.9938 3.69906L17.4647 4.87078C18.0679 5.34377 18.47 5.96726 18.6076 6.62299C18.7663 7.3443 18.597 8.0527 18.1208 8.66544Z" fill="currentColor"></path>                                </svg>                            
                   </i>
             <span class="item-name">Kelola Template</span>
-            <i class="right-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </i>
+           
         </a>
-        <ul class="sub-nav collapse" id="sidebar-kelola-template" data-bs-parent="#sidebar">
-            <li class="nav-item">
-                <a class="nav-link">
-                    <i class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                            <g>
-                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                            </g>
-                        </svg>
-                    </i>
-                    <i class="sidenav-mini-icon"> C </i>
-                    <span class="item-name">Kelola Template</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">
-                   <i class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
-                            <g>
-                            <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
-                            </g>
-                        </svg>
-                    </i>
-                   <i class="sidenav-mini-icon"> K </i>
-                   <span class="item-name">Template X</span>
-                </a>
-            </li>
-        </ul>
     </li>
     <li><hr class="hr-horizontal"></li>
     {{-- Start Tracer Study Menu Section --}}

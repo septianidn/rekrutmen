@@ -9,7 +9,7 @@
          <div class="card">
             <div class="card-header d-flex justify-content-between">
                <div class="header-title">
-                  <h4 class="card-title">{{ $pageTitle ?? 'List'}}</h4>
+                  <h4 class="card-title">{{ $pageTitle ?? 'Daftar'}}</h4>
                </div>
                 <div class="card-action">
                     {!! $headerAction ?? '' !!}

@@ -11,11 +11,13 @@
                <div class="header-title">
                   <h4 class="card-title">{{ $pageTitle ?? 'Data'}}</h4>
                </div>
-                <div class="card-action">
+               @if (isset ($buttonAddTitle))
+                <div class="card-action"> 
                   <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addOrUpdateData">
-                      Tambah {{$buttonAddTitle ?? ''}}
+                      Tambah{{ isset($buttonAddTitle) ? $buttonAddTitle : '' }}
                      </button>
                 </div>
+                @endif
             </div>
             <div class="card-body px-0">
                <div class="table-responsive">
@@ -27,6 +29,7 @@
    </div>
 </div>
 
+@if (isset ($returnView))
 @include($returnView ?? null)
-
+@endif
 </x-app-layout>

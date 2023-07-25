@@ -3,6 +3,9 @@
 // Controllers
 
 use App\Http\Controllers\BackOffice\AlumniController;
+use App\Http\Controllers\BackOffice\EmailBoxController;
+use App\Http\Controllers\BackOffice\EmailSendController;
+use App\Http\Controllers\BackOffice\EmailTemplateController;
 use App\Http\Controllers\BackOffice\FakultasController;
 use App\Http\Controllers\BackOffice\FakultasProdiController;
 use App\Http\Controllers\HomeController;
@@ -76,6 +79,13 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/fakultasprodi', FakultasProdiController::class);
         Route::resource('/databasealumni', AlumniController::class);
     });
+
+    Route::group(['prefix' => 'email'], function() {
+        Route::resource('/template', EmailTemplateController::class);
+        Route::resource('/outbox', EmailBoxController::class);
+        Route::resource('/send', EmailSendController::class);
+    });
+    
 });
 
 

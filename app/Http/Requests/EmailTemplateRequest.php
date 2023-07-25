@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class JenjangRequest extends FormRequest
+class EmailTemplateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,12 +33,17 @@ class JenjangRequest extends FormRequest
         switch ($method) {
             case 'post':
                 $rules = [
-                    'nama_jenjang' => 'required|max:10',
+                    'nama_template' => 'required',
+                    'subjek_template' => 'required',
+                    'isi_template' => 'required',
+
                 ];
                 break;
             case 'patch':
                 $rules = [
-                    'nama_jenjang' => 'required|max:10',
+                    'nama_template' => 'required',
+                    'subjek_template' => 'required',
+                    'isi_template' => 'required',
                 ];
                 break;
 
@@ -50,7 +55,9 @@ class JenjangRequest extends FormRequest
     public function messages()
     {
         return [
-            'nama_jenjang.*'  =>'Nama jenjang harus berisi.',
+            'nama_template.*'  =>'Nama template harus berisi.',
+            'subjek_template.*'  =>'Subjek template harus berisi.',
+            'isi_template.*'  =>'Isi template harus berisi.',
         ];
     }
 

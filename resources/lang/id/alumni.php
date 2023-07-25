@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'title' => 'Database Alumni',
+    'title' => 'Alumni',
     'store' => 'Alumni berhasil di tambahkan!',
     'update' => 'Alumni berhasil di updated!',
 ];

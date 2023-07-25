@@ -2,13 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\FakultasProdi;
-use App\Models\Jenjang;
+use App\Models\EmailTemplate;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class FakultasProdiDataTable extends DataTable
+class EmailTemplateDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,37 +24,28 @@ class FakultasProdiDataTable extends DataTable
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
-            ->editColumn('fakultas.nama_fakultas', function($query) {
-                return $query->fakultas->nama_fakultas ?? '-';
+            ->filterColumn('nama_template', function($query, $keyword) {
+                $sql = "nama_template LIKE ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->editColumn('prodi.nama_prodi', function($query) {
-                return $query->prodi->nama_prodi ?? '-';
+            ->filterColumn('subjek_template', function($query, $keyword) {
+                $sql = "subjek_template LIKE ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->editColumn('jenjang.nama_jenjang', function($query) {
-                return $query->jenjang->nama_jenjang ?? '-';
+            ->filterColumn('isi_template', function($query, $keyword) {
+                $sql = "isi_template LIKE ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->editColumn('created_at', function ($post) {
+                return Carbon::parse($post->created_at)->format('j F Y');
+            })
+            ->editColumn('updated_at', function ($post) {
+                return Carbon::parse($post->updated_at)->format('j F Y');
             })
             ->addColumn('action', function ($data) {
-                return view('backoffice.datamaster.fakultasprodi.action', compact('data'));
-            })
-            ->filterColumn('nama_prodi', function($query, $keyword) {
-                $sql = "nama_prodi LIKE ?";
-                return $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
-            ->filterColumn('kode_prodi', function($query, $keyword) {
-                $sql = "nama_fakultas LIKE ?";
-                return $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
-            
-            ->filterColumn('kode_prodi', function($query, $keyword) {
-                $sql = "nama_fakultas LIKE ?";
-                return $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
-            ->filterColumn('nama_jenjang', function($query, $keyword) {
-                $sql = "nama_jenjang LIKE ?";
-                return $query->whereRaw($sql, ["%{$keyword}%"]);
+                return view('backoffice.email.template.action', compact('data'));
             });
-            
-           
+  
             
     }
 
@@ -66,7 +57,7 @@ class FakultasProdiDataTable extends DataTable
      */
     public function query()
     {
-        $model = FakultasProdi::query()->with(['fakultas', 'prodi', 'jenjang']);
+        $model = EmailTemplate::query();
         return $this->applyScopes($model);
     }
 
@@ -90,7 +81,7 @@ class FakultasProdiDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1,2,3,4]).every(function () {
+                            this.api().columns([1,2,3,4,5]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -102,7 +93,6 @@ class FakultasProdiDataTable extends DataTable
                                 $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
                             });
                         }'
-                    
                     ]);
     }
 
@@ -115,10 +105,10 @@ class FakultasProdiDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
-            ['data' => 'fakultas.nama_fakultas', 'name' => 'fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true,],
-            ['data' => 'prodi.nama_prodi', 'name' => 'prodi.nama_prodi', 'title' => 'Prodi', 'searchable' => true,],
-            ['data' => 'prodi.kode_prodi', 'name' => 'prodi.kode_prodi', 'title' => 'Kode Prodi', 'searchable' => true,],
-            ['data' => 'jenjang.nama_jenjang', 'name' => 'jenjang.nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
+            ['data' => 'nama_template', 'name' => 'nama_template', 'title' => 'Nama Template', 'searchable' => true,],
+            ['data' => 'subjek_template', 'name' => 'subjek_template', 'title' => 'Subjek Template', 'searchable' => true,],
+            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created Date', 'searchable' => true,],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Modified Date', 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

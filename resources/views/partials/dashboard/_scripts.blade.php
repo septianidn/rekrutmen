@@ -57,4 +57,8 @@
 
 
 <!-- Select2 JavaScript -->
-<script src="{{ asset('vendor/select2/js/dselect.js') }}"></script>
+<script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
+
+
+<script src="https://cdn.tiny.cloud/1/5guzlprpaakurv1wwt4wz5gree0sw6wlmsw0yoib48skci79/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+ 
