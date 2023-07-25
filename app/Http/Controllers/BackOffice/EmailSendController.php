@@ -39,10 +39,26 @@ class EmailSendController extends Controller
      // TODO send email | mailtrap
      public function store(EmailSendRequest $request)
      {
-         
+
+        if($request->tipe == 'single'){
+
+
+
+
+        }
+        else if ([$request->tipe == 'blasting']){
+
+            //read file csv
+            
+        }
+        else{
+
+        }
+      
         $emailbox = EmailBox::create($request->all());
  
         return redirect()->route('emailbox.index')->withSuccess(__('message.emailtemplate_msg_added',['name' => __('emailbox.store')]));
      }
  
+     
 }

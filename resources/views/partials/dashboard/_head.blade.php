@@ -35,6 +35,10 @@
 <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/select2/css/select2-bootstrap-5-theme.rtl.min.css') }}" rel="stylesheet">
 
+<link href="{{ asset('vendor/tagify/tagify.css') }}" rel="stylesheet">
+
+{{-- Custom Css From library --}}
+
 <style>
    .select2-container--bootstrap-5.select2-container--focus .select2-selection,.select2-container--bootstrap-5.select2-container--open .select2-selection
    {
@@ -54,4 +58,6 @@
       color:#fff;
       background-color:#009A4B;
       }
+   
+   
    </style>
