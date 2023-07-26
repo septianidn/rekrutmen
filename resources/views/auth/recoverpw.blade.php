@@ -14,17 +14,20 @@
                   <h2 class="mb-2">Reset Password</h2>
                   <p>Masukkan alamat email Anda dan kami akan mengirimkan email dengan instruksi untuk me-reset kata sandi Anda</p>
                   <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                  <form action="{{ route('password.request') }}" method="post" enctype="multipart/form-data">
+                  {{ Form::open(['route' => ['password.email'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formAdd']) }}
+                  {{-- <form action="{{ route('password.email') }}" method="post" enctype="multipart/form-data">
+                     @csrf --}}
                      <div class="row">
                         <div class="col-lg-12">
                            <div class="floating-label form-group">
                               <label for="email" class="form-label">Email</label>
-                              <input type="email" class="form-control" id="email" aria-describedby="email" placeholder=" ">
+                              <input type="email" name="email" class="form-control" id="email" aria-describedby="email" placeholder=" ">
                            </div>
                         </div>
                      </div>
                      <button type="submit" class="btn btn-primary btn-block">  {{ __('Reset') }}</button>
-                  </form>
+                  {{-- </form> --}}
+                  {{Form::close()}}
                </div>
             </div>               
             <div class="sign-bg sign-bg-right">

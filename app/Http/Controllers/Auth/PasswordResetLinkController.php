@@ -28,6 +28,7 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'email' => 'required|email',
         ]);
@@ -39,9 +40,9 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+        return $status === Password::RESET_LINK_SENT
+            ? view('auth.confirm-mail')->with(['status' => __($status), 'email' => $request->email])
+            : back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
+
     }
 }
