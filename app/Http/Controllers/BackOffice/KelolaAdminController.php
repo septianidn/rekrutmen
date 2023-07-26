@@ -48,8 +48,6 @@ class KelolaAdminController extends Controller
     {
         $request['password'] = bcrypt($request->password);
 
-        $request['username'] = $request->username ?? stristr($request->email, "@", true) . rand(100,1000);
-
         $user = User::create($request->all());
 
         storeMediaFile($user,$request->profile_image, 'profile_image');

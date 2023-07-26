@@ -151,10 +151,6 @@
                         <hr>
                         <h5 class="mb-3">Security</h5>
                         <div class="row">
-                           <div class="form-group col-md-12">
-                              <label class="form-label" for="uname">User Name: <span class="text-danger">*</span></label>
-                              {{ Form::text('username', old('username'), ['class' => 'form-control', 'required', 'placeholder' => 'Enter Username']) }}
-                           </div>
                            <div class="form-group col-md-6">
                               <label class="form-label" for="pass">Password:</label>
                               {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password']) }}
