@@ -4,7 +4,7 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
 
 <x-app-layout :assets="$assets ?? []">
     <div>
-       {!! Form::open(['route' => ['send.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::open(['route' => ['send.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'novalidate']) !!}
        <div class="row">
           <div class="col-xl-12 col-lg-12">
              <div class="card">
@@ -24,7 +24,7 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label" for="tujuan">Tujuan<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                 {{ Form::text('tujuan', null, ['class' => 'form-control', 'placeholder' => 'example@gmail.com', 'id' => 'tujuan']) }}
+                                 {{ Form::text('tujuan', null, ['class' => 'form-control', 'placeholder' => 'youremail@example.com', 'id' => 'tujuan']) }}
                                  {{ Form::file('blasting_file', ['class' => 'form-control', 'id' => 'blasting_file']) }}
                                 </div>
                             </div>

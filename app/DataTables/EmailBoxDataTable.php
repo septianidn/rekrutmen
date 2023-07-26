@@ -56,7 +56,9 @@ class EmailBoxDataTable extends DataTable
             })
 
           
-            ->addColumn('action', 'backoffice.email.outbox.action');
+            ->addColumn('action', function ($data) {
+                return view('backoffice.email.outbox.action', compact('data'));
+            });
            
             
             
@@ -120,7 +122,6 @@ class EmailBoxDataTable extends DataTable
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'tujuan', 'name' => 'tujuan', 'title' => 'Tujuan', 'searchable' => true,],
             ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'searchable' => true,],
-            ['data' => 'isi', 'name' => 'isi', 'title' => 'Isi', 'searchable' => true,],
             ['data' => 'tanggal_kirim', 'name' => 'tanggal_kirim', 'title' => 'Tanggal Kirim', 'searchable' => true,],
             ['data' => 'tipe', 'name' => 'tipe', 'title' => 'Tipe', 'searchable' => true,],
             Column::computed('action')
