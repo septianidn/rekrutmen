@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_template');
             $table->string('subjek_template');
-            $table->string('isi_template');
+            $table->longText('isi_template');
             $table->timestamps();
         });
     }

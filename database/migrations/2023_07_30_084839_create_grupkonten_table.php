@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('email_box', function (Blueprint $table) {
+        Schema::create('grupkonten', function (Blueprint $table) {
             $table->id();
-            $table->string('tujuan');
-            $table->string('subjek');
-            $table->longText('isi');
-            $table->timestamp('tanggal_kirim');
-            $table->string('tipe');
-            $table->string('status');
+            $table->string('nama_grup');
+            $table->string('deskripsi')->nullable(true);
+            $table->string('alias_url');
+            $table->boolean('published');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('email_box');
+        Schema::dropIfExists('grupkonten');
     }
 };

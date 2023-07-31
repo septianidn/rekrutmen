@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Security;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RolesRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -36,9 +37,16 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RolesRequest $request)
     {
-       //code here
+       
+        $request['name'] =  str_replace(' ', '_', strtolower($request->title));
+        $request['guard_name'] = 'web';
+
+        $roles = Role::create($request->all());
+
+       return redirect()->route('role-permission.index')->withSuccess(__('message.roles_msg_added',['name' => __('roles.store')]));
+   
     }
 
     /**
@@ -58,9 +66,12 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //code here
+        $data = Role::find($id);
+        $request = $request->all();
+        $view = view('role-permission.form-role', compact('request', 'data', 'id'))->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**
@@ -70,9 +81,22 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RolesRequest $request, $id)
     {
-        //code here
+
+        $request['name'] =  str_replace(' ', '_', strtolower($request->title));
+        $request['guard_name'] = 'web';
+
+        $role = Role::findOrFail($id);
+
+        $role->fill($request->all())->update();
+
+
+        if(auth()->check()){
+            return redirect()->route('role-permission.index')->withSuccess(__('message.role_msg_updated',['name' => __('Update Role')]));
+        }
+        return redirect()->back()->withSuccess(__('message.role_msg_updated',['name' => 'Data Role']));
+
     }
 
     /**
@@ -83,6 +107,21 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-       //code here
+        $role = Role::findOrFail($id);
+        $status = 'errors';
+        $message= __('global-message.delete_form', ['form' => __('role.title')]);
+
+        if($role!='') {
+            $role->delete();
+            $status = 'success';
+            $message= __('global-message.delete_form', ['form' => __('role.title')]);
+        }
+
+        if(request()->ajax()) {
+            return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
+        }
+
+        return redirect()->back()->with($status,$message);
+
     }
 }

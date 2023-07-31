@@ -8,12 +8,14 @@ use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\EmailTemplateController;
 use App\Http\Controllers\BackOffice\FakultasController;
 use App\Http\Controllers\BackOffice\FakultasProdiController;
+use App\Http\Controllers\BackOffice\GrupKontenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
 use App\Http\Controllers\BackOffice\ProdiController;
+use App\Http\Controllers\BackOffice\RekapTCController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -68,11 +70,12 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
      Route::resource('/kelolaadmin', KelolaAdminController::class);
 
     // Permission Module
-    Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
+    // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
     Route::resource('/permission',PermissionController::class);
+    Route::resource('/role-permission', RolePermission::class);
+    Route::resource('/role', RoleController::class);
 
     Route::group(['prefix' => 'datamaster'], function() {
-        Route::resource('/role', RoleController::class);
         Route::resource('/jenjang', JenjangController::class);
         Route::resource('/prodi', ProdiController::class);
         Route::resource('/fakultas', FakultasController::class);
@@ -84,6 +87,19 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/template', EmailTemplateController::class);
         Route::resource('/outbox', EmailBoxController::class);
         Route::resource('/send', EmailSendController::class);
+    });
+    Route::group(['prefix' => 'konten'], function() {
+        Route::resource('/grup-konten', GrupKontenController::class);
+        Route::resource('/kategori-konten', EmailBoxController::class);
+        Route::resource('/', EmailSendController::class);
+    });
+    
+
+    Route::group(['prefix' => 'tracer-study'], function() {
+        Route::resource('/rekap', RekapTCController::class);
+        Route::resource('/kuesioner', EmailBoxController::class);
+        Route::resource('/usulan-pertanyaan', EmailBoxController::class);
+        Route::resource('/jawaban', EmailSendController::class);
     });
     
 });

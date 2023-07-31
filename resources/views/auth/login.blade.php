@@ -22,7 +22,7 @@
                               <div class="col-lg-12">
                                  <div class="form-group">
                                     <label for="email" class="form-label">Email</label>
-                                    <input id="email" type="email" name="email"  value="{{env('IS_DEMO') ? 'youremail@example.com' : old('email')}}"   class="form-control"  placeholder="admin@example.com" required autofocus>
+                                    <input id="email" type="email" name="email"  value="{{env('IS_DEMO') ? 'youremail@example.com' : old('email')}}"   class="form-control"  placeholder="youremail@example.com" required autofocus>
                                  </div>
                               </div>
                               <div class="col-lg-12">

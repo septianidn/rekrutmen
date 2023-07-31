@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Security;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PermissionRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
@@ -36,9 +37,15 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PermissionRequest $request)
     {
-        //code here
+        $request['name'] =  str_replace(' ', '_', strtolower($request->title));
+        $request['guard_name'] = 'web';
+
+        $permission = Permission::create($request->all());
+
+       return redirect()->route('role-permission.index')->withSuccess(__('message.permission_msg_added',['name' => __('permission.store')]));
+   
     }
 
     /**
@@ -58,9 +65,12 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-       //code here
+        $data = Permission::find($id);
+        $request = $request->all();
+        $view = view('role-permission.form-permission', compact('request', 'data', 'id'))->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**
@@ -70,9 +80,21 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PermissionRequest $request, $id)
     {
-        //code here
+        $request['name'] =  str_replace(' ', '_', strtolower($request->title));
+        $request['guard_name'] = 'web';
+
+        $permission = Permission::findOrFail($id);
+
+        $permission->fill($request->all())->update();
+
+
+        if(auth()->check()){
+            return redirect()->route('role-permission.index')->withSuccess(__('message.permission_msg_updated',['name' => __('Update Permission')]));
+        }
+        return redirect()->back()->withSuccess(__('message.role_msg_updated',['name' => 'Data Permission']));
+
     }
 
     /**
@@ -83,6 +105,21 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //code here
+        $permission = Permission::findOrFail($id);
+        $status = 'errors';
+        $message= __('global-message.delete_form', ['form' => __('permission.title')]);
+
+        if($permission!='') {
+            $permission->delete();
+            $status = 'success';
+            $message= __('global-message.delete_form', ['form' => __('permission.title')]);
+        }
+
+        if(request()->ajax()) {
+            return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
+        }
+
+        return redirect()->back()->with($status,$message);
+
     }
 }
