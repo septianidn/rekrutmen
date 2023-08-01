@@ -25,7 +25,17 @@ class EmailBoxController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('emailbox.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets'));
+        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets'));
+    }
+
+    public function show(Request $request, $id)
+    {  
+        $data = EmailBox::find($id);
+        if (request()->ajax()) {
+            return view('backoffice.email.outbox.form', compact('data'))->render();
+        }
+    
+        return view('backoffice.email.outbox.form', compact('data'));
     }
 
     /**

@@ -21,14 +21,14 @@ class Alumni extends Model
         'nim',
         'email',
         'nama',
-        'fakultas_prodi_id',
+        'kode_prodi_id',
         'thn_masuk',
         'thn_lulus',
         
     ];
 
-    public function fakultasProdi()
+    public function prodi()
     {
-        return $this->belongsTo(FakultasProdi::class, 'fakultas_prodi_id');
+        return $this->belongsTo(Prodi::class, 'kode_prodi_id');
     }
 }

@@ -34,6 +34,14 @@ class ProdiDataTable extends DataTable
             ->filterColumn('nama_prodi', function($query, $keyword) {
                 $sql = "nama_prodi LIKE  ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('nama_jenjang', function($query, $keyword) {
+                $sql = "nama_jenjang LIKE ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('nama_fakultas', function($query, $keyword) {
+                $sql = "nama_fakultas LIKE ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
             });
       
             
@@ -47,7 +55,7 @@ class ProdiDataTable extends DataTable
      */
     public function query()
     {
-        $model = Prodi::query();
+        $model = Prodi::query()->with(['fakultas', 'jenjang']);;
         return $this->applyScopes($model);
     }
 
@@ -69,7 +77,7 @@ class ProdiDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1,2]).every(function () {
+                            this.api().columns([1,2,3,4]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -95,6 +103,8 @@ class ProdiDataTable extends DataTable
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'kode_prodi', 'name' => 'kode_prodi', 'title' => 'Kode Prodi', 'searchable' => true,],
             ['data' => 'nama_prodi', 'name' => 'nama_prodi', 'title' => 'Nama Prodi', 'searchable' => true,],
+            ['data' => 'fakultas.nama_fakultas', 'name' => 'fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true,],
+            ['data' => 'jenjang.nama_jenjang', 'name' => 'jenjang.nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

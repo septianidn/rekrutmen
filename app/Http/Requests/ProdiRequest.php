@@ -35,12 +35,16 @@ class ProdiRequest extends FormRequest
                 $rules = [
                     'nama_prodi' => 'required',
                     'kode_prodi' => 'required',
+                    'jenjang_id' => 'required',
+                    'fakultas_id' => 'required',
                 ];
                 break;
             case 'patch':
                 $rules = [
                     'nama_prodi' => 'required',
                     'kode_prodi' => 'required',
+                    'jenjang_id' => 'required',
+                    'fakultas_id' => 'required',
                 ];
                 break;
 
@@ -54,6 +58,8 @@ class ProdiRequest extends FormRequest
         return [
             'kode_prodi.*'  =>'Kode Prodi harus berisi.',
             'nama_prodi.*'  =>'Nama Prodi harus berisi.',
+            'jenjang_id.*'  =>'Jenjang harus berisi.',
+            'fakultas_id.*'  =>'Fakultas harus berisi.',
         ];
     }
 

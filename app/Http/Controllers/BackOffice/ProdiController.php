@@ -26,11 +26,17 @@ class ProdiController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('prodi.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $returnView = 'backoffice.datamaster.prodi.form';
-        $buttonAddTitle = 'Prodi';
-        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets', 'buttonAddTitle', 'returnView'));
+        $headerAction = '<a data--href="' . route('prodi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Prodi</a>';
+        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
+
+    public function create(Request $request)
+    {
+        $data = $request->all();
+        $view = view('backoffice.datamaster.prodi.form')->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -45,6 +51,16 @@ class ProdiController extends Controller
        return redirect()->route('prodi.index')->withSuccess(__('message.prodi_msg_added',['name' => __('prodi.store')]));
     }
 
+    
+    public function edit($id)
+    {
+       
+        $data = Prodi::find($id);
+        $view = view('backoffice.datamaster.prodi.form',  compact('data', 'id'))->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
+    }
+
+    
     /**
      * Update the specified resource in storage.
      *

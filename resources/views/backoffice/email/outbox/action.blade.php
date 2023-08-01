@@ -1,5 +1,5 @@
 <div class="flex align-items-center list-email-outbox-action">
-    <a class="btn btn-sm btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#showDetailOutbox{{$data->id}}" title="Edit fakultas">
+    <a class="btn btn-sm btn-icon btn-primary" data-bs-toggle="tooltip" href="{{ route('outbox.show', $data->id) }}" title="Detail Outbox">
         <span class="btn-inner">
             <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                            
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.1614 12.0531C15.1614 13.7991 13.7454 15.2141 11.9994 15.2141C10.2534 15.2141 8.83838 13.7991 8.83838 12.0531C8.83838 10.3061 10.2534 8.89111 11.9994 8.89111C13.7454 8.89111 15.1614 10.3061 15.1614 12.0531Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.998 19.355C15.806 19.355 19.289 16.617 21.25 12.053C19.289 7.48898 15.806 4.75098 11.998 4.75098H12.002C8.194 4.75098 4.711 7.48898 2.75 12.053C4.711 16.617 8.194 19.355 12.002 19.355H11.998Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            
@@ -20,41 +20,6 @@
     </a>
 </div>
 
-<div class="modal fade" id="showDetailOutbox{{$data->id}}" tabindex="-1" aria-labelledby="addOrUpdateDataLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 1100px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                 <h6 class="modal-title">Detail Outbox Email</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-             <div class="row">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="tujuan">Tujuan</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="tujuan" value="{{$data->tujuan }}" class="form-control" readonly  id="tujuan">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="subjek">Subjek</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="subjek" value="{{ $data->subjek }}" class="form-control"  readonly  id="subjek">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="isi">isi</label>
-                    <div class="col-sm-10">
-                        <textarea name="isi" class="form-control" required id="isi" disabled >{{ $data->isi }}</textarea>
-                    </div>
-                </div>
-             </div>     
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Kembali</button>
-            </div>
-        </div>
-    </div>
-    </div>
 
 <script>
 function showDeleteConfirmation(id) {
@@ -94,14 +59,4 @@ function showDeleteConfirmation(id) {
     });
 }
 </script>
-<script>
-    tinymce.init({
-        selector: '#isi',
-        menubar: false,
-        toolbar: false,
-        statusbar: false,
-        height: '800',
-        tinycomments_mode: 'embedded',
-        noneditable_noneditable_class: 'nonedit', // Menambahkan class CSS 'nonedit' untuk membuat isi tidak dapat diubah
-    });
-</script>
+

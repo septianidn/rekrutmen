@@ -15,8 +15,8 @@ return new class extends Migration
             $table->bigInteger('nim')->unsigned()->primary();
             $table->string('nama');
             $table->string('email');
-            $table->bigInteger('fakultas_prodi_id')->unsigned()->index();
-            $table->foreign('fakultas_prodi_id')->references('id')->on('fakultas_prodi')->onDelete('cascade');
+            $table->bigInteger('kode_prodi_id')->unsigned()->index();
+            $table->foreign('kode_prodi_id')->references('kode_prodi')->on('prodi')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('thn_masuk');
             $table->integer('thn_lulus');
             $table->timestamps();

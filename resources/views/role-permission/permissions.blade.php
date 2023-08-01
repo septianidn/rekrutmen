@@ -8,7 +8,7 @@
                   <h4 class="card-title mb-0">Role & Permission</h4>
                </div>
                <div class="text-center ms-3 ms-lg-0 ms-md-0">
-                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('permission.create') }}" data-app-title="Add new permission" data-placement="top" title="New Permission">
+                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('permission.create') }}" data-app-title="Tambah Permission" data-placement="top" title="Tambah Permission">
                         <i class="btn-inner">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -16,7 +16,7 @@
                         </i>
                         <span>Tambah Permission</span>
                     </a>
-                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('role.create') }}" data-app-title="Tambah Data Role" data-placement="top" title="Tambah Role">
+                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('role.create') }}" data-app-title="Tambah Role" data-placement="top" title="Tambah Role">
                         <i class="btn-inner">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

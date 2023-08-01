@@ -23,8 +23,6 @@
     </a>
 </div>
 
-@include('backoffice.alumni.form')
-
 <script>
     function showDeleteConfirmation(id) {
         var message = "{!! __('global-message.delete_alert', ['form' => __('users.title')]) !!}";

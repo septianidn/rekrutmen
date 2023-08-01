@@ -23,24 +23,25 @@ class JenjangController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('jenjang.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $returnView = 'backoffice.datamaster.jenjang.form';
-        $buttonAddTitle = 'Jenjang';
-        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets', 'buttonAddTitle', 'returnView'));
+        $headerAction = '<a data--href="' . route('jenjang.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Jenjang" data-placement="top" title="Tambah Data">Tambah Data Jenjang</a>';
+        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
+    public function create(Request $request)
+    {
+       
+        $data = $request->all();
+        $view = view('backoffice.datamaster.jenjang.form')->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
+    }
+
+    
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        if (request()->ajax()) {
-            return view('backoffice.datamaster.jenjang.form')->render();
-        }
-    
-        return view('backoffice.datamaster.jenjang.form');
-    }
+ 
 
     /**
      * Store a newly created resource in storage.
@@ -68,11 +69,11 @@ class JenjangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $data = Jenjang::findOrFail($id);
-
-        return view('backoffice.datamaster.jenjang.form', compact('data','id'));
+    public function edit(Request $request, $id)
+    {  
+        $data = Jenjang::find($id);
+        $view = view('backoffice.datamaster.jenjang.form',  compact('request', 'data', 'id'))->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**

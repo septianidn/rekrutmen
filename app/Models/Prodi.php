@@ -18,14 +18,27 @@ class Prodi extends Model
      */
     protected $fillable = [
         'kode_prodi',
-        'nama_prodi'
+        'nama_prodi',
+        'jenjang_id',
+        'fakultas_id'
+        
     ];
 
     
-    public function fakultasProdi()
+
+
+    public function fakultas()
     {
-        return $this->hasMany(FakultasProdi::class, 'kode_prodi');
+        return $this->belongsTo(Fakultas::class, 'fakultas_id');
+    }
+   
+    public function jenjang()
+    {
+        return $this->belongsTo(Jenjang::class, 'jenjang_id');
     }
 
-   
+    public function alumni()
+    {
+        return $this->hasMany(Alumni::class, 'kode_prodi');
+    }
 }

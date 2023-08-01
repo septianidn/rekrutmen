@@ -23,11 +23,18 @@ class FakultasController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('fakultas.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $returnView = 'backoffice.datamaster.fakultas.form';
-        $buttonAddTitle = 'Fakultas';
-        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets', 'buttonAddTitle', 'returnView'));
+        $headerAction = '<a data--href="' . route('fakultas.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Fakultas" data-placement="top" title="Tambah Data">Tambah Fakultas</a>';
+        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
+    
+    public function create(Request $request)
+    {
+       
+        $data = $request->all();
+        $view = view('backoffice.datamaster.fakultas.form')->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -40,6 +47,13 @@ class FakultasController extends Controller
        $fakultas = Fakultas::create($request->all());
 
        return redirect()->route('fakultas.index')->withSuccess(__('message.fakultas_msg_added',['name' => __('fakultas.store')]));
+    }
+
+    public function edit(Request $request, $id)
+    {  
+        $data = Fakultas::find($id);
+        $view = view('backoffice.datamaster.fakultas.form',  compact('request', 'data', 'id'))->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**

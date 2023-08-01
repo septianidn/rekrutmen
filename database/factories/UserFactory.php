@@ -40,7 +40,6 @@ class UserFactory extends Factory
                 break;
         }
         return [
-            'username' => $fullname,
             'first_name' => $fname,
             'last_name' => $lname,
             'phone_number' => $this->faker->phoneNumber,
@@ -48,7 +47,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'phone_number' => $this->faker->phoneNumber,
-            'user_type' => 'user',
+            'user_type' => 'kaprodi',
             'status' => $status
         ];
     }

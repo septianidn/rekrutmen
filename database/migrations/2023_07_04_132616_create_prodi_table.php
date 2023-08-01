@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('prodi', function (Blueprint $table) {
             $table->bigInteger('kode_prodi')->unsigned()->primary();
             $table->string('nama_prodi');
+            $table->bigInteger('jenjang_id')->unsigned()->index();
+            $table->foreign('jenjang_id')->references('id')->on('jenjang')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('fakultas_id')->unsigned()->index();
+            $table->foreign('fakultas_id')->references('id')->on('fakultas')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -36,7 +36,7 @@ class AlumniRequest extends FormRequest
                     'nim' => 'required',
                     'email' => 'required',
                     'nama' => 'required',
-                    'fakultas_prodi_id' => 'required',
+                    'kode_prodi_id' => 'required',
                     'thn_masuk' => 'required',
                     'thn_lulus' => 'required',
                     
@@ -47,7 +47,7 @@ class AlumniRequest extends FormRequest
                     'nim' => 'required',
                     'email' => 'required',
                     'nama' => 'required',
-                    'fakultas_prodi_id' => 'required',
+                    'kode_prodi_id' => 'required',
                     'thn_masuk' => 'required',
                     'thn_lulus' => 'required',
                 ];
@@ -65,7 +65,7 @@ class AlumniRequest extends FormRequest
             'email.*'  =>'Email harus berisi.',
             'nama.*'  =>'Nama harus berisi.',
             'thn_masuk.*'  =>'Tahun Masuk harus berisi.',
-            'fakultas_prodi_id.*'  =>'Prodi harus berisi.',
+            'kode_prodi_id.*'  =>'Prodi harus berisi.',
             'thn_lulus.*'  =>'Tahun Lulus harus berisi.',
         ];
     }

@@ -23,9 +23,16 @@ class AlumniController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('alumni.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $returnView = 'backoffice.alumni.form';
-        $buttonAddTitle = 'Alumni';
-        return $dataTable->render('global.datatablewithmodal', compact('pageTitle','auth_user','assets', 'buttonAddTitle', 'returnView'));
+        $headerAction = '<a data--href="' . route('databasealumni.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Alumni</a>';
+        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
+    }
+
+    public function create(Request $request)
+    {
+       
+        $data = $request->all();
+        $view = view('backoffice.alumni.form')->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**
@@ -40,6 +47,15 @@ class AlumniController extends Controller
        $alumni = Alumni::create($request->all());
 
        return redirect()->route('databasealumni.index')->withSuccess(__('message.alumni_msg_added',['name' => __('databasealumni.store')]));
+    }
+
+
+    public function edit(Request $request, $id)
+    {
+       
+        $data = Alumni::find($id);
+        $view = view('backoffice.datamaster.prodi.form',  compact('request', 'data', 'id'))->render();
+        return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**
