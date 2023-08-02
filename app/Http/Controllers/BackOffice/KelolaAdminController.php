@@ -22,7 +22,7 @@ class KelolaAdminController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('users.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">Add User</a>';
+        $headerAction = '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -106,9 +106,9 @@ class KelolaAdminController extends Controller
         // dd($request->all());
         $user = User::with('userProfile')->findOrFail($id);
 
-        $role = Role::find($request->user_role);
+        $role = Role::find($request->user_type);
         if(env('IS_DEMO')) {
-            if($role->name === 'admin'&& $user->user_type === 'admin') {
+            if($role->name === 'admin'&& $user->role->user_type === 'admin') {
                 return redirect()->back()->with('error', 'Permission denied');
             }
         }

@@ -45,7 +45,7 @@ class RekapTCDataTable extends DataTable
      */
     public function query()
     {
-        $model = Alumni::query()->with(['fakultasProdi.fakultas', 'fakultasProdi.prodi', 'fakultasProdi.jenjang']);
+        $model = Alumni::query()->with(['prodi', 'prodi.jenjang', 'prodi.fakultas']);
         return $this->applyScopes($model);
     }
 
@@ -96,9 +96,9 @@ class RekapTCDataTable extends DataTable
             ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'searchable' => true,],
             ['data' => 'nim', 'name' => 'nama', 'title' => 'NIM', 'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email', 'searchable' => true,],
-            ['data' => 'fakultas_prodi.fakultas.nama_fakultas', 'name' => 'fakultasProdi.fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true],
-            ['data' => 'fakultas_prodi.prodi.nama_prodi', 'name' => 'fakultasProdi.prodi.nama_prodi', 'title' => 'Prodi', 'searchable' => true,],
-            ['data' => 'fakultas_prodi.jenjang.nama_jenjang', 'name' => 'fakultasProdi.jenjang.nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
+            ['data' => 'prodi.fakultas.nama_fakultas', 'name' => 'prodi.fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true],
+            ['data' => 'prodi.nama_prodi', 'name' => 'prodi.nama_prodi', 'title' => 'Prodi', 'searchable' => true,],
+            ['data' => 'prodi.jenjang.nama_jenjang', 'name' => 'prodi.jenjang.nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
             ['data' => 'thn_masuk', 'name' => 'thn_masuk', 'title' => 'Tahun Masuk', 'searchable' => true,],
             ['data' => 'thn_lulus', 'name' => 'nama', 'title' => 'Tahun Lulus', 'searchable' => true,],
             ['data' => 'datajawaban', 'name' => 'data_jawaban', 'title' => 'Jawaban', 'searchable' => true , 'class' => 'text-center hide-search'],

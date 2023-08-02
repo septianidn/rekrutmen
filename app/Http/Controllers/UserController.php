@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Helpers\AuthHelper;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserRequest;
+use App\Models\Prodi;
 
 class UserController extends Controller
 {
@@ -21,7 +22,7 @@ class UserController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('users.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">Add User</a>';
+        $headerAction = '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -33,8 +34,10 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::where('status',1)->get()->pluck('title', 'id');
+        $prodi = Prodi::all();
 
-        return view('users.form', compact('roles'));
+
+        return view('users.form', compact('roles', 'prodi'));
     }
 
     /**
@@ -47,14 +50,25 @@ class UserController extends Controller
     {
         $request['password'] = bcrypt($request->password);
 
+        $userRole = Role::findById($request->user_role);
+        $userType = $userRole ? $userRole->name : 'admin';
+        $request['user_type'] = $userType;
+
         $user = User::create($request->all());
 
         storeMediaFile($user,$request->profile_image, 'profile_image');
 
-        $user->assignRole('user');
+        $user->assignRole($request->user_role);
 
         // Save user Profile data...
         $user->userProfile()->create($request->userProfile);
+
+
+        
+        if (isset($request->kaprodi['kode_prodi_id'])) {
+            $user->kaprodi()->create($request->kaprodi);
+        }
+
 
         return redirect()->route('users.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
     }
@@ -90,7 +104,10 @@ class UserController extends Controller
 
         $profileImage = getSingleMedia($data, 'profile_image');
 
-        return view('users.form', compact('data','id', 'roles', 'profileImage'));
+        $prodi = Prodi::all();
+
+
+        return view('users.form', compact('data','id', 'roles', 'profileImage' , 'prodi'));
     }
 
     /**
@@ -106,17 +123,27 @@ class UserController extends Controller
         $user = User::with('userProfile')->findOrFail($id);
 
         $role = Role::find($request->user_role);
+        
+      
+
         if(env('IS_DEMO')) {
-            if($role->name === 'admin'&& $user->user_type === 'admin') {
+            if($role->name === 'admin'&& $user->role->user_type === 'admin') {
                 return redirect()->back()->with('error', 'Permission denied');
             }
         }
         $user->assignRole($role->name);
 
         $request['password'] = $request->password != '' ? bcrypt($request->password) : $user->password;
+        $request['user_type'] = Role::findById($request->user_role)->name;
 
         // User user data...
         $user->fill($request->all())->update();
+
+          
+        if (isset($request->kaprodi['kode_prodi_id'])) {
+            $user->kaprodi()->where('user_id', $user->id)->update(['kode_prodi_id' => $request->kaprodi['kode_prodi_id']]);
+        }
+        
 
         // Save user image...
         if (isset($request->profile_image) && $request->profile_image != null) {

@@ -41,4 +41,10 @@ class Prodi extends Model
     {
         return $this->hasMany(Alumni::class, 'kode_prodi');
     }
+
+      
+    public function kaprodi() {
+        return $this->hasOne(Kaprodi::class, 'kode_prodi_id', 'kode_prodi');
+    }
 }
+

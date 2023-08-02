@@ -39,7 +39,7 @@ $jenjangOptions = Jenjang::all();
 <div class="float-end">
 
     <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Kembali</button>
-     <button type="submit" class="btn btn-sm btn-primary">{{$data !== null ? 'Update' : 'Tambah' }} Alumni</button>
+     <button type="submit" class="btn btn-sm btn-primary">{{$data !== null ? 'Update' : 'Tambah' }} Prodi</button>
 </div>
      
 

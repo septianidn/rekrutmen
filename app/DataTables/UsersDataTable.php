@@ -73,7 +73,7 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with('userProfile');
+        $model = User::query()->with('userProfile', 'kaprodi');
         return $this->applyScopes($model);
     }
 
@@ -149,6 +149,7 @@ class UsersDataTable extends DataTable
                 'searchable' => true,
             ],
             ['data' => 'userProfile.company_name', 'name' => 'userProfile.company_name', 'title' => 'Company'],
+            ['data' => 'user_type', 'name' => 'user_type', 'title' => 'Role'],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Join Date'],
             Column::computed('action')
                   ->exportable(true)

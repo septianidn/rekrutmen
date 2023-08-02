@@ -13,7 +13,7 @@
             <div class="card">
                <div class="card-header d-flex justify-content-between">
                   <div class="header-title">
-                     <h4 class="card-title">{{$id !== null ? 'Update' : 'Add' }} User</h4>
+                     <h4 class="card-title">{{$id !== null ? 'Update' : 'Tambah' }} User</h4>
                   </div>
                </div>
                <div class="card-body">
@@ -68,8 +68,14 @@
                      </div>
                      <div class="form-group">
                         <label class="form-label">User Role: <span class="text-danger">*</span></label>
-                        {{Form::select('user_role', $roles , old('user_role') ? old('user_role') : $data->user_type ?? 'user', ['class' => 'form-control', 'placeholder' => 'Select User Role'])}}
+                        {{Form::select('user_role', $roles , old('user_role') ? old('user_role') : $data->user_type ?? 'admin', ['class' => 'form-control', 'placeholder' => 'Select User Role', 'id' => 'user_role'])}}
                      </div>
+                     <div class="form-group" id="prodi_div" style="display: none;">
+                        <label class="form-label">Prodi: <span class="text-danger">*</span></label>
+                        {{ Form::select('kaprodi[kode_prodi_id]', $prodi->pluck('nama_prodi', 'kode_prodi'), old('kaprodi.kode_prodi_id'), ['class' => 'form-control prodi', 'placeholder' => 'Pilih Prodi']) }}
+                    </div>
+                    
+
                      <div class="form-group">
                         <label class="form-label" for="furl">Facebook Url:</label>
                         {{ Form::text('userProfile[facebook_url]', old('userProfile[facebook_url]'), ['class' => 'form-control', 'id' => 'furl', 'placeholder' => 'Facebook Url']) }}
@@ -169,3 +175,28 @@
         {!! Form::close() !!}
    </div>
 </x-app-layout>
+<script>
+   $(document).ready(function() {
+       // Event listener untuk inputan "User Role"
+       $('#user_role').on('change', function() {
+           // Ambil nilai yang dipilih
+           var selectedUserRole = $(this).find('option:selected').text();
+
+           // Jika nilai yang dipilih adalah "kaprodi", tampilkan inputan "Prodi"
+           if (selectedUserRole === 'Kepala Prodi' || selectedUserRole === 'Kaprodi') {
+               $('#prodi_div').show();
+           } else {
+               // Jika tidak, sembunyikan inputan "Prodi"
+               $('#prodi_div').hide();
+           }
+       });
+
+       // Panggil event listener untuk pertama kali saat halaman dimuat
+       $('#user_role').trigger('change');
+   });
+   $('.prodi').select2({
+      theme: 'bootstrap-5',
+      placeholder : 'Pilih prodi..'
+   });
+
+</script>
