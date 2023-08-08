@@ -396,8 +396,8 @@
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="customRadio6" name="customRadio1" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadio6"> Default radio</label>
+                                <input type="radio" id="customRadio6" name="customRadio1" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio6"> Default radio</label>
                             </div>
                             <div class="form-group">
                                 <div class="form-check d-block">

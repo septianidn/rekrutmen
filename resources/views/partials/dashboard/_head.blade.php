@@ -22,6 +22,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
 
 
+<!-- SURVEY JS CREATOR -->
+{{-- <link href="https://unpkg.com/survey-jquery/defaultV2.min.css" type="text/css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/survey-core@1.9.101/defaultV2.css" />
+<link rel="stylesheet" href="https://unpkg.com/survey-creator-core@1.9.101/survey-creator-core.css" /> --}}
+
+
+
 
 <link rel="stylesheet" href="{{asset('vendor/aos/dist/aos.css')}}" />
 <style>
@@ -33,7 +41,7 @@
 
  
 <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
-<link href="{{ asset('vendor/select2/css/select2-bootstrap-5-theme.rtl.min.css') }}" rel="stylesheet">
+<link href="{{ asset('vendor/select2/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet">
 
 <link href="{{ asset('vendor/tagify/tagify.css') }}" rel="stylesheet">
 
@@ -59,5 +67,17 @@
       background-color:#009A4B;
       }
    
-   
+   .card-soal {
+    border-left: 5px solid transparent; /* Menggunakan border awal dengan warna transparan */
+    transition: border-left 0.3s ease, transform 0.3s ease;  /* Waktu transisi dan jenis efek transisi (ease = efek pelan-pelan) */
+   }
+
+   .card-soal.active {
+      border-left-color: #009A4B; 
+      transform: scale(1.01);
+   }
+   .dropup .dropdown-menu {
+    top: auto;
+    bottom: 100%; 
+}
    </style>

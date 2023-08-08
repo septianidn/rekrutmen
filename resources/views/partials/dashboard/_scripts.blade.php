@@ -19,7 +19,7 @@
 <!-- fslightbox JavaScript -->
 <script src="{{asset('js/plugins/fslightbox.js')}}"></script>
 <script src="{{asset('js/plugins/slider-tabs.js') }}"></script>
-<script src="{{asset('js/plugins/form-wizard.js')}}"></script>
+<script src="{{asset('js/plugins/form-wizardv2.js')}}"></script>
 
 <!-- settings JavaScript -->
 <script src="{{asset('js/plugins/setting.js')}}"></script>
@@ -64,3 +64,4 @@
 
 <script src="https://cdn.tiny.cloud/1/5guzlprpaakurv1wwt4wz5gree0sw6wlmsw0yoib48skci79/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
  
+<script src="https://kit.fontawesome.com/243e6ffe26.js" crossorigin="anonymous"></script>

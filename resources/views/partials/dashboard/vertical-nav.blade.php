@@ -261,7 +261,7 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-kuesioner" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link">
+                <a class="nav-link {{activeRoute(route('paket-soal.index'))}}" href="{{route('paket-soal.index')}}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
