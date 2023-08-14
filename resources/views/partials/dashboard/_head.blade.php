@@ -80,4 +80,7 @@
     top: auto;
     bottom: 100%; 
 }
+   .drag-icon:hover{
+      pointer-events: painted;
+   }
    </style>

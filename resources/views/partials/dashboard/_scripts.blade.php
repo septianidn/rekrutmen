@@ -62,6 +62,7 @@
 <script src="{{ asset('vendor/tagify/tagify.js') }}"></script>
 <script src="{{ asset('vendor/tagify/jQuery.tagify.min.js') }}"></script>
 
-<script src="https://cdn.tiny.cloud/1/5guzlprpaakurv1wwt4wz5gree0sw6wlmsw0yoib48skci79/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
- 
+
+<script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
+
 <script src="https://kit.fontawesome.com/243e6ffe26.js" crossorigin="anonymous"></script>
