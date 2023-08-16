@@ -83,4 +83,12 @@
    .drag-icon:hover{
       pointer-events: painted;
    }
+   .border-green{
+      border: 0;
+      transition: #66C393 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+   }
+   .border-green:focus{
+      border-bottom:  0.3px solid #66C393;
+      box-shadow: 0 0 0 rgba(102, 195, 147, 0.5);
+   }
    </style>
