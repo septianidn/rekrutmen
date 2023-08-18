@@ -5,28 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GrupKonten extends Model
+class DataPedia extends Model
 {
     use HasFactory;
 
-    protected $table = 'grup_konten';
-    
+    protected $table = 'data_pedia';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'nama_grup',
-        'alias_url',
-        'deskripsi',
-        'status_terbit_id',        
+        'nama_data',
+        'deskripsi_data',
+        'publish',
     ];
-
-    public function statusTerbit()
+    
+    public function datapediadetail()
     {
-        return $this->belongsTo(StatusTerbit::class, 'status_terbit_id');
+        return $this->hasMany(DataPediaDetail::class, 'data_pedia_id');
     }
-
-
+   
 }

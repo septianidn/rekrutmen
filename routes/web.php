@@ -3,11 +3,12 @@
 // Controllers
 
 use App\Http\Controllers\BackOffice\AlumniController;
+use App\Http\Controllers\BackOffice\DataPediaController;
+use App\Http\Controllers\BackOffice\DataPediaDetailController;
 use App\Http\Controllers\BackOffice\EmailBoxController;
 use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\EmailTemplateController;
 use App\Http\Controllers\BackOffice\FakultasController;
-use App\Http\Controllers\BackOffice\FakultasProdiController;
 use App\Http\Controllers\BackOffice\GrupKontenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
@@ -80,8 +81,16 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/jenjang', JenjangController::class);
         Route::resource('/prodi', ProdiController::class);
         Route::resource('/fakultas', FakultasController::class);
-        Route::resource('/fakultasprodi', FakultasProdiController::class);
         Route::resource('/databasealumni', AlumniController::class);
+        Route::resource('/datapedia', DataPediaController::class);
+        Route::get('/datapedia/detail/{id_datapedia}', [DataPediaDetailController::class, 'index'])->name('datapediadetail.index');
+        Route::get('/datapedia/create/{id_datapedia}', [DataPediaDetailController::class, 'create'])->name('datapediadetail.create');
+        Route::get('/datapedia/edit/{id_datapedia}/{id}', [DataPediaDetailController::class, 'edit'])->name('datapediadetail.edit');
+        Route::post('/datapedia/store', [DataPediaDetailController::class, 'store'])->name('datapediadetail.store');
+        Route::patch('/datapedia/update/{id}', [DataPediaDetailController::class, 'update'])->name('datapediadetail.update');
+        Route::delete('/datapedia/destroy/{id}', [DataPediaDetailController::class, 'destroy'])->name('datapediadetail.destroy');
+
+               
     });
 
     Route::group(['prefix' => 'email'], function() {

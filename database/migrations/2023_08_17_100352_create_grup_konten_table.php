@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grupkonten', function (Blueprint $table) {
+        Schema::create('grup_konten', function (Blueprint $table) {
             $table->id();
             $table->string('nama_grup');
             $table->string('deskripsi')->nullable(true);
             $table->string('alias_url');
-            $table->boolean('published');
+            $table->bigInteger('status_terbit_id')->unsigned()->index();
+            $table->foreign('status_terbit_id')->references('id')->on('status_terbit')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

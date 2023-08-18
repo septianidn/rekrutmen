@@ -25,20 +25,22 @@ class GrupKontenDataTable extends DataTable
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
-            ->editColumn('published', function($query) {
-                $published = 'warning';
-                switch ($query->published) {
-                    case '1':
-                        $text = 'Published';
-                        $published = 'primary';
+            ->editColumn('statusTerbit.status_terbit', function ($query) {
+                $status = 'primary';
+                switch ($query->statusTerbit->status_terbit) {
+                    case 'Published':
+                        $status = 'primary';
                         break;
-                    case '0':
-                        $text = 'Not Published';
-                        $published = 'danger';
+                    case 'Not Published':
+                        $status = 'danger';
+                        break;
+                    case 'Draft':
+                        $status = 'dark';
                         break;
                 }
-                return '<span class="text-capitalize badge bg-'.$published.'">'.$text.'</span>';
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->statusTerbit->status_terbit.'</span>';
             })
+            
             ->addColumn('action', function ($data) {
                 return view('backoffice.konten.grupkonten.action', compact('data'));
             })
@@ -58,7 +60,7 @@ class GrupKontenDataTable extends DataTable
                 $sql = "published LIKE  ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','published']);
+            ->rawColumns(['action','statusTerbit.status_terbit']);
            
       
             
@@ -72,7 +74,7 @@ class GrupKontenDataTable extends DataTable
      */
     public function query()
     {
-        $model = GrupKonten::query();
+        $model = GrupKonten::query()->with('statusTerbit');
         return $this->applyScopes($model);
     }
 
@@ -88,13 +90,15 @@ class GrupKontenDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('<"row align-items-center"<"col-md-2" l><"col-md-6" B><"col-md-4"f>><"table-responsive my-3" rt><"row align-items-center"<"col-md-6" i><"col-md-6" p>><"clear">')
-                  
+                    ->headerCallback('function(thead, data, start, end, display){
+                        $(thead).find("th").addClass("text-center");
+                    }')
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1,2,3,4]).every(function () {
+                            this.api().columns([1,2,3]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -119,10 +123,9 @@ class GrupKontenDataTable extends DataTable
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'nama_grup', 'name' => 'nama_grup', 'title' => 'Nama Grup', 'searchable' => true,],
-            ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'URL', 'searchable' => true,],
+            ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
             ['data' => 'deskripsi', 'name' => 'deskripsi', 'title' => 'Deskripsi', 'searchable' => true,],
-            ['data' => 'published', 'name' => 'published', 'title' => 'Published', 'searchable' => true,],
-        
+            ['data' => 'statusTerbit.status_terbit', 'name' => 'statusTerbit.status_terbit', 'title' => 'Status Publish', 'render' => null,  'orderable' => true, 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

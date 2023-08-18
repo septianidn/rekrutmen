@@ -576,6 +576,12 @@
                                                         <span>5</span>
                                                     </div>
                                                 </div>
+                                                <div class="form-group inputtype"  id="dropdown_div[${i}]">
+                                                    <select class="form-select">
+                                                        <option>Pilih Data</option> 
+                                                        <option>P</option> 
+                                                    </select>
+                                                </div>
                                                 <div class="form-group inputtype"  id="date_input[${i}]">
                                                     <input type="date" class="form-control">
                                                 </div>

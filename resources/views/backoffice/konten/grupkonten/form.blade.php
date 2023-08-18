@@ -1,6 +1,9 @@
 <?php
+    use App\Models\StatusTerbit;
+
     $id = $id ?? null;
     $data = $data ?? null;
+    $publishedOptions = StatusTerbit::all() ?? null;
 ?>
 @if(isset($id))
 {!! Form::model($data, ['route' => ['grup-konten.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
@@ -21,10 +24,16 @@
     </div>
     <div class="form-group">
         <label class="form-label">Published</label>
-        <input type="checkbox" name="published" {{ old('published') == 1 ? 'checked' : '' }}>
+        {{ Form::select('status_terbit_id', ['' => 'Pilih Status Terbit'] + $publishedOptions->pluck('status_terbit', 'id')->toArray(), old('status_terbit_id'), [
+        'class' => 'form-control select-status-terbit',
+        'id' => 'status_terbit',
+    ]) }}
     </div>
-    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Simpan</button>
-    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+    <div class="float-end">
+        <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Kembali</button>
+        <button type="submit" class="btn btn-sm btn-primary">{{$data !== null ? 'Update' : 'Tambah' }} Grup Konten </button>
+    </div>
+          
 {{ Form::close() }}
 
 

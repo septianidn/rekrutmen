@@ -5,25 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fakultas extends Model
+class StatusTerbit extends Model
 {
     use HasFactory;
 
-    protected $table = 'fakultas';
+    protected $table = 'status_terbit';
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'nama_fakultas',
+        'status_terbit',        
     ];
-    
-    public function prodi()
-    {
-       return $this->hasMany(Prodi::class, 'fakultas_id');
-    }
 
    
-   
+
+
 }

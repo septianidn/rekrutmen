@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class GrupKontenRequest extends FormRequest
+class DataPediaDetailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,28 +28,22 @@ class GrupKontenRequest extends FormRequest
     public function rules()
     {
         $method = strtolower($this->method());
-        $user_id = $this->route()->user;
-
+    
         $rules = [];
         switch ($method) {
             case 'post':
-                $rules = [   
-                    'nama_grup' => 'required|string|max:255',
-                    'alias_url' => 'required|string|max:255',
-                    'deskripsi' => 'nullable|string',
-                  
-             
+                $rules = [
+                    'value' => 'required',
+                    'label' => 'required',
+                    'publish' => 'required',
+                   
                 ];
                 break;
             case 'patch':
                 $rules = [
-                    'nama_grup' => 'required|string|max:255',
-                    'alias_url' => 'required|string|max:255',
-                    'deskripsi' => 'nullable|string',
-                   
-             
-                  
-                   
+                    'value' => 'required',
+                    'label' => 'required',
+                    'publish' => 'required',
                 ];
                 break;
 
@@ -61,10 +55,7 @@ class GrupKontenRequest extends FormRequest
     public function messages()
     {
         return [
-            'nama_grup.*'  =>'Nama Grup is required.',
-            'deskripsi.*'  =>'Deskripsi is required.',
-            'alias_url.*'  =>'Alias Url is required.',
-           
+            'value.*'  =>'Nama Data harus berisi.',
         ];
     }
 
