@@ -27,6 +27,9 @@ class DataPediaDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 return view('backoffice.datamaster.datapedia.action', compact('data'));
             })
+            ->addColumn('jumlah_data', function ($data) {
+                return '<a href="datapedia/detail/'.$data->id.'">'.$data->datapediadetail_count.'</a>';
+            })
             ->editColumn('deskripsi_data', function ($query) {
                 $text = $query->deskripsi_data;
                 if($query->deskripsi_data == null | $query->deskripsi_data == '')
@@ -64,7 +67,7 @@ class DataPediaDataTable extends DataTable
                 $sql = "deskripsi_data LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','publish', 'deskripsi_data']);
+            ->rawColumns(['action','publish', 'deskripsi_data', 'jumlah_data']);
     }
 
     /**
@@ -76,6 +79,7 @@ class DataPediaDataTable extends DataTable
     public function query()
     {
         $model = DataPedia::query()->with('datapediadetail');
+        $model->withCount('datapediadetail');
         return $this->applyScopes($model);
     }
 
@@ -112,9 +116,11 @@ class DataPediaDataTable extends DataTable
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'nama_data', 'name' => 'nama_data', 'title' => 'Nama Data', 'searchable' => true,],
             ['data' => 'deskripsi_data', 'name' => 'deskripsi_data', 'title' => 'Deskripsi Data', 'searchable' => true,],
+          
             ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At', 'searchable' => true,],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At', 'searchable' => true,],
+            ['data' => 'jumlah_data', 'name' => 'datapediadetail_count', 'title' => 'Jumlah Data', 'searchable' => true , 'class' => 'text-center'],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

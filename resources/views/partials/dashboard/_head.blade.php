@@ -91,4 +91,10 @@
       border-bottom:  0.3px solid #66C393;
       box-shadow: 0 0 0 rgba(102, 195, 147, 0.5);
    }
+   .input-information{
+    width: 100%;
+    margin-top: .55rem;
+    font-size: .875em;
+    color: #000
+   }
    </style>
