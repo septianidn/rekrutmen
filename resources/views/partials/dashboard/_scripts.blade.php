@@ -65,4 +65,3 @@
 
 <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
 
-<script src="https://kit.fontawesome.com/243e6ffe26.js" crossorigin="anonymous"></script>

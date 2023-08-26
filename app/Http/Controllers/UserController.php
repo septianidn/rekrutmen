@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Helpers\AuthHelper;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserRequest;
+use App\Models\Kaprodi;
 use App\Models\Prodi;
 
 class UserController extends Controller
@@ -60,11 +61,6 @@ class UserController extends Controller
 
         $user->assignRole($request->user_role);
 
-        // Save user Profile data...
-        $user->userProfile()->create($request->userProfile);
-
-
-        
         if (isset($request->kaprodi['kode_prodi_id'])) {
             $user->kaprodi()->create($request->kaprodi);
         }
@@ -81,11 +77,31 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data = User::with('userProfile','roles')->findOrFail($id);
+        $data = User::findOrFail($id);
+        $kaprodi = $data->kaprodi; // Mengakses relasi kaprodi
+
+        if ($kaprodi !== null) {
+            $kode_prodi = $kaprodi->kode_prodi_id;
+            $jurusan = Prodi::where('kode_prodi', $kode_prodi)->first();
+            if ($jurusan !== null) {
+                $nama_prodi = $jurusan->nama_prodi;
+            } else {
+                $nama_prodi = null;
+            }
+          
+        } else {
+           $jurusan = null;
+        }
+
+       
+      
+        $data['user_type'] = $data->roles->pluck('id') ?? null;
+
+        $roles = Role::where('status',1)->get()->pluck('title', 'id');
 
         $profileImage = getSingleMedia($data, 'profile_image');
 
-        return view('users.profile', compact('data', 'profileImage'));
+        return view('users.profile', compact('data', 'profileImage', 'nama_prodi'));
     }
 
     /**
@@ -96,10 +112,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data = User::with('userProfile','roles')->findOrFail($id);
+        $data = User::with('roles')->findOrFail($id);
 
-        $data['user_type'] = $data->roles->pluck('id')[0] ?? null;
-
+        $data['user_type'] = $data->roles->pluck('id');
+       
         $roles = Role::where('status',1)->get()->pluck('title', 'id');
 
         $profileImage = getSingleMedia($data, 'profile_image');
@@ -120,11 +136,9 @@ class UserController extends Controller
     public function update(UserRequest $request, $id)
     {
         // dd($request->all());
-        $user = User::with('userProfile')->findOrFail($id);
+        $user = User::findOrFail($id);
 
         $role = Role::find($request->user_role);
-        
-      
 
         if(env('IS_DEMO')) {
             if($role->name === 'admin'&& $user->role->user_type === 'admin') {
@@ -136,23 +150,32 @@ class UserController extends Controller
         $request['password'] = $request->password != '' ? bcrypt($request->password) : $user->password;
         $request['user_type'] = Role::findById($request->user_role)->name;
 
-        // User user data...
-        $user->fill($request->all())->update();
 
-          
-        if (isset($request->kaprodi['kode_prodi_id'])) {
-            $user->kaprodi()->where('user_id', $user->id)->update(['kode_prodi_id' => $request->kaprodi['kode_prodi_id']]);
+        $titleRoles = Role::where('id', $request['user_role'])->first();
+        $kaprodiData = $user->kaprodi()->where('user_id', $user->id)->first();   
+       
+        if ($kaprodiData != null) {
+            if ($titleRoles->name == 'admin') {
+                $kaprodiData->delete();
+            } 
+            else if ($titleRoles->name == 'kaprodi') {  
+                $user->kaprodi()->update(['kode_prodi_id' => $request->kaprodi['kode_prodi_id']]);
+            }
+        } 
+        else {
+            if ($titleRoles->name === 'kaprodi'){
+                $user->kaprodi()->create(['kode_prodi_id' => $request->kaprodi['kode_prodi_id']]);
+            }
         }
         
+        // User user data...
+        $user->fill($request->all())->update();
 
         // Save user image...
         if (isset($request->profile_image) && $request->profile_image != null) {
             $user->clearMediaCollection('profile_image');
             $user->addMediaFromRequest('profile_image')->toMediaCollection('profile_image');
         }
-
-        // user profile data....
-        $user->userProfile->fill($request->userProfile)->update();
 
         if(auth()->check()){
             return redirect()->route('users.index')->withSuccess(__('message.msg_updated',['name' => __('message.user')]));

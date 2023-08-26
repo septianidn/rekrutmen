@@ -20,12 +20,7 @@ class UsersDataTable extends DataTable
         $index = 1;
         return datatables()
             ->eloquent($query)
-            ->editColumn('userProfile.country', function($query) {
-                return $query->userProfile->country ?? '-';
-            })
-            ->editColumn('userProfile.company_name', function($query) {
-                return $query->userProfile->company_name ?? '-';
-            })
+          
             ->editColumn('status', function($query) {
                 $status = 'warning';
                 switch ($query->status) {
@@ -48,16 +43,8 @@ class UsersDataTable extends DataTable
                 $sql = "CONCAT(users.first_name,' ',users.last_name)  like ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->filterColumn('userProfile.company_name', function($query, $keyword) {
-                return $query->orWhereHas('userProfile', function($q) use($keyword) {
-                    $q->where('company_name', 'like', "%{$keyword}%");
-                });
-            })
-            ->filterColumn('userProfile.country', function($query, $keyword) {
-                return $query->orWhereHas('userProfile', function($q) use($keyword) {
-                    $q->where('country', 'like', "%{$keyword}%");
-                });
-            })
+           
+           
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
@@ -73,7 +60,7 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with('userProfile', 'kaprodi');
+        $model = User::query()->with('kaprodi');
         return $this->applyScopes($model);
     }
 
@@ -97,7 +84,7 @@ class UsersDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1,2,3,4,6,7]).every(function () {
+                            this.api().columns([1,2,3,4,6]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -139,7 +126,6 @@ class UsersDataTable extends DataTable
             ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
-            ['data' => 'userProfile.country', 'name' => 'userProfile.country', 'title' => 'Country'],
             [
                 'data' => 'status',
                 'name' => 'status',
@@ -148,7 +134,6 @@ class UsersDataTable extends DataTable
                 'orderable' => true,
                 'searchable' => true,
             ],
-            ['data' => 'userProfile.company_name', 'name' => 'userProfile.company_name', 'title' => 'Company'],
             ['data' => 'user_type', 'name' => 'user_type', 'title' => 'Role'],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Join Date'],
             Column::computed('action')

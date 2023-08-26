@@ -43,10 +43,10 @@ class UserFactory extends Factory
             'first_name' => $fname,
             'last_name' => $lname,
             'phone_number' => $this->faker->phoneNumber,
+            'street_addr' => $this->faker->address,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'phone_number' => $this->faker->phoneNumber,
             'user_type' => 'kaprodi',
             'status' => $status
         ];

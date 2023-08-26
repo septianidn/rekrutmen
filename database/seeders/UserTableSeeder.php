@@ -21,6 +21,7 @@ class UserTableSeeder extends Seeder
                 'last_name' => 'Admin',
                 'email' => 'admin@example.com',
                 'password' => bcrypt('password'),
+                'street_addr' => 'Jl. Abscsa',
                 'phone_number' => '+12398190255',
                 'email_verified_at' => now(),
                 'user_type' => 'admin',
@@ -31,7 +32,8 @@ class UserTableSeeder extends Seeder
                 'last_name' => 'SI',
                 'email' => 'kaprodi@example.com',
                 'password' => bcrypt('password'),
-                'phone_number' => '+12398190255',
+                'street_addr' => 'Jl. Dsjsjjs',
+                'phone_number' => '+12398190256',
                 'email_verified_at' => now(),
                 'user_type' => 'kaprodi',
                 'status' => 'inactive'

@@ -58,10 +58,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function userProfile() {
-        return $this->hasOne(UserProfile::class, 'user_id', 'id');
-    }
-
     public function kaprodi() {
         return $this->hasOne(Kaprodi::class, 'user_id', 'id');
     }
