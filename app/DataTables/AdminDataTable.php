@@ -7,7 +7,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class AdminDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -69,7 +69,7 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with(['kaprodi', 'statusUser', 'role']);
+        $model = User::query()->with(['statusUser', 'role'])->where('role_id', 1);
         return $this->applyScopes($model);
     }
 
@@ -93,7 +93,7 @@ class UsersDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1,2,3,5]).every(function () {
+                            this.api().columns([1,2,3,4,6]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -105,9 +105,9 @@ class UsersDataTable extends DataTable
                                 $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
                             });
                            
-                            this.api().columns([4]).every(function () {
+                            this.api().columns([5]).every(function () {
                                 var column = this;
-                                var select = $(\'<select class="form-control form-control-sm"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="block">Blocked</option></select>\')
+                                var select = $(\'<select class="form-control form-control-sm"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="banned">Banned</option></select>\')
                                     .appendTo($(column.footer()).empty())
                                     .on(\'change\', function () {
                                         var val = $.fn.dataTable.util.escapeRegex(
@@ -132,10 +132,9 @@ class UsersDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'orderable' => false, 'class' => 'text-center'],
-            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama Lengkap', 'orderable' => false,  'searchable' => true,],
-          
-            ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
+            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
+            ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
             [
                 'data' => 'statusUser.status',
                 'name' => 'statusUser.status',
@@ -144,8 +143,7 @@ class UsersDataTable extends DataTable
                 'orderable' => true,
                 'searchable' => true,
             ],
-            ['data' => 'role.title', 'name' => 'role.title', 'title' => 'Role'],
-            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Bergabung Pada'],
+            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Join Date'],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

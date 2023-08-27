@@ -38,6 +38,8 @@ class UserRequest extends FormRequest
                     'password' => 'required|confirmed|min:8',
                     'email' => 'required|max:191|email|unique:users',
                     'phone_number'=>'max:13',
+                    'status_id' => 'required',
+                    'role_id' => 'required'
                 ];
                 break;
             case 'patch':
@@ -46,6 +48,8 @@ class UserRequest extends FormRequest
                     'email' => 'required|max:191|email|unique:users,email,'.$user_id,
                     'phone_number'=>'max:13',
                     'password' => 'confirmed|min:8|nullable',
+                    'status_id' => 'required',
+                    'role_id' => 'required'
                 ];
                 break;
 
@@ -57,7 +61,8 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-           
+            'status_id.*'  =>'Status is required.',
+            'role_id.*'  =>'Role is required.',
         ];
     }
 

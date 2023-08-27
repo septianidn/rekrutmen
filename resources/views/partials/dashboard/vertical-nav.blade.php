@@ -47,7 +47,7 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-anggota" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link {{activeRoute(route('kelolaadmin.index'))}}" aria-current="page" href="{{route('kelolaadmin.index')}}">
+                <a class="nav-link {{activeRoute(route('kelola-admin.index'))}}" aria-current="page" href="{{route('kelola-admin.index')}}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -60,7 +60,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">
+                <a class="nav-link {{activeRoute(route('kelola-admin-prodi.index'))}}"  aria-current="page" href="{{route('kelola-admin-prodi.index')}}">
                    <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -69,7 +69,7 @@
                         </svg>
                     </i>
                    <i class="sidenav-mini-icon"> K </i>
-                   <span class="item-name">Kelola Kaprodi</span>
+                   <span class="item-name">Kelola Admin Prodi</span>
                 </a>
             </li>
         </ul>

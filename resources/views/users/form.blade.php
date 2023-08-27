@@ -2,6 +2,7 @@
    <div>
       <?php
          $id = $id ?? null;
+         $data = $data ?? null;
       ?>
       @if(isset($id))
       {!! Form::model($data, ['route' => ['users.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
@@ -38,39 +39,22 @@
                         </div>
                      </div>
                      <div class="form-group">
-                        <label class="form-label">Status:</label>
+                        <label class="form-label">Status: <span class="text-danger">*</span></label>
                         <div class="grid" style="--bs-gap: 1rem">
-                            <div class="form-check g-col-6">
-                                {{ Form::radio('status', 'active',old('status') || true, ['class' => 'form-check-input', 'id' => 'status-active']); }}
-                                <label class="form-check-label" for="status-active">
-                                    Active
-                                </label>
-                            </div>
-                            <div class="form-check g-col-6">
-                                {{ Form::radio('status', 'pending',old('status'), ['class' => 'form-check-input', 'id' => 'status-pending']); }}
-                                <label class="form-check-label" for="status-pending">
-                                    Pending
-                                </label>
-                            </div>
-                            <div class="form-check g-col-6">
-                                {{ Form::radio('status', 'banned',old('status'), ['class' => 'form-check-input', 'id' => 'status-banned']); }}
-                                <label class="form-check-label" for="status-banned">
-                                    Banned
-                                </label>
-                            </div>
-                            <div class="form-check g-col-6">
-                                {{ Form::radio('status', 'inactive',old('status'), ['class' => 'form-check-input', 'id' => 'status-inactive']); }}
-                                <label class="form-check-label" for="status-inactive">
-                                    Inactive
-                                </label>
-                            </div>
+                           @foreach($status as $s)
+                           <div class="form-check g-col-6">
+                               {{ Form::radio('status_id', $s->id, (old('status_id', optional($data)->status_id) === $s->id), ['class' => 'form-check-input', 'id' => 'status-' . $s->id, 'required']) }}
+                               <label class="form-check-label" for="status-{{ $s->id }}">
+                                   {{ ucfirst($s->status) }}
+                               </label>
+                           </div>
+                       @endforeach
+
                         </div>
                      </div>
                      <div class="form-group">
                         <label class="form-label">User Role: <span class="text-danger">*</span></label>
-                        {{ Form::select('user_role', $roles, old('user_role', $data->user_type), ['class' => 'form-control', 'placeholder' => 'Select User Role', 'id' => 'user_role']) }}
-
-
+                        {{ Form::select('role_id', $roles, old('role_id', optional($data)->role_id), ['class' => 'form-control', 'placeholder' => 'Select User Role', 'id' => 'user_role', 'required']) }}
                      </div>
                      <div class="form-group" id="prodi_div" style="display: none;">
                         <label class="form-label">Prodi: <span class="text-danger">*</span></label>
@@ -122,11 +106,11 @@
                         <h5 class="mb-3">Informasi Akun</h5>
                         <div class="row">
                            <div class="form-group col-md-6">
-                              <label class="form-label" for="pass">Password:</label>
+                              <label class="form-label" for="pass">Password:<span class="text-danger">*</span></label>
                               {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'Masukkan Password']) }}
                            </div>
                            <div class="form-group col-md-6">
-                              <label class="form-label" for="rpass">Ulangi Password:</label>
+                              <label class="form-label" for="rpass">Ulangi Password: <span class="text-danger">*</span></label>
                               {{ Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Silahkan Ulangi Password']) }}
                            </div>
                         </div>
@@ -147,7 +131,7 @@
            var selectedUserRole = $(this).find('option:selected').text();
 
            // Jika nilai yang dipilih adalah "kaprodi", tampilkan inputan "Prodi"
-           if (selectedUserRole === 'Kepala Prodi' || selectedUserRole === 'Kaprodi') {
+           if (selectedUserRole === 'Admin Prodi' || selectedUserRole === 'AdminProdi') {
                $('#prodi_div').show();
            } else {
                // Jika tidak, sembunyikan inputan "Prodi"

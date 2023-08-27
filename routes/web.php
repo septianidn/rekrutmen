@@ -2,6 +2,7 @@
 
 // Controllers
 
+use App\Http\Controllers\BackOffice\AdminProdiController;
 use App\Http\Controllers\BackOffice\AlumniController;
 use App\Http\Controllers\BackOffice\DataPediaController;
 use App\Http\Controllers\BackOffice\DataPediaDetailController;
@@ -69,7 +70,8 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
      // Users Module
      Route::resource('/users', UserController::class);
 
-     Route::resource('/kelolaadmin', KelolaAdminController::class);
+     Route::resource('/kelola-admin', KelolaAdminController::class);
+     Route::resource('/kelola-admin-prodi', AdminProdiController::class);
 
     // Permission Module
     // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');

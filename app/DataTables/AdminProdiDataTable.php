@@ -2,12 +2,13 @@
 
 namespace App\DataTables;
 
+use App\Models\Kaprodi;
 use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class AdminProdiDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,21 +22,6 @@ class UsersDataTable extends DataTable
         return datatables()
             ->eloquent($query)
           
-            ->editColumn('statusUser.status', function($query) {
-                $status = 'warning';
-                switch ($query->statusUser->status) {
-                    case 'active':
-                        $status = 'primary';
-                        break;
-                    case 'inactive':
-                        $status = 'danger';
-                        break;
-                    case 'block':
-                        $status = 'dark';
-                        break;
-                }
-                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->statusUser->status.'</span>';
-            })
             ->editColumn('phone_number', function($query) {
                 if($query->phone_number != null){
                     return $query->phone_number;
@@ -45,20 +31,18 @@ class UsersDataTable extends DataTable
                 }
                
             })
-            ->editColumn('created_at', function($query) {
-                return date('Y/m/d',strtotime($query->created_at));
+            ->editColumn('updated_at', function($query) {
+                return date('Y/m/d',strtotime($query->updated_at));
             })
             ->filterColumn('full_name', function($query, $keyword) {
-                $sql = "CONCAT(users.first_name,' ',users.last_name)  like ?";
+                $sql = "CONCAT(first_name,' ',last_name)  like ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
-           
-           
-            ->addColumn('id', function () use (&$index) {
+            })           
+            ->addColumn('no', function () use (&$index) {
                 return $index++;
             })
             ->addColumn('action', 'users.action')
-            ->rawColumns(['action','statusUser.status']);
+            ->rawColumns(['action']);
     }
 
     /**
@@ -69,7 +53,7 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with(['kaprodi', 'statusUser', 'role']);
+        $model = User::query()->with(['kaprodi', 'kaprodi.prodi', 'kaprodi.prodi.jenjang', 'kaprodi.prodi.fakultas'])->where('role_id', 2);
         return $this->applyScopes($model);
     }
 
@@ -93,7 +77,7 @@ class UsersDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1,2,3,5]).every(function () {
+                            this.api().columns([1,2,3,4]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
                             
@@ -105,9 +89,9 @@ class UsersDataTable extends DataTable
                                 $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
                             });
                            
-                            this.api().columns([4]).every(function () {
+                            this.api().columns([5]).every(function () {
                                 var column = this;
-                                var select = $(\'<select class="form-control form-control-sm"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="block">Blocked</option></select>\')
+                                var select = $(\'<select class="form-control form-control-sm"><option value="">All</option><option value="active">Active</option><option value="inactive">Inactive</option><option value="banned">Banned</option></select>\')
                                     .appendTo($(column.footer()).empty())
                                     .on(\'change\', function () {
                                         var val = $.fn.dataTable.util.escapeRegex(
@@ -131,21 +115,14 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'orderable' => false, 'class' => 'text-center'],
-            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama Lengkap', 'orderable' => false,  'searchable' => true,],
-          
-            ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
+            ['data' => 'no', 'name' => 'no', 'title' => 'No',  'searchable' => true, 'orderable' => false, 'class' => 'text-center'],
+            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
-            [
-                'data' => 'statusUser.status',
-                'name' => 'statusUser.status',
-                'title' => 'Status',
-                'render' => null,
-                'orderable' => true,
-                'searchable' => true,
-            ],
-            ['data' => 'role.title', 'name' => 'role.title', 'title' => 'Role'],
-            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Bergabung Pada'],
+            ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
+            ['data' => 'kaprodi.prodi.nama_prodi', 'name' => 'kaprodi.prodi.nama_prodi', 'title' => 'Nama Prodi'],
+            ['data' => 'kaprodi.prodi.fakultas.nama_fakultas', 'name' => 'kaprodi.prodi.fakultas.nama_fakultas', 'title' => 'Fakultas'],
+            ['data' => 'kaprodi.prodi.jenjang.nama_jenjang', 'name' => 'kaprodi.prodi.jenjang.nama_jenjang', 'title' => 'Jenjang'],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Tanggal Ubah'],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

@@ -1,3 +1,7 @@
+@php
+use Carbon\Carbon;
+$data = $data ?? null;
+@endphp
 <x-app-layout :assets="$assets ?? []">
    <div class="row">
       <div class="col-lg-12">
@@ -36,40 +40,54 @@
          <div class="profile-content tab-content">
          <div id="profile-account" class="tab-pane fade">
             <div class="card">
-               <div class="card-header">
+               <div class="card-header d-flex justify-content-between">
                   <div class="header-title">
                      <h4 class="card-title">Informasi Akun</h4>
                   </div>
+                  <div class="card-action">
+                     <a href="{{route('users.edit', auth()->user()->id )}}" class="btn btn-sm btn-primary" role="button">Edit Profil</a>
+                  </div>
                </div>
                <div class="card-body">
-                  
+                  <div class="mt-2">
+                     <h6 class="mb-1">Email:</h6>
+                        <p class="text-body">{{auth()->user()->email ?? '-'}}</p>
+                     </div>
+                     <div class="mt-2">
+                        <h6 class="mb-1">Verifikasi Email:</h6>
+                        @if(auth()->user()->email_verified_at != null)
+                        <p class="text-body"> Terverifikasi pada {{ \Carbon\Carbon::parse(auth()->user()->email_verified_at)->format('d F Y') }}</p>
+                        @else
+                        <p class="text-body"> Belum Terverifikasi</p>
+                        @endif
+                     </div>
+                     <div class="mt-2">
+                     <h6 class="mb-1">Nomor Telepon</h6>
+                     <p class="text-body">{{auth()->user()->phone_number ?? "-"}}</p>
+                     </div>
                </div>
             </div>
          </div>
          <div id="profile-profile" class="tab-pane fade active show">
      
             <div class="card">
-               <div class="card-header">
+               <div class="card-header d-flex justify-content-between">
                   <div class="header-title">
                      <h4 class="card-title">Profil Pengguna</h4>
                   </div>
+                  <div class="card-action">
+                     <a href="{{route('users.edit', auth()->user()->id )}}" class="btn btn-sm btn-primary" role="button">Edit Profil</a>
+                  </div>
                </div>
+              
                <div class="card-body">
                   <div class="mt-2">
                   <h6 class="mb-1">Tanggal Bergabung:</h6>
-                  <p>{{auth()->user()->created_at}}</p>
+                  <p>{{\Carbon\Carbon::parse(auth()->user()->created_at)->format('d F Y') ?? '-'}}</p>
                   </div>
                   <div class="mt-2">
                   <h6 class="mb-1">Alamat</h6>
                   <p>{{ auth()->user()->street_addr ?? '-'}}</p>
-                  </div>
-                  <div class="mt-2">
-                  <h6 class="mb-1">Email:</h6>
-                  <p><a href="#" class="text-body">{{auth()->user()->email}}</a></p>
-                  </div>
-                  <div class="mt-2">
-                  <h6 class="mb-1">Url:</h6>
-                  <p><a href="#" class="text-body" target="_blank"> www.bootstrap.com </a></p>
                   </div>
                   <div class="mt-2">
                   <h6 class="mb-1">Kontak:</h6>
@@ -90,12 +108,14 @@
          <div class="card-body">
             <div class="mt-2">
                <h6 class="mb-1">Status:</h6>
-               @if(auth()->user()->status == 'active')
-               <span class="text-capitalize badge bg-primary">{{auth()->user()->status}}</span>
+               @if( $data->status == 'active')
+               <span class="text-capitalize badge bg-primary">{{$data->status}}</span>
                @elseif(auth()->user()->status == 'inactive')
-               <span class="text-capitalize badge bg-danger">{{auth()->user()->status}}</span>
-               @elseif(auth()->user()->status == 'banned')
-               <span class="text-capitalize badge bg-warning">{{auth()->user()->status}}</span>
+               <span class="text-capitalize badge bg-danger">{{$data->status}}</span>
+               @elseif(auth()->user()->status == 'pending')
+               <span class="text-capitalize badge bg-warning">{{$data->status}}</span>
+               @elseif(auth()->user()->status == 'blocked')
+               <span class="text-capitalize badge bg-danger">{{$data->status}}</span>
                @else
                <span class="text-capitalize badge bg-primary">-</span>
                @endif
@@ -103,10 +123,10 @@
           
             <div class="mt-2">
                <h6 class="mb-1">Role:</h6>
-               @if(auth()->user()->user_type == 'admin')
-               <p class="text-body text-capitalize ">{{auth()->user()->user_type}}</p>
-               @elseif(auth()->user()->user_type == 'kaprodi')
-               <p class="text-body text-capitalize ">Kepala Prodi {{$nama_prodi ?? '-'}}</p>
+               @if($data->role == 'admin')
+               <p class="text-body text-capitalize ">{{$data->role}}</p>
+               @elseif($data->role == 'adminprodi')
+               <p class="text-body text-capitalize ">Admin Prodi {{$nama_prodi ?? '-'}}</p>
                @else
                <p class="text-body">-</p>
                @endif

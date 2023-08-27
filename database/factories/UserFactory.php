@@ -47,8 +47,8 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'user_type' => 'kaprodi',
-            'status' => $status
+            'role_id' => 1,
+            'status_id' => 1
         ];
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\BackOffice;
+
+use App\DataTables\AdminDataTable;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -17,9 +19,9 @@ class KelolaAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(UsersDataTable $dataTable)
+    public function index(AdminDataTable $dataTable)
     {
-        $pageTitle = trans('global-message.list_form_title',['form' => trans('users.title')] );
+        $pageTitle = trans('global-message.list_form_title',['form' => trans('admin.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
         $headerAction = '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';

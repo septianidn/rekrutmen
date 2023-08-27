@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role as ModelsRole;
 
 class UserTableSeeder extends Seeder
 {
@@ -17,31 +18,21 @@ class UserTableSeeder extends Seeder
     {
         $users = [
             [
-                'first_name' => 'System',
+                'first_name' => 'Admin',
                 'last_name' => 'Admin',
                 'email' => 'admin@example.com',
                 'password' => bcrypt('password'),
                 'street_addr' => 'Jl. Abscsa',
                 'phone_number' => '+12398190255',
                 'email_verified_at' => now(),
-                'user_type' => 'admin',
-                'status' => 'active',
-            ],
-            [
-                'first_name' => 'Kaprodi',
-                'last_name' => 'SI',
-                'email' => 'kaprodi@example.com',
-                'password' => bcrypt('password'),
-                'street_addr' => 'Jl. Dsjsjjs',
-                'phone_number' => '+12398190256',
-                'email_verified_at' => now(),
-                'user_type' => 'kaprodi',
-                'status' => 'inactive'
-            ]
+                'role_id' => 1,
+                'status_id' => 1,
+            ], 
         ];
         foreach ($users as $key => $value) {
             $user = User::create($value);
-            $user->assignRole($value['user_type']);
+            $nameRole = ModelsRole::find($value['role_id']);
+            $user->assignRole($nameRole->name);
         }
     }
 }

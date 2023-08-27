@@ -21,10 +21,6 @@
             </svg>
         </span>
     </a>
-    {{-- <form action="{{route('users.destroy',$id)}}" id="user-delete-{{$id}}" method="post">
-        @method('delete')
-        @csrf()
-    </form> --}}
 @endif
 </div>
 
