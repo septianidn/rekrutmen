@@ -4,7 +4,7 @@
     $id = $id ?? null;
     ?>
     <div>
-        @if (isset($id))
+        {{-- @if (isset($id))
             {!! Form::model($data, [
                 'route' => ['paket-soal.update', $id],
                 'method' => 'patch',
@@ -18,64 +18,8 @@
                 'enctype' => 'multipart/form-data',
                 'id' => 'form-wizard1',
             ]) !!}
-        @endif
+        @endif --}}
         <!-- fieldsets -->
-        <fieldset>
-            <div class="form-card text-start">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-12">
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between">
-                                <div class="header-title">
-                                    <h4 class="card-title">{{ $id !== null ? 'Update' : 'Tambah' }} Paket Soal</h4>
-                                </div>
-                                <div class="card-action">
-                                    <a href="{{ route('paket-soal.index') }}" class="btn btn-sm btn-primary"
-                                        role="button">Kembali</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label class="form-label text-black" for="nama_paket">Nama Paket<span
-                                            class="text-danger">*</span></label>
-                                    {{ Form::text('nama_paket', old('nama_paket'), ['class' => 'form-control', 'placeholder' => 'Isi nama paket', 'required', 'id' => 'nama_paket']) }}
-
-                                </div>
-                                <div class="form-group ">
-                                    <label class="form-label text-black" for="alias_url">Alias URL<span
-                                            class="text-danger">*</span></label>
-
-                                    {{ Form::text('alias_url', old('alias_url'), ['class' => 'form-control', 'placeholder' => 'Isi alias url', 'required', 'id' => 'alias_url']) }}
-
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label text-black" for="deskripsi_paket">Deskripsi Paket</label>
-                                    {{ Form::textarea('deskripsi_paket', old('deskripsi_paket'), ['class' => 'form-control', 'placeholder' => 'Isi deskripsi', 'id' => 'deskripsi_paket']) }}
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label text-black" for="tanggal_tayang">Tanggal Tayang<span
-                                            class="text-danger">*</span></label>
-
-                                    {{ Form::date('tanggal_tayang', old('tanggal_tayang'), ['class' => 'form-control', 'placeholder' => 'Isi tanggal tayang', 'required', 'id' => 'tanggal_tayang']) }}
-
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label text-black" for="tgl_selesai_tayang">Tanggal Selesai
-                                        Tayang<span class="text-danger">*</span></label>
-
-                                    {{ Form::date('tgl_selesai_tayang', old('tgl_selesai_tayang'), ['class' => 'form-control', 'placeholder' => 'Isi tanggal selesai tayang', 'required', 'id' => 'tgl_selesai_tayang']) }}
-
-                                </div>
-                                <hr>
-                                <button type="button" name="next"
-                                    class="btn btn-primary btn-sm next action-button float-end" value="Next">Input
-                                    Soal</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
         <fieldset>
             {{-- FIELD SET INPUT SOAL --}}
             <div class="form-card text-start">
@@ -83,7 +27,7 @@
                     <div class="col-sm-12 col-lg-12">
                         <div class="card">
                             <div class="d-flex justify-content-between align-items-center p-4">
-                                <h4 class="card-title">{{ $id !== null ? 'Update' : 'Tambah' }} Soal</h4>
+                                <h4 class="card-title">Form Soal</h4>
                                 <button type="button" class="btn btn-m btn-primary">Lihat Form</button>
                             </div>
                         </div>

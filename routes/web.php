@@ -17,6 +17,7 @@ use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageControlle
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
 use App\Http\Controllers\BackOffice\PaketSoalController;
+use App\Http\Controllers\BackOffice\PertanyaanController;
 use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\BackOffice\RekapTCController;
 use App\Http\Controllers\Security\RolePermission;
@@ -110,7 +111,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'tracer-study'], function() {
         Route::resource('/rekap', RekapTCController::class);
         Route::resource('/paket-soal', PaketSoalController::class);
-        Route::resource('/paket-soal/pertanyaan', PaketSoalController::class);
+        Route::get('paket-soal/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
         Route::resource('/usulan-pertanyaan', EmailBoxController::class);
         Route::resource('/jawaban', EmailSendController::class);
     });

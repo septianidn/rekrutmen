@@ -41,8 +41,9 @@ class PaketSoalDataTable extends DataTable
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
             ->addColumn('pertanyaan', function ($query) {
-                return '<a href="" class="">12</a>';
+                return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">12</a>';
             })
+            
             ->addColumn('action', 'backoffice.tracerstudy.admin.paket-soal.action')
             
             ->filterColumn('nama_paket', function($query, $keyword) {
