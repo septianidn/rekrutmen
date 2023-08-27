@@ -46,7 +46,7 @@
 <link href="{{ asset('vendor/tagify/tagify.css') }}" rel="stylesheet">
 
 {{-- Custom Css From library --}}
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
 <style>
    .select2-container--bootstrap-5.select2-container--focus .select2-selection,.select2-container--bootstrap-5.select2-container--open .select2-selection
    {
@@ -100,4 +100,5 @@
    .bg-grey{
       background-color: #F6F6F6
    }
+
    </style>

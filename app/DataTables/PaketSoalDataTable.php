@@ -26,15 +26,30 @@ class PaketSoalDataTable extends DataTable
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
-          
-            ->addColumn('pertanyaan', 'backoffice.tracerstudy.admin.paket-soal.pertanyaan')
+            ->editColumn('publish', function ($query) {
+                $status = 'primary';
+                switch ($query->publish) {
+                    case 1:
+                        $status = 'primary';
+                        $text = 'Published';
+                        break;
+                    case 0:
+                        $status = 'danger';
+                        $text = 'Not Published';
+                        break;
+                }
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
+            })
+            ->addColumn('pertanyaan', function ($query) {
+                return '<a href="" class="">12</a>';
+            })
             ->addColumn('action', 'backoffice.tracerstudy.admin.paket-soal.action')
             
             ->filterColumn('nama_paket', function($query, $keyword) {
                 $sql = "nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','pertanyaan']);
+            ->rawColumns(['action','pertanyaan', 'publish']);
             
     }
 
@@ -100,7 +115,7 @@ class PaketSoalDataTable extends DataTable
             ['data' => 'tgl_selesai_tayang', 'name' => 'tgl_selesai_tayang', 'title' => 'Tanggal Selesai Tayang', 'searchable' => true,],
             ['data' => 'tahun_pelaksanaan', 'name' => 'tahun_pelaksanaan', 'title' => 'Tahun Pelaksanaan', 'searchable' => true,],
             ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Pertanyaan', 'searchable' => true , 'class' => 'text-center hide-search'],
+            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center hide-search'],
             
             Column::computed('action')
                   ->exportable(true)

@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('nama_paket');
             $table->string('alias_url');
-            $table->longText('prolog_login');
-            $table->longText('deskripsi');
-            $table->longText('result_message');
-            $table->longText('prolog_after_logout');
+            $table->longText('prolog_login')->nullable(true);
+            $table->longText('deskripsi')->nullable(true);
+            $table->longText('result_message')->nullable(true);
+            $table->longText('prolog_after_logout')->nullable(true);
             $table->date('tgl_tayang');
             $table->date('tgl_selesai_tayang');
             $table->integer('tahun_pelaksanaan');
-            $table->boolean('publish');
+            $table->boolean('publish')->default(false);
             $table->timestamps();
         });
     }

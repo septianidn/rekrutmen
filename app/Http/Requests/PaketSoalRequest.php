@@ -35,14 +35,14 @@ class PaketSoalRequest extends FormRequest
                 $rules = [
                     'nama_paket' => 'required',
                     'alias_url' => 'required',
-                    'prolog_login' => 'required',
-                    'deskripsi' => 'required',
-                    'result_message' => 'required',
-                    'prolog_after_logout' => 'required',
+                    'prolog_login' => 'nullable',
+                    'deskripsi' => 'nullable',
+                    'result_message' => 'nullable',
+                    'prolog_after_logout' => 'nullable',
                     'tgl_tayang' => 'required',
                     'tgl_selesai_tayang' => 'required',
                     'tahun_pelaksanaan' => 'required',
-                    'publish' => 'required'
+                    'publish' => 'nullable'
                     
                 ];
                 break;
@@ -50,14 +50,14 @@ class PaketSoalRequest extends FormRequest
                 $rules = [
                     'nama_paket' => 'required',
                     'alias_url' => 'required',
-                    'prolog_login' => 'required',
-                    'deskripsi' => 'required',
-                    'result_message' => 'required',
-                    'prolog_after_logout' => 'required',
+                    'prolog_login' => 'nullable',
+                    'deskripsi' => 'nullable',
+                    'result_message' => 'nullable',
+                    'prolog_after_logout' => 'nullable',
                     'tgl_tayang' => 'required',
                     'tgl_selesai_tayang' => 'required',
                     'tahun_pelaksanaan' => 'required',
-                    'publish' => 'required'
+                    'publish' => 'nullable'
                 ];
                 break;
 
@@ -69,7 +69,7 @@ class PaketSoalRequest extends FormRequest
     public function messages()
     {
         return [
-            'nama_fakultas.*'  =>'Nama Fakultas harus berisi.',
+            'nama_paket.*'  =>'Nama paket harus berisi.',
         ];
     }
 
