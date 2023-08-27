@@ -24,10 +24,11 @@
     </div>
     <div class="form-group">
         <label class="form-label">Published</label>
-        {{ Form::select('status_terbit_id', ['' => 'Pilih Status Terbit'] + $publishedOptions->pluck('status_terbit', 'id')->toArray(), old('status_terbit_id'), [
+        {{ Form::select('published', ['' => 'Pilih Status Terbit', 1 => 'Published',  0 => 'Not Published'], null, [
         'class' => 'form-control select-status-terbit',
-        'id' => 'status_terbit',
+        'id' => 'published',
     ]) }}
+    
     </div>
     <div class="float-end">
         <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Kembali</button>

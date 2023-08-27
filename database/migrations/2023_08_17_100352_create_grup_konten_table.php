@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('nama_grup');
             $table->string('deskripsi')->nullable(true);
             $table->string('alias_url');
-            $table->bigInteger('status_terbit_id')->unsigned()->index();
-            $table->foreign('status_terbit_id')->references('id')->on('status_terbit')->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('published');
             $table->timestamps();
         });
     }

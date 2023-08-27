@@ -48,8 +48,8 @@ class GrupKontenController extends Controller
      */
     public function store(GrupKontenRequest $request)
     {        
-   
-       $validatedData['published'] = $request->has('published') ? 1 : 0;
+       
+    
        $grupkonten = GrupKonten::create($request->all());
 
        return redirect()->route('grup-konten.index')->withSuccess(__('message.fakultas_msg_added',['name' => __('grup-konten.store')]));

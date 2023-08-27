@@ -20,13 +20,10 @@ class GrupKonten extends Model
         'nama_grup',
         'alias_url',
         'deskripsi',
-        'status_terbit_id',        
+        'published',        
     ];
 
-    public function statusTerbit()
-    {
-        return $this->belongsTo(StatusTerbit::class, 'status_terbit_id');
-    }
+   
 
 
 }

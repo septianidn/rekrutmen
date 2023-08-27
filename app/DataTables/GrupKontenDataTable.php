@@ -25,20 +25,28 @@ class GrupKontenDataTable extends DataTable
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
-            ->editColumn('statusTerbit.status_terbit', function ($query) {
+            ->editColumn('deskripsi', function($query) {
+                if($query->deskripsi != null){
+                    return $query->deskripsi;
+                }
+                else{
+                    return '-';
+                }
+               
+            })
+            ->editColumn('published', function ($query) {
                 $status = 'primary';
-                switch ($query->statusTerbit->status_terbit) {
-                    case 'Published':
+                switch ($query->published) {
+                    case 1:
                         $status = 'primary';
+                        $text = 'Published';
                         break;
-                    case 'Not Published':
+                    case 0:
                         $status = 'danger';
-                        break;
-                    case 'Draft':
-                        $status = 'dark';
+                        $text = 'Not Published';
                         break;
                 }
-                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->statusTerbit->status_terbit.'</span>';
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
             
             ->addColumn('action', function ($data) {
@@ -60,7 +68,7 @@ class GrupKontenDataTable extends DataTable
                 $sql = "published LIKE  ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','statusTerbit.status_terbit']);
+            ->rawColumns(['action','published']);
            
       
             
@@ -74,7 +82,7 @@ class GrupKontenDataTable extends DataTable
      */
     public function query()
     {
-        $model = GrupKonten::query()->with('statusTerbit');
+        $model = GrupKonten::query();
         return $this->applyScopes($model);
     }
 
@@ -125,7 +133,7 @@ class GrupKontenDataTable extends DataTable
             ['data' => 'nama_grup', 'name' => 'nama_grup', 'title' => 'Nama Grup', 'searchable' => true,],
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
             ['data' => 'deskripsi', 'name' => 'deskripsi', 'title' => 'Deskripsi', 'searchable' => true,],
-            ['data' => 'statusTerbit.status_terbit', 'name' => 'statusTerbit.status_terbit', 'title' => 'Status Publish', 'render' => null,  'orderable' => true, 'searchable' => true,],
+            ['data' => 'published', 'name' => 'published', 'title' => 'Status Publish', 'render' => null,  'orderable' => true, 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)
