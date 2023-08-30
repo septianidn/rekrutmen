@@ -10,7 +10,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class PaketSoalDataTable extends DataTable
+class UsulanPertanyaanDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -43,16 +43,14 @@ class PaketSoalDataTable extends DataTable
             ->addColumn('pertanyaan', function ($query) {
                 return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">12</a>';
             })
-            ->addColumn('menerima_usulan', function ($data) {
-                return view('backoffice.tracerstudy.admin.paket-soal.menerima_usulan', compact('data'));
-            })
+            
             ->addColumn('action', 'backoffice.tracerstudy.admin.paket-soal.action')
             
             ->filterColumn('nama_paket', function($query, $keyword) {
                 $sql = "nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','pertanyaan', 'publish', 'menerima_usulan']);
+            ->rawColumns(['action','pertanyaan', 'publish']);
             
     }
 
@@ -88,7 +86,7 @@ class PaketSoalDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1, 2, 3, 4, 5,8,9,10]).every(function () {
+                            this.api().columns([1, 2, 3, 4, 5,6,7]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
     
@@ -112,18 +110,14 @@ class PaketSoalDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
-            ['data' => 'nama_paket', 'name' => 'nama_paket', 'title' => 'Nama Kuesioner', 'searchable' => true,],
+            ['data' => 'nama_paket', 'name' => 'nama_paket', 'title' => 'Nama Paket', 'searchable' => true,],
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
             ['data' => 'tgl_tayang', 'name' => 'tgl_tayang', 'title' => 'Tanggal Tayang', 'searchable' => true,],
             ['data' => 'tgl_selesai_tayang', 'name' => 'tgl_selesai_tayang', 'title' => 'Tanggal Selesai Tayang', 'searchable' => true,],
             ['data' => 'tahun_pelaksanaan', 'name' => 'tahun_pelaksanaan', 'title' => 'Tahun Pelaksanaan', 'searchable' => true,],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Usulan Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
             ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
-            Column::computed('menerima_usulan')
-                    ->width(100)
-                    ->addClass('text-center')
-            ,
+            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center hide-search'],
+            
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

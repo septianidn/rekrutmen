@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('tgl_selesai_tayang');
             $table->integer('tahun_pelaksanaan');
             $table->boolean('publish')->default(false);
+            $table->boolean('menerima_usulan')->default(false);
             $table->timestamps();
         });
     }

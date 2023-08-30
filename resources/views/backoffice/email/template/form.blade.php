@@ -37,9 +37,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label" for="isi_template">Isi<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                 {{ Form::textarea('isi_template', old('isi_template'), ['class' => 'form-control', 'placeholder' => 'Isi Template', 'required', 'id' => 'isi_template']) }}
+                                 {{ Form::textarea('isi_template', old('isi_template'), ['class' => 'form-control', 'placeholder' => 'Isi Template', 'id' => 'isi_template']) }}
 
-                                      </div>
+                               </div>
                             </div>
                            
                          </div>
@@ -56,12 +56,10 @@
 
  <script>
    tinymce.init({
-     selector: 'textarea',
+      selector: '#isi_template',
      height : '800',
-     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    
      tinycomments_mode: 'embedded',
-     tinycomments_author: 'Author name',
      mergetags_list: [
        { value: 'nama', title: 'Nama' },
        { value: 'pin', title: 'PIN' },

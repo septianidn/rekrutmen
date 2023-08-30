@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GrupKonten extends Model
+class KategoriKonten extends Model
 {
     use HasFactory;
 
-    protected $table = 'grup_konten';
+    protected $table = 'kategori_konten';
     
     /**
      * The attributes that are mass assignable.
@@ -17,16 +17,17 @@ class GrupKonten extends Model
      * @var array
      */
     protected $fillable = [
-        'nama_grup',
+        'nama_kategori',
         'alias_url',
+        'grup_konten_id',
         'deskripsi',
         'published',        
     ];
 
-    public function kategori_konten()
+   
+    public function grup_konten()
     {
-       return $this->hasMany(KategoriKonten::class, 'grup_konten_id');
+        return $this->belongsTo(GrupKonten::class, 'grup_konten_id');
     }
-
 
 }

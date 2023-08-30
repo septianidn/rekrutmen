@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grup_konten', function (Blueprint $table) {
+        Schema::create('kategori_konten', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_grup');
+            $table->string('nama_kategori');
+            $table->bigInteger('grup_konten_id')->unsigned()->index();
+            $table->foreign('grup_konten_id')->references('id')->on('grup_konten')->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('published');
             $table->longText('deskripsi')->nullable(true);
             $table->string('alias_url');
-            $table->boolean('published');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grupkonten');
+        Schema::dropIfExists('kategori_konten');
     }
 };
