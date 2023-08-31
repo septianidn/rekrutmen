@@ -17,6 +17,7 @@ use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageControlle
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
 use App\Http\Controllers\BackOffice\KategoriKontenController;
+use App\Http\Controllers\BackOffice\KontenController;
 use App\Http\Controllers\BackOffice\PaketSoalController;
 use App\Http\Controllers\BackOffice\PertanyaanController;
 use App\Http\Controllers\BackOffice\ProdiController;
@@ -102,10 +103,11 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/outbox', EmailBoxController::class);
         Route::resource('/send', EmailSendController::class);
     });
+   
     Route::group(['prefix' => 'konten'], function() {
         Route::resource('/grup-konten', GrupKontenController::class);
         Route::resource('/kategori-konten', KategoriKontenController::class);
-        Route::resource('/', EmailSendController::class);
+        Route::resource('/kelola', KontenController::class);
     });
     
 

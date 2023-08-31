@@ -4605,12 +4605,12 @@ fieldset:disabled .btn {
 
 .accordion {
     --bs-accordion-color: #8a92a6;
-    --bs-accordion-bg: #f5f6fa;
+    --bs-accordion-bg: #FFFFFF;
     --bs-accordion-transition: color 0.15s ease-in-out,
         background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
     --bs-accordion-border-color: rgba(0, 0, 0, 0.125);
-    --bs-accordion-border-width: 1px;
+    --bs-accordion-border-width: 0.5px;
     --bs-accordion-border-radius: 0.5rem;
     --bs-accordion-inner-border-radius: calc(0.5rem - 1px);
     --bs-accordion-btn-padding-x: 1.5rem;
@@ -4628,7 +4628,7 @@ fieldset:disabled .btn {
     --bs-accordion-body-padding-x: 1.5rem;
     --bs-accordion-body-padding-y: 1rem;
     --bs-accordion-active-color: #344ed1;
-    --bs-accordion-active-bg: #ebeefd;
+    --bs-accordion-active-bg: #edfdeb;
 }
 
 .accordion-button {

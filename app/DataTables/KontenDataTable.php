@@ -1,0 +1,136 @@
+<?php
+
+namespace App\DataTables;
+
+use App\Models\GrupKonten;
+use App\Models\Jenjang;
+use App\Models\KategoriKonten;
+use App\Models\Konten;
+use App\Models\Prodi;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Services\DataTable;
+
+class KontenDataTable extends DataTable
+{
+    /**
+     * Build DataTable class.
+     *
+     * @param mixed $query Results from query() method.
+     * @return \Yajra\DataTables\DataTableAbstract
+     */
+    public function dataTable($query)
+    {
+        $index = 1;
+        return datatables()
+           ->eloquent($query)
+            ->addColumn('id', function () use (&$index) {
+                return $index++;
+            })
+            ->editColumn('published', function ($query) {
+                $status = 'primary';
+                switch ($query->published) {
+                    case 1:
+                        $status = 'primary';
+                        $text = 'Published';
+                        break;
+                    case 0:
+                        $status = 'warning';
+                        $text = 'Draft';
+                        break;
+                }
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
+            })
+            ->addColumn('action', function ($data) {
+                $id = $data->id;
+                return view('backoffice.konten.konten.action', compact(['data', 'id']));
+            })
+            ->filterColumn('kategori_konten.nama_kategori', function($query, $keyword) {
+                $sql = "kategori_konten.nama_kategori LIKE  ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('alias_url', function($query, $keyword) {
+                $sql = "alias_url LIKE  ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('published', function($query, $keyword) {
+                $sql = "published LIKE  ?";
+                return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->rawColumns(['action','published']);
+           
+      
+            
+    }
+
+    /**
+     * Get query source of dataTable.
+     *
+     * @param \App\Models\Prodi $model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function query()
+    {
+        $model = Konten::query()->with(['kategori_konten']);
+        return $this->applyScopes($model);
+    }
+
+    /**
+     * Optional method if you want to use html builder.
+     *
+     * @return \Yajra\DataTables\Html\Builder
+     */
+    public function html()
+    {
+        return $this->builder()
+                    ->setTableId('dataTable')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('<"row align-items-center"<"col-md-2" l><"col-md-6" B><"col-md-4"f>><"table-responsive my-3" rt><"row align-items-center"<"col-md-6" i><"col-md-6" p>><"clear">')
+                    ->headerCallback('function(thead, data, start, end, display){
+                        $(thead).find("th").addClass("text-center");
+                    }')
+                    ->parameters([
+                        "processing" => true,
+                        "autoWidth" => false,
+                        "serverSide" => true,
+                        "initComplete" => 'function () {
+                            this.api().columns([1,2,3]).every(function () {
+                                var column = this;
+                                var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
+                            
+                                $(input).appendTo($(column.footer()).empty())
+                                .on(\'keyup\', function () {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+
+                                $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
+                            });
+                        }',
+                    ]);
+    }
+
+    /**
+     * Get columns.
+     *
+     * @return array
+     */
+    protected function getColumns()
+    {
+        return [
+            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' => 'judul', 'name' => 'judul', 'title' => 'Judul', 'searchable' => true,],
+            ['data' => 'kategori_konten.nama_kategori', 'name' => 'kategori_konten.nama_kategori', 'title' => 'Nama Kategori', 'searchable' => true,],
+            ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
+            ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'searchable' => true,],
+            ['data' => 'published', 'name' => 'published', 'title' => 'Status Terbit', 'render' => null,  'orderable' => true, 'searchable' => true,],
+            Column::computed('action')
+                  ->exportable(true)
+                  ->printable(true)
+                  ->searchable(true)
+                  ->width(100)
+                  ->addClass('text-center hide-search'),
+        ];
+    }
+
+}

@@ -30,4 +30,9 @@ class KategoriKonten extends Model
         return $this->belongsTo(GrupKonten::class, 'grup_konten_id');
     }
 
+    public function konten()
+    {
+       return $this->hasMany(Konten::class, 'kategori_konten_id');
+    }
+
 }

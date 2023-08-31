@@ -22,5 +22,9 @@ class StatusTerbit extends Model
 
    
 
+    public function konten()
+    {
+       return $this->hasMany(Konten::class, 'status_terbit_id');
+    }
 
 }
