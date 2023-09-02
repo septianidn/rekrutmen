@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_data');
             $table->text('deskripsi_data')->nullable(true);
-            $table->boolean('publish');
+            $table->boolean('published')->default(true);
             $table->timestamps();
         });
     }

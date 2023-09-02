@@ -34,7 +34,10 @@ class UserFactory extends Factory
             case 2:
                 $status = 'inactive';
                 break;
-
+            case 3:
+                $status = 'blocked';
+                break;
+                
                 default:
                 $status = 'pending';
                 break;
@@ -47,8 +50,8 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'role_id' => 1,
-            'status_id' => 1
+            'user_type' => 'admin',
+            'status' => 'active'
         ];
     }
 }

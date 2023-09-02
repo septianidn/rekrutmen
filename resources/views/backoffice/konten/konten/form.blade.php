@@ -53,7 +53,7 @@
                                                 </div>
                                                 <div class="form-group mt-3">
                                                     <label class="form-label" for="waktu_terbit">Waktu Terbit</label>
-                                                {{ Form::datetimeLocal('waktu_terbit', old('waktu_terbit'), ['class' => 'form-control', 'placeholder' => 'Isi waktu terbit', 'id' => 'waktu_terbit']) }}
+                                                    {{ Form::datetimeLocal('waktu_terbit', old('waktu_terbit'), ['class' => 'form-control', 'placeholder' => 'Isi waktu terbit', 'id' => 'waktu_terbit']) }}
                                                     </div>
                                                 <div class="form-group">
                                                     <label class="form-label" for="waktu_tutup">Waktu Tutup </label>
@@ -131,15 +131,13 @@
                                                         <svg class="bd-placeholder-img figure-img img-fluid rounded" width="400" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 400x200" preserveAspectRatio="xMidYMid slice" focusable="false">
                                                             <title>Placeholder</title>
                                                             <rect width="100%" height="100%" fill="#f5f5f5"></rect>
-                                                            <text x="50%" y="50%" fill="#000000" dy=".3em" text-anchor="middle">Pasang Gambar Disini</text>
+                                                            <image id="selectedImage" x="0" y="0" width="100%" height="100%" xlink:href="" />
                                                         </svg>
                                                         
-                                                
-                                                  
                                                     </figure>
                                                     <button type="button" class="btn btn-primary w-100">
                                                         Tambah Gambar
-                                                        <input type="file" style="opacity: 0; position: absolute; left: 0; top: 0;" /> 
+                                                        <input type="file" id="fileInput"  accept=".png, .jpeg, .jpg, .svg" style="opacity: 0; position: absolute; left: 0; top: 0;" /> 
                                                     </button>
                                                 </div>
                                             </div>
@@ -161,6 +159,20 @@
  </x-app-layout>
 
  <script>
+     $('#fileInput').on('change', function() {
+        var fileInput = this;
+        var selectedImage = document.getElementById('selectedImage');
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                selectedImage.setAttribute('xlink:href', e.target.result);
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
    const tags = $("#tags");
    tinymce.init({
      selector: '#isi_konten',

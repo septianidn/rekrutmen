@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Helpers\AuthHelper;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserRequest;
-use App\Models\Kaprodi;
+use App\Models\AdminProdi;
 use App\Models\Prodi;
 use App\Models\StatusUser;
 
@@ -36,10 +36,9 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::where('status',1)->get()->pluck('title', 'id');
-        $status = StatusUser::all();
         $prodi = Prodi::all();
 
-        return view('users.form', compact('roles', 'prodi', 'status'));
+        return view('users.form', compact('roles', 'prodi'));
     }
 
     /**
@@ -51,13 +50,16 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $request['password'] = bcrypt($request->password);
-        $user = User::create($request->all());
-        $role = Role::find($request->role_id);
-        storeMediaFile($user,$request->profile_image, 'profile_image');
-        $user->assignRole($role->name);
+        $roleName = Role::findById($request->user_role)->name ?? 'admin';
+        $request['user_type'] = $roleName;
 
-        if (isset($request->kaprodi['kode_prodi_id'])) {
-            $user->kaprodi()->create($request->kaprodi);
+        $user = User::create($request->all());
+     
+        storeMediaFile($user,$request->profile_image, 'profile_image');
+        $user->assignRole($roleName);
+
+        if (isset($request->adminprodi['kode_prodi_id'])) {
+            $user->adminprodi()->create($request->adminprodi);
         }
 
 
@@ -73,11 +75,11 @@ class UserController extends Controller
     public function show($id)
     {
         $data = User::findOrFail($id);
-        $kaprodi = $data->kaprodi; 
+        $adminprodi = $data->adminprodi; 
 
         $nama_prodi = '-';
-        if ($kaprodi !== null) {
-            $kode_prodi = $kaprodi->kode_prodi_id;
+        if ($adminprodi !== null) {
+            $kode_prodi = $adminprodi->kode_prodi_id;
             $jurusan = Prodi::where('kode_prodi', $kode_prodi)->first();
             if ($jurusan !== null) {
                 $nama_prodi = $jurusan->nama_prodi;
@@ -89,9 +91,7 @@ class UserController extends Controller
            $jurusan = null;
         }
          
-        $data['status'] = optional($data->statusUser->first())->status;
-        $data['role'] = optional($data->roles->first())->name;
-       
+      
 
         $profileImage = getSingleMedia($data, 'profile_image');
 
@@ -106,18 +106,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data = User::with('roles')->findOrFail($id);
-
-        $status = StatusUser::all();
+        $data = User::findOrFail($id);
+        $data['user_type'] = $data->roles->pluck('id')[0] ?? null;
        
-        $roles = Role::where('status',1)->get()->pluck('title', 'id');
+       $roles = Role::where('status', 1)->get()->pluck('title', 'id');
 
         $profileImage = getSingleMedia($data, 'profile_image');
 
         $prodi = Prodi::all();
 
 
-        return view('users.form', compact('data','id', 'status','roles', 'profileImage' , 'prodi'));
+        return view('users.form', compact('data','id','roles', 'profileImage' , 'prodi'));
     }
 
     /**
@@ -132,31 +131,32 @@ class UserController extends Controller
         // dd($request->all());
         $user = User::findOrFail($id);
 
-        $role = Role::find($request->role_id);
-
-        $user->assignRole($role->name);
-
         $request['password'] = $request->password != '' ? bcrypt($request->password) : $user->password;
+        $nameRoles = Role::where('id', $request->user_role)->first();
+        $request['user_type'] = $nameRoles->name;
         
-        $titleRoles = Role::where('id', $request['role_id'])->first();
-        $kaprodiData = $user->kaprodi()->where('user_id', $user->id)->first();   
+        $adminprodiData = $user->adminprodi()->where('user_id', $user->id)->first();   
        
-        if ($kaprodiData != null) {
-            if ($titleRoles->name == 'admin') {
-                $kaprodiData->delete();
+        if ($adminprodiData != null) {
+            if ($nameRoles->name == 'admin') {
+                $adminprodiData->delete();
             } 
-            else if ($titleRoles->name == 'adminprodi') {  
-                $user->kaprodi()->update(['kode_prodi_id' => $request->kaprodi['kode_prodi_id']]);
+            else if ($nameRoles->name == 'adminprodi') {  
+                $user->adminprodi()->update(['kode_prodi_id' => $request->adminprodi['kode_prodi_id']]);
             }
         } 
         else {
-            if ($titleRoles->name === 'adminprodi'){
-                $user->kaprodi()->create(['kode_prodi_id' => $request->kaprodi['kode_prodi_id']]);
+            if ($nameRoles->name === 'adminprodi'){
+                $user->adminprodi()->create(['kode_prodi_id' => $request->adminprodi['kode_prodi_id']]);
             }
         }
         
         // User user data...
-        $user->fill($request->all())->update();
+        $userUpdate = $user->fill($request->all())->update();
+        if ($userUpdate) {
+            $user->assignRole(Role::findById($request->user_role)->name);
+        }
+        
 
         // Save user image...
         if (isset($request->profile_image) && $request->profile_image != null) {

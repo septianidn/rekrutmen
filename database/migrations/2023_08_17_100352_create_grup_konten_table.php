@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_grup');
             $table->longText('deskripsi')->nullable(true);
             $table->string('alias_url');
-            $table->boolean('published');
+            $table->boolean('published')->default(true);
             $table->timestamps();
         });
     }

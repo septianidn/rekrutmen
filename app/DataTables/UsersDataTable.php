@@ -21,20 +21,23 @@ class UsersDataTable extends DataTable
         return datatables()
             ->eloquent($query)
           
-            ->editColumn('statusUser.status', function($query) {
+            ->editColumn('status', function($query) {
                 $status = 'warning';
-                switch ($query->statusUser->status) {
+                switch ($query->status) {
                     case 'active':
                         $status = 'primary';
+                        break;
+                    case 'banned':
+                        $status = 'warning';
                         break;
                     case 'inactive':
                         $status = 'danger';
                         break;
-                    case 'block':
+                    case 'blocked':
                         $status = 'dark';
                         break;
                 }
-                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->statusUser->status.'</span>';
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->status.'</span>';
             })
             ->editColumn('phone_number', function($query) {
                 if($query->phone_number != null){
@@ -58,7 +61,7 @@ class UsersDataTable extends DataTable
                 return $index++;
             })
             ->addColumn('action', 'users.action')
-            ->rawColumns(['action','statusUser.status']);
+            ->rawColumns(['action','status']);
     }
 
     /**
@@ -69,7 +72,7 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with(['kaprodi', 'statusUser', 'role']);
+        $model = User::query()->with(['adminprodi']);
         return $this->applyScopes($model);
     }
 
@@ -137,14 +140,14 @@ class UsersDataTable extends DataTable
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             [
-                'data' => 'statusUser.status',
-                'name' => 'statusUser.status',
+                'data' => 'status',
+                'name' => 'status',
                 'title' => 'Status',
                 'render' => null,
                 'orderable' => true,
                 'searchable' => true,
             ],
-            ['data' => 'role.title', 'name' => 'role.title', 'title' => 'Role'],
+            ['data' => 'user_type', 'name' => 'user_type', 'title' => 'Tipe User'],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Bergabung Pada'],
             Column::computed('action')
                   ->exportable(true)

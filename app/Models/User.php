@@ -26,8 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         'last_name',
         'phone_number',
         'street_addr',
-        'status_id',
-        'role_id',
+        'user_type',
+        'status',
         'email',
         'password',
     ];
@@ -58,8 +58,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function kaprodi() {
-        return $this->hasOne(Kaprodi::class, 'user_id', 'id');
+    public function adminprodi() {
+        return $this->hasOne(AdminProdi::class, 'user_id', 'id');
     }
 
     public function statusUser()
@@ -67,8 +67,5 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->belongsTo(StatusUser::class, 'status_id', 'id');
     }
 
-    public function role()
-    {
-        return $this->belongsTo(ModelsRole::class, 'role_id', 'id');
-    }
+    
 }

@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kaprodi extends Model
+class AdminProdi extends Model
 {
     use HasFactory;
 
-    protected $table = 'kaprodi';
+    protected $table = 'admin_prodi';
    
     
     /**

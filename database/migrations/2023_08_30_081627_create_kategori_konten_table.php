@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_kategori');
             $table->bigInteger('grup_konten_id')->unsigned()->index();
             $table->foreign('grup_konten_id')->references('id')->on('grup_konten')->onUpdate('cascade')->onDelete('cascade');
-            $table->boolean('published');
+            $table->boolean('published')->default(true);
             $table->longText('deskripsi')->nullable(true);
             $table->string('alias_url');
             $table->timestamps();

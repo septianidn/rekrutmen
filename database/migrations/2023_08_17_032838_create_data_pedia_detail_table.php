@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('data_pedia_id')->references('id')->on('data_pedia')->onUpdate('cascade')->onDelete('cascade');
             $table->string('value');
             $table->string('label');
-            $table->boolean('publish');
+            $table->boolean('published')->default(true);
             $table->timestamps();
         });
     }

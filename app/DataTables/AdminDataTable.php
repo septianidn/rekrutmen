@@ -21,9 +21,9 @@ class AdminDataTable extends DataTable
         return datatables()
             ->eloquent($query)
           
-            ->editColumn('statusUser.status', function($query) {
+            ->editColumn('status', function($query) {
                 $status = 'warning';
-                switch ($query->statusUser->status) {
+                switch ($query->status) {
                     case 'active':
                         $status = 'primary';
                         break;
@@ -34,7 +34,7 @@ class AdminDataTable extends DataTable
                         $status = 'dark';
                         break;
                 }
-                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->statusUser->status.'</span>';
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->status.'</span>';
             })
             ->editColumn('phone_number', function($query) {
                 if($query->phone_number != null){
@@ -58,7 +58,7 @@ class AdminDataTable extends DataTable
                 return $index++;
             })
             ->addColumn('action', 'users.action')
-            ->rawColumns(['action','statusUser.status']);
+            ->rawColumns(['action','status']);
     }
 
     /**
@@ -69,7 +69,7 @@ class AdminDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with(['statusUser', 'role'])->where('role_id', 1);
+        $model = User::query()->where('user_type', 'admin');
         return $this->applyScopes($model);
     }
 
@@ -136,8 +136,8 @@ class AdminDataTable extends DataTable
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
             [
-                'data' => 'statusUser.status',
-                'name' => 'statusUser.status',
+                'data' => 'status',
+                'name' => 'status',
                 'title' => 'Status',
                 'render' => null,
                 'orderable' => true,

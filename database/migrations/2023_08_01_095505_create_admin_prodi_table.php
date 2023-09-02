@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kaprodi', function (Blueprint $table) {
+        Schema::create('admin_prodi', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kode_prodi_id')->unsigned()->index();
             $table->foreign('kode_prodi_id')->references('kode_prodi')->on('prodi')->onUpdate('cascade')->onDelete('cascade');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kaprodi');
+        Schema::dropIfExists('admin_prodi');
     }
 };

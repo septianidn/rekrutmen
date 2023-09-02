@@ -5,9 +5,9 @@
          $data = $data ?? null;
       ?>
       @if(isset($id))
-      {!! Form::model($data, ['route' => ['users.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::model($data, ['route' => ['kelola-admin-prodi.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
       @else
-      {!! Form::open(['route' => ['users.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::open(['route' => ['kelola-admin-prodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
       @endif
       <div class="row">
          <div class="col-xl-3 col-lg-4">

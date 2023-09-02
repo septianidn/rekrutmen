@@ -21,11 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('phone_number')->nullable();
             $table->string('street_addr')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->bigInteger('role_id')->unsigned()->index();
-            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('user_type')->default('admin');
             $table->string('password');
-            $table->bigInteger('status_id')->unsigned()->index();
-            $table->foreign('status_id')->references('id')->on('status_user')->onUpdate('cascade')->onDelete('cascade');
+            $table->enum('status', ['pending', 'active', 'blocked', 'inactive'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });

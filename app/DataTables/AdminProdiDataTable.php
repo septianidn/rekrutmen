@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Kaprodi;
+use App\Models\adminprodi;
 use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -41,7 +41,7 @@ class AdminProdiDataTable extends DataTable
             ->addColumn('no', function () use (&$index) {
                 return $index++;
             })
-            ->addColumn('action', 'users.action')
+            ->addColumn('action', 'backoffice.adminprodi.action')
             ->rawColumns(['action']);
     }
 
@@ -53,7 +53,7 @@ class AdminProdiDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with(['kaprodi', 'kaprodi.prodi', 'kaprodi.prodi.jenjang', 'kaprodi.prodi.fakultas'])->where('role_id', 2);
+        $model = User::query()->with(['adminprodi', 'adminprodi.prodi', 'adminprodi.prodi.jenjang', 'adminprodi.prodi.fakultas'])->where('user_type', 'adminprodi');
         return $this->applyScopes($model);
     }
 
@@ -119,9 +119,9 @@ class AdminProdiDataTable extends DataTable
             ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
-            ['data' => 'kaprodi.prodi.nama_prodi', 'name' => 'kaprodi.prodi.nama_prodi', 'title' => 'Nama Prodi'],
-            ['data' => 'kaprodi.prodi.fakultas.nama_fakultas', 'name' => 'kaprodi.prodi.fakultas.nama_fakultas', 'title' => 'Fakultas'],
-            ['data' => 'kaprodi.prodi.jenjang.nama_jenjang', 'name' => 'kaprodi.prodi.jenjang.nama_jenjang', 'title' => 'Jenjang'],
+            ['data' => 'adminprodi.prodi.nama_prodi', 'name' => 'adminprodi.prodi.nama_prodi', 'title' => 'Nama Prodi'],
+            ['data' => 'adminprodi.prodi.fakultas.nama_fakultas', 'name' => 'adminprodi.prodi.fakultas.nama_fakultas', 'title' => 'Fakultas'],
+            ['data' => 'adminprodi.prodi.jenjang.nama_jenjang', 'name' => 'adminprodi.prodi.jenjang.nama_jenjang', 'title' => 'Jenjang'],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Tanggal Ubah'],
             Column::computed('action')
                   ->exportable(true)
