@@ -33,7 +33,6 @@ class EmailSendRequest extends FormRequest
         switch ($method) {
             case 'post':
                 $rules = [
-                    'tujuan' => 'required',
                     'subjek' => 'required',
                     'isi' => 'required',
                     
@@ -42,7 +41,7 @@ class EmailSendRequest extends FormRequest
                 break;
             case 'patch':
                 $rules = [
-                    'tujuan' => 'required',
+                   
                     'subjek' => 'required',
                     'isi' => 'required',
                   
@@ -57,7 +56,6 @@ class EmailSendRequest extends FormRequest
     public function messages()
     {
         return [
-            'tujuan' => 'Tujuan email harus berisi',
             'subjek' => 'Subjek email harus berisi',
             'isi' => 'Isi email harus berisi',
         ];

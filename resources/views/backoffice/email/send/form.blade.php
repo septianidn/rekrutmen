@@ -25,7 +25,15 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
                                 <label class="col-sm-2 col-form-label" for="tujuan">Tujuan<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
                                  {{ Form::text('tujuan', null, ['class' => 'form-control', 'placeholder' => 'youremail@example.com', 'id' => 'tujuan']) }}
-                                 {{ Form::file('blasting_file', ['class' => 'form-control', 'id' => 'blasting_file']) }}
+                                 <span class="m-0 mt-2" id="mutiple-text">
+                                    <small>Jika tujuan lebih dari satu, pisah dengan tanda koma.</small>
+                                  </span>
+                                 {{ Form::file('blasting_file', ['class' => 'form-control', 'id' => 'blasting_file', 'accept' => '.csv']) }}
+                                 <span class="m-0 mt-2" id="blasting-text">
+                                    <small>Format file harus bertipe *.csv, download format file blasting <a href="{{ asset('format/blasting_email.csv') }}" download> disini </a></small>
+                                  </span>
+                                  
+
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -68,6 +76,8 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
         const tipeSelect = $("#tipe");
         const tujuanInput = $("#tujuan");
         const blastingFileInput = $("#blasting_file");
+        const blastingText = $("#blasting-text");
+        const mutipleText = $("#mutiple-text");
         let tagifyInstance; 
 
         $( '#tipe' ).select2( {
@@ -80,8 +90,8 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
         tinymce.init({
         selector: '#isi',
         height : '800',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss mergetags',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | mergetags',
         tinycomments_mode: 'embedded',
         tinycomments_author: 'Author name',
         mergetags_list: [
@@ -109,19 +119,25 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
         function toggleInputs() {
             if (tipeSelect.val() === "single") {
                 tujuanInput.show();
+                mutipleText.show();
                 blastingFileInput.hide();
+                blastingText.hide();
                 if (!tagifyInstance) {
                 tagifyInstance = new Tagify(tujuanInput.get(0), {
+                    pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 });
             }
           
             } else if (tipeSelect.val() === "blasting") {
                 tujuanInput.hide();
+                mutipleText.hide();
                 if (tagifyInstance) {
                     tagifyInstance.destroy();
                     tagifyInstance = null;
                  }
                 blastingFileInput.show();
+                blastingText.show();
+              
             }
         }
         toggleInputs();

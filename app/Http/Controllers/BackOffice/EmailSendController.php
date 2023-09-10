@@ -13,6 +13,9 @@ use App\Helpers\AuthHelper;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\EmailSendRequest;
 use App\Mail\EmailFormat;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BlastingEmailExport;
+use App\Imports\BlastingEmailImport;
 
 class EmailSendController extends Controller
 {
@@ -64,11 +67,18 @@ class EmailSendController extends Controller
         }
         else if ([$request->tipe == 'blasting']){
 
-            //read file csv
-            
+          
+           $file = $request->file('blasting_file');
+           $import = new BlastingEmailImport;
+           $data = Excel::toArray($import, $file);
+   
+          
+           $emailColumn = collect($data[0])->pluck('email');
+
+           dd($emailColumn);
         }
         else{
-
+            return redirect()->route('send.create')->withErrors(__('message.emailsend_msg_error_type',['name' => __('send.store')]));
         }
         
         return redirect()->route('outbox.index')->withSuccess(__('message.emailsend_msg_added',['name' => __('outbox.store')]));
