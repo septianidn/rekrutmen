@@ -18,6 +18,7 @@ use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
 use App\Http\Controllers\BackOffice\KategoriKontenController;
 use App\Http\Controllers\BackOffice\KontenController;
+use App\Http\Controllers\BackOffice\LaporanTSController;
 use App\Http\Controllers\BackOffice\PaketSoalController;
 use App\Http\Controllers\BackOffice\PertanyaanController;
 use App\Http\Controllers\BackOffice\ProdiController;
@@ -76,6 +77,8 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
      Route::resource('/kelola-admin', KelolaAdminController::class);
      Route::resource('/kelola-admin-prodi', AdminProdiController::class);
 
+   
+
     // Permission Module
     // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
     Route::resource('/permission',PermissionController::class);
@@ -105,6 +108,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
     });
    
     Route::group(['prefix' => 'konten'], function() {
+        Route::resource('/laporan-tracer-study', LaporanTSController::class);
         Route::resource('/grup-konten', GrupKontenController::class);
         Route::resource('/kategori-konten', KategoriKontenController::class);
         Route::resource('/kelola', KontenController::class);

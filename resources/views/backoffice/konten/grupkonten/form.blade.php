@@ -1,9 +1,9 @@
 <?php
-    use App\Models\StatusTerbit;
+
 
     $id = $id ?? null;
     $data = $data ?? null;
-    $publishedOptions = StatusTerbit::all() ?? null;
+
 ?>
 @if(isset($id))
 {!! Form::model($data, ['route' => ['grup-konten.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}

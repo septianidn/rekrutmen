@@ -45,6 +45,14 @@
 
 <link href="{{ asset('vendor/tagify/tagify.css') }}" rel="stylesheet">
 
+
+{{-- <link href="{{ asset('vendor/filepond/dist/filepond.min.css') }}" rel="stylesheet"> --}}
+{{-- 
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" /> --}}
+
+<link href="https://unpkg.com/filepond@4.26.1/dist/filepond.min.css" rel="stylesheet">
+
+
 {{-- Custom Css From library --}}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
 <style>

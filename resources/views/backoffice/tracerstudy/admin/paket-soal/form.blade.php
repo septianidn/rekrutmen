@@ -57,6 +57,13 @@
 
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label text-black" for="untuk_lulusan">Untuk Lulusan<span
+                                            class="text-danger">*</span></label>
+                                        
+                                    {{ Form::text('untuk_lulusan', old('untuk_lulusan'), ['class' => 'form-control year-picker', 'placeholder' => 'Isi untuk lulusan', 'required', 'id' => 'untuk_lulusan']) }}
+
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label text-black" for="tgl_tayang">Tanggal Tayang<span
                                             class="text-danger">*</span></label>
 
@@ -96,8 +103,14 @@
         $("#tahun_pelaksanaan").datepicker({
             format: "yyyy",
             viewMode: "years", 
-            minViewMode: "years"
+            minViewMode: "years",
+            keyboardNavigation: false 
             });
+        $("#untuk_lulusan").datepicker({
+        format: "yyyy",
+        viewMode: "years", 
+        minViewMode: "years"
+        });
         function generateAliasURL(namaPaket) {
             // Convert to lowercase
             let alias = namaPaket.toLowerCase();

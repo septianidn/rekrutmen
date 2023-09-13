@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('tahun_pelaksanaan');
             $table->boolean('published')->default(true);
             $table->boolean('menerima_usulan')->default(false);
+            $table->integer('untuk_lulusan')->unique(true);
             $table->timestamps();
         });
     }

@@ -5,12 +5,13 @@ namespace App\DataTables;
 use App\Models\Alumni;
 use App\Models\Fakultas;
 use App\Models\Jenjang;
+use App\Models\LaporanTS;
 use App\Models\PaketSoal;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class PaketSoalDataTable extends DataTable
+class LaporanTSDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,7 +27,7 @@ class PaketSoalDataTable extends DataTable
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
-            ->editColumn('publish', function ($query) {
+            ->editColumn('published', function ($query) {
                 $status = 'primary';
                 switch ($query->publish) {
                     case 1:
@@ -40,31 +41,24 @@ class PaketSoalDataTable extends DataTable
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
-            ->addColumn('pertanyaan', function ($query) {
-                return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">12</a>';
-            })
-            ->addColumn('menerima_usulan', function ($data) {
-                return view('backoffice.tracerstudy.admin.paket-soal.menerima_usulan', compact('data'));
-            })
-            ->addColumn('action', 'backoffice.tracerstudy.admin.paket-soal.action')
             
-            ->filterColumn('nama_paket', function($query, $keyword) {
-                $sql = "nama_paket LIKE ?";
+            ->filterColumn('paketSoal.nama_paket', function($query, $keyword) {
+                $sql = "paketSoal.nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','pertanyaan', 'publish', 'menerima_usulan']);
+            ->rawColumns(['action', 'published',]);
             
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Fakultas $model
+     * @param \App\Models\LaporanTS $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query()
     {
-        $model = PaketSoal::query();
+        $model = LaporanTS::query()->with('paketSoal');
         return $this->applyScopes($model);
     }
 
@@ -88,7 +82,7 @@ class PaketSoalDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1, 2, 3, 4, 5,8,9,10]).every(function () {
+                            this.api().columns([1, 2, 3, 4]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
     
@@ -112,18 +106,10 @@ class PaketSoalDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
-            ['data' => 'nama_paket', 'name' => 'nama_paket', 'title' => 'Nama Kuesioner', 'searchable' => true,],
-            ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
-            ['data' => 'tgl_tayang', 'name' => 'tgl_tayang', 'title' => 'Tanggal Tayang', 'searchable' => true,],
-            ['data' => 'tgl_selesai_tayang', 'name' => 'tgl_selesai_tayang', 'title' => 'Tanggal Selesai Tayang', 'searchable' => true,],
-            ['data' => 'tahun_pelaksanaan', 'name' => 'tahun_pelaksanaan', 'title' => 'Tahun Pelaksanaan', 'searchable' => true,],
-            ['data' => 'untuk_lulusan', 'name' => 'untuk_lulusan', 'title' => 'Untuk Lulusan', 'searchable' => true,],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Usulan Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
-            ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
-            Column::computed('menerima_usulan')
-                    ->width(100)
-                    ->addClass('text-center')
+            ['data' => 'paketSoal.nama_paket', 'name' => 'nama_paket', 'title' => 'Tracer Study', 'searchable' => true,],
+            ['data' => 'deskripsi', 'name' => 'pertanyaan', 'title' => 'Deskripsi', 'searchable' => true , 'class' => 'text-center'],
+            ['data' => 'lokasi_laporan', 'name' => 'lokasi_laporan', 'title' => 'Laporan', 'searchable' => true , 'class' => 'text-center'],
+            ['data' => 'published', 'name' => 'published', 'title' => 'Publish', 'searchable' => true,]
             ,
             Column::computed('action')
                   ->exportable(true)

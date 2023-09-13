@@ -65,3 +65,4 @@
 
 <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
 
+<script href="{{ asset('vendor/filepond/dist/filepond.min.js') }}"></script>

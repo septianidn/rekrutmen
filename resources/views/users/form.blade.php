@@ -20,13 +20,10 @@
                <div class="card-body">
                      <div class="form-group">
                         <div class="profile-img-edit position-relative">
-                        <img src="{{ $profileImage ?? asset('images/avatars/01.png')}}" alt="User-Profile" class="profile-pic rounded avatar-100">
-                           <div class="upload-icone bg-primary">
-                              <svg class="upload-button" width="14" height="14" viewBox="0 0 24 24">
-                                 <path fill="#ffffff" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
-                              </svg>
-                              <input class="file-upload" type="file" accept="image/*" name="profile_image">
-                           </div>
+                           <input type="file" 
+                           class="profile_image"
+                           name="profile_image"
+                           accept="image/png, image/jpeg, image/gif"/>
                         </div>
                         <div class="img-extension mt-3">
                            <div class="d-inline-block align-items-center">
@@ -139,7 +136,85 @@
         {!! Form::close() !!}
    </div>
 </x-app-layout>
+
+<script type="module">
+
+  FilePond.registerPlugin(FilePondPluginFileValidateType,
+       FilePondPluginImageEditor,
+       FilePondPluginFilePoster);
+
+// Select the file input and use 
+// create() to turn it into a pond
+FilePond.create(
+  document.querySelector('.profile_image'),
+  {
+    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+    imagePreviewHeight: 50,
+    imageCropAspectRatio: '1:1',
+    imageResizeTargetWidth: 100,
+    imageResizeTargetHeight: 100,
+    stylePanelLayout: 'compact circle',
+    styleLoadIndicatorPosition: 'center bottom',
+    styleProgressIndicatorPosition: 'right bottom',
+    styleButtonRemoveItemPosition: 'left bottom',
+    styleButtonProcessItemPosition: 'right bottom',
+    acceptedFileTypes: ['image/*'],
+    allowRevert: true,
+  }
+);
+
+var pond = FilePond.create(document.querySelector('.profile_image'), {
+       // FilePond generic properties
+       allowReorder: true,
+       filePosterMaxHeight: 256,
+
+       // FilePond Image Editor plugin properties
+       imageEditor: {
+           // Maps legacy data objects to new imageState objects (optional)
+           legacyDataToImageState: legacyDataToImageState,
+
+           // Used to create the editor (required)
+           createEditor: openEditor,
+
+           // Used for reading the image data. See JavaScript installation for details on the `imageReader` property (required)
+           imageReader: [
+               createDefaultImageReader,
+               {
+                   // createDefaultImageReader options here
+               },
+           ],
+
+           // Required when generating a preview thumbnail and/or output image
+           imageWriter: [
+               createDefaultImageWriter,
+               {
+                   // We'll resize images to fit a 512 × 512 square
+                   targetSize: {
+                       width: 512,
+                       height: 512,
+                   },
+               },
+           ],
+
+           // Used to create poster and output images, runs an invisible "headless" editor instance
+           imageProcessor: processImage,
+
+           // Pintura Image Editor options
+           editorOptions: {
+               // Pass the editor default configuration options
+               ...getEditorDefaults(),
+
+               // This will set a square crop aspect ratio
+               imageCropAspectRatio: 1,
+           },
+       },
+   });
+</script>
+
+
+
 <script>
+
    $(document).ready(function() {
        // Event listener untuk inputan "User Role"
        $('#user_role').on('change', function() {
