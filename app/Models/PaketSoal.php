@@ -29,6 +29,6 @@ class PaketSoal extends Model
     ];
 
       
-
+   
    
 }

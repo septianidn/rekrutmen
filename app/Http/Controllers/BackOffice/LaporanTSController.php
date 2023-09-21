@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Helpers\AuthHelper;
 use App\Http\Requests\laporantsRequest;
 use App\Models\LaporanTS;
+use App\Models\PaketSoal;
+use App\Models\TemporaryFiles;
 
 class LaporanTSController extends Controller
 {
@@ -23,6 +25,8 @@ class LaporanTSController extends Controller
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
     
+        // $headerAction = '<a href="'.route('laporan-tracer-study.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
+
         $headerAction = '<a data--href="' . route('laporan-tracer-study.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Laporan Tracer Study</a>';
 
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
@@ -33,8 +37,17 @@ class LaporanTSController extends Controller
     {
        
         $data = $request->all();
-        $view = view('backoffice.konten.laporants.form')->render();
+        $tcOptions = PaketSoal::whereNotIn('id', function ($query) {
+            $query->select('paket_soal_id')
+                  ->from('laporan_ts');
+        })
+        ->pluck('nama_paket', 'id');
+        $tcOptionsAll = PaketSoal::all()->pluck('nama_paket', 'id');
+        $view = view('backoffice.konten.laporants.form', compact('tcOptions', 'tcOptionsAll'))->render();
         return response()->json(['data' =>  $view, 'status'=> true]);
+
+            
+        // return view('backoffice.konten.laporants.form2')->render();
     }
 
     /**
@@ -45,9 +58,18 @@ class LaporanTSController extends Controller
      */
     public function store(LaporanTSRequest $request)
     {        
-       
     
+
+       $temporaryFile = TemporaryFiles::where('folder', $request->lokasi_laporan)->first();
+
        $laporants = LaporanTS::create($request->all());
+       if($temporaryFile){
+           $laporants->addMedia(storage_path('app/public/laporants/tmp/' . $request->lokasi_laporan . '/' . $temporaryFile->filename))
+           ->toMediaCollection('laporants');
+           rmdir(storage_path('app/public/laporants/tmp/' . $request->lokasi_laporan));
+           $temporaryFile->delete();
+       }
+
 
        return redirect()->route('laporan-tracer-study.index')->withSuccess(__('message.laporants_msg_added',['name' => __('laporan-tracer-study.store')]));
     }
@@ -56,7 +78,14 @@ class LaporanTSController extends Controller
     {
        
         $data = LaporanTS::find($id);
-        $view = view('backoffice.konten.laporants.form',  compact('request', 'data', 'id'))->render();
+        $tcOptions = PaketSoal::whereNotIn('id', function ($query) {
+            $query->select('paket_soal_id')
+                  ->from('laporan_ts');
+        })
+        ->pluck('nama_paket', 'id');
+
+        $tcOptionsAll = PaketSoal::all()->pluck('nama_paket', 'id');
+        $view = view('backoffice.konten.laporants.form',  compact('request', 'data', 'id', 'tcOptions', 'tcOptionsAll'))->render();
         return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
@@ -74,9 +103,22 @@ class LaporanTSController extends Controller
 
         $laporants->fill($request->all())->update();
 
+        if ($laporants) {
+            $temporaryFile = TemporaryFiles::where('folder', $request->lokasi_laporan)->first();
 
+        // Save user image...
+        if (isset($request->lokasi_laporan) && $request->lokasi_laporan != null) {
+            $laporants->clearMediaCollection('laporants');
+            if($temporaryFile){
+                $laporants->addMedia(storage_path('app/public/laporants/tmp/' . $request->lokasi_laporan . '/' . $temporaryFile->filename))
+                ->toMediaCollection('laporants');
+                rmdir(storage_path('app/public/laporants/tmp/' . $request->lokasi_laporan));
+                $temporaryFile->delete();
+            }
+        }
+        }
         if(auth()->check()){
-            return redirect()->route('kelola.index')->withSuccess(__('message.laporants_msg_updated',['name' => __('Update Laporan')]));
+            return redirect()->route('laporan-tracer-study.index')->withSuccess(__('message.laporants_msg_updated',['name' => __('Update Laporan')]));
         }
         return redirect()->back()->withSuccess(__('message.laporants_msg_updated',['name' => 'Data laporants']));
 

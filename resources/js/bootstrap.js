@@ -30,7 +30,7 @@ import * as FilePond from 'filepond'; // Import FilePond
 import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
 
 import * as Pintura from '@pqina/pintura';
-import * as PinturaInput  from '@pqina/pintura-input';
+import * as PinturaInput from '@pqina/pintura-input';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -41,6 +41,8 @@ import FilePondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
 import FilePondPluginImageEditor from '@pqina/filepond-plugin-image-editor';
 
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import FilePondPluginPdfPreview from 'filepond-plugin-pdf-preview';
 import {
     openEditor,
     processImage,
@@ -72,8 +74,8 @@ window.createDefaultImageOrienter = createDefaultImageOrienter;
 window.legacyDataToImageState = legacyDataToImageState;
 window.getEditorDefaults = getEditorDefaults;
 
-
-
+window.FilePondPluginPdfPreview = FilePondPluginPdfPreview;
+window.FilePondPluginFileValidateSize = FilePondPluginFileValidateSize;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

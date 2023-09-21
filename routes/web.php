@@ -23,6 +23,8 @@ use App\Http\Controllers\BackOffice\PaketSoalController;
 use App\Http\Controllers\BackOffice\PertanyaanController;
 use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\BackOffice\RekapTCController;
+use App\Http\Controllers\BackOffice\UploadAvatarController;
+use App\Http\Controllers\BackOffice\UploadFileController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -84,6 +86,13 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
     Route::resource('/permission',PermissionController::class);
     Route::resource('/role-permission', RolePermission::class);
     Route::resource('/role', RoleController::class);
+
+    //Upload File
+    Route::post('/upload-laporants', [UploadFileController::class, 'tmpUpload'])->name('upload-ts');
+    Route::delete('/delete-laporants', [UploadFileController::class, 'tmpDelete'])->name('delete-ts');
+    Route::post('/upload-avatar', [UploadAvatarController::class, 'tmpUpload'])->name('upload-profile-image.store');
+    Route::delete('/delete-avatar', [UploadAvatarController::class, 'tmpDelete'])->name('upload-profile-image.destroy');
+    Route::get('/fetch-avatar', [UploadAvatarController::class, 'fetch'])->name('upload-profile-image.fetch');
 
     Route::group(['prefix' => 'datamaster'], function() {
         Route::resource('/jenjang', JenjangController::class);

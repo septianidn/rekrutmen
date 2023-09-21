@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('user_type')->default('admin');
             $table->string('password');
             $table->enum('status', ['pending', 'active', 'blocked', 'inactive'])->default('pending');
+            $table->string('profile_image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

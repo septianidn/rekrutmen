@@ -1,6 +1,7 @@
 @php
 use Carbon\Carbon;
 $data = $data ?? null;
+$profileImage = $profileImage ?? null
 @endphp
 <x-app-layout :assets="$assets ?? []">
    <div class="row">
@@ -10,7 +11,12 @@ $data = $data ?? null;
                <div class="d-flex flex-wrap align-items-center justify-content-between">
                   <div class="d-flex flex-wrap align-items-center">
                      <div class="profile-img position-relative me-3 mb-3 mb-lg-0">
-                        <img src="{{ $profileImage ?? asset('images/avatars/01.png')}}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
+                        @if ($profileImage)
+                        <img src="{{ $profileImage->getUrl() }}?? asset('images/avatars/01.png')}}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
+                           @else
+                           <img src="{{ asset('images/avatars/01.png')}}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
+                        @endif
+                    
                         <img src="{{asset('images/avatars/avtar_1.png')}}" alt="User-Profile" class="theme-color-purple-img img-fluid rounded-pill avatar-100">
                         <img src="{{asset('images/avatars/avtar_2.png')}}" alt="User-Profile" class="theme-color-blue-img img-fluid rounded-pill avatar-100">
                         <img src="{{asset('images/avatars/avtar_4.png')}}" alt="User-Profile" class="theme-color-green-img img-fluid rounded-pill avatar-100">

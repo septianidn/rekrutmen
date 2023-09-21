@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class LaporanTS extends Model
+class LaporanTS extends Model implements HasMedia
 {
-    use HasFactory;
+
+    use HasFactory, InteractsWithMedia;
 
     protected $table = 'laporan_ts';
     /**
@@ -23,8 +26,8 @@ class LaporanTS extends Model
         'published'
     ];
 
-    public function paketSoal()
+    public function paket_soal()
     {
-        return $this->hasOne(PaketSoal::class, 'id', 'paket_soal_id');
+        return $this->belongsTo(PaketSoal::class, 'paket_soal_id');
     }
 }

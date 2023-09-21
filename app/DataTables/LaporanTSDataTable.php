@@ -7,6 +7,7 @@ use App\Models\Fakultas;
 use App\Models\Jenjang;
 use App\Models\LaporanTS;
 use App\Models\PaketSoal;
+use App\Models\TemporaryFiles;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -29,7 +30,7 @@ class LaporanTSDataTable extends DataTable
             })
             ->editColumn('published', function ($query) {
                 $status = 'primary';
-                switch ($query->publish) {
+                switch ($query->published) {
                     case 1:
                         $status = 'primary';
                         $text = 'Published';
@@ -41,12 +42,20 @@ class LaporanTSDataTable extends DataTable
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
+            ->addColumn('action', function ($data) {
+                return view('backoffice.konten.laporants.action', compact('data'));
+            })
+            ->addColumn('lokasi_laporan_link', function ($data) {
+
+                $laporants = $data->getFirstMedia('laporants');
+                return '<a href="' . $laporants->getUrl() . '" target="_blank">' . $laporants->file_name . '</a>';
+            })
             
             ->filterColumn('paketSoal.nama_paket', function($query, $keyword) {
                 $sql = "paketSoal.nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action', 'published',]);
+            ->rawColumns(['action', 'published','lokasi_laporan_link']);
             
     }
 
@@ -58,7 +67,7 @@ class LaporanTSDataTable extends DataTable
      */
     public function query()
     {
-        $model = LaporanTS::query()->with('paketSoal');
+        $model = LaporanTS::query()->with('paket_soal');
         return $this->applyScopes($model);
     }
 
@@ -106,9 +115,9 @@ class LaporanTSDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
-            ['data' => 'paketSoal.nama_paket', 'name' => 'nama_paket', 'title' => 'Tracer Study', 'searchable' => true,],
+            ['data' => 'paket_soal.nama_paket', 'name' => 'paket_soal.nama_paket', 'title' => 'Tracer Study', 'searchable' => true,],
             ['data' => 'deskripsi', 'name' => 'pertanyaan', 'title' => 'Deskripsi', 'searchable' => true , 'class' => 'text-center'],
-            ['data' => 'lokasi_laporan', 'name' => 'lokasi_laporan', 'title' => 'Laporan', 'searchable' => true , 'class' => 'text-center'],
+            ['data' => 'lokasi_laporan_link', 'name' => 'lokasi_laporan_link', 'title' => 'Laporan', 'searchable' => false , 'class' => 'text-center'],
             ['data' => 'published', 'name' => 'published', 'title' => 'Publish', 'searchable' => true,]
             ,
             Column::computed('action')

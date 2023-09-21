@@ -38,6 +38,7 @@ class UserRequest extends FormRequest
                     'password' => 'required|confirmed|min:8',
                     'email' => 'required|max:191|email|unique:users',
                     'phone_number'=>'max:13',
+              
                   
                 ];
                 break;
@@ -47,7 +48,7 @@ class UserRequest extends FormRequest
                     'email' => 'required|max:191|email|unique:users,email,'.$user_id,
                     'phone_number'=>'max:13',
                     'password' => 'confirmed|min:8|nullable',
-                  
+                 
                   
                 ];
                 break;

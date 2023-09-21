@@ -28,11 +28,14 @@ class LaporanTSRequest extends FormRequest
     public function rules()
     {
         $method = strtolower($this->method());
-    
+        $laporants_id =  $this->route()->laporan_tracer_study;
+        
+
         $rules = [];
         switch ($method) {
             case 'post':
                 $rules = [
+                    'paket_soal_id' => 'required|unique:laporan_ts',
                     'lokasi_laporan' => 'required',
                     
                     'deskripsi' => 'nullable',
@@ -42,8 +45,7 @@ class LaporanTSRequest extends FormRequest
                 break;
             case 'patch':
                 $rules = [
-        
-                    
+                    'paket_soal_id' => 'required|unique:laporan_ts,paket_soal_id,'.$laporants_id,
                     'lokasi_laporan' => 'required',
                     
                     'deskripsi' => 'nullable',

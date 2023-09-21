@@ -11,6 +11,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\AdminProdi;
 use App\Models\Prodi;
 use App\Models\StatusUser;
+use App\Models\TemporaryFiles;
 
 class UserController extends Controller
 {
@@ -49,13 +50,22 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+
         $request['password'] = bcrypt($request->password);
         $roleName = Role::findById($request->user_role)->name ?? 'admin';
         $request['user_type'] = $roleName;
 
+        $temporaryFile = TemporaryFiles::where('folder', $request->profile_image)->first();
+
         $user = User::create($request->all());
+        if($temporaryFile){
+            $user->addMedia(storage_path('app/public/profile_image/tmp/' . $request->profile_image . '/' . $temporaryFile->filename))
+            ->toMediaCollection('profile_image');
+            rmdir(storage_path('app/public/profile_image/tmp/' . $request->profile_image));
+            $temporaryFile->delete();
+        }
      
-        storeMediaFile($user,$request->profile_image, 'profile_image');
+     
         $user->assignRole($roleName);
 
         if (isset($request->adminprodi['kode_prodi_id'])) {
@@ -75,6 +85,9 @@ class UserController extends Controller
     public function show($id)
     {
         $data = User::findOrFail($id);
+
+        $profileImage = $data->getFirstMedia('profile_image');
+
         $adminprodi = $data->adminprodi; 
 
         $nama_prodi = '-';
@@ -91,9 +104,7 @@ class UserController extends Controller
            $jurusan = null;
         }
          
-      
-
-        $profileImage = getSingleMedia($data, 'profile_image');
+  
 
         return view('users.profile', compact('data', 'profileImage', 'nama_prodi'));
     }
@@ -109,7 +120,7 @@ class UserController extends Controller
         $data = User::findOrFail($id);
         $data['user_type'] = $data->roles->pluck('id')[0] ?? null;
        
-       $roles = Role::where('status', 1)->get()->pluck('title', 'id');
+        $roles = Role::where('status', 1)->get()->pluck('title', 'id');
 
         $profileImage = getSingleMedia($data, 'profile_image');
 
@@ -151,17 +162,25 @@ class UserController extends Controller
             }
         }
         
+        
+       
         // User user data...
         $userUpdate = $user->fill($request->all())->update();
         if ($userUpdate) {
             $user->assignRole(Role::findById($request->user_role)->name);
         }
         
+        $temporaryFile = TemporaryFiles::where('folder', $request->profile_image)->first();
 
         // Save user image...
         if (isset($request->profile_image) && $request->profile_image != null) {
             $user->clearMediaCollection('profile_image');
-            $user->addMediaFromRequest('profile_image')->toMediaCollection('profile_image');
+            if($temporaryFile){
+                $user->addMedia(storage_path('app/public/profile_image/tmp/' . $request->profile_image . '/' . $temporaryFile->filename))
+                ->toMediaCollection('profile_image');
+                rmdir(storage_path('app/public/profile_image/tmp/' . $request->profile_image));
+                $temporaryFile->delete();
+            }
         }
 
         if(auth()->check()){

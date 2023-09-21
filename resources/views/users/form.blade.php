@@ -19,11 +19,15 @@
                </div>
                <div class="card-body">
                      <div class="form-group">
-                        <div class="profile-img-edit position-relative">
-                           <input type="file" 
-                           class="profile_image"
-                           name="profile_image"
-                           accept="image/png, image/jpeg, image/gif"/>
+                        <div class="profile-img-edit position-relative w-50">
+                           <label class="form-label">Foto Profi:</label>
+                         
+                              <input type="file" 
+                              class="profile_image"
+                              name="profile_image"
+                              accept="image/png, image/jpeg, image/gif"/>
+                           
+         
                         </div>
                         <div class="img-extension mt-3">
                            <div class="d-inline-block align-items-center">
@@ -137,37 +141,86 @@
    </div>
 </x-app-layout>
 
+
+@php 
+$profileImage = optional($data)->getFirstMedia('profile_image');
+$urlPhoto = $profileImage ? $profileImage->getUrl() : 'http://127.0.0.1:8000/storage/profile-none.png';
+
+@endphp
+
 <script type="module">
+
+
+console.log('{{$urlPhoto}}')
+
 
   FilePond.registerPlugin(FilePondPluginFileValidateType,
        FilePondPluginImageEditor,
        FilePondPluginFilePoster);
 
-// Select the file input and use 
-// create() to turn it into a pond
-FilePond.create(
-  document.querySelector('.profile_image'),
-  {
-    labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
-    imagePreviewHeight: 50,
-    imageCropAspectRatio: '1:1',
-    imageResizeTargetWidth: 100,
-    imageResizeTargetHeight: 100,
-    stylePanelLayout: 'compact circle',
-    styleLoadIndicatorPosition: 'center bottom',
-    styleProgressIndicatorPosition: 'right bottom',
-    styleButtonRemoveItemPosition: 'left bottom',
-    styleButtonProcessItemPosition: 'right bottom',
-    acceptedFileTypes: ['image/*'],
-    allowRevert: true,
-  }
-);
-
 var pond = FilePond.create(document.querySelector('.profile_image'), {
        // FilePond generic properties
-       allowReorder: true,
-       filePosterMaxHeight: 256,
 
+      labelIdle: `Drag & Drop your picture or <span class="filepond--label-action">Browse</span>`,
+      imagePreviewHeight: 50,
+      imageCropAspectRatio: '1:1',
+      imageResizeTargetWidth: 100,
+      imageResizeTargetHeight: 100,
+      stylePanelLayout: 'compact circle',
+      styleLoadIndicatorPosition: 'center bottom',
+      styleProgressIndicatorPosition: 'right bottom',
+      styleButtonRemoveItemPosition: 'left bottom',
+      styleButtonProcessItemPosition: 'right bottom',
+      acceptedFileTypes: ['image/*'],
+      labelFileTypeNotAllowed: 'File of invalid type',
+      allowRevert: true,
+      allowReorder: true,
+      filePosterMaxHeight: 256,
+      allowProcess: true,
+         files: [
+            {
+               source: '{{$urlPhoto}}',
+               options: {
+               type: 'local'
+               }
+            }
+         ],
+         server: {
+            process: {
+               url : "{{ route('upload-profile-image.store')}}",
+               method: 'POST', // Tambahkan metode POST di sini
+               headers: {
+                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
+               },
+               onerror: (response) => {
+                     // Tangani kesalahan di sini dan cetak pesan kesalahan
+                     console.error('Kesalahan saat memproses unggahan:', response);
+               },
+            },
+            revert: {
+               url : "{{ route('upload-profile-image.destroy')}}",
+               method: 'DELETE', 
+               headers: {
+                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
+               },
+               onerror: (response) => {
+                     // Tangani kesalahan di sini dan cetak pesan kesalahan
+                     console.error('Kesalahan saat menghapus unggahan:', response);
+               },
+            },
+            load: (uniqueFileId, load, error, progress, abort, headers) => {
+               fetch('{{$urlPhoto}}') 
+                  .then((res) => {
+                        if (!res.ok) {
+                           throw new Error(`Network response was not ok: ${res.status}`);
+                        }
+                        return res.blob();
+                  })
+            .then(load)
+            .catch(error);
+            },
+                        
+                     },
        // FilePond Image Editor plugin properties
        imageEditor: {
            // Maps legacy data objects to new imageState objects (optional)
