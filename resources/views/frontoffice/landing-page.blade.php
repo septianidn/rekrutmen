@@ -83,7 +83,7 @@
                       <a href="#">Publikasi</a>
                       <ul class="sub-menu">
                         <li>
-                          <a href="#">Laporan Tracer Study</a>
+                          <a href="{{ route('tracerstudy-laporan') }}" class="{{ request()->routeIs('tracerstudy-laporan') ? 'active' : '' }}">Laporan Tracer Study</a>
                         </li>
                         <li><a href="#">Laporan Pertanyaan Tracer Study</a></li>
                         <li>

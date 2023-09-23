@@ -24,11 +24,12 @@ class PaketSoal extends Model
         'prolog_after_logout',
         'tgl_tayang',
         'tgl_selesai_tayang',
+        'untuk_lulusan',
         'tahun_pelaksanaan',
         'publish'
     ];
 
       
-   
+
    
 }

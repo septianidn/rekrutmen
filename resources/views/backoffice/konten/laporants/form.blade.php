@@ -52,7 +52,6 @@
 
 $laporants = optional($data)->getFirstMedia('laporants');
 $laporantsUrl = $laporants ? $laporants->getUrl() : null;
-
 @endphp
  
 <script>

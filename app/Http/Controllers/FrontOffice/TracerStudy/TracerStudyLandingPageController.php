@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\FrontOffice\TracerStudy;
 use App\Http\Controllers\Controller;
-
+use App\Models\LaporanTS;
 use Illuminate\Http\Request;
 
 class TracerStudyLandingPageController extends Controller
@@ -12,8 +12,19 @@ class TracerStudyLandingPageController extends Controller
      */
     public function index(Request $request)
     {
+
+        //TODO ORDER BY TAHUN PELAKSANAAN
+        $dataLaporan = LaporanTS::orderBy('created_at', 'DESC')->take(6)->get();
+
         
-        return view('frontoffice.tracerstudy.tracer-study');
+        return view('frontoffice.tracerstudy.tracer-study', compact('dataLaporan'));
+    }
+
+    public function laporan(Request $request)
+    {
+           //TODO ORDER BY TAHUN PELAKSANAAN
+        $dataLaporan = LaporanTS::orderBy('created_at', 'DESC')->paginate(9);
+        return view('frontoffice.tracerstudy.laporan-akhir',compact('dataLaporan'));
     }
 
    

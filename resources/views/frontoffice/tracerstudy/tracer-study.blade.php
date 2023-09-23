@@ -80,12 +80,12 @@
                       <a href="#">Konseling </a>
                     </li>
                     <li class="nav-item">
-                      <a href="#">Publikasi</a>
+                      <a >Publikasi</a>
                       <ul class="sub-menu">
                         <li>
-                          <a href="#">Laporan Tracer Study</a>
+                          <a href="{{ route('tracerstudy-laporan') }}" class="{{ request()->routeIs('tracerstudy-laporan') ? 'active' : '' }}">Laporan Tracer Study</a>
                         </li>
-                        <li><a href="#">Laporan Pertanyaan Tracer Study</a></li>
+                        <li><a href="">Laporan Pertanyaan Tracer Study</a></li>
                         <li>
                           <a href="#"
                             >Dashboard Progress</a
@@ -573,7 +573,7 @@
           <div class="row">
             <div class="col-12">
               <div class="button selengkapnya">
-                <a href="blog-single.html" class="btn">Selengkapnya</a>
+                <a href="{{route('tracerstudy-laporan')}}" class="btn">Selengkapnya</a>
               </div>
             </div>
           </div>
@@ -882,13 +882,39 @@
                 Publikasi dan Laporan Tracer Study
               </h2>
               <p class="wow fadeInUp" data-wow-delay=".6s">
-                There are many variations of passages of Lorem Ipsum available,
-                but the majority have suffered alteration in some form.
+                Temukan laporan akhir mengenai tracer study
               </p>
             </div>
           </div>
         </div>
         <div class="row">
+          @foreach ($dataLaporan as $laporan)
+              <div class="col-lg-4 col-md-6 col-12">
+                  <div class="single-news wow fadeInUp" data-wow-delay=".3s">
+                      <div class="content-body">
+                          <h4 class="title">
+                              <a href="">
+                                Laporan Tracer Study Tahun {{$laporan->paket_soal->tahun_pelaksanaan}}
+                              </a>
+                          </h4>
+                          <p>
+                            {{ $laporan->paket_soal->deskripsi ?? 'Laporan ini ditujukan untuk melihat hasil akhir tracer study untuk lulusan '. $laporan->untuk_lulusan}}
+                          </p>
+                          @php
+                          $fileLaporan = $laporan->getFirstMedia('laporants') ?? null;
+                      @endphp
+                          <div class="button buttontc">
+                            @if($fileLaporan)
+                            <a href="{{$fileLaporan->getUrl() ?? ''}}"   target="_blank" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
+                         @endif
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          @endforeach
+      </div>
+      
+        {{-- <div class="row">
           <div class="col-lg-4 col-md-6 col-12">
             <div class="single-news wow fadeInUp" data-wow-delay=".3s">
               <div class="content-body">
@@ -994,16 +1020,16 @@
                   typesetting industry. Lorem Ipsum has been the standard.
                 </p>
                 <div class="button buttontc">
-                  <a href="blog-single.html" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
+                  <a href="{{route('tracerstudy-laporan')}}" class="btn"> Selengkapnya  <i class="lni lni-arrow-right"></i></a>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class="col-12">
             <div class="button selengkapnya">
-              <a href="blog-single.html" class="btn">Selengkapnya</a>
+              <a href="{{route('tracerstudy-laporan')}}" class="btn">Selengkapnya</a>
             </div>
           </div>
         </div>

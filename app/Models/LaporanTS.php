@@ -20,7 +20,6 @@ class LaporanTS extends Model implements HasMedia
      */
     protected $fillable = [
         'paket_soal_id',
-      
         'lokasi_laporan',
         'deskripsi',
         'published'
@@ -29,5 +28,12 @@ class LaporanTS extends Model implements HasMedia
     public function paket_soal()
     {
         return $this->belongsTo(PaketSoal::class, 'paket_soal_id');
+    }
+    
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('laporants')
+            ->useDisk('public')
+            ->singleFile(); // Jika hanya satu file dalam collection
     }
 }

@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/storage', function () {
     Artisan::call('storage:link');
@@ -52,38 +52,33 @@ Route::get('/storage', function () {
 
 //Front Office Without Auth
 
-Route::get('/',[LandingPageController::class, 'index'])->name('landingpage');;
- //Tracer Study
-Route::get('/tracerstudy',[TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
+Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
+//Tracer Study
+Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
 
+Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
 
 //Front Office With Auth
-Route::group(['prefix' => '/', 'middleware' => 'auth'], function() {
-
-    
-});
+Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {});
 
 //Back Office With Auth
 Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
-  
-       // Dashboard Routes
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');  
+    // Dashboard Routes
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
     Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
     Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
     Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
-    
-     // Users Module
-     Route::resource('/users', UserController::class);
 
-     Route::resource('/kelola-admin', KelolaAdminController::class);
-     Route::resource('/kelola-admin-prodi', AdminProdiController::class);
+    // Users Module
+    Route::resource('/users', UserController::class);
 
-   
+    Route::resource('/kelola-admin', KelolaAdminController::class);
+    Route::resource('/kelola-admin-prodi', AdminProdiController::class);
 
     // Permission Module
     // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
-    Route::resource('/permission',PermissionController::class);
+    Route::resource('/permission', PermissionController::class);
     Route::resource('/role-permission', RolePermission::class);
     Route::resource('/role', RoleController::class);
 
@@ -94,7 +89,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
     Route::delete('/delete-avatar', [UploadAvatarController::class, 'tmpDelete'])->name('upload-profile-image.destroy');
     Route::get('/fetch-avatar', [UploadAvatarController::class, 'fetch'])->name('upload-profile-image.fetch');
 
-    Route::group(['prefix' => 'datamaster'], function() {
+    Route::group(['prefix' => 'datamaster'], function () {
         Route::resource('/jenjang', JenjangController::class);
         Route::resource('/prodi', ProdiController::class);
         Route::resource('/fakultas', FakultasController::class);
@@ -106,43 +101,36 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::post('/datapedia/store', [DataPediaDetailController::class, 'store'])->name('datapediadetail.store');
         Route::patch('/datapedia/update/{id}', [DataPediaDetailController::class, 'update'])->name('datapediadetail.update');
         Route::delete('/datapedia/destroy/{id}', [DataPediaDetailController::class, 'destroy'])->name('datapediadetail.destroy');
-
-               
     });
 
-    Route::group(['prefix' => 'email'], function() {
+    Route::group(['prefix' => 'email'], function () {
         Route::resource('/template', EmailTemplateController::class);
         Route::resource('/outbox', EmailBoxController::class);
         Route::resource('/send', EmailSendController::class);
     });
-   
-    Route::group(['prefix' => 'konten'], function() {
+
+    Route::group(['prefix' => 'konten'], function () {
         Route::resource('/laporan-tracer-study', LaporanTSController::class);
         Route::resource('/grup-konten', GrupKontenController::class);
         Route::resource('/kategori-konten', KategoriKontenController::class);
         Route::resource('/kelola', KontenController::class);
     });
-    
 
-    Route::group(['prefix' => 'tracer-study'], function() {
+    Route::group(['prefix' => 'tracer-study'], function () {
         Route::resource('/rekap', RekapTCController::class);
         Route::resource('/paket-soal', PaketSoalController::class);
         Route::get('paket-soal/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
         Route::resource('/usulan-pertanyaan', EmailBoxController::class);
         Route::resource('/jawaban', EmailSendController::class);
     });
-
-    
 });
-
-
 
 //TEMPLATE
 //UI Pages Routs
 Route::get('/home', [HomeController::class, 'uisheet'])->name('uisheet');
 
 //App Details Page => 'Dashboard'], function() {
-Route::group(['prefix' => 'menu-style'], function() {
+Route::group(['prefix' => 'menu-style'], function () {
     //MenuStyle Page Routs
     Route::get('horizontal', [HomeController::class, 'horizontal'])->name('menu-style.horizontal');
     Route::get('dual-horizontal', [HomeController::class, 'dualhorizontal'])->name('menu-style.dualhorizontal');
@@ -152,7 +140,7 @@ Route::group(['prefix' => 'menu-style'], function() {
 });
 
 //App Details Page => 'special-pages'], function() {
-Route::group(['prefix' => 'special-pages'], function() {
+Route::group(['prefix' => 'special-pages'], function () {
     //Example Page Routs
     Route::get('billing', [HomeController::class, 'billing'])->name('special-pages.billing');
     Route::get('calender', [HomeController::class, 'calender'])->name('special-pages.calender');
@@ -163,43 +151,40 @@ Route::group(['prefix' => 'special-pages'], function() {
 });
 
 //Widget Routs
-Route::group(['prefix' => 'widget'], function() {
+Route::group(['prefix' => 'widget'], function () {
     Route::get('widget-basic', [HomeController::class, 'widgetbasic'])->name('widget.widgetbasic');
     Route::get('widget-chart', [HomeController::class, 'widgetchart'])->name('widget.widgetchart');
     Route::get('widget-card', [HomeController::class, 'widgetcard'])->name('widget.widgetcard');
 });
 
 //Maps Routs
-Route::group(['prefix' => 'maps'], function() {
+Route::group(['prefix' => 'maps'], function () {
     Route::get('google', [HomeController::class, 'google'])->name('maps.google');
     Route::get('vector', [HomeController::class, 'vector'])->name('maps.vector');
 });
 
-
 //Error Page Route
-Route::group(['prefix' => 'errors'], function() {
+Route::group(['prefix' => 'errors'], function () {
     Route::get('error404', [HomeController::class, 'error404'])->name('errors.error404');
     Route::get('error500', [HomeController::class, 'error500'])->name('errors.error500');
     Route::get('maintenance', [HomeController::class, 'maintenance'])->name('errors.maintenance');
 });
 
-
 //Forms Pages Routs
-Route::group(['prefix' => 'forms'], function() {
+Route::group(['prefix' => 'forms'], function () {
     Route::get('element', [HomeController::class, 'element'])->name('forms.element');
     Route::get('wizard', [HomeController::class, 'wizard'])->name('forms.wizard');
     Route::get('validation', [HomeController::class, 'validation'])->name('forms.validation');
 });
 
-
 //Table Page Routs
-Route::group(['prefix' => 'table'], function() {
+Route::group(['prefix' => 'table'], function () {
     Route::get('bootstraptable', [HomeController::class, 'bootstraptable'])->name('table.bootstraptable');
     Route::get('datatable', [HomeController::class, 'datatable'])->name('table.datatable');
 });
 
 //Icons Page Routs
-Route::group(['prefix' => 'icons'], function() {
+Route::group(['prefix' => 'icons'], function () {
     Route::get('solid', [HomeController::class, 'solid'])->name('icons.solid');
     Route::get('outline', [HomeController::class, 'outline'])->name('icons.outline');
     Route::get('dualtone', [HomeController::class, 'dualtone'])->name('icons.dualtone');
