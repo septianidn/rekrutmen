@@ -23,7 +23,17 @@ class Alumni extends Model
         'nama',
         'kode_prodi_id',
         'thn_masuk',
+        'tempat_lahir',
         'thn_lulus',
+        'tanggal_lahir',
+        'pin',
+        'nomor_handphone',
+        'periode_wisuda',
+        'status_tc',
+        'tipe_masuk',
+        'nik',
+        'npwp',
+        'judul_tesis'
         
     ];
 

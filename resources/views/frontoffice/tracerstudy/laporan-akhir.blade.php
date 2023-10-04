@@ -670,7 +670,7 @@
           </div>
         </div>
       </div>
-
+    
       <div class="footer-bottom">
         <div class="container">
           <div class="inner">
@@ -716,7 +716,7 @@
     <script src="{{ asset('js/frontoffice/tiny-slider.js') }}"></script>
     <script src="{{ asset('js/frontoffice/glightbox.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/main.js') }}"></script>
-    <script defer="" src="https://unpkg.com/vanilla-counter" onload="initializeCounterRANDOMID()"></script>
+
 </body>
 
 </html>

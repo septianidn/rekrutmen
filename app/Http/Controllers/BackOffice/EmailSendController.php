@@ -43,7 +43,7 @@ class EmailSendController extends Controller
       * @return \Illuminate\Http\Response
       */
      //Email Send 
-     // TODO send email | mailtrap
+     // TODO: send email | mailtrap
      public function store(EmailSendRequest $request)
      {
 

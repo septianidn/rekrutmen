@@ -50,13 +50,17 @@ Route::get('/storage', function () {
     Artisan::call('storage:link');
 });
 
+
+
 //Front Office Without Auth
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 //Tracer Study
 Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
-
+Route::get('/tracerstudy/lulusan-{untuk_lulusan}/login', [TracerStudyLandingPageController::class, 'login'])->name('tracerstudy.login');
+Route::get('/reload-captcha', [TracerStudyLandingPageController::class, 'reloadCaptcha']);
 Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
+
 
 //Front Office With Auth
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {});

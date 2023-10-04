@@ -19,6 +19,16 @@ return new class extends Migration
             $table->foreign('kode_prodi_id')->references('kode_prodi')->on('prodi')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('thn_masuk');
             $table->integer('thn_lulus');
+            $table->string('tempat_lahir')->nullable(true);
+            $table->date('tanggal_lahir')->nullable(true);
+            $table->string('nomor_handphone')->unique()->nullable(true);
+            $table->string('pin', 8)->unique()->nullable(true);
+            $table->string('nik', 16)->unique()->nullable(true);
+            $table->string('npwp', 25)->unique()->nullable(true);
+            $table->text('judul_tesis')->nullable(true);; 
+            $table->enum('periode_wisuda', ['Wisuda I', 'Wisuda II', 'Wisuda III', 'Wisuda IV', 'Wisuda V', 'Wisuda VI'])->nullable(true);;
+            $table->enum('status_tc', ['Complete', 'Pending', 'None'])->default('None');;
+           
             $table->timestamps();
         });
     }

@@ -3,13 +3,13 @@
     li {
         a {
             color: $primary;
-            background: rgba($primary,0.2);
+            background: rgba($primary, 0.2);
             display: block;
             padding: 0.938rem;
             text-decoration: none;
             font-size: 1.125rem;
             border-radius: $border-radius;
-            
+
             .iq-icon {
                 display: inline-block;
                 text-align: center;
@@ -25,18 +25,18 @@
         &.active {
             a {
                 background: $primary;
-                color: $white;  
+                color: $white;
 
                 .iq-icon {
                     background: $white;
-                    color: $primary; 
+                    color: $primary;
                 }
             }
             &.done {
                 a {
                     background: $success;
                     i {
-                        color: $success; 
+                        color: $success;
                     }
                 }
             }
@@ -45,9 +45,9 @@
             &.active {
                 a {
                     background: $success;
-    
+
                     i {
-                        color: $success; 
+                        color: $success;
                     }
                 }
             }
@@ -55,9 +55,9 @@
     }
 }
 #form-wizard1 {
-	fieldset {
-		&:not(:first-of-type) {
-			display: none;
-		}
-	}
+    fieldset {
+        &:not(:first-of-type) {
+            display: none;
+        }
+    }
 }

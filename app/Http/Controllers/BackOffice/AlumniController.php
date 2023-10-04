@@ -54,7 +54,7 @@ class AlumniController extends Controller
     {
        
         $data = Alumni::find($id);
-        $view = view('backoffice.datamaster.prodi.form',  compact('request', 'data', 'id'))->render();
+        $view = view('backoffice.alumni.form',  compact('request', 'data', 'id'))->render();
         return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
@@ -65,10 +65,10 @@ class AlumniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AlumniRequest $request, $id)
+    public function update(AlumniRequest $request, $nim)
     {
         // dd($request->all());
-        $alumni= Alumni::findOrFail($id);
+        $alumni= Alumni::findOrFail($nim);
 
         $alumni->fill($request->all())->update();
 
@@ -86,9 +86,9 @@ class AlumniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($nim)
     {
-        $user = Alumni::findOrFail($id);
+        $user = Alumni::findOrFail($nim);
         $status = 'errors';
         $message= __('global-message.delete_form', ['form' => __('alumni.title')]);
 

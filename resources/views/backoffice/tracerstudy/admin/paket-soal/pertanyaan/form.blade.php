@@ -20,31 +20,27 @@
             ]) !!}
         @endif --}}
         <!-- fieldsets -->
-        <fieldset>
-            {{-- FIELD SET INPUT SOAL --}}
-            <div class="form-card text-start">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-12">
-                        <div class="card">
-                            <div class="d-flex justify-content-between align-items-center p-4">
-                                <h4 class="card-title">Form Soal</h4>
-                                <button type="button" class="btn btn-m btn-primary">Lihat Form</button>
-                            </div>
+        <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <div class="card">
+                <div class="d-flex justify-content-between align-items-center p-4">
+                    <h4 class="card-title">Form Soal</h4>
+                    <div class="d-flex ">
+                        <div style="margin-right: 10px;">
+                            <button type="button" class="btn btn-m btn-primary">Lihat Form</button>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-lg-12" id="card_container">
-
-                    </div>
-                    <div class="d-flex justify-content-end my-4">
-                        <button type="button" name="previous"
-                            class="btn btn-dark btn-sm previous action-button-previous me-1"
-                            value="Previous">Kembali</button>
-                        <button type="button" name="next" class="btn btn-primary btn-sm next action-button"
-                            value="Next">Tambah Halaman</button>
+                        <button type="submit" class="btn btn-m btn-primary">Simpan Form</button>
                     </div>
                 </div>
             </div>
-        </fieldset>
+        </div>
+    </div>
+
+      <div id="page_container">
+    
+      </div>
+
+
         {!! Form::close() !!}
     </div>
 </x-app-layout>
@@ -58,6 +54,115 @@
         plugins: 'image code advlist anchor autolink autoresize charmap codesample emoticons fullscreen insertdatetime link lists media preview searchreplace table template visualchars wordcount',
     });
  </script>
+
+<script>
+    $(document).ready(function () {
+
+        let currentPage = 1;
+const maxPages = 10; // Batasan jumlah halaman
+
+showFirstPage();
+
+function showPage(page) {
+    $(".fieldset-wizard").removeClass("active");
+    $(`#page\\[${page}\\]`).addClass("active");
+    $(".navigation-page").removeClass("active");
+    $(`#page-navigation\\[${page}\\]`).addClass("active");
+}
+
+function addPage() {
+    if (currentPage < maxPages) {
+        currentPage++;
+        const newPage = generatePage(currentPage);
+        const pageContainer = $("#page_container");
+        pageContainer.append(newPage);
+        const pageNavigation = $(".page-navigation");
+        pageNavigation.html(generatePageNavigation(currentPage));
+        showPage(currentPage);
+
+        // Tampilkan tombol "Hapus Halaman" setelah menambah halaman
+        if (currentPage > 1) {
+            $(".delete-and-previous").show();
+        }
+    }
+}
+
+function deletePage(pageToDelete) {
+    if (currentPage > 1) {
+        const pageToDeleteElement = $(`#page\\[${pageToDelete}\\]`);
+        pageToDeleteElement.remove();
+        currentPage--;
+        const pageNavigation = $(".page-navigation");
+        pageNavigation.html(generatePageNavigation(currentPage));
+        showPage(currentPage);
+
+        // Sembunyikan tombol "Hapus Halaman" jika hanya ada satu halaman
+        if (currentPage === 1) {
+            $(".delete-and-previous").hide();
+        }
+    }
+}
+
+$(document).on('click', '.add-and-next', function() {
+    addPage();
+});
+
+$(document).on('click', '.delete-and-previous', function() {
+    const currentPageToDelete = currentPage;
+    deletePage(currentPageToDelete);
+});
+
+$(document).on('click', '.navigation-page', function() {
+    const pageToNavigate = parseInt($(this).text()); 
+    showPage(pageToNavigate); 
+});
+
+// Fungsi untuk menghasilkan kode HTML untuk halaman
+function generatePageNavigation(pageCount) {
+    let navigationHTML = "";
+    for (let i = 1; i <= pageCount; i++) {
+        navigationHTML += `<button type="button" name="page" class="btn btn-light btn-sm navigation-page action-button-number-page me-1" id="page-navigation[${i}]" value="Number Page">${i}</button>`;
+    }
+    return navigationHTML;
+}
+
+function generatePage(page) {
+    return `<fieldset class="fieldset-wizard" id="page[${page}]">
+        <div class="form-card text-start">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12" id="card_container[${page}]">
+                    <p>Wizard ${page} </p>
+                </div>
+
+                <div class="d-flex justify-content-end my-4"> 
+                    <button type="button" name="delete" class="btn btn-danger btn-sm delete-and-previous action-button-previous me-1" value="Previous" onclick="deletePage(${page})">Hapus Halaman</button> 
+                    <div class="page-navigation"></div>
+                    <button type="button" name="add" class="btn btn-primary btn-sm add-and-next action-button" value="Next" onclick="addPage()">Tambah Halaman</button>
+                </div>   
+            </div>
+        </div>
+    </fieldset>`;
+}
+
+// Fungsi untuk menampilkan halaman pertama
+function showFirstPage() {
+    const firstPage = generatePage(currentPage);
+    const pageContainer = $("#page_container");
+    pageContainer.append(firstPage);
+    const pageNavigation = $(".page-navigation");
+    pageNavigation.html(generatePageNavigation(currentPage));
+    showPage(currentPage);
+
+    // Sembunyikan tombol "Hapus Halaman" jika hanya ada satu halaman
+    if (currentPage === 1) {
+        $(".delete-and-previous").hide();
+    }
+}
+});
+    </script>
+
+    
+{{--     
  <script>
     document.addEventListener("DOMContentLoaded", function() {
     
@@ -69,6 +174,33 @@
         dragCard();
     
     });
+
+
+
+
+    function generatePage(page){
+        return `<fieldset class="wizard" id="page[${page}]">
+            <div class="form-card text-start">
+                <div class="row">
+                   
+                    <div class="col-sm-12 col-lg-12" id="card_container[${page}]">
+
+                        <p>Wizard ${page} </p>
+                    </div>
+                    <div class="d-flex justify-content-end my-4">
+                        <button type="button" name="delete_page"
+                            class="btn btn-dark btn-sm delete-wizard" id="delete_page[${page}]"
+                            value="Delete">Hapus Halaman </button>
+                            
+                        <button type="button" name="add_page" class="btn btn-primary btn-sm add-wizard"  id="add_page[${page}]"
+                            value="Add">Tambah Halaman</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>`
+    }
+
+
     
     function gridColumnListener() {
         $(document).on('click', '.grid-delete-row', function() {
@@ -277,9 +409,11 @@
     }
     
     function initialize() {
-        $("#card_container").append(generateHeading(0));
-        $("#card_container").append(generateCard(1));
-        listenerCard();
+
+        $("#page_container").append(generatePage(1));
+        // $("#card_container").append(generateHeading(0));
+        // $("#card_container").append(generateCard(1));
+        // listenerCard();
     
     }
     
@@ -498,7 +632,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="form-group col-sm-12">
-                                            <label class="form-label text-black">Judul</label>
+                                            <label class="form-label text-black">Judul page</label>
                                                 <input class="form-control" name="judul" placeholder="Isi Judul" id="judul[${i}]">
                                         </div>
                                     </div>
@@ -868,4 +1002,4 @@
             return $opt;
         }
     }
- </script>
+ </script> --}}

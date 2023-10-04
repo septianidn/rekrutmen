@@ -10,6 +10,8 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AlumniRequest extends FormRequest
 {
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,28 +30,48 @@ class AlumniRequest extends FormRequest
     public function rules()
     {
         $method = strtolower($this->method());
-    
+        $nim =  $this->route()->nim;
         $rules = [];
         switch ($method) {
             case 'post':
                 $rules = [
-                    'nim' => 'required',
+                    'nim' => 'required|unique:alumni',
                     'email' => 'required',
                     'nama' => 'required',
                     'kode_prodi_id' => 'required',
                     'thn_masuk' => 'required',
                     'thn_lulus' => 'required',
+                    'tempat_lahir'=> 'nullable',
+                    'tanggal_lahir'=> 'nullable',
+                    'pin' => 'required|max:8',
+                    'nomor_handphone' => 'nullable|max:13',
+                    'periode_wisuda'=> 'nullable',
+                    'status_tc'=> 'nullable',
+                    'tipe_masuk'=> 'nullable',
+                    'nik'=> 'nullable',
+                    'npwp'=> 'nullable',
+                    'judul_tesis'=> 'nullable',
                     
                 ];
                 break;
             case 'patch':
                 $rules = [
-                    'nim' => 'required',
+                    // 'nim' => 'required|unique:alumni,nim,'.$nim,
                     'email' => 'required',
                     'nama' => 'required',
                     'kode_prodi_id' => 'required',
                     'thn_masuk' => 'required',
                     'thn_lulus' => 'required',
+                    'tempat_lahir'=> 'nullable',
+                    'tanggal_lahir'=> 'nullable',
+                    // 'pin' => 'required|max:8|unique:alumni,nim,'.$nim,
+                    // 'nomor_handphone' => 'nullable|max:13|unique:alumni,nim,'.$nim,
+                    'periode_wisuda'=> 'nullable',
+                    'status_tc'=> 'nullable',
+                    'tipe_masuk'=> 'nullable',
+                    // 'nik'=> 'nullable|unique:alumni,nim,'.$nim,
+                    // 'npwp'=> 'nullable|unique:alumni,nim,'.$nim,
+                    'judul_tesis'=> 'nullable',
                 ];
                 break;
 

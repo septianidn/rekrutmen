@@ -156,27 +156,24 @@
                   <!-- Single Field Item Start  -->
                   {{-- TODO CHANGE FROM ACTION --}}
                   <div class="job-search-form">
-                    <form action="#">
-                      <div class="single-field-item">
-                        <p>Tahun</p>
-                          </div>
-                      <!-- Single Field Item End  -->
-                      <!-- Single Field Item Start  -->
-                      {{-- TODO FETCH FROM DB --}}
-                      <div class="single-field-item">
-                        <select class="form-select">
-                          <option selected>2022</option>
-                          <option value="option1">Opsi 1</option>
-                          <option value="option2">Opsi 2</option>
-                          <option value="option3">Opsi 3</option>
-                        </select>
-                       
-                      </div>
+                    {!! Form::open(['route' => ['tracerstudy.login', ''], 'method' => 'get', 'enctype' => 'multipart/form-data', 'id' => 'formTC' ]) !!}
 
-                      <div class="submit-btn">
-                        <button class="btn" type="submit">Isi Kuesioner</button>
-                      </div>
-                    </form>
+                    <div class="single-field-item">
+                      <p>Lulusan</p>
+                    </div>
+                    
+                    <div class="single-field-item">
+                      {{ Form::select('id', $optionTracerStudy->pluck('untuk_lulusan', 'id'), null, [
+                        'class' => 'form-select',
+                        'id' => 'untuk_lulusan',
+                      ]) }}
+                    </div>
+                    
+                    <div class="submit-btn">
+                      <button class="btn" type="submit">Isi Kuesioner</button>
+                    </div>
+                    
+                    {{ Form::close() }}
                   </div>
                 </div>
               </div>
@@ -445,10 +442,9 @@
                 <i class="lni lni-grid-alt"></i>
 
                 <div class="list-bod">
-                  <h5>#1 Jobs site in UK</h5>
+                  <h5>Informasi Perkembangan Universitas</h5>
                   <p>
-                    Leverage agile frameworks to provide a robust synopsis for
-                    high level overviews. Iterative
+                    Mendapatkan informasi yang berharga untuk perkembangan universitas.
                   </p>
                 </div>
               </div>
@@ -457,10 +453,12 @@
                 <i class="lni lni-search"></i>
 
                 <div class="list-bod">
-                  <h5>Seamless searching</h5>
+                  <h5>Mengevaluasi Relevansi Pendidikan Tinggi</h5>
                   <p>
-                    Capitalize on low hanging fruit to identify a ballpark value
-                    added activity to beta test.
+                    Mengevaluasi relevansi pendidikan tinggi yang diselenggarakan, membantu
+                    untuk akreditasi universitas, dan memberikan informasi kepada mahasiswa,
+                    orang tua mahasiswa, dosen, dan tenaga kependidikan.
+                    
                   </p>
                 </div>
               </div>
@@ -469,10 +467,9 @@
                 <i class="lni lni-stats-up"></i>
 
                 <div class="list-bod">
-                  <h5>Hired in top companies</h5>
+                  <h5>Mengukur Pengembangan Karier</h5>
                   <p>
-                    Podcasting operational change management inside of workflows
-                    to establish.
+                    Studi ini membantu alumni melihat sejauh mana mereka telah mencapai tujuan karier mereka dan membandingkannya dengan rekan-rekan mereka yang lulus dari institusi yang sama.
                   </p>
                 </div>
               </div>
@@ -1426,19 +1423,21 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
+    
 
     <script src="{{ asset('js/frontoffice/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/wow.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/tiny-slider.js') }}"></script>
     <script src="{{ asset('js/frontoffice/glightbox.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/main.js') }}"></script>
-    <script defer="" src="https://unpkg.com/vanilla-counter" onload="initializeCounterRANDOMID()"></script>
-<!-- check info at https://github.com/yunisdev/vanilla-counter -->
-<!-- lc-needs-hard-refresh -->
+    <script src="{{ asset('js/frontoffice/jquery-3.7.1.min.js') }}"></script>
+    <script defer="" src="{{ asset('js/frontoffice/vanilla-counter.js')}} "></script>
 
-<script>
+    <!-- lc-needs-hard-refresh -->
 
-	function initializeCounterRANDOMID(){
+<script  type="text/javascript">
+
+function initializeCounterRANDOMID(){
 		
 		const options = {};
 		
@@ -1453,7 +1452,26 @@
 		observer.observe(document.querySelector('.counter-RANDOM'));
 	}
 
-</script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+      var selectElement = document.getElementById('untuk_lulusan');
+      var formElement = document.getElementById('formTC');
+  
+      function updateFormAction() {
+          var selectedOption = selectElement.options[selectElement.selectedIndex].textContent;
+          formElement.action = "{{ route('tracerstudy.login', ':selectedOption') }}".replace(':selectedOption', selectedOption);
+      }
+  
+      // Inisialisasi nilai awal
+      updateFormAction();
+  
+      // Mendengarkan event change pada elemen <select>
+      selectElement.addEventListener('change', updateFormAction);
+      initializeCounterRANDOMID();
+  });
+  </script>
+  
+
     <script type="text/javascript">
         //========= glightbox
         GLightbox({
@@ -1464,5 +1482,6 @@
             'autoplayVideos': true,
         });
     </script>
+ 
   </body>
 </html>

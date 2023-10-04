@@ -22,7 +22,7 @@ class AlumniDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
+            ->addColumn('no', function () use (&$index) {
                 return $index++;
             })
             ->addColumn('action', function ($data) {
@@ -68,7 +68,7 @@ class AlumniDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         "initComplete" => 'function () {
-                            this.api().columns([1, 2, 3, 4, 5,6,7,8]).every(function () {
+                            this.api().columns([1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
     
@@ -88,18 +88,30 @@ class AlumniDataTable extends DataTable
      *
      * @return array
      */
+    //TODO: JUST SHOW COLUMN KEBUTUHAN TC 
+    //TODO: ADD FITUR SHOW AND HIDE HEAD OF COLUNM USING THEME PRO
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' => 'no', 'name' => 'no', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'searchable' => true,],
             ['data' => 'nim', 'name' => 'nama', 'title' => 'NIM', 'searchable' => true,],
+            ['data' => 'tanggal_lahir', 'name' => 'tanggal_lahir', 'title' => 'Tanggal Lahir', 'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email', 'searchable' => true,],
             ['data' => 'prodi.fakultas.nama_fakultas', 'name' => 'prodi.fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true],
             ['data' => 'prodi.nama_prodi', 'name' => 'prodi.nama_prodi', 'title' => 'Prodi', 'searchable' => true,],
             ['data' => 'prodi.jenjang.nama_jenjang', 'name' => 'prodi.jenjang.nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
             ['data' => 'thn_masuk', 'name' => 'thn_masuk', 'title' => 'Tahun Masuk', 'searchable' => true,],
             ['data' => 'thn_lulus', 'name' => 'nama', 'title' => 'Tahun Lulus', 'searchable' => true,],
+            ['data' => 'pin', 'name' => 'pin', 'title' => 'PIN', 'searchable' => true,],
+            ['data' => 'tipe_masuk', 'name' => 'tipe_masuk', 'title' => 'Tipe Masuk', 'searchable' => true,],
+            ['data' => 'nomor_handphone', 'name' => 'nomor_handphone', 'title' => 'Nomor Handphone', 'searchable' => true,],
+            ['data' => 'periode_wisuda', 'name' => 'periode_wisuda', 'title' => 'Periode Wisuda', 'searchable' => true,],
+            ['data' => 'npwp', 'name' => 'npwp', 'title' => 'NPWP', 'searchable' => true,],
+            ['data' => 'nik', 'name' => 'nik', 'title' => 'NIK', 'searchable' => true,],
+            ['data' => 'judul_tesis', 'name' => 'judul_tesis', 'title' => 'Judul Tesis', 'searchable' => true,],
+            ['data' => 'status_tc', 'name' => 'status_tc', 'title' => 'Status TC', 'searchable' => true,],
+
 
 
             Column::computed('action')

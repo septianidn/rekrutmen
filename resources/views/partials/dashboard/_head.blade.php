@@ -50,7 +50,7 @@
 {{-- 
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" /> --}}
 
-<link href="https://unpkg.com/filepond@4.26.1/dist/filepond.min.css" rel="stylesheet">
+{{-- <link href="https://unpkg.com/filepond@4.26.1/dist/filepond.min.css" rel="stylesheet"> --}}
 
 
 {{-- Custom Css From library --}}
@@ -109,4 +109,18 @@
       background-color: #F6F6F6
    }
 
+   #form-wizard2 fieldset:not(:first-of-type) {
+	 display: none;
+   }
+ 
+   .fieldset-wizard {
+      display: none;
+    }
+    .fieldset-wizard.active {
+      display: block;
+    }
+
+    .navigation-page.active{
+      background-color:#009A4B;
+    }
    </style>
