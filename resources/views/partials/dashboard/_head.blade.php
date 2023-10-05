@@ -1,25 +1,28 @@
-
-
 <!-- Favicon -->
 
 <link rel="shortcut icon" href="{{ asset('images/backoffice/logo/logounand30.svg') }}" />
-<link rel="stylesheet" href="{{asset('css/libs.min.css')}}">
+<link rel="stylesheet" href="{{ asset('css/libs.min.css') }}">
 
 
-<link rel="stylesheet" href="{{asset('css/hope-ui.css?v=1.1.0')}}">
-<link rel="stylesheet" href="{{asset('css/custom.css?v=1.1.0')}}">
-<link rel="stylesheet" href="{{asset('css/dark.css?v=1.1.0')}}">
-<link rel="stylesheet" href="{{asset('css/rtl.css?v=1.1.0')}}">
-<link rel="stylesheet" href="{{asset('css/customizer.css?v=1.1.0')}}">
+<link rel="stylesheet" href="{{ asset('css/hope-ui.css?v=1.1.0') }}">
+<link rel="stylesheet" href="{{ asset('css/custom.css?v=1.1.0') }}">
+<link rel="stylesheet" href="{{ asset('css/dark.css?v=1.1.0') }}">
+<link rel="stylesheet" href="{{ asset('css/rtl.css?v=1.1.0') }}">
+<link rel="stylesheet" href="{{ asset('css/customizer.css?v=1.1.0') }}">
 
 <!-- Fullcalender CSS -->
 <link rel="stylesheet" href="{{ asset('vendor/flatpickr/dist/flatpickr.min.css') }}">
-<link rel='stylesheet' href="{{asset('vendor/fullcalendar/core/main.css')}}" />
-<link rel='stylesheet' href="{{asset('vendor/fullcalendar/daygrid/main.css')}}" />
-<link rel='stylesheet' href="{{asset('vendor/fullcalendar/timegrid/main.css')}}" />
-<link rel='stylesheet' href="{{asset('vendor/fullcalendar/list/main.css')}}" />
-<link rel="stylesheet" href="{{asset('vendor/Leaflet/leaflet.css')}}" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+<link rel='stylesheet' href="{{ asset('vendor/fullcalendar/core/main.css') }}" />
+<link rel='stylesheet' href="{{ asset('vendor/fullcalendar/daygrid/main.css') }}" />
+<link rel='stylesheet' href="{{ asset('vendor/fullcalendar/timegrid/main.css') }}" />
+<link rel='stylesheet' href="{{ asset('vendor/fullcalendar/list/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('vendor/Leaflet/leaflet.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/hopepro/mail.min.css') }}" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 
 <!-- SURVEY JS CREATOR -->
@@ -31,15 +34,15 @@
 
 
 
-<link rel="stylesheet" href="{{asset('vendor/aos/dist/aos.css')}}" />
+<link rel="stylesheet" href="{{ asset('vendor/aos/dist/aos.css') }}" />
 <style>
-    th.hide-search input{
-       display: none;
+    th.hide-search input {
+        display: none;
     }
- </style>
- @include('sweetalert::alert')
+</style>
+@include('sweetalert::alert')
 
- 
+
 <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/select2/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet">
 
@@ -54,73 +57,166 @@
 
 
 {{-- Custom Css From library --}}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
+    rel="stylesheet" />
 <style>
-   .select2-container--bootstrap-5.select2-container--focus .select2-selection,.select2-container--bootstrap-5.select2-container--open .select2-selection
-   {
-      border-color:#009A4B;
-      box-shadow:0 0 0 0; 
-   }
-
-   .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field:focus{
-      border-color:#009A4B;
-      box-shadow:0 0 0 0; 
-   }
-   .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected,.select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-selected=true]:not(.select2-results__option--highlighted){
-      color:#000;
-      background-color:#e9ecef
-   }
-   .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--highlighted{
-      color:#fff;
-      background-color:#009A4B;
-      }
-   
-   .card-soal {
-    border-left: 5px solid transparent; /* Menggunakan border awal dengan warna transparan */
-    transition: border-left 0.3s ease, transform 0.3s ease;  /* Waktu transisi dan jenis efek transisi (ease = efek pelan-pelan) */
-   }
-
-   .card-soal.active {
-      border-left-color: #009A4B; 
-      transform: scale(1.01);
-   }
-   .dropup .dropdown-menu {
-    top: auto;
-    bottom: 100%; 
-}
-   .drag-icon:hover{
-      pointer-events: painted;
-   }
-   .border-green{
-      border: 0;
-      transition: #66C393 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-   }
-   .border-green:focus{
-      border-bottom:  0.3px solid #66C393;
-      box-shadow: 0 0 0 rgba(102, 195, 147, 0.5);
-   }
-   .input-information{
-    width: 100%;
-    margin-top: .55rem;
-    font-size: .875em;
-    color: #000
-   }
-   .bg-grey{
-      background-color: #F6F6F6
-   }
-
-   #form-wizard2 fieldset:not(:first-of-type) {
-	 display: none;
-   }
- 
-   .fieldset-wizard {
-      display: none;
+    .select2-container--bootstrap-5.select2-container--focus .select2-selection,
+    .select2-container--bootstrap-5.select2-container--open .select2-selection {
+        border-color: #009A4B;
+        box-shadow: 0 0 0 0;
     }
+
+    .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field:focus {
+        border-color: #009A4B;
+        box-shadow: 0 0 0 0;
+    }
+
+    .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected,
+    .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-selected=true]:not(.select2-results__option--highlighted) {
+        color: #000;
+        background-color: #e9ecef
+    }
+
+    .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--highlighted {
+        color: #fff;
+        background-color: #009A4B;
+    }
+
+    .card-soal {
+        border-left: 5px solid transparent;
+        /* Menggunakan border awal dengan warna transparan */
+        transition: border-left 0.3s ease, transform 0.3s ease;
+        /* Waktu transisi dan jenis efek transisi (ease = efek pelan-pelan) */
+    }
+
+    .card-soal.active {
+        border-left-color: #009A4B;
+        transform: scale(1.01);
+    }
+
+    .dropup .dropdown-menu {
+        top: auto;
+        bottom: 100%;
+    }
+
+    .drag-icon:hover {
+        pointer-events: painted;
+    }
+
+    .border-green {
+        border: 0;
+        transition: #66C393 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .border-green:focus {
+        border-bottom: 0.3px solid #66C393;
+        box-shadow: 0 0 0 rgba(102, 195, 147, 0.5);
+    }
+
+    .input-information {
+        width: 100%;
+        margin-top: .55rem;
+        font-size: .875em;
+        color: #000
+    }
+
+    .bg-grey {
+        background-color: #F6F6F6
+    }
+
+    #form-wizard2 fieldset:not(:first-of-type) {
+        display: none;
+    }
+
+    .fieldset-wizard {
+        display: none;
+    }
+
     .fieldset-wizard.active {
-      display: block;
+        display: block;
     }
 
-    .navigation-page.active{
-      background-color:#009A4B;
+    .navigation-page.active {
+        background-color: #009A4B;
     }
-   </style>
+
+
+    .tab-bottom-bordered {
+        border-bottom: 4px solid rgba(var(--bs-primary-rgb), 0.1);
+    }
+
+    .tab-bottom-bordered .nav-tabs .nav-link {
+        color: #8a92a6;
+        position: relative;
+    }
+
+    .tab-bottom-bordered .nav-tabs .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 3px;
+        -webkit-border-radius: 0.25rem;
+        border-radius: 0.25rem;
+        background: var(--bs-primary);
+        bottom: -3px;
+        left: 50%;
+        top: unset;
+        z-index: 1;
+        -webkit-transition: all 400ms ease;
+        -o-transition: all 400ms ease;
+        transition: all 400ms ease;
+    }
+
+    .tab-bottom-bordered .nav-tabs .nav-link::before {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 3px;
+        -webkit-border-radius: 0.25rem;
+        border-radius: 0.25rem;
+        background: var(--bs-primary);
+        bottom: -3px;
+        right: 50%;
+        top: unset;
+        z-index: 1;
+        -webkit-transition: all 400ms ease;
+        -o-transition: all 400ms ease;
+        transition: all 400ms ease;
+    }
+
+    .tab-bottom-bordered .nav-tabs .nav-link.active {
+        background-color: unset;
+        color: var(--bs-primary);
+        -webkit-box-shadow: unset;
+        box-shadow: unset;
+    }
+
+    .tab-bottom-bordered .nav-tabs .nav-link.active::before {
+        width: 60%;
+        right: 0;
+        -webkit-transition: all 400ms ease;
+        -o-transition: all 400ms ease;
+        transition: all 400ms ease;
+    }
+
+    .tab-bottom-bordered .nav-tabs .nav-link.active::after {
+        width: 60%;
+        left: 0;
+        -webkit-transition: all 400ms ease;
+        -o-transition: all 400ms ease;
+        transition: all 400ms ease;
+    }
+
+    .tab-bottom-bordered.iq-custom-tab-border .nav-tabs .nav-link:nth-child(1) {
+        padding-left: unset;
+    }
+
+    .table-responsive .dataTables_wrapper .row .dt-buttons {
+        text-align: right;
+    }
+
+    .float-end-datatables {
+        float: end;
+        text-align: right;
+    }
+</style>

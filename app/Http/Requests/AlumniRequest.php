@@ -64,13 +64,14 @@ class AlumniRequest extends FormRequest
                     'thn_lulus' => 'required',
                     'tempat_lahir'=> 'nullable',
                     'tanggal_lahir'=> 'nullable',
-                    // 'pin' => 'required|max:8|unique:alumni,nim,'.$nim,
-                    // 'nomor_handphone' => 'nullable|max:13|unique:alumni,nim,'.$nim,
+                    // 'pin' => 'required|max:8|unique:alumni,pin,'.$nim,
+                    // 'nomor_handphone' => 'nullable|max:13|unique:alumni,nomor_handphone,'.$nim,
                     'periode_wisuda'=> 'nullable',
                     'status_tc'=> 'nullable',
                     'tipe_masuk'=> 'nullable',
-                    // 'nik'=> 'nullable|unique:alumni,nim,'.$nim,
-                    // 'npwp'=> 'nullable|unique:alumni,nim,'.$nim,
+                    //TODO: FIX THIS REQUEST FOR RDIT QUERY BLANK
+                    // 'nik'=> 'nullable|unique:alumni,nik,'.$nim,
+                    // 'npwp'=> 'nullable|unique:alumni,npwp,'.$nim,
                     'judul_tesis'=> 'nullable',
                 ];
                 break;

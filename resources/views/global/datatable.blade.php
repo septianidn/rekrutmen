@@ -1,6 +1,5 @@
 @push('scripts')
     {{ $dataTable->scripts() }}
-   
 @endpush
 <x-app-layout :assets="$assets ?? []">
 <div>
@@ -26,3 +25,6 @@
    </div>
 </div>
 </x-app-layout>
+
+
+

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab0d2b42803b90e5c9d0cdd171c9d6a0",
+    "content-hash": "bc4cf49f9a962817d5a0fcd6081a93c2",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -7262,16 +7262,16 @@
         },
         {
             "name": "yajra/laravel-datatables-buttons",
-            "version": "v9.1.4",
+            "version": "v9.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-buttons.git",
-                "reference": "afc40285b09b0960180b17b96c5429b4be772143"
+                "reference": "526a192f9860c6de49bda408dd3ace3d6abaca90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/afc40285b09b0960180b17b96c5429b4be772143",
-                "reference": "afc40285b09b0960180b17b96c5429b4be772143",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/526a192f9860c6de49bda408dd3ace3d6abaca90",
+                "reference": "526a192f9860c6de49bda408dd3ace3d6abaca90",
                 "shasum": ""
             },
             "require": {
@@ -7283,7 +7283,7 @@
             "require-dev": {
                 "barryvdh/laravel-snappy": "^1.0",
                 "maatwebsite/excel": "^3.1.40",
-                "nunomaduro/larastan": "2.1.*",
+                "nunomaduro/larastan": "^2.1",
                 "orchestra/testbench": "^7.3",
                 "rap2hpoutre/fast-excel": "^3.2"
             },
@@ -7328,7 +7328,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-buttons/issues",
-                "source": "https://github.com/yajra/laravel-datatables-buttons/tree/v9.1.4"
+                "source": "https://github.com/yajra/laravel-datatables-buttons/tree/v9.0.0"
             },
             "funding": [
                 {
@@ -7336,15 +7336,11 @@
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/yajra",
-                    "type": "github"
-                },
-                {
                     "url": "https://www.patreon.com/yajra",
                     "type": "patreon"
                 }
             ],
-            "time": "2023-02-20T06:11:01+00:00"
+            "time": "2022-05-07T14:50:29+00:00"
         },
         {
             "name": "yajra/laravel-datatables-editor",
