@@ -108,21 +108,27 @@ class AlumniDataTable extends DataTable
                             var columnSelector = $(\'<select class="select2" multiple="multiple" style="width: 100%;"></select>\');
                         
                             columnHeaders.forEach(function (headerText,index ) {
-                                columnSelector.append(\'<option value="\' + index + \'">\' + headerText + \'</option>\');
-                                
+                                table.api().column(index).visible(false);
+                                if(index !== 0){
+                                    columnSelector.append(\'<option value="\' + index + \'">\' + headerText + \'</option>\');
+                                }
                             });
                         
                             columnSelector.appendTo($(\'div.show-hide-columns\'));
-                        
-                            // // Menambahkan tindakan saat pilihan pada Select2 berubah
+             
+                            var initialSelectedIndexes = [0,1,2,4,5,6,7,8,13,14,18,19];
+                            columnSelector.val(initialSelectedIndexes);
+
+                            initialSelectedIndexes.forEach(function (columnIndex) {
+                                table.api().column(columnIndex).visible(true);
+                            });
+
+                            // Menambahkan tindakan saat pilihan pada Select2 berubah
                             columnSelector.on(\'change\', function () {
                                 var selectedColumns = $(this).val();
                                 var columns = table.api().columns().indexes().toArray();
-                        
-                                // Sembunyikan semua kolom terlebih dahulu
                                 table.api().columns(columns).visible(false);
-                        
-                                // Tampilkan hanya kolom-kolom yang dipilih dalam Select2
+
                                 selectedColumns.forEach(function (columnIndex) {
                                     table.api().column(columnIndex).visible(true);
                                 });
