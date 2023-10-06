@@ -12,6 +12,7 @@
                      <h4 class="logo-title ms-3">{{env('APP_NAME')}}</h4>
                   </a>
                   <h2 class="mb-2">Reset Password</h2>
+                  
                   <p>Masukkan alamat email Anda dan kami akan mengirimkan email dengan instruksi untuk me-reset kata sandi Anda</p>
                   <x-auth-validation-errors class="mb-4" :errors="$errors" />
                   {{ Form::open(['route' => ['password.email'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formAdd']) }}

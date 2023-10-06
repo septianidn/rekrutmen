@@ -62,3 +62,7 @@ Route::post('/backoffic3/confirm-password', [ConfirmablePasswordController::clas
 Route::post('/backoffic3/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('logout');
+
+Route::get('/login-tracer-study', [AuthenticatedSessionController::class, 'create'])
+->middleware('guest')
+->name('login-tc');

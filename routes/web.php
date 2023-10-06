@@ -25,6 +25,7 @@ use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\BackOffice\RekapTCController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
 use App\Http\Controllers\BackOffice\UploadFileController;
+use App\Http\Controllers\FrontOffice\TracerStudy\LoginAlumniController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -57,7 +58,8 @@ Route::get('/storage', function () {
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 //Tracer Study
 Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
-Route::get('/tracerstudy/lulusan-{untuk_lulusan}/login', [TracerStudyLandingPageController::class, 'login'])->name('tracerstudy.login');
+Route::get('/tracerstudy/login', [LoginAlumniController::class, 'index'])->name('tracerstudy-login.index');
+Route::post('/tracerstudy/login', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
 Route::get('/reload-captcha', [TracerStudyLandingPageController::class, 'reloadCaptcha']);
 Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
 

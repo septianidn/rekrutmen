@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LaporanTS;
 use App\Models\PaketSoal;
 use Illuminate\Http\Request;
-use Mews\Captcha\Captcha;
+
 
 
 class TracerStudyLandingPageController extends Controller
@@ -31,16 +31,7 @@ class TracerStudyLandingPageController extends Controller
         return view('frontoffice.tracerstudy.laporan-akhir',compact('dataLaporan'));
     }
 
-    
-    public function reloadCaptcha() {
 
-        $captcha = Captcha::create();
-    
-        return response()->json(['captcha' => $captcha]);
-    }
-    public function login(Request $request)
-    {
-        // dd($request->untuk_lulusan);
-        return view('frontoffice.tracerstudy.pengisian.login');
-    }
+
+   
 }
