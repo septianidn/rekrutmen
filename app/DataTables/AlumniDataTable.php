@@ -114,16 +114,25 @@ class AlumniDataTable extends DataTable
                                 }
                             });
                         
+
                             columnSelector.appendTo($(\'div.show-hide-columns\'));
              
-                            var initialSelectedIndexes = [0,1,2,4,5,6,7,8,13,14,18,19];
-                            columnSelector.val(initialSelectedIndexes);
+                            var initialSelectedIndexes = [0,1,2,3,5,6,7,8,13,14,18,19];
+                            columnSelector.val(initialSelectedIndexes).trigger("change");
+
+                            var initialSelectedIndexesInit = [0,1,2,3,19];
+
+                            columnSelector.on("select2:unselecting", function (e) {
+                                var deselectedValue = e.params.args.data.id;
+                                if (initialSelectedIndexesInit.includes(parseInt(deselectedValue))) {
+                                    e.preventDefault(); 
+                                }
+                            });
 
                             initialSelectedIndexes.forEach(function (columnIndex) {
                                 table.api().column(columnIndex).visible(true);
                             });
-
-                            // Menambahkan tindakan saat pilihan pada Select2 berubah
+                            
                             columnSelector.on(\'change\', function () {
                                 var selectedColumns = $(this).val();
                                 var columns = table.api().columns().indexes().toArray();
@@ -136,8 +145,11 @@ class AlumniDataTable extends DataTable
                         
                             // Inisialisasi Select2
                             columnSelector.select2( {
-                                theme: "bootstrap-5"
+                                theme: "bootstrap-5",
+                                  multiple: true
                             } );
+
+                        
                         }'
                         
                     ]);
