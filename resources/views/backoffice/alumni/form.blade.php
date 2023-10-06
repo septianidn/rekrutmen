@@ -39,8 +39,8 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
 </div>
 <div class="row">
 <div class="form-group col-md-4">
-    <label class="form-label" for="pin">PIN <span class="text-danger">*</span></label>
-    {{ Form::text('pin', old('pin'), ['class' => 'form-control', 'placeholder' => 'PIN', 'required' , 'id' => 'pin']) }}
+    <label class="form-label" for="pin">PIN </label>
+    {{ Form::text('pin', old('pin'), ['class' => 'form-control', 'placeholder' => 'PIN' , 'id' => 'pin']) }}
 </div>    
 <div class="form-group col-md-4">
     <label class="form-label" for="email">Email <span class="text-danger">*</span></label>

@@ -43,7 +43,7 @@ class AlumniRequest extends FormRequest
                     'thn_lulus' => 'required',
                     'tempat_lahir'=> 'nullable',
                     'tanggal_lahir'=> 'nullable',
-                    'pin' => 'required|max:8',
+                    'pin' => 'nullable|unique:alumni|max:8',
                     'nomor_handphone' => 'nullable|max:13',
                     'periode_wisuda'=> 'nullable',
                     'status_tc'=> 'nullable',

@@ -64,8 +64,8 @@ class AlumniDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>><"row align-items-center"<"col-md-12 px-4 py-4" <"show-hide-columns">> > <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
                     ->buttons(
-                        Button::make('reload')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-trash"></i>&nbsp Deleted Selected</span>')->action('javascript:customFunction()', 'Custom Button Tooltip'),
 
+                    
                         Button::make('csv')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-file-csv"></i>&nbsp Download CSV</span>'),
                         Button::make('pdf')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-file-pdf"></i>&nbsp Download PDF</span>'),
                         Button::make('print')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-print"></i>&nbsp Print</span>'),
@@ -166,15 +166,15 @@ class AlumniDataTable extends DataTable
     {
         return [
             [
-               
+                'data'           => null,
+                'name'           => 'checkbox',
+                'title'          => '<input type="checkbox" id="select-all-checkbox">',
                 'orderable'      => false,
                 'searchable'     => false,
                 'exportable'     => false,
                 'printable'      => false,
-
                 'width'          => '3px',
-                'title' => '',
-                'defaultContent' => '<input type="checkbox" />',
+                'defaultContent' => '<input type="checkbox" class="row-checkbox">',
             ],
             
             ['data' => 'no', 'name' => 'no', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
