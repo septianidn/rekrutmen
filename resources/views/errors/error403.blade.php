@@ -48,10 +48,6 @@
             text-decoration: underline;
         }
 
-        .text-14 {
-            font-size: 12px;
-        }
-
         .content .btn {
             height: 54px;
             padding-left: 30px;
@@ -76,77 +72,23 @@
             color: white;
         }
 
-        .button:hover {
-            background-color: #007538;
-            color: white;
-        }
-
         .content .btn {
             height: 48px;
             padding-left: 30px;
             padding-right: 30px;
             font-size: 14px;
         }
-
-        .form-control {
-            display: block;
-            width: 100%;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #8a92a6;
-            background-color: #ffffff;
-            background-clip: padding-box;
-            border: 1px solid #eee;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            border-radius: 0.25rem;
-            box-shadow: 0 0 0 0;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-
-        .form-control:focus {
-            color: #8a92a6;
-            background-color: #ffffff;
-            border-color: #0db960;
-            outline: 0;
-            box-shadow: 0 0 0 0, 0 0.125rem 0.25rem 0rem rgba(20, 233, 109, 0.585);
-        }
-
-        .form-control::-webkit-date-and-time-value {
-            height: 1.5em;
-        }
-
-        .form-control::-moz-placeholder {
-            color: #6c757d;
-            opacity: 1;
-        }
-
-        .form-control::placeholder {
-            color: #6c757d;
-            opacity: 1;
-        }
-
-        .form-control-lg {
-            min-height: calc(1.5em + 1rem + 2px);
-            padding: 0.5rem 1.5rem;
-            font-size: 1.25rem;
-            border-radius: 0.25rem;
-        }
     </style>
 </head>
 
 <body>
     <!--[if lte IE 9]>
-      <p class="browserupgrade">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="https://browsehappy.com/">upgrade your browser</a> to improve
-        your experience and security.
-      </p>
-    <![endif]-->
+          <p class="browserupgrade">
+            You are using an <strong>outdated</strong> browser. Please
+            <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+            your experience and security.
+          </p>
+        <![endif]-->
 
     <div id="loading-area"></div>
     <!-- Start Header Area -->
@@ -228,61 +170,37 @@
         </div>
     </header>
 
-    <section class="hero-area style3">
-        <!-- Single Slider -->
-        <div class="hero-inner">
-            <div class="container">
+    <section class="section gradient">
+        <div class="section content">
+            <div class="container mt-4">
                 <div class="row">
-                    <div class="col-lg-7 co-12">
-                        <div class="inner-content">
-                            <img src="{{ asset('images/frontoffice/tracerstudy/hero.jpg') }}" alt="#"
-                                class="img-fluid mt-4">
-
-                        </div>
+                    <div class="col-md-6">
+                        <img src="{{ asset('images/error/notfound.jpg') }}" alt="#" class="img-fluid">
                     </div>
-                    <div class="col-lg-5 offset-lg-0 col-md-8 offset-md-2 co-12">
-                        {{ Form::open(['class' => 'home-search wow fadeInRight', 'data-wow-delay' => '.5s', 'method' => 'POST']) }}
-                        <h3 class="mb-2">Login Tracer Study Lulusan {{ $untuk_lulusan }}</h3>
-                        <p class="mb-2">Silahkan login pada form dibawah ini untuk dapat mengakses survey tracer
-                            study. Apabila anda mengalami kesulitan dalam login, silahkan hubungi Administrator Tracer
-                            Study</p>
+                    <div class="col-md-6 contents align-self-center">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8 ">
+                                <div class="mb-4">
+                                    <h2 class="mb-2">Unauthorized</h2>
+                                    <p class="mb-4">Maaf, anda diizinkan mengakses halaman</p>
+                                </div>
+
+                                <button class="btn btn-block"
+                                    onclick="window.location.href='{{ route('landingpage') }}'">Kembali Ke
+                                    Beranda</button>
 
 
-                        <x-auth-validation-errors class="mb-2 mt-3" :errors="$errors" />
-                        {{ Form::hidden('untuk_lulusan', $untuk_lulusan, ['class' => 'form-control']) }}
-                        <div class="form-group">
-                            <label class="font-weight-bold text-dark">PIN</label>
-                            <div class="form-location">
-                                {{ Form::text('pin', '', ['class' => 'form-control', 'placeholder' => 'Masukkan PIN', 'required']) }}
-                                <small class="mt-2">Gunakan PIN yang telah dikirimkan lewat email untuk masuk.</small>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold text-dark">Captcha</label>
-                            <div class="form-location">
-                                {!! NoCaptcha::renderJs() !!}
-                                {!! NoCaptcha::display() !!}
-                            </div>
-                        </div>
-                        <div class="checkbox mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                <label class="form-check-label" for="remember">
-                                    Ingat Saya
-                                </label>
-                            </div>
-                        </div>
-                        <div class="button">
-                            <button class="btn btn-primary" type="submit"> Masuk </a>
-                        </div>
-                        {{ Form::close() }}
+
                     </div>
+
                 </div>
             </div>
-        </div>
-        <!--/ End Single Slider -->
-    </section>
 
+        </div>
+
+    </section>
 
     <div class="client-logo-section">
         <div class="container">
@@ -445,22 +363,12 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
-    <script src="{{ asset('js/frontoffice/jquery-3.7.1.min.js') }}"></script>
+
     <script src="{{ asset('js/frontoffice/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/wow.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/main.js') }}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
 
-    <script type="text/javascript">
-        $('#reload').click(function() {
-            $.ajax({
-                type: 'GET',
-                url: 'reload-captcha',
-                success: function(data) {
-                    $(".captcha span").html(data.captcha);
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

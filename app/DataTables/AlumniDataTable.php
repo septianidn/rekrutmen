@@ -7,6 +7,7 @@ use App\Models\Fakultas;
 use App\Models\Jenjang;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Facades\Crypt;
 use Yajra\DataTables\Services\DataTable;
 
 
@@ -30,6 +31,14 @@ class AlumniDataTable extends DataTable
             })
             ->addColumn('action', function ($data) {
                 return view('backoffice.alumni.action', compact('data'));
+            })
+            ->editColumn('pin', function ($query) {
+                if ($query->pin !== null) {
+                 
+                    return '********';
+                } else {
+                    return '-';
+                }
             })
             
             ->filterColumn('nama', function($query, $keyword) {

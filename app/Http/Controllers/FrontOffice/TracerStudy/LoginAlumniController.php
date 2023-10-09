@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\FrontOffice\TracerStudy;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\LoginTCRequest;
 use App\Models\Alumni;
 use App\Models\PaketSoal;
 use App\Providers\RouteServiceProvider;
@@ -11,14 +11,19 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class LoginAlumniController extends Controller
 {
  
-
-    public function index(Request $request)
+    /**
+     * Display the login view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create(Request $request)
     {
     
         try {
@@ -31,22 +36,54 @@ class LoginAlumniController extends Controller
         return view('frontoffice.tracerstudy.pengisian.login', compact('untuk_lulusan'));
     }
 
-    public function store(Request $request)
+       /**
+     * Handle an incoming authentication request.
+     *
+     * @param  \App\Http\Requests\Auth\LoginTCRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(LoginTCRequest $request) 
     {
-        $request->validate([
-            'pin' => 'required',
-            'g-recaptcha-response' => 'required|captcha',
-        ], [
-            'pin.required' => 'Pin harus berisi.',
-            'g-recaptcha-response.required' => 'Captcha harus berisi',
-        ]);
 
         try {
             $checkTC = PaketSoal::where('untuk_lulusan', $request->untuk_lulusan)->firstOrFail();
-            $untuk_lulusan = $checkTC->untuk_lulusan;
 
-            dd($untuk_lulusan);
-       
+            $untuk_lulusan = $checkTC->untuk_lulusan;
+            $alumni = Alumni::where('pin', $request->pin)->first();
+          
+            if($alumni !== null && $alumni->thn_lulus !== null){
+                if($alumni->thn_lulus !== $untuk_lulusan){
+                    throw ValidationException::withMessages([
+                        'pin' => trans('logintc.errortahunlulus', [
+                            'untuk_lulusan' => $untuk_lulusan,
+                           
+                        ]),
+                    ]);
+                }
+                else if($alumni->thn_lulus == $untuk_lulusan){
+
+                    $request['email'] = 'alumni@gmail.com';
+                    $request['pin'] = $request->pin;
+            
+                    $request->authenticate();
+            
+                    $request->session()->regenerate();
+            
+                    return redirect()->route('tracerstudy-pengisian.prolog', ['untuk_lulusan' => $request->untuk_lulusan]);
+            
+                       
+                }
+                else{
+                    throw ValidationException::withMessages([
+                        'pin' => trans('logintc.errorsystem')
+                    ]); 
+                }
+            }
+            else{
+                throw ValidationException::withMessages([
+                    'pin' => trans('logintc.pinnotfound')
+                ]);
+            }
 
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

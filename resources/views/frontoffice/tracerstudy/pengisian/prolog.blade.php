@@ -130,6 +130,9 @@
       </div>
     </header>
 
+    <div class="section">
+      <p>Nama : {{Auth::guard('alumni')->user()->nim}}</p>
+    </div>
 
     <div class="client-logo-section">
       <div class="container">

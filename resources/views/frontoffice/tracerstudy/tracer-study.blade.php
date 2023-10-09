@@ -137,7 +137,7 @@
                                 {{-- TODO CHANGE FROM ACTION --}}
                                 <div class="job-search-form">
                                     {!! Form::open([
-                                        'route' => ['tracerstudy-login.index', ''],
+                                        'route' => ['tracerstudy-login.create', ''],
                                         'method' => 'get',
                                         'enctype' => 'multipart/form-data',
                                         'id' => 'formTC',
@@ -1372,7 +1372,7 @@
 
             function updateFormAction() {
                 var selectedOption = selectElement.options[selectElement.selectedIndex].textContent;
-                formElement.action = "{{ route('tracerstudy-login.index', ':selectedOption') }}".replace(
+                formElement.action = "{{ route('tracerstudy-login.create', ':selectedOption') }}".replace(
                     ':selectedOption', selectedOption);
             }
 

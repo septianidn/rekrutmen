@@ -26,6 +26,7 @@ use App\Http\Controllers\BackOffice\RekapTCController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
 use App\Http\Controllers\BackOffice\UploadFileController;
 use App\Http\Controllers\FrontOffice\TracerStudy\LoginAlumniController;
+use App\Http\Controllers\FrontOffice\TracerStudy\PengisianController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
@@ -53,29 +54,24 @@ Route::get('/storage', function () {
 
 
 
-//Front Office Without Auth
-
+//Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
-//Tracer Study
+//Tracer Study Content
 Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
-Route::get('/tracerstudy/login', [LoginAlumniController::class, 'index'])->name('tracerstudy-login.index');
-Route::post('/tracerstudy/login', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
-Route::get('/reload-captcha', [TracerStudyLandingPageController::class, 'reloadCaptcha']);
 Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
 
+//Tracer Study Auth
+Route::get('/tracerstudy/login', [LoginAlumniController::class, 'create'])->name('tracerstudy-login.create')->middleware('guest');
+Route::post('/tracerstudy/login', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store')->middleware('guest');
 
-//Front Office With Auth
-Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {});
+//Tracer Study With Auth
+Route::group(['middleware' => 'alumni'], function () {
+    Route::get('/tracerstudy/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
+});
 
 //Back Office With Auth
-Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
-    // Dashboard Routes
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
-    Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
-    Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
-    Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
-
+Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin']], function () {
+ 
     // Users Module
     Route::resource('/users', UserController::class);
 
@@ -97,7 +93,6 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'datamaster'], function () {
         Route::resource('/jenjang', JenjangController::class);
-        Route::resource('/prodi', ProdiController::class);
         Route::resource('/fakultas', FakultasController::class);
         Route::resource('/databasealumni', AlumniController::class);
         Route::resource('/datapedia', DataPediaController::class);
@@ -130,6 +125,28 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => 'auth'], function () {
         Route::resource('/jawaban', EmailSendController::class);
     });
 });
+
+Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin|adminprodi']], function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
+    Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
+    Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
+
+    Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
+    Route::group(['prefix' => 'datamaster'], function () {
+        Route::resource('/prodi', ProdiController::class);
+    });
+});
+
+Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:adminprodi']], function () {
+
+
+});
+
+
+
+
+
 
 //TEMPLATE
 //UI Pages Routs
