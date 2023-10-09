@@ -34,8 +34,7 @@ class AlumniDataTable extends DataTable
             })
             ->editColumn('pin', function ($query) {
                 if ($query->pin !== null) {
-                 
-                    return '********';
+                    return $query->pin;
                 } else {
                     return '-';
                 }

@@ -43,7 +43,8 @@ class AlumniController extends Controller
      */
     public function store(AlumniRequest $request)
     {
-        $request['pin'] = md5($request->pin);
+    
+
         
        $alumni = Alumni::create($request->all());
 
@@ -70,7 +71,6 @@ class AlumniController extends Controller
     {
 
         $alumni= Alumni::findOrFail($nim);
-        $request['pin'] = $request->pin != '' ? md5($request->pin) : $alumni->pin;
         $alumni->fill($request->all())->update();
 
 
