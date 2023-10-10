@@ -137,6 +137,39 @@
         transition: transform 0.5s ease;
     }
 
+    .fieldset-wizard:first-child {
+        padding-left: 0;
+    }
+
+    .padding-10 {
+        padding-right: 10px;
+    }
+
+    .dynamic-input {
+        box-sizing: border-box;
+        background: transparent;
+        border: 0px;
+        padding: 0.4rem 0.1rem;
+        border-radius: 4px;
+        line-height: 1.5;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        outline: none;
+    }
+
+    .dynamic-input:hover,
+    .dynamic-input:focus {
+        border: 0.3px solid #66C393;
+        width: auto;
+        padding: 0.375rem 0.75rem;
+        outline: 0;
+        border-radius: 4px;
+        background: transparent;
+        box-shadow: 0 0.125rem 0.5rem rgba(27, 192, 35, 0.3);
+
+    }
+
+
 
     /* #form-wizard2 fieldset:not(:first-of-type) {
         display: none;
