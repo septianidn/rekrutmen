@@ -124,7 +124,21 @@
         background-color: #F6F6F6
     }
 
-    #form-wizard2 fieldset:not(:first-of-type) {
+
+    /* FORM BUILDER CUSTOM CSS */
+
+    .fieldset-wizard-container {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+
+    .fieldset-wizard {
+        flex: 0 0 100%;
+        transition: transform 0.5s ease;
+    }
+
+
+    /* #form-wizard2 fieldset:not(:first-of-type) {
         display: none;
     }
 
@@ -134,13 +148,34 @@
 
     .fieldset-wizard.active {
         display: block;
+        animation: slide-in-right 1.5s ease-in-out forwards;
+
     }
+
+    @keyframes slide-in-right {
+        0% {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        70% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    } */
 
     .navigation-page.active {
         background-color: #009A4B;
+        color: white;
     }
 
 
+    /* TAB CUSTOM CSS */
     .tab-bottom-bordered {
         border-bottom: 4px solid rgba(var(--bs-primary-rgb), 0.1);
     }

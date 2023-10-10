@@ -25,9 +25,9 @@ class LaporanTSController extends Controller
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
     
-        // $headerAction = '<a href="'.route('laporan-tracer-study.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
+        $headerAction = '<a href="'.route('laporan-tracer-study.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
 
-        $headerAction = '<a data--href="' . route('laporan-tracer-study.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Laporan Tracer Study</a>';
+        // $headerAction = '<a data--href="' . route('laporan-tracer-study.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Laporan Tracer Study</a>';
 
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
@@ -43,8 +43,11 @@ class LaporanTSController extends Controller
         })
         ->pluck('nama_paket', 'id');
         $tcOptionsAll = PaketSoal::all()->pluck('nama_paket', 'id');
-        $view = view('backoffice.konten.laporants.form', compact('tcOptions', 'tcOptionsAll'))->render();
-        return response()->json(['data' =>  $view, 'status'=> true]);
+
+        return view('backoffice.konten.laporants.form', compact('tcOptions', 'tcOptionsAll'));
+
+        // $view = view('backoffice.konten.laporants.form', compact('tcOptions', 'tcOptionsAll'))->render();
+        // return response()->json(['data' =>  $view, 'status'=> true]);
 
             
         // return view('backoffice.konten.laporants.form2')->render();
@@ -85,8 +88,8 @@ class LaporanTSController extends Controller
         ->pluck('nama_paket', 'id');
 
         $tcOptionsAll = PaketSoal::all()->pluck('nama_paket', 'id');
-        $view = view('backoffice.konten.laporants.form',  compact('request', 'data', 'id', 'tcOptions', 'tcOptionsAll'))->render();
-        return response()->json(['data' =>  $view, 'status'=> true]);
+          return view('backoffice.konten.laporants.form',  compact('request', 'data', 'id', 'tcOptions', 'tcOptionsAll'));
+        // return response()->json(['data' =>  $view, 'status'=> true]);
     }
 
     /**
