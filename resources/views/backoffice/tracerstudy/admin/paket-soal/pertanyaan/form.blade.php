@@ -25,7 +25,8 @@
         <div class="fieldset-wizard-slider">
 
             <div id="page-container" class="fieldset-wizard-container">
-
+                <div class="col-sm-12 col-lg-12" id="card_container">
+                </div>
             </div>
 
             <div class="d-flex justify-content-end my-4 page-navigation-container">
@@ -51,7 +52,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
 
 
@@ -181,7 +182,7 @@
                     <option  value="gridcolumn_type" class="gridcolumn" id="gridcolumn_type[0]" data-input="gridcolumn_div[0]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.75 3C3.88235 3 3 3.88235 3 6.75C3 9.61765 3.88235 10.5 6.75 10.5C9.61765 10.5 10.5 9.61765 10.5 6.75C10.5 3.88235 9.61765 3 6.75 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6.75 13.5C3.88235 13.5 3 14.3824 3 17.25C3 20.1176 3.88235 21 6.75 21C9.61765 21 10.5 20.1176 10.5 17.25C10.5 14.3824 9.61765 13.5 6.75 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 13.5C14.3824 13.5 13.5 14.3824 13.5 17.25C13.5 20.1176 14.3824 21 17.25 21C20.1176 21 21 20.1176 21 17.25C21 14.3824 20.1176 13.5 17.25 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 3C14.3824 3 13.5 3.88235 13.5 6.75C13.5 9.61765 14.3824 10.5 17.25 10.5C20.1176 10.5 21 9.61765 21 6.75C21 3.88235 20.1176 3 17.25 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                     Petak Pilihan Ganda
                     </option>
-                    <option  value="skala_type" class="skala" id="skala_type[0]" data-input="scala_div[0]" data-image=' <svg width="18px" height="18px" viewBox="0 -6 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>navigation / 14 - navigation, aligned, dots, more, horizontal, three dots, option icon</title> <g id="Free-Icons" stroke-width="0.00016" fill="none" fill-rule="evenodd"> <g transform="translate(-1119.000000, -756.000000)" fill="#000000" fill-rule="nonzero" id="Group"> <g transform="translate(1115.000000, 746.000000)" id="Shape"> <path d="M6,10 C4.8954305,10 4,10.8954305 4,12 C4,13.1045695 4.8954305,14 6,14 C7.1045695,14 8,13.1045695 8,12 C8,10.8954305 7.1045695,10 6,10 Z"> </path> <path d="M12,10 C10.8954305,10 10,10.8954305 10,12 C10,13.1045695 10.8954305,14 12,14 C13.1045695,14 14,13.1045695 14,12 C14,10.8954305 13.1045695,10 12,10 Z"> </path> <path d="M18,10 C16.8954305,10 16,10.8954305 16,12 C16,13.1045695 16.8954305,14 18,14 C19.1045695,14 20,13.1045695 20,12 C20,10.8954305 19.1045695,10 18,10 Z"> </path> </g> </g> </g> </g></svg>'>
+                    <option  value="zona" class="skala" id="zona[0]" data-input="zona_div[0]" data-image=' <svg width="18px" height="18px" viewBox="0 -6 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>navigation / 14 - navigation, aligned, dots, more, horizontal, three dots, option icon</title> <g id="Free-Icons" stroke-width="0.00016" fill="none" fill-rule="evenodd"> <g transform="translate(-1119.000000, -756.000000)" fill="#000000" fill-rule="nonzero" id="Group"> <g transform="translate(1115.000000, 746.000000)" id="Shape"> <path d="M6,10 C4.8954305,10 4,10.8954305 4,12 C4,13.1045695 4.8954305,14 6,14 C7.1045695,14 8,13.1045695 8,12 C8,10.8954305 7.1045695,10 6,10 Z"> </path> <path d="M12,10 C10.8954305,10 10,10.8954305 10,12 C10,13.1045695 10.8954305,14 12,14 C13.1045695,14 14,13.1045695 14,12 C14,10.8954305 13.1045695,10 12,10 Z"> </path> <path d="M18,10 C16.8954305,10 16,10.8954305 16,12 C16,13.1045695 16.8954305,14 18,14 C19.1045695,14 20,13.1045695 20,12 C20,10.8954305 19.1045695,10 18,10 Z"> </path> </g> </g> </g> </g></svg>'>
                     Skala Linier
                     </option>
                     <option value="date_type"  class="date" id="date_type[0]" data-input="date_input[0]" data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
@@ -266,7 +267,7 @@
                     </div>
                 </div>
 
-                <div class="form-group inputtype" id="scala_div[0]">
+                <div class="form-group inputtype" id="zona_div[0]">
                     <p>Silahkan isi range dibawah ini <span class="text-danger">*</span> </p>
                     <div class="d-flex justify-content-between w-50">
                         <select class="form-select range-start">
@@ -506,64 +507,41 @@
 
 
     });
-</script>
+</script> --}}
 
 
-{{--     
- <script>
+
+<script>
     document.addEventListener("DOMContentLoaded", function() {
-    
+
         checkBoxListener();
         radioBoxListener();
         gridColumnListener();
-        rangeListener();
+        // rangeListener();
         initialize();
         dragCard();
-    
+
     });
 
-    function generatePage(page){
-        return `<fieldset class="wizard" id="page[${page}]">
-            <div class="form-card text-start">
-                <div class="row">
-                   
-                    <div class="col-sm-12 col-lg-12" id="card_container[${page}]">
 
-                        <p>Wizard ${page} </p>
-                    </div>
-                    <div class="d-flex justify-content-end my-4">
-                        <button type="button" name="delete_page"
-                            class="btn btn-dark btn-sm delete-wizard" id="delete_page[${page}]"
-                            value="Delete">Hapus Halaman </button>
-                            
-                        <button type="button" name="add_page" class="btn btn-primary btn-sm add-wizard"  id="add_page[${page}]"
-                            value="Add">Tambah Halaman</button>
-                    </div>
-                </div>
-            </div>
-        </fieldset>`
-    }
-
-
-    
     function gridColumnListener() {
         $(document).on('click', '.grid-delete-row', function() {
             var rowContainer = $(this).closest('.grid-row');
             var rowIndex = $('.grid-row').index(rowContainer); // Menghitung indeks baris
-    
+
             rowContainer.remove();
-    
+
             // Hapus elemen nomor yang berkaitan berdasarkan indeks baris
             $('.grid-number-container').find('.grid-number-div').eq(rowIndex).remove();
-    
+
             updateRowNumbers();
             updateNumbers();
         });
-    
+
         $(document).on('click', '.grid-delete-column', function() {
             $(this).closest('.grid-column').remove();
             updateColumnNumbers();
-    
+
         });
         $(document).on('click', '.grid-add-row-button', function() {
             var newRowNumber = $('.grid-row-container .grid-row').length + 1;
@@ -571,6 +549,7 @@
                 <div class="col-lg-12">
                     <div class="input-group">
                         <input type="text" class="form-control grid-row-input">
+                        <input type="text" class="form-control grid-row-input-value">
                         <span class="input-group-text grid-delete-row">
                             <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#000000"></path> </g></svg>                      
                         </span>
@@ -590,6 +569,7 @@
                 <div class="col-lg-12">
                     <div class="input-group ">
                         <input type="text" class="form-control grid-column-input">
+                        <input type="text" class="form-control grid-column-input-value">
                         <span class="input-group-text grid-delete-column">
                             <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#000000"></path> </g></svg>                      
                         </span>
@@ -599,34 +579,36 @@
             $('.grid-column-container').append(newElementRow);
             updateColumnNumbers();
         });
-    
+
         function updateRowNumbers() {
             $(".grid-row-container .grid-row").each(function(index) {
                 var rowNumber = index + 1;
-                $(this).find(".grid-row-input").attr("placeholder", "Baris " + (index + 1));
-    
+                $(this).find(".grid-row-input").attr("placeholder", "Label Baris " + (index + 1));
+                $(this).find(".grid-row-input-value").attr("placeholder", "Nilai Baris " + (index + 1));
+
             });
         }
-    
+
         function updateNumbers() {
             $(".grid-number-container .grid-number-div").each(function(index) {
                 var rowNumber = index + 1;
                 $(this).find(".grid-number").text(index + 1);
-    
+
             });
         }
-    
-    
+
+
         function updateColumnNumbers() {
             $(".grid-column-container .grid-column").each(function(index) {
                 var columnNumber = index + 1;
-                $(this).find(".grid-column-input").attr("placeholder", "Kolom " + columnNumber);
-    
+                $(this).find(".grid-column-input").attr("placeholder", "Label Kolom " + columnNumber);
+                $(this).find(".grid-column-input-value").attr("placeholder", "Nilai Kolom " + columnNumber);
+
             });
         }
-    
+
     }
-    
+
     function rangeListener() {
         $(document).on('change', '.range-start', function() {
             var startValue = parseInt($(this).val());
@@ -634,16 +616,16 @@
             $(".input-group-text.range-label-start").text(startValue);
             labelRangeCounter()
         });
-    
+
         $(document).on('change', '.range-end', function() {
             labelRangeCounter()
         });
-    
+
         function labelRangeCounter() {
             var startValue = parseInt($(".range-start").val());
             var endValue = parseInt($(".range-end").val());
             console.log(startValue + endValue);
-    
+
             var labelRangeContainer = $('.range-label-container'); // Ganti dengan kelas yang sesuai
             labelRangeContainer.find('.range-label-group').remove(); // Hapus elemen sebelumnya
             if (startValue == 0) {
@@ -651,7 +633,7 @@
             }
             if (startValue == 1) {
                 counterStartValue = 2
-    
+
             }
             for (var i = counterStartValue; i <= endValue; i++) {
                 var labelRange = `
@@ -659,16 +641,16 @@
                     <span class="input-group-text">${i}</span>
                     <input type="text" class="form-control" placeholder="Label (Opsional)">
                 </div>`;
-    
+
                 labelRangeContainer.append(labelRange);
             }
         }
-    
+
     }
-    
+
     function checkBoxListener() {
         $(document).on('click', '.add-checkbox-option', function() {
-        var newElementCheckbox = `
+            var newElementCheckbox = `
         <div class="checkbox-option py-1" id="checkbox">
             <div class="d-flex align-items-center">
                 <input class="form-check-input" type="checkbox">
@@ -696,135 +678,159 @@
         `;
             $(this).closest('.checkbox-option').after(newElementCheckbox);
         });
-    
+
         $(document).on('click', '.delete-checkbox-option', function() {
             $(this).closest('.checkbox-option').remove();
         });
     }
-    
+
     function radioBoxListener() {
         $(document).on('click', '.add-radio-option', function() {
             var newElement = `
-        <div class="radio-option py-1" id="option">
-            <div class="d-flex align-items-center">
-                <input class="form-check-input" type="radio">
-                <div class="row align-items-center">
-                    <div class="col-3">
-                        <input type="text" class="form-control" placeholder="Kode">
+            <div class="radio-option py-1" id="option">
+                <div class="d-flex align-items-center">
+                    <div class="px-2">
+                        <input class="form-check-input" type="radio">
                     </div>
-                    <div class="col-4">
-                        <input type="text" class="form-control" placeholder="Pilihan">
-                    </div>
-                    <div class="col-3">
-                        <input type="text" class="form-control" placeholder="Nilai">
-                    </div>
-                    <div class="col-2 d-flex align-items-center ">
-                        <a class="btn btn-danger btn-sm delete-radio-option mx-1" type="button">
-                            Hapus
-                        </a>
-                        <a class="btn btn-success btn-sm add-radio-option" type="button">
-                            Tambah
-                        </a>
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Kode">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Pilihan">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Nilai">
+                        </div>
+                        <div class="col d-flex align-items-center">
+                            <div class="form-check" >
+                                <input class="form-check-input singlechoice-addition" type="checkbox" id="singlechoice-addition">
+                                <label class="form-check-label" for="singlechoice-addition">
+                                    Input Text Tambahan
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input class="form-control singlechoice-addition-text" type="text" id="singlechoice-addition-text" placeholder="Kode Text Tambahan">
+                        </div>
+                        <div class="col d-flex align-items-center">
+                            <a class="btn btn-danger btn-sm mx-1" type="button">
+                                Hapus
+                            </a>
+                            <a class="btn btn-success btn-sm add-radio-option" type="button">
+                                Tambah
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         `;
             $(this).closest('.radio-option').after(newElement);
         });
-    
+
         $(document).on('click', '.delete-radio-option', function() {
             $(this).closest('.radio-option').remove();
         });
-    
+
+        radioBoxAdditionalListener();
+
     }
-    
+
+    function radioBoxAdditionalListener() {
+
+        $(document).on('change', '.singlechoice-addition', function() {
+            if (this.checked) {
+                $('.singlechoice-addition-text').css('visibility', 'visible');
+            } else {
+                $('.singlechoice-addition-text').css('visibility', 'hidden');
+            }
+        });
+    }
+
     function dragCard() {
         new Sortable(document.getElementById('card_container'), {
             handle: '.drag-icon', // handle's class
             animation: 150,
             onEnd: function(evt) {
                 resetIndex();
-    
+
             },
         });
-    
-    
-    }
-    
-    function initialize() {
 
-        $("#page-container").append(generatePage(1));
-        // $("#card_container").append(generateHeading(0));
-        // $("#card_container").append(generateCard(1));
-        // listenerCard();
-    
+
     }
-    
+
+    function initialize() {
+        // $("#card_container").append(generateHeading(0));
+        $("#card_container").append(generateCard(0));
+        listenerCard();
+
+    }
+
     function listenerCard() {
-    
+
         $(document).off('click', '.card-soal');
         $(document).on('click', '.card-soal', function() {
             $(this).addClass("active").siblings().removeClass("active");
         });
-    
+
         $(document).off('click', '.add_pertanyaan');
         $(document).on('click', '.add_pertanyaan', function() {
             const id = $(this).attr('id');
             const index = id.match(/\d+/)[0];
             addCard(index, $(this));
-    
+
         });
-    
+
         $(document).off('click', '.add_heading');
         $(document).on('click', '.add_heading', function() {
             const id = $(this).attr('id');
             const index = id.match(/\d+/)[0];
             addHeading(index, $(this));
-    
+
         });
-    
-    
+
+
         $(document).off('click', '.duplicate_card');
         $(document).on('click', '.duplicate_card', function() {
             console.log("hoi")
             const id = $(this).attr('id');
             const index = id.match(/\d+/)[0];
             duplicateCard(index, $(this));
-    
+
         });
-    
+
         $(document).off('click', '.delete_card');
         $(document).on('click', '.delete_card', function() {
             console.log("hoi")
             const id = $(this).attr('id');
             const index = id.match(/\d+/)[0];
             deleteCard(index, $(this));
-    
+
         })
-    
-    
+
+
         initializeTinymce();
         initializeSelect2();
         initializeTagify();
     }
-    
+
     function initializeTagify() {
         const multipleInputs = document.querySelectorAll("input[id^=multipleinput_input\\[]");
         const initialWords = ["Jawaban A", "Jawaban B", "dll"];
         multipleInputs.forEach(function(inputElement) {
             const index = inputElement.id.match(/\[(\d+)\]/)[1];
-    
-    
+
+
             const tagify = new Tagify(inputElement, {
                 readonly: true
-    
+
             });
-    
+
             tagify.addTags(initialWords.join(","));
         });
     }
-    
+
     function initializeTinymce() {
         tinymce.remove();
         const textareaPertanyaan = document.querySelectorAll("textarea[id^=pertanyaan\\[]");
@@ -842,66 +848,110 @@
             });
         });
     }
-    
+
+    // function initializeSelect2() {
+    //     // Loop through each .type-jawaban-select element
+    //     $('.type-jawaban-select').each(function() {
+    //         const selectElement = $(this);
+
+    //         // // Check if the element has a Select2 instance
+    //         // if (selectElement.hasClass('select2-hidden-accessible')) {
+    //         //     // Destroy the Select2 instance
+    //         //     selectElement.select2('destroy');
+    //         // }
+
+    //         // // Initialize the Select2 instance
+    //         // selectElement.select2({
+    //         //     theme: 'bootstrap-5',
+    //         //     minimumResultsForSearch: Infinity,
+    //         //     templateResult: formatState,
+    //         //     templateSelection: formatState
+    //         // });
+    //         console.log(selectElement)
+
+
+    //         selectElement.on('change', function() {
+    //             toggleInputs($(this));
+    //         });
+
+    //         toggleInputs(selectElement);
+
+    //     });
+    // }
+
     function initializeSelect2() {
         // Loop through each .type-jawaban-select element
         $('.type-jawaban-select').each(function() {
             const selectElement = $(this);
-    
-            // Check if the element has a Select2 instance
-            if (selectElement.hasClass('select2-hidden-accessible')) {
-                // Destroy the Select2 instance
-                selectElement.select2('destroy');
-            }
-    
-            // Initialize the Select2 instance
-            selectElement.select2({
-                theme: 'bootstrap-5',
-                minimumResultsForSearch: Infinity,
-                templateResult: formatState,
-                templateSelection: formatState
+            const cardId = selectElement.data('card'); // Get the card identifier
+
+            selectElement.on('change', function() {
+                toggleInputs(cardId);
             });
-    
-            toggleInputs($(this));
-            $(this).on('change', function() {
-                toggleInputs($(this));
-            });
-    
+            console.log("CARD:::" + cardId);
+            toggleInputs(cardId);
         });
     }
-    
-    
-    
-    function toggleInputs(selectElement) {
-        const selectedInput = selectElement.find(':selected').data('input');
-        const indexs = selectElement.attr('id').match(/\d+/)[0];
-        const inputElements = selectElement.closest('.card-body').find(`.form-group.inputtype`);
+
+
+
+    function toggleInputs(cardId) {
+
+        const cardBody = $(`[data-id="${cardId}"] .card-body`);
+
+        const selectElement = cardBody.find(`select[data-card="${cardId}"]`);
+        const selectedType = selectElement.find(':selected').data('input');
+        const selectedTypeDiv = selectElement.find(':selected').data('validation');
+
+        const inputElements = cardBody.find(`.form-group.inputtype`);
+        const inputTypeDivs = cardBody.find(`.shortanswer-validation-div`);
+
         inputElements.each(function() {
             const inputElement = $(this);
             const inputId = inputElement.attr('id');
-            if (inputId === selectedInput) {
+            console.log(inputId + selectedType)
+            if (inputId === selectedType) {
                 inputElement.show();
             } else {
                 inputElement.hide();
             }
         });
+
+        inputTypeDivs.each(function() {
+            const inputTypeDiv = $(this);
+            const divId = inputTypeDiv.attr('id');
+            if (divId === selectedTypeDiv) {
+                inputTypeDiv.show();
+            } else {
+                inputTypeDiv.hide();
+            }
+        });
     }
-    
+
+
+
+
+
+
+
+
     function resetIndex() {
         const cardElements = $('.card-soal');
         const pattern = /\w+\[(\d+)\]/;
-    
+
         cardElements.each(function(index) {
             const thisCardELements = $(this);
             thisCardELements.attr('id', `card-soal[${index}]`);
             thisCardELements.attr('data-id', index);
-    
-    
-            $(this).find("[id], [data-input]").each(function() {
+
+
+            $(this).find("[id], [data-card], [data-input], [data-validation]").each(function() {
                 const id = $(this).attr("id");
                 const dataInput = $(this).attr("data-input");
+                const dataValidation = $(this).attr("data-validation");
+                const dataCard = $(this).attr("data-card");
                 const matches = id.match(pattern);
-    
+
                 if (matches) {
                     const newId = id.replace(matches[1], index);
                     $(this).attr('id', `${newId}`);
@@ -910,19 +960,29 @@
                     const newDataInput = dataInput.replace(matches[1], index);
                     $(this).attr('data-input', newDataInput);
                 }
+                if (dataValidation && matches) {
+                    const newDataInputV = dataValidation.replace(matches[1], index);
+                    $(this).attr('data-validation', newDataInputV);
+                }
+                if (dataCard && matches) {
+                    const newDataInputC = dataCard.replace(matches[1], index);
+                    $(this).attr('data-card', newDataInputC);
+                }
             });
-    
+
+
+
         });
-    
+
         listenerCard();
     }
-    
-    
+
+    //TODO:CHECK AGAIN
     function addCard(indexCard, cardSelector) {
         const addCard = generateCard(parseInt(indexCard) + 1);
         const cardBefore = $(`#card-soal\\[${indexCard}\\]`);
         const cardAfter = $(`#card-soal\\[${indexCard+1}\\]`);
-    
+
         if (cardAfter.length > 0) {
             // Jika cardSoalAfter ditemukan, sisipkan elemen addCard di antara cardSoalBefore dan cardSoalAfter
             cardBefore.after(addCard);
@@ -932,41 +992,41 @@
         }
         resetIndex();
     };
-    
+
     function addHeading(indexCard, cardSelector) {
         const addHeading = generateHeading(parseInt(indexCard) + 1);
         const cardBeforeHeading = $(`#card-soal\\[${indexCard}\\]`);
         const cardAfterHeading = $(`#card-soal\\[${indexCard+1}\\]`);
-    
+
         if (cardAfterHeading.length > 0) {
-    
+
             cardBeforeHeading.after(addHeading);
         } else {
-    
+
             cardBeforeHeading.after(addHeading);
         }
         resetIndex();
     };
-    
+
     function duplicateCard(indexCard, cardSelector) {
-    
+
         //TODO FIX THE SELECT2 
         const cardToDuplicate = $(`#card-soal\\[${indexCard}\\]`);
         const clonedCard = cardToDuplicate.clone();
         cardToDuplicate.after(clonedCard);
-    
+
         resetIndex();
     }
-    
-    
+
+
     function deleteCard(indexCard, cardSelector) {
-    
+
         const cardToDelete = $(`#card-soal\\[${indexCard}\\]`);
         cardToDelete.remove();
         resetIndex();
     }
-    
-    
+
+
     function generateHeading(i) {
         return `<div class="card card-soal" data-id="${i}" id="card-soal[${i}]">
                                 <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${i}]">
@@ -1009,7 +1069,7 @@
                     </div>
                                     `
     }
-    
+
     function generateCard(i) {
         return `
     
@@ -1019,14 +1079,22 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
+                                            
                                             <div class="form-group col-sm-10">
                                                 <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
                                                     <textarea class="form-control pertanyaan-textarea" name="pertanyaan" placeholder="Isi Pertanyaan" id="pertanyaan[${i}]"></textarea>
                                             </div>
                                            
-                                            <div class="col-sm-2 col-lg-2 selectTypeJawaban_div" id="selectTypeJawaban_div[${i}]">
-                                                <select class="form-select type-jawaban-select" aria-label="Actions" id="selectTypeJawaban[${i}]">
-                                                    <option value="shortanswer_type" class="shortanswer" id="shortanswer_type[${i}]" data-input="shortanswer_input[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <div class="col-sm-2 col-lg-2">
+                                                <div class="form-group">
+                                                    <label class="form-label text-black">Kode Pertanyaan <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" placeholder="Kode">
+                                                </div>
+
+                                             <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${i}]">
+                                                <label class="form-label text-black">Tipe Pertanyaan<span class="text-danger">*</span></label>
+                                                <select class="form-select type-jawaban-select" aria-label="Actions" id="selectTypeJawaban[${i}]"  data-card="${i}">
+                                                    <option value="shortanswer_type" class="shortanswer" id="shortanswer_type[${i}]" data-input="shortanswer_input[${i}]" data-validation="shortanswer_validation_div[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M3 10H21M3 14H12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                         </svg>'>
                                                     Jawaban Singkat                        
@@ -1051,17 +1119,14 @@
                                                     <option value="checkbox_type" class="checkbox" id="checkbox_type[${i}]" data-input="checkbox_div[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56499 12.4068C4.29258 12.0947 3.81879 12.0626 3.50676 12.335C3.19472 12.6074 3.1626 13.0812 3.43501 13.3932L4.56499 12.4068ZM7.14286 16.5L6.57787 16.9932C6.7203 17.1564 6.92629 17.25 7.14286 17.25C7.35942 17.25 7.56542 17.1564 7.70784 16.9932L7.14286 16.5ZM15.565 7.99324C15.8374 7.68121 15.8053 7.20742 15.4932 6.93501C15.1812 6.6626 14.7074 6.69472 14.435 7.00676L15.565 7.99324ZM10.5064 11.5068C10.234 11.8188 10.2662 12.2926 10.5782 12.565C10.8902 12.8374 11.364 12.8053 11.6364 12.4932L10.5064 11.5068ZM9.67213 14.7432C9.94454 14.4312 9.91242 13.9574 9.60039 13.685C9.28835 13.4126 8.81457 13.4447 8.54215 13.7568L9.67213 14.7432ZM3.43501 13.3932L6.57787 16.9932L7.70784 16.0068L4.56499 12.4068L3.43501 13.3932ZM7.70784 16.9932L9.67213 14.7432L8.54215 13.7568L6.57787 16.0068L7.70784 16.9932ZM11.6364 12.4932L13.6007 10.2432L12.4707 9.25676L10.5064 11.5068L11.6364 12.4932ZM13.6007 10.2432L15.565 7.99324L14.435 7.00676L12.4707 9.25676L13.6007 10.2432Z" fill="#000000"></path> <path d="M20.0002 7.5625L15.7144 12.0625M11.0002 16L11.4286 16.5625L13.5715 14.3125" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                                     Kotak Centang (Checkbox)
                                                     </option>
-                                                    <option value="multipleinput_type" class="multipleinput" id="multipleinput_type[${i}]" data-input="multipleinput_div[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="0.00024000000000000003"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M21.07 10.3L15.07 4.29996C14.93 4.15996 14.74 4.07996 14.54 4.07996H3C2.59 4.07996 2.25 4.41996 2.25 4.82996V12.71C2.25 12.91 2.33 13.1 2.47 13.24L8.47 19.23C8.91 19.67 9.49 19.91 10.11 19.91C10.73 19.91 11.32 19.67 11.75 19.23L11.97 19.01C12.01 19.09 12.05 19.17 12.12 19.23C12.57 19.68 13.17 19.91 13.76 19.91C14.35 19.91 14.95 19.68 15.41 19.23L21.06 13.58C21.96 12.68 21.96 11.21 21.06 10.3H21.07ZM10.7 18.17C10.54 18.33 10.34 18.41 10.12 18.41C9.9 18.41 9.69 18.32 9.54 18.17L3.75 12.4V5.57996H10.57L16.35 11.36C16.67 11.68 16.67 12.2 16.35 12.52L10.7 18.17ZM20.01 12.52L14.36 18.17C14.04 18.49 13.51 18.49 13.19 18.17C13.12 18.1 13.05 18.06 12.96 18.02L17.4 13.58C18.3 12.67 18.3 11.2 17.4 10.3L12.68 5.57996H14.22L20 11.36C20.32 11.68 20.32 12.2 20 12.52H20.01ZM8.25 8.49996C8.25 9.18996 7.69 9.74996 7 9.74996C6.31 9.74996 5.75 9.18996 5.75 8.49996C5.75 7.80996 6.31 7.24996 7 7.24996C7.69 7.24996 8.25 7.80996 8.25 8.49996Z" fill="#000000"></path> </g></svg>'>
-                                                    Multiple Input 
-                                                    </option>
                                                     <option value="dropdown_type" class="checkbox" id="dropdown_type[${i}]" data-input="dropdown_div[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z" stroke="#000000" stroke-width="1.224" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                                     List Pilihan (Dropdown)
                                                     </option>
                                                     <option  value="gridcolumn_type" class="gridcolumn" id="gridcolumn_type[${i}]" data-input="gridcolumn_div[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.75 3C3.88235 3 3 3.88235 3 6.75C3 9.61765 3.88235 10.5 6.75 10.5C9.61765 10.5 10.5 9.61765 10.5 6.75C10.5 3.88235 9.61765 3 6.75 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6.75 13.5C3.88235 13.5 3 14.3824 3 17.25C3 20.1176 3.88235 21 6.75 21C9.61765 21 10.5 20.1176 10.5 17.25C10.5 14.3824 9.61765 13.5 6.75 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 13.5C14.3824 13.5 13.5 14.3824 13.5 17.25C13.5 20.1176 14.3824 21 17.25 21C20.1176 21 21 20.1176 21 17.25C21 14.3824 20.1176 13.5 17.25 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 3C14.3824 3 13.5 3.88235 13.5 6.75C13.5 9.61765 14.3824 10.5 17.25 10.5C20.1176 10.5 21 9.61765 21 6.75C21 3.88235 20.1176 3 17.25 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                                     Petak Pilihan Ganda
                                                     </option>
-                                                    <option  value="skala_type" class="skala" id="skala_type[${i}]" data-input="scala_div[${i}]" data-image=' <svg width="18px" height="18px" viewBox="0 -6 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>navigation / 14 - navigation, aligned, dots, more, horizontal, three dots, option icon</title> <g id="Free-Icons" stroke-width="0.00016" fill="none" fill-rule="evenodd"> <g transform="translate(-1119.000000, -756.000000)" fill="#000000" fill-rule="nonzero" id="Group"> <g transform="translate(1115.000000, 746.000000)" id="Shape"> <path d="M6,10 C4.8954305,10 4,10.8954305 4,12 C4,13.1045695 4.8954305,14 6,14 C7.1045695,14 8,13.1045695 8,12 C8,10.8954305 7.1045695,10 6,10 Z"> </path> <path d="M12,10 C10.8954305,10 10,10.8954305 10,12 C10,13.1045695 10.8954305,14 12,14 C13.1045695,14 14,13.1045695 14,12 C14,10.8954305 13.1045695,10 12,10 Z"> </path> <path d="M18,10 C16.8954305,10 16,10.8954305 16,12 C16,13.1045695 16.8954305,14 18,14 C19.1045695,14 20,13.1045695 20,12 C20,10.8954305 19.1045695,10 18,10 Z"> </path> </g> </g> </g> </g></svg>'>
-                                                    Skala Linier
+                                                    <option  value="zona" class="skala" id="zona[${i}]" data-input="zona_div[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
+                                                    Zona
                                                     </option>
                                                     <option value="date_type"  class="date" id="date_type[${i}]" data-input="date_input[${i}]" data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
                                                     Tanggal
@@ -1072,50 +1137,88 @@
                                                      <option value="datetime_type"  class="datetime" id="datetime_type[${i}]" data-input="datetime_input[${i}]" data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
                                                     Tanggal dan Waktu
                                                     </option>
-                                                    <option value="fileupload_type"  class="fileupload" id="fileupload_type[${i}]" data-input="fileupload_input[${i}]" data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11.2798 22H7.00977C5.9489 22 4.93148 21.5785 4.18134 20.8284C3.43119 20.0782 3.00977 19.0609 3.00977 18V14.89C3.00977 11.4713 4.36781 8.19273 6.78516 5.77539C9.2025 3.35805 12.4811 2 15.8998 2H17.0098C18.0706 2 19.0881 2.42142 19.8382 3.17157C20.5883 3.92172 21.0098 4.93913 21.0098 6V11.4399" stroke="#000000" stroke-width="1.008" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M3 15.06C3 9.9 8.50004 14.0599 11.73 10.8199C14.96 7.57995 10.83 2 15.98 2" stroke="#000000" stroke-width="1.008" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M18.1895 23V15" stroke="#000000" stroke-width="1.008" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M15.1895 18L18.1895 15" stroke="#000000" stroke-width="1.008" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M21.1895 18L18.1895 15" stroke="#000000" stroke-width="1.008" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
-                                                    Upload File
-                                                    </option>
+                                                  
                                                 </select>
+                                                <div class="form-group inputtype shortanswer-validation-div" id="shortanswer_validation_div[${i}]">
+                                                    <div class="form-group mt-4" id="shortanswer_input_type_div[${i}]">
+                                                        <p class="mt-2"> Silahkan isi validasi disini <span class="text-danger">*</span> </p>
+                                                        <label for="shortanswer_type_validation[${i}]" class="form-label text-black">Tipe Validasi</label>
+                                                            <select class="form-select type-validation-select" id="shortanswer-type-validation[${i}]">
+                                                            <option value="none">Tidak Ada</option>
+                                                            <option value="email">Email</option>
+                                                            <option value="phone">Nomor Handphone</option>
+                                                            <option value="url">URL</option>
+                                                            <option value="number">Angka Saja</option> 
+                                                            <option value="letters">Huruf Saja</option>
+                                                            </select>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6 form-group" id="shortanswer-input-max-div[${i}]">
+                                                            <label for="shortanswer-input-max[${i}]" class="form-label  text-black">Max Karakter</label>
+                                                            <input type="number" class="form-control" placeholder="256" id="shortanswer-input-max[${i}]" >
+                                                        </div>
+                                                        <div class="col-6 form-group" id="shortanswer-input-min-div[${i}]">
+                                                            <label for="shortanswer-input-min[${i}]" class="form-label  text-black">Min Karakter</label> 
+                                                            <input type="number" class="form-control" placeholder="-" id="shortanswer-input-min[${i}]" >
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
                                         </div>
                                    
                                         <div class="row">
                                             <div class="col-lg-10">
                                                 <label class="form-label text-black">Jawaban</label>
-                                                <div class="form-group inputtype" id="shortanswer_input[${i}]">
+
+                                                <div class="form-group inputtype" id="shortanswer_input[${i}]"  data-card="${i}">
                                                     <input type="text" class="form-control" placeholder="Teks jawaban singkat" readonly>
                                                 </div>
+                                                               
                                                 <div class="form-group inputtype" id="paragraph_input[${i}]">
                                                     <textarea class="form-control" readonly placeholder="Paragraf"></textarea>
                                                 </div>
+                                                
                                                 <div class="form-group inputtype radio-option-div" id="singlechoice_div[${i}]">
                                                     <p> Silahkan isi opsi pilihan ganda dibawah ini <span class="text-danger">*</span> </p>
                                                     <div class="radio-option" id="option">
                                                         <div class="d-flex align-items-center">
-                                                            <input class="form-check-input" type="radio">
-                                                            <div class="row align-items-center">
-                                                                <div class="col-3">
+                                                            <div class="px-2">
+                                                                <input class="form-check-input" type="radio">
+                                                            </div>
+                                                            <div class="row no-gutters">
+                                                                <div class="col">
                                                                     <input type="text" class="form-control" placeholder="Kode">
                                                                 </div>
-                                                                <div class="col-4 ">
+                                                                <div class="col">
                                                                     <input type="text" class="form-control" placeholder="Pilihan">
                                                                 </div>
-                                                                <div class="col-3 ">
+                                                                <div class="col">
                                                                     <input type="text" class="form-control" placeholder="Nilai">
                                                                 </div>
-                                                                <div class="col-2 d-flex align-items-center ">
-                                                                    <a class="btn btn-danger btn-sm  mx-1" type="button">
-                                                                       
-                                                                       Hapus
-                                                                   </a>
-                                                                   <a class="btn btn-success btn-sm add-radio-option" type="button">
-                                                                      Tambah
-                                                                   </a>
-                                                                   
+                                                                <div class="col d-flex align-items-center">
+                                                                    <div class="form-check" >
+                                                                        <input class="form-check-input singlechoice-addition" type="checkbox" id="singlechoice-addition">
+                                                                        <label class="form-check-label" for="singlechoice-addition">
+                                                                            Input Text Tambahan
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-2">
+                                                                    <input class="form-control singlechoice-addition-text" type="text" id="singlechoice-addition-text" placeholder="Kode Text Tambahan">
+                                                                </div>
+                                                                <div class="col d-flex align-items-center">
+                                                                    <a class="btn btn-danger btn-sm mx-1" type="button">
+                                                                        Hapus
+                                                                    </a>
+                                                                    <a class="btn btn-success btn-sm add-radio-option" type="button">
+                                                                        Tambah
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                                 
                                                 <div class="form-group inputtype checkbox-option-div" id="checkbox_div[${i}]">
@@ -1147,35 +1250,29 @@
                                                     </div>
                                                 </div>
     
-                                                <div class="form-group inputtype" id="scala_div[${i}]">
-                                                    <p>Silahkan isi range dibawah ini <span class="text-danger">*</span> </p>
-                                                    <div class="d-flex justify-content-between w-50">
-                                                        <select class="form-select range-start">
-                                                            <option value="0" selected >0</option>
-                                                            <option value="1">1</option>
-                                                        </select>
-                                                        <p class="px-4  my-auto">Sampai</p>
-                                                        <select class="form-select range-end">
-                                                            <option value=""disabled selected>Pilih Range</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                            <option value="6">6</option>
-                                                            <option value="7">7</option>
-                                                            <option value="8">8</option>
-                                                            <option value="9">9</option>
-                                                            <option value="10">10</option>
-                                                        </select>
+                                                <div class="form-group inputtype" id="zona_div[${i}]">
+                                                    <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
+                                                  
+                                                    <div class="row ">
+                                                        <div class="col-lg-2">
+                                                            <input type="text" class="form-control" placeholder="Kode Provinsi">
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <select class="form-select" aria-label="Actions">
+                                                                    <option value="Provinsi">Provinsi</option>
+                                                             </select>
+                                                        </div> 
                                                     </div>
-                                                    <div class="w-50 mt-4 range-label-container">
-                                                        <div class="input-group">
-                                                            <span class="input-group-text range-label-start">0</span>
-                                                            <input type="text" class="form-control" id="range-label-start" placeholder="Label (Opsional)">
-                                                        </div>                                                    
+                                                    <div class="row mt-2 ">
+                                                        <div class="col-lg-2">
+                                                            <input type="text" class="form-control" placeholder="Kode Kota/Kabupaten">
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <select class="form-select" aria-label="Actions">
+                                                                    <option value="Kabupaten">Kabupaten</option>
+                                                             </select>
+                                                        </div> 
                                                     </div>
-    
-                                                   
                                                 </div>
                                                 <div class="form-group inputtype" id="gridcolumn_div[${i}]">
                                                     <p> Silahkan isi opsi pilihan dibawah ini <span class="text-danger">*</span> </p>    
@@ -1204,8 +1301,11 @@
                                                             <div class="row my-2 grid-row">
                                                                 <div class="col-lg-12">
                                                                     <div class="input-group" >
-                                                                        <input type="text" class="form-control grid-row-input" placeholder="Baris 1">
-                                                                       
+                                                                        <input type="text" class="form-control grid-row-input" placeholder="Label Baris 1">
+                                                                        <input type="text" class="form-control grid-row-input-value" placeholder="Nilai Baris 1">
+                                                                        <span class="input-group-text">
+                                                                            <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none" </svg>                   
+                                                                    </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1213,7 +1313,8 @@
                                                             <div class="row my-2 grid-row">
                                                                 <div class="col-lg-12">
                                                                     <div class="input-group">
-                                                                        <input type="text" class="form-control grid-row-input" placeholder="Baris 2">
+                                                                        <input type="text" class="form-control grid-row-input" placeholder="Label Baris 2">
+                                                                        <input type="text" class="form-control grid-row-input-value" placeholder="Nilai Baris 2">
                                                                         <span class="input-group-text grid-delete-row">
                                                                             <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#000000"></path> </g></svg>                   
                                                                         </span>
@@ -1225,8 +1326,11 @@
                                                             <div class="row my-2 grid-column">
                                                                 <div class="col-lg-12">
                                                                     <div class="input-group ">
-                                                                        <input type="text" class="form-control grid-column-input" placeholder="Kolom 1">
-                                                                       
+                                                                        <input type="text" class="form-control grid-column-input" placeholder="Label Kolom 1">
+                                                                        <input type="text" class="form-control grid-column-input-value" placeholder="Nilai Kolom 1">
+                                                                        <span class="input-group-text">
+                                                                            <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none" </svg>                   
+                                                                    </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1234,7 +1338,8 @@
                                                             <div class="row my-2 grid-column">
                                                                 <div class="col-lg-12">
                                                                     <div class="input-group ">
-                                                                        <input type="text" class="form-control  grid-column-input" placeholder="Kolom 2">
+                                                                        <input type="text" class="form-control grid-column-input" placeholder="Label Kolom 2">
+                                                                        <input type="text" class="form-control grid-column-input-value" placeholder="Nilai Kolom 2">
                                                                         <span class="input-group-text grid-delete-column">
                                                                             <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#000000"></path> </g></svg>                   
                                                                         </span>
@@ -1290,12 +1395,7 @@
                                                 <div class="form-group inputtype"  id="datetime_input[${i}]">
                                                     <input type="datetime-local" class="form-control">
                                                 </div>
-                                                <div class="form-group inputtype"  id="fileupload_input[${i}]">
-                                                    <input class="form-control" type="file">
-                                                </div>
-                                                <div class="form-group inputtype multipleinput" id="multipleinput_div[${i}]">
-                                                    <input type="text" class="form-control" id="multipleinput_input[${i}]"  placeholder="Multiple Input">
-                                                </div>
+                                              
                                             </div>
                                         </div>
                                         <br>
@@ -1333,7 +1433,7 @@
                         </div>  
                 `;
     }
-    
+
     function formatState(opt) {
         if (!opt.id) {
             return opt.text;
@@ -1346,4 +1446,4 @@
             return $opt;
         }
     }
- </script> --}}
+</script>
