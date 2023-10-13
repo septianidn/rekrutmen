@@ -61,6 +61,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
     rel="stylesheet" />
 <style>
+    /* SELECT2 CUSTOM CSS */
     .select2-container--bootstrap-5.select2-container--focus .select2-selection,
     .select2-container--bootstrap-5.select2-container--open .select2-selection {
         border-color: #009A4B;
@@ -83,6 +84,7 @@
         background-color: #009A4B;
     }
 
+    /* FORM BUILDER CUSTOM CSS */
     .card-soal {
         border-left: 5px solid transparent;
         /* Menggunakan border awal dengan warna transparan */
@@ -93,6 +95,11 @@
     .card-soal.active {
         border-left-color: #009A4B;
         transform: scale(1.01);
+    }
+
+    .card-soal.show {
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .dropup .dropdown-menu {
@@ -124,9 +131,6 @@
     .bg-grey {
         background-color: #F6F6F6
     }
-
-
-    /* FORM BUILDER CUSTOM CSS */
 
     .fieldset-wizard-container {
         display: flex;
@@ -171,8 +175,8 @@
     }
 
 
-
-    /* #form-wizard2 fieldset:not(:first-of-type) {
+    /*
+    #form-wizard2 fieldset:not(:first-of-type) {
         display: none;
     }
 

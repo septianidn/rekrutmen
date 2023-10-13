@@ -28,11 +28,13 @@ class PertanyaanController extends Controller
      */
     public function create($id)
     {
+        $assets = ['animation'];
+
         if (request()->ajax()) {
-            return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('id'))->render();
+            return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('id','assets'))->render();
         }
     
-        return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('id'))->render();
+        return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('id','assets'))->render();
     }
 
     /**
