@@ -45,6 +45,11 @@
 
 
 <script>
+    /* 
+        PAGE LISTENER 
+    */
+
+
     $(document).ready(function() {
 
 
@@ -61,9 +66,9 @@
             const width = container.width();
             container.css("transform", `translateX(-${(page - 1) * width}px)`);
             $(`#page-navigation\\[${page}\\]`).addClass("active");
-
             inputPageTitle();
         }
+
 
 
         function addPage(activeElementNavPageId) {
@@ -73,9 +78,10 @@
                 $(`#page\\[${activeElementNavPageId}\\]`).removeClass("active");
                 $(`#page\\[${activeElementNavPageId}\\]`).addClass("padding-10");
 
-                const newPage = generatePage(parseInt(activeElementNavPageId) + 1);
+                const addToPageId = parseInt(activeElementNavPageId) + 1;
+                const newPage = generatePage(addToPageId);
                 const fieldSetBefore = $(`#page\\[${activeElementNavPageId}\\]`);
-                const fieldSetAfter = $(`#page\\[${activeElementNavPageId + 1}\\]`);
+                const fieldSetAfter = $(`#page\\[${addToPageId}\\]`);
 
                 if (fieldSetAfter.length > 0) {
                     fieldSetAfter.before(newPage);
@@ -84,9 +90,12 @@
                     fieldSetBefore.after(newPage);
 
                 }
+                const cardContainer = $(`#card_container\\[${addToPageId}\\]`)
                 const pageNavigation = $(".page-navigation");
                 pageNavigation.html(generatePageNavigation());
-                showPage(parseInt(activeElementNavPageId) + 1);
+                cardContainer.append(generateCard(addToPageId, 0));
+                initializeCard();
+                showPage(addToPageId);
 
             }
         }
@@ -105,6 +114,21 @@
             }
         }
 
+        var toastMixin = Swal.mixin({
+            toast: true,
+            icon: 'success',
+            title: 'General Title',
+            animation: false,
+            position: 'top-right',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
         function deletePage(pageToDeleteId) {
             if (pageToDeleteId > 1) {
                 const pageToDeleteElement = $(`#page\\[${pageToDeleteId}\\]`);
@@ -112,6 +136,10 @@
                 const pageNavigation = $(".page-navigation");
                 pageNavigation.html(generatePageNavigation());
                 showPage(parseInt(pageToDeleteId) - 1);
+                toastMixin.fire({
+                    animation: true,
+                    title: 'Halaman Terhapus',
+                });
             }
         }
 
@@ -152,7 +180,15 @@
                         cancelButton: 'btn btn-success',
                         popup: 'rounded'
                     },
-                    buttonsStyling: false
+                    buttonsStyling: false,
+                    showClass: {
+                        popup: 'animate__animated animate__zoomIn animate__faster',
+
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__zoomOut animate__faster',
+
+                    }
                 })
                 swalWithBootstrapButtons.fire({
                     title: `Hapus Halaman ${pageNameValue}?`,
@@ -220,15 +256,13 @@
             const pageContainer = $("#page-container");
             pageContainer.append(firstPage);
             const pageNavigation = $(".page-navigation");
-            pageNavigation.html(generatePageNavigation(currentPage));
+            pageNavigation.html(generatePageNavigation());
+            const cardContainer = $(`#card_container\\[${currentPage}\\]`)
+            cardContainer.append(generateCard(currentPage, 0));
+            initializeCard();
             showPage(currentPage);
 
-            // Sembunyikan tombol "Hapus Halaman" jika hanya ada satu halaman
-            if (currentPage === 1) {
-                $(".delete-and-previous").hide();
-            }
         }
-
 
         function inputPageTitle() {
             const dynamicInputs = $(".dynamic-input");
@@ -261,20 +295,19 @@
         }
 
 
+
     });
 
+    /* 
+        CARD LISTENER 
+    */
 
-    function listenerPage() {
 
-    }
-
-
-    function initialize() {
+    function initializeCard() {
 
         checkBoxListener();
         radioBoxListener();
         gridColumnListener();
-        $(".card_container").append(generateCard(0));
         listenerCard();
 
     }
@@ -527,7 +560,7 @@
             handle: '.drag-icon', // handle's class
             animation: 150,
             onEnd: function(evt) {
-                resetIndex();
+                resetIndexCard(pageIndexs);
 
             },
         });
@@ -547,43 +580,62 @@
 
         $(document).off('click', '.add_pertanyaan');
         $(document).on('click', '.add_pertanyaan', function() {
-            const id = $(this).attr('id');
-            const index = id.match(/\d+/)[0];
-            console.log($(this));
-            addCard(index, $(this));
 
+            const id = $(this).attr('id');
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                addCard(pageIndexs, cardIndexs, $(this));
+            }
         });
 
         $(document).off('click', '.add_heading');
         $(document).on('click', '.add_heading', function() {
+
             const id = $(this).attr('id');
-            const index = id.match(/\d+/)[0];
-            addHeading(index, $(this));
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                addHeading(pageIndexs, cardIndexs, $(this));
+            }
 
         });
 
 
         $(document).off('click', '.duplicate_card');
         $(document).on('click', '.duplicate_card', function() {
-            console.log("hoi")
+
             const id = $(this).attr('id');
-            const index = id.match(/\d+/)[0];
-            duplicateCard(index, $(this));
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                duplicateCard(pageIndexs, cardIndexs, $(this));
+            }
+
 
         });
 
         $(document).off('click', '.delete_card');
         $(document).on('click', '.delete_card', function() {
-            console.log("hoi")
             const id = $(this).attr('id');
-            const index = id.match(/\d+/)[0];
-            deleteCard(index, $(this));
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                deleteCard(pageIndexs, cardIndexs, $(this));
+            }
 
         })
 
-        initializeTinymce();
+        // initializeTinymce();
         initializeSelect2();
-        initializeTagify();
+        // initializeTagify();
 
 
 
@@ -703,17 +755,21 @@
         console.log("-----------")
     }
 
-    function resetIndex() {
-        const cardElements = $('.card-soal');
-        console.log(cardElements)
-        const pattern = /\w+\[(\d+)\]/;
+    //TODO: CHECK RESET INDEX AGAIN WRONGGG!!
+    function resetIndexCard(pageIndexs) {
+
+        const cardElements = $(`[id^="card-soal[${pageIndexs}]"]`);
+        console.log("PIW");
+        console.log(cardElements);
+        const pattern = /\[(\d+)\]\[(\d+)\]/;
 
         cardElements.each(function(index) {
             console.log($(this) + index);
             const thisCardELements = $(this);
-            thisCardELements.attr('id', `card-soal[${index}]`);
+            thisCardELements.attr('id', `card-soal[${pageIndexs}][${index}]`);
             thisCardELements.attr('data-id', index);
-            thisCardELements.attr('data-select2-id', `selectTypeJawaban_div[${index}]`);
+            thisCardELements.attr('data-page', pageIndexs);
+            thisCardELements.attr('data-select2-id', `selectTypeJawaban_div[${pageIndexs}][${index}]`);
 
 
             $(this).find("[id], [data-card], [data-input], [data-validation]").each(function() {
@@ -724,20 +780,20 @@
                 const matches = id.match(pattern);
 
                 if (matches) {
-                    const newId = id.replace(matches[1], index);
-                    $(this).attr('id', `${newId}`);
+                    const newIdCard = id.replace(matches[2], index);
+                    $(this).attr('id', `${newIdCard}`);
                 }
                 if (dataInput && matches) {
-                    const newDataInput = dataInput.replace(matches[1], index);
-                    $(this).attr('data-input', newDataInput);
+                    const newDataInputCard = dataInput.replace(matches[2], index);
+                    $(this).attr('data-input', newDataInputCard);
                 }
                 if (dataValidation && matches) {
-                    const newDataInputV = dataValidation.replace(matches[1], index);
-                    $(this).attr('data-validation', newDataInputV);
+                    const newDataInputVCard = dataValidation.replace(matches[2], index);
+                    $(this).attr('data-validation', newDataInputVCard);
                 }
                 if (dataCard && matches) {
-                    const newDataInputC = dataCard.replace(matches[1], index);
-                    $(this).attr('data-card', newDataInputC);
+                    const newDataInputCard = dataCard.replace(matches[2], index);
+                    $(this).attr('data-card', newDataInputCard);
                 }
             });
 
@@ -748,61 +804,56 @@
     }
 
     //TODO:CHECK AGAIN
-    function addCard(indexCard, cardSelector) {
-        const addCard = generateCard(parseInt(indexCard) + 1);
-
-        const cardBefore = $(`#card-soal\\[${indexCard}\\]`);
-        const cardAfter = $(`#card-soal\\[${indexCard + 1}\\]`);
+    function addCard(pageIndexs, cardIndexs, cardSelector) {
+        const addCard = generateCard(pageIndexs, cardIndexs + 1);
+        const cardBefore = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
+        const cardAfter = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs + 1}\\]`);
 
         if (cardAfter.length > 0) {
             cardAfter.before(addCard);
-            resetIndex();
+
         } else {
             cardBefore.after(addCard);
-            resetIndex();
+
 
         }
-
-
+        resetIndexCard(pageIndexs);
     }
 
-    function addHeading(indexCard, cardSelector) {
-        const addHeading = generateHeading(parseInt(indexCard) + 1);
-        const cardBeforeHeading = $(`#card-soal\\[${indexCard}\\]`);
-        const cardAfterHeading = $(`#card-soal\\[${indexCard+1}\\]`);
+    function addHeading(pageIndexs, cardIndexs, cardSelector) {
+        const addHeading = generateHeading(pageIndexs, cardIndexs + 1);
+        const cardBeforeHeading = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
+        const cardAfterHeading = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs + 1}\\]`);
 
         if (cardAfterHeading.length > 0) {
-
             cardBeforeHeading.after(addHeading);
         } else {
-
             cardBeforeHeading.after(addHeading);
         }
-        resetIndex();
+        resetIndexCard(pageIndexs);
     };
 
-    function duplicateCard(indexCard, cardSelector) {
+    function duplicateCard(pageIndexs, cardIndexs, cardSelector) {
 
         //TODO FIX THE SELECT2
-        const cardToDuplicate = $(`#card-soal\\[${indexCard}\\]`);
+        const cardToDuplicate = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
         const clonedCard = cardToDuplicate.clone();
         cardToDuplicate.after(clonedCard);
 
-        resetIndex();
+        resetIndexCard(pageIndexs);
     }
 
 
-    function deleteCard(indexCard, cardSelector) {
+    function deleteCard(pageIndexs, cardIndexs, cardSelector) {
 
-        const cardToDelete = $(`#card-soal\\[${indexCard}\\]`);
+        const cardToDelete = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
         cardToDelete.remove();
-        resetIndex();
+        resetIndexCard(pageIndexs);
     }
 
-
-    function generateHeading(i) {
-        return `<div class="card card-soal" data-id="${i}" id="card-soal[${i}]">
-        <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${i}]">
+    function generateHeading(indexPage, indexCard) {
+        return `<div class="card card-soal" data-page="${indexPage}" data-id="${indexCard}" id="card-soal[${indexPage}][${indexCard}]">
+        <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${indexPage}][${indexCard}]">
             <svg width="25px" height="20px" viewBox="0 0 15 15" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -819,13 +870,13 @@
             <div class="row">
                 <div class="form-group col-sm-12">
                     <label class="form-label text-black">Judul</label>
-                    <input class="form-control" name="judul" placeholder="Isi Judul" id="judul[${i}]">
+                    <input class="form-control" name="judul" placeholder="Isi Judul" id="judul[${indexPage}][${indexCard}]">
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="d-flex float-end">
-                        <a class="mx-1 delete_card" type="button" id="delete_card[${i}]">
+                        <a class="mx-1 delete_card" type="button" id="delete_card[${indexPage}][${indexCard}]">
                             <svg width="21" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -840,7 +891,7 @@
                                     stroke-linejoin="round"></path>
                             </svg>
                         </a>
-                        <a class="mx-2 duplicate_card" type="button" id="duplicate_card[${i}]">
+                        <a class="mx-2 duplicate_card" type="button" id="duplicate_card[${indexPage}][${indexCard}]">
                             <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#009A4B"
@@ -863,13 +914,13 @@
                                 </g>
                             </svg>
                         </a>
-                        <div class="dropup mx-2 more_dropdown[${i}]">
-                            <a class="px-2" type="button" id="dropdownMenu[${i}]" data-bs-toggle="dropdown"
+                        <div class="dropup mx-2 more_dropdown[${indexPage}][${indexCard}]">
+                            <a class="px-2" type="button" id="dropdownMenu[${indexPage}][${indexCard}]" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <span class="fa-solid fa-ellipsis-vertical" style="color: #009a4b;"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a class="dropdown-item add_heading" id="add_heading[${i}]" type="button"><svg
+                                <li><a class="dropdown-item add_heading" id="add_heading[${indexPage}][${indexCard}]" type="button"><svg
                                             fill="#009a4b" width="20px" height="20px" viewBox="0 0 24.00 24.00"
                                             xmlns="http://www.w3.org/2000/svg" stroke="#009a4b"
                                             stroke-width="0.00024000000000000003">
@@ -882,7 +933,7 @@
                                                 </path>
                                             </g>
                                         </svg> Tambah Judul</a></li>
-                                <li><a class="dropdown-item add_pertanyaan" id="add_pertanyaan[${i}]"
+                                <li><a class="dropdown-item add_pertanyaan" id="add_pertanyaan[${indexPage}][${indexCard}]"
                                         type="button"><svg width="18px" height="18px" viewBox="0 0 24 24"
                                             fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"
                                             stroke-width="0.00024000000000000003">
@@ -905,11 +956,11 @@
     `
     }
 
-    function generateCard(i) {
+    function generateCard(indexPage, indexCard) {
         return `
 
-    <div class="card card-soal" data-aos="fade-down" data-aos-delay="500" data-id="${i}" id="card-soal[${i}]">
-        <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${i}]">
+    <div class="card card-soal" data-aos="fade-down" data-page="${indexPage}" data-aos-delay="500" data-id="${indexCard}" id="card-soal[${indexPage}][${indexCard}]">
+        <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${indexPage}][${indexCard}]">
             <svg width="25px" height="20px" viewBox="0 0 15 15" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -927,7 +978,7 @@
                 <div class="form-group col-sm-10">
                     <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
                     <textarea class="form-control pertanyaan-textarea" name="pertanyaan" placeholder="Isi Pertanyaan"
-                        id="pertanyaan[${i}]"></textarea>
+                        id="pertanyaan[${indexPage}][${indexCard}]"></textarea>
                 </div>
 
                 <div class="col-sm-2 col-lg-2">
@@ -937,20 +988,20 @@
                         <input type="text" class="form-control" placeholder="Kode">
                     </div>
 
-                    <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${i}]">
+                    <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${indexPage}][${indexCard}]">
                         <label class="form-label text-black">Tipe Pertanyaan<span class="text-danger">*</span></label>
                         <select class="form-select type-jawaban-select" aria-label="Actions"
-                            id="selectTypeJawaban[${i}]" data-card="${i}">
-                            <option value="shortanswer_type" class="shortanswer" id="shortanswer_type[${i}]"
-                                data-input="shortanswer_input[${i}]"
-                                data-validation="shortanswer_validation_div[${i}]"
+                            id="selectTypeJawaban[${indexPage}][${indexCard}]">
+                            <option value="shortanswer_type" class="shortanswer" id="shortanswer_type[${indexPage}][${indexCard}]"
+                                data-input="shortanswer_input[${indexPage}][${indexCard}]"
+                                data-validation="shortanswer_validation_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M3 10H21M3 14H12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                         </svg>'>
                                 Jawaban Singkat
                             </option>
-                            <option value="paragraph_type" class="paragraph" id="paragraph_type[${i}]"
-                                data-input="paragraph_input[${i}]"
+                            <option value="paragraph_type" class="paragraph" id="paragraph_type[${indexPage}][${indexCard}]"
+                                data-input="paragraph_input[${indexPage}][${indexCard}]"
                                 data-image='<svg width="15px" height="15px" viewBox="0 0 24 28" version="1.1" xmlns="http://www.w3.org/2000/svg" 
                                                         <title>align-left</title>
                                                         <desc>Created with Sketch Beta.</desc>
@@ -965,55 +1016,55 @@
                                                         </svg>'>
                                 Paragraf
                             </option>
-                            <option value="singlechoice_type" class="singlechoice" id="singlechoice_type[${i}]"
-                                data-input="singlechoice_div[${i}]"
+                            <option value="singlechoice_type" class="singlechoice" id="singlechoice_type[${indexPage}][${indexCard}]"
+                                data-input="singlechoice_div[${indexPage}][${indexCard}]"
                                 data-input="paragraph_input"data-image='<svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                <circle cx="12" cy="12" r="7.5" stroke="currentColor"></circle>                            </svg>                        '>
                                 Pilihan Ganda (Radio Button)
                             </option>
-                            <option value="checkbox_type" class="checkbox" id="checkbox_type[${i}]"
-                                data-input="checkbox_div[${i}]"
+                            <option value="checkbox_type" class="checkbox" id="checkbox_type[${indexPage}][${indexCard}]"
+                                data-input="checkbox_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56499 12.4068C4.29258 12.0947 3.81879 12.0626 3.50676 12.335C3.19472 12.6074 3.1626 13.0812 3.43501 13.3932L4.56499 12.4068ZM7.14286 16.5L6.57787 16.9932C6.7203 17.1564 6.92629 17.25 7.14286 17.25C7.35942 17.25 7.56542 17.1564 7.70784 16.9932L7.14286 16.5ZM15.565 7.99324C15.8374 7.68121 15.8053 7.20742 15.4932 6.93501C15.1812 6.6626 14.7074 6.69472 14.435 7.00676L15.565 7.99324ZM10.5064 11.5068C10.234 11.8188 10.2662 12.2926 10.5782 12.565C10.8902 12.8374 11.364 12.8053 11.6364 12.4932L10.5064 11.5068ZM9.67213 14.7432C9.94454 14.4312 9.91242 13.9574 9.60039 13.685C9.28835 13.4126 8.81457 13.4447 8.54215 13.7568L9.67213 14.7432ZM3.43501 13.3932L6.57787 16.9932L7.70784 16.0068L4.56499 12.4068L3.43501 13.3932ZM7.70784 16.9932L9.67213 14.7432L8.54215 13.7568L6.57787 16.0068L7.70784 16.9932ZM11.6364 12.4932L13.6007 10.2432L12.4707 9.25676L10.5064 11.5068L11.6364 12.4932ZM13.6007 10.2432L15.565 7.99324L14.435 7.00676L12.4707 9.25676L13.6007 10.2432Z" fill="#000000"></path> <path d="M20.0002 7.5625L15.7144 12.0625M11.0002 16L11.4286 16.5625L13.5715 14.3125" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                 Kotak Centang (Checkbox)
                             </option>
-                            <option value="dropdown_type" class="checkbox" id="dropdown_type[${i}]"
-                                data-input="dropdown_div[${i}]"
+                            <option value="dropdown_type" class="checkbox" id="dropdown_type[${indexPage}][${indexCard}]"
+                                data-input="dropdown_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z" stroke="#000000" stroke-width="1.224" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                 List Pilihan (Dropdown)
                             </option>
-                            <option value="gridcolumn_type" class="gridcolumn" id="gridcolumn_type[${i}]"
-                                data-input="gridcolumn_div[${i}]"
+                            <option value="gridcolumn_type" class="gridcolumn" id="gridcolumn_type[${indexPage}][${indexCard}]"
+                                data-input="gridcolumn_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.75 3C3.88235 3 3 3.88235 3 6.75C3 9.61765 3.88235 10.5 6.75 10.5C9.61765 10.5 10.5 9.61765 10.5 6.75C10.5 3.88235 9.61765 3 6.75 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6.75 13.5C3.88235 13.5 3 14.3824 3 17.25C3 20.1176 3.88235 21 6.75 21C9.61765 21 10.5 20.1176 10.5 17.25C10.5 14.3824 9.61765 13.5 6.75 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 13.5C14.3824 13.5 13.5 14.3824 13.5 17.25C13.5 20.1176 14.3824 21 17.25 21C20.1176 21 21 20.1176 21 17.25C21 14.3824 20.1176 13.5 17.25 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 3C14.3824 3 13.5 3.88235 13.5 6.75C13.5 9.61765 14.3824 10.5 17.25 10.5C20.1176 10.5 21 9.61765 21 6.75C21 3.88235 20.1176 3 17.25 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                 Petak Pilihan Ganda
                             </option>
-                            <option value="zona" class="skala" id="zona[${i}]" data-input="zona_div[${i}]"
+                            <option value="zona" class="skala" id="zona[${indexPage}][${indexCard}]" data-input="zona_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
                                 Zona
                             </option>
-                            <option value="date_type" class="date" id="date_type[${i}]"
-                                data-input="date_input[${i}]"
+                            <option value="date_type" class="date" id="date_type[${indexPage}][${indexCard}]"
+                                data-input="date_input[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
                                 Tanggal
                             </option>
-                            <option value="time_type" class="time" id="time_type[${i}]"
-                                data-input="time_input[${i}]"
+                            <option value="time_type" class="time" id="time_type[${indexPage}][${indexCard}]"
+                                data-input="time_input[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.25 12.0005C21.25 17.1095 17.109 21.2505 12 21.2505C6.891 21.2505 2.75 17.1095 2.75 12.0005C2.75 6.89149 6.891 2.75049 12 2.75049C17.109 2.75049 21.25 6.89149 21.25 12.0005Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M15.4316 14.9429L11.6616 12.6939V7.84692" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
                                 Waktu
                             </option>
-                            <option value="datetime_type" class="datetime" id="datetime_type[${i}]"
-                                data-input="datetime_input[${i}]"
+                            <option value="datetime_type" class="datetime" id="datetime_type[${indexPage}][${indexCard}]"
+                                data-input="datetime_input[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
                                 Tanggal dan Waktu
                             </option>
 
                         </select>
                         <div class="form-group inputtype shortanswer-validation-div"
-                            id="shortanswer_validation_div[${i}]">
-                            <div class="form-group mt-4" id="shortanswer_input_type_div[${i}]">
+                            id="shortanswer_validation_div[${indexPage}][${indexCard}]">
+                            <div class="form-group mt-4" id="shortanswer_input_type_div[${indexPage}][${indexCard}]">
                                 <p class="mt-2"> Silahkan isi validasi disini <span class="text-danger">*</span>
                                 </p>
                                 <label class="form-label text-black">Tipe Validasi</label>
                                 <select class="form-select type-validation-select"
-                                    id="shortanswer-type-validation[${i}]">
+                                    id="shortanswer-type-validation[${indexPage}][${indexCard}]">
                                     <option value="none">Tidak Ada</option>
                                     <option value="email">Email</option>
                                     <option value="phone">Nomor Handphone</option>
@@ -1023,15 +1074,15 @@
                                 </select>
                             </div>
                             <div class="row">
-                                <div class="col-6 form-group" id="shortanswer-input-max-div[${i}]">
+                                <div class="col-6 form-group" id="shortanswer-input-max-div[${indexPage}][${indexCard}]">
                                     <label class="form-label  text-black">Max Karakter</label>
                                     <input type="number" class="form-control" placeholder="256"
-                                        id="shortanswer-input-max[${i}]">
+                                        id="shortanswer-input-max[${indexPage}][${indexCard}]">
                                 </div>
-                                <div class="col-6 form-group" id="shortanswer-input-min-div[${i}]">
+                                <div class="col-6 form-group" id="shortanswer-input-min-div[${indexPage}][${indexCard}]">
                                     <label class="form-label  text-black">Min Karakter</label>
                                     <input type="number" class="form-control" placeholder="-"
-                                        id="shortanswer-input-min[${i}]">
+                                        id="shortanswer-input-min[${indexPage}][${indexCard}]">
                                 </div>
                             </div>
                         </div>
@@ -1043,15 +1094,15 @@
                 <div class="col-lg-10">
                     <label class="form-label text-black">Jawaban</label>
 
-                    <div class="form-group inputtype" id="shortanswer_input[${i}]" data-card="${i}">
+                    <div class="form-group inputtype" id="shortanswer_input[${indexPage}][${indexCard}]" data-card="${indexCard}">
                         <input type="text" class="form-control" placeholder="Teks jawaban singkat" readonly>
                     </div>
 
-                    <div class="form-group inputtype" id="paragraph_input[${i}]">
+                    <div class="form-group inputtype" id="paragraph_input[${indexPage}][${indexCard}]">
                         <textarea class="form-control" readonly placeholder="Paragraf"></textarea>
                     </div>
 
-                    <div class="form-group inputtype radio-option-div" id="singlechoice_div[${i}]">
+                    <div class="form-group inputtype radio-option-div" id="singlechoice_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan ganda dibawah ini <span class="text-danger">*</span> </p>
                         <div class="radio-option" id="option">
                             <div class="d-flex align-items-center">
@@ -1095,7 +1146,7 @@
 
                     </div>
 
-                    <div class="form-group inputtype checkbox-option-div" id="checkbox_div[${i}]">
+                    <div class="form-group inputtype checkbox-option-div" id="checkbox_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan kotak centang (checkbox) dibawah ini <span
                                 class="text-danger">*</span> </p>
                         <div class="checkbox-option" id="checkbox">
@@ -1125,7 +1176,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group inputtype" id="zona_div[${i}]">
+                    <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
 
                         <div class="row ">
@@ -1149,7 +1200,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group inputtype" id="gridcolumn_div[${i}]">
+                    <div class="form-group inputtype" id="gridcolumn_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan dibawah ini <span class="text-danger">*</span> </p>
                         <div class="mx-3">
                             <div class="row">
@@ -1285,7 +1336,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group inputtype" id="dropdown_div[${i}]">
+                    <div class="form-group inputtype" id="dropdown_div[${indexPage}][${indexCard}]">
                         <p> Silahkan pilih data pedia yang akan ditampilkan dibawah ini <span
                                 class="text-danger">*</span> </p>
                         <select class="form-select">
@@ -1297,13 +1348,13 @@
                         <p class="input-information ml-1">Untuk melihat data pedia klik <a
                                 href="{{ route('datapedia.index') }}">disini</a></p>
                     </div>
-                    <div class="form-group inputtype" id="date_input[${i}]">
+                    <div class="form-group inputtype" id="date_input[${indexPage}][${indexCard}]">
                         <input type="date" class="form-control">
                     </div>
-                    <div class="form-group inputtype" id="time_input[${i}]">
+                    <div class="form-group inputtype" id="time_input[${indexPage}][${indexCard}]">
                         <input type="time" class="form-control">
                     </div>
-                    <div class="form-group inputtype" id="datetime_input[${i}]">
+                    <div class="form-group inputtype" id="datetime_input[${indexPage}][${indexCard}]">
                         <input type="datetime-local" class="form-control">
                     </div>
 
@@ -1313,7 +1364,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="d-flex float-end">
-                        <a class="mx-1 delete_card" type="button" id="delete_card[${i}]">
+                        <a class="mx-1 delete_card" type="button" id="delete_card[${indexPage}][${indexCard}]">
                             <svg width="21" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -1328,7 +1379,7 @@
                                     stroke-linejoin="round"></path>
                             </svg>
                         </a>
-                        <a class="mx-2 duplicate_card" type="button" id="duplicate_card[${i}]">
+                        <a class="mx-2 duplicate_card" type="button" id="duplicate_card[${indexPage}][${indexCard}]">
                             <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#009A4B"
@@ -1358,12 +1409,12 @@
                                 Diisi</label>
                         </div>
                         <div class="dropup mx-2 more_dropdown">
-                            <a class="px-2" type="button" id="dropdownMenu[${i}]" data-bs-toggle="dropdown"
+                            <a class="px-2" type="button" id="dropdownMenu[${indexPage}][${indexCard}]" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <span class="fa-solid fa-ellipsis-vertical" style="color: #009a4b;"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a class="dropdown-item add_heading" id="add_heading[${i}]" type="button"><svg
+                                <li><a class="dropdown-item add_heading" id="add_heading[${indexPage}][${indexCard}]" type="button"><svg
                                             fill="#009a4b" width="20px" height="20px" viewBox="0 0 24.00 24.00"
                                             xmlns="http://www.w3.org/2000/svg" stroke="#009a4b"
                                             stroke-width="0.00024000000000000003">
@@ -1376,7 +1427,7 @@
                                                 </path>
                                             </g>
                                         </svg> Tambah Judul</a></li>
-                                <li><a class="dropdown-item add_pertanyaan" id="add_pertanyaan[${i}]"
+                                <li><a class="dropdown-item add_pertanyaan" id="add_pertanyaan[${indexPage}][${indexCard}]"
                                         type="button"><svg width="18px" height="18px" viewBox="0 0 24 24"
                                             fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"
                                             stroke-width="0.00024000000000000003">
