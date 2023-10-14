@@ -456,42 +456,148 @@
     }
 
     function checkBoxListener() {
+
+        $(document).off('click', '.add-checkbox-option');
         $(document).on('click', '.add-checkbox-option', function() {
-            var newElementCheckbox = `
-    <div class="checkbox-option py-1" id="checkbox">
-        <div class="d-flex align-items-center">
-            <input class="form-check-input" type="checkbox">
-            <div class="row align-items-center">
-                <div class="col-lg-3">
-                    <input type="text" class="form-control" placeholder="Kode">
-                </div>
-                <div class="col-lg-4">
-                    <input type="text" class="form-control" placeholder="Pilihan">
-                </div>
-                <div class="col-lg-3">
-                    <input type="text" class="form-control" placeholder="Nilai">
-                </div>
-                <div class="col-lg-2 d-flex align-items-center">
-                    <a class="btn btn-danger btn-sm delete-checkbox-option mx-1" type="button">
-                        Hapus
-                    </a>
-                    <a class="btn btn-success btn-sm add-checkbox-option" type="button">
-                        Tambah
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-            $(this).closest('.checkbox-option').after(newElementCheckbox);
+
+            console.log("HII AKU DITEKAN")
+            const id = $(this).attr('id');
+            console.log(id)
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                const checkBoxIndexs = parseInt(matches[3]);
+
+                addCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, $(this))
+            }
         });
 
+        $(document).off('click', '.delete-checkbox-option');
         $(document).on('click', '.delete-checkbox-option', function() {
-            $(this).closest('.checkbox-option').remove();
+            const id = $(this).attr('id');
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                const checkBoxIndexs = parseInt(matches[3]);
+                console.log("PAGE" + pageIndexs, cardIndexs, checkBoxIndexs);
+                //ADD
+                deleteCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, $(this))
+            }
+        });
+        checkBoxAdditionalListener();
+    }
+
+    function checkBoxAdditionalListener() {
+        $(document).on('change', '.mutiplechoice-addition', function() {
+            const id = $(this).attr('id');
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+
+            if (!matches) return;
+
+            const [pageIndexs, cardIndexs, checkBoxIndexs] = matches.slice(1).map(Number);
+            const visibility = this.checked ? 'visible' : 'hidden';
+
+            $(`#mutiplechoice-addition-text\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs}\\]`).css(
+                'visibility', visibility);
         });
     }
 
+    function deleteCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, checkBoxElement) {
+        if (checkBoxIndexs > 0) {
+            const checkBoxToDelete = $(
+                `#mutiple_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs}\\]`);
+            checkBoxToDelete.remove();
+            resetIndexCheckBox(pageIndexs, cardIndexs);
+        }
+    }
 
+    function addCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, checkBoxElement) {
+        if (checkBoxIndexs < 30) {
+            const newElementCheckBox = generateCheckBox(pageIndexs, cardIndexs, checkBoxIndexs + 1);
+            const checkBoxBefore = $(
+                `#mutiple_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs}\\]`);
+            const checkBoxAfter = $(
+                `#mutiple_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs + 1}\\]`);
+            if (checkBoxAfter.length > 0) {
+                checkBoxAfter.before(newElementCheckBox);
+            } else {
+                checkBoxBefore.after(newElementCheckBox);
+            }
+            resetIndexCheckBox(pageIndexs, cardIndexs);
+        }
+    }
+
+    function generateCheckBox(indexPage, indexCard, indexCheckBoxOption) {
+        return `   <div class="checkbox-option mutiple_option_div" id="mutiple_option_div[${indexPage}][${indexCard}][${indexCheckBoxOption}]">
+                            <div class="d-flex align-items-center">
+                                <div class="px-2">
+                                <input class="form-check-input" type="checkbox">
+                            </div>
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Kode">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Pilihan">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Nilai">
+                                    </div>
+                                    <div class="col d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input mutiplechoice-addition " type="checkbox"
+                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][${indexCheckBoxOption}]">
+                                            <label class="form-check-label" for="mutiplechoice-addition">
+                                                Input Text Tambahan
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                            <input class="form-control mutiplechoice-addition-text" type="text"
+                                                id="mutiplechoice-addition-text[${indexPage}][${indexCard}][${indexCheckBoxOption}]" placeholder="Kode Text Tambahan">
+                                        </div>
+                                    <div class="col d-flex align-items-center">
+                                        <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][${indexCheckBoxOption}]"  type="button">
+                                            Hapus
+                                        </a>
+                                        <a class="btn btn-success btn-sm add-checkbox-option" id="add-checkbox-option[${indexPage}][${indexCard}][${indexCheckBoxOption}]" type="button">
+                                            Tambah
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+    }
+
+    function resetIndexCheckBox(pageIndexs, cardIndexs) {
+
+        const checkBoxElements = $(`[id^="mutiple_option_div[${pageIndexs}][${cardIndexs}]"]`);
+        const pattern = /\[(\d+)\]\[(\d+)\]\[(\d+)\]/;
+
+        checkBoxElements.each(function(index) {
+            const thisCheckBoxElements = $(this);
+            const matches = thisCheckBoxElements.attr('id').match(pattern);
+            const pageIndex = matches[1];
+            const cardIndex = matches[2];
+            const checkBoxIndex = index;
+
+            thisCheckBoxElements.attr('id', `mutiple_option_div[${pageIndex}][${cardIndex}][${index}]`);
+
+            $(this).find("[id]").each(function() {
+                const id = $(this).attr("id");
+                if (matches) {
+                    const newIdCheckBox = id.replace(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/,
+                        `[${pageIndex}][${cardIndex}][${checkBoxIndex}]`);
+                    $(this).attr('id', `${newIdCheckBox}`);
+                }
+            });
+
+        });
+    }
     //PILIHAN GANDA LISTENER
     function radioBoxListener() {
 
@@ -514,30 +620,47 @@
 
         $(document).off('click', '.delete-radio-option');
         $(document).on('click', '.delete-radio-option', function() {
-            $(this).closest('.radio-option').remove();
+            const id = $(this).attr('id');
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                const radioIndexs = parseInt(matches[3]);
+                deleteRadioBox(pageIndexs, cardIndexs, radioIndexs, $(this));
+            }
         });
 
-        // radioBoxAdditionalListener();
+        radioBoxAdditionalListener();
 
     }
 
-    function addRadioBox(pageIndexs, cardIndexs, radioIndexs, radioBoxElement) {
-        const newElementRadioBox = generateRadioBox(pageIndexs, cardIndexs, radioIndexs + 1);
-        const radioBefore = $(`#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`);
-        const radioAfter = $(`#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs + 1}\\]`);
-        if (radioAfter.length > 0) {
-            radioAfter.before(newElementRadioBox);
-        } else {
-            radioBefore.after(newElementRadioBox);
+    function deleteRadioBox(pageIndexs, cardIndexs, radioIndexs, radioBoxElement) {
+        if (radioIndexs > 0) {
+            const radioBoxToDelete = $(
+                `#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`);
+            radioBoxToDelete.remove();
+            resetIndexRadioBox(pageIndexs, cardIndexs);
         }
-        resetIndexRadioBox(pageIndexs, cardIndexs);
+    }
+
+    function addRadioBox(pageIndexs, cardIndexs, radioIndexs, radioBoxElement) {
+        if (radioIndexs < 30) {
+            const newElementRadioBox = generateRadioBox(pageIndexs, cardIndexs, radioIndexs + 1);
+            const radioBefore = $(`#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`);
+            const radioAfter = $(
+                `#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs + 1}\\]`);
+            if (radioAfter.length > 0) {
+                radioAfter.before(newElementRadioBox);
+            } else {
+                radioBefore.after(newElementRadioBox);
+            }
+            resetIndexRadioBox(pageIndexs, cardIndexs);
+        }
     }
 
     function resetIndexRadioBox(pageIndexs, cardIndexs) {
 
         const radioBoxElements = $(`[id^="singlechoice_option_div[${pageIndexs}][${cardIndexs}]"]`);
-        console.log("PIW");
-        console.log(radioBoxElements);
         const pattern = /\[(\d+)\]\[(\d+)\]\[(\d+)\]/;
 
         radioBoxElements.each(function(index) {
@@ -604,15 +727,20 @@
     }
 
     function radioBoxAdditionalListener() {
-
         $(document).on('change', '.singlechoice-addition', function() {
-            if (this.checked) {
-                $('.singlechoice-addition-text').css('visibility', 'visible');
-            } else {
-                $('.singlechoice-addition-text').css('visibility', 'hidden');
-            }
+            const id = $(this).attr('id');
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+
+            if (!matches) return;
+
+            const [pageIndexs, cardIndexs, radioIndexs] = matches.slice(1).map(Number);
+            const visibility = this.checked ? 'visible' : 'hidden';
+
+            $(`#singlechoice-addition-text\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`).css(
+                'visibility', visibility);
         });
     }
+
 
     //END RADIO BOX LISTENER
 
@@ -929,9 +1057,14 @@
 
     function deleteCard(pageIndexs, cardIndexs, cardSelector) {
 
-        const cardToDelete = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
-        cardToDelete.remove();
-        resetIndexCard(pageIndexs);
+        if (cardIndexs > 1) {
+            const cardToDelete = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
+            cardToDelete.remove();
+            resetIndexCard(pageIndexs);
+        } else {
+
+        }
+
     }
 
     function generateHeading(indexPage, indexCard) {
@@ -1213,7 +1346,7 @@
                                     </div>
                                     <div class="col-2">
                                         <input class="form-control singlechoice-addition-text" type="text"
-                                            id="singlechoice-addition-text" placeholder="Kode Text Tambahan">
+                                            id="singlechoice-addition-text[${indexPage}][${indexCard}][0]" placeholder="Kode Text Tambahan">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                         <a class="btn btn-danger btn-sm mx-1  delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][0]" type="button">
@@ -1232,25 +1365,39 @@
                     <div class="form-group inputtype checkbox-option-div" id="checkbox_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan kotak centang (checkbox) dibawah ini <span
                                 class="text-danger">*</span> </p>
-                        <div class="checkbox-option" id="checkbox">
+                        <div class="checkbox-option mutiple_option_div" id="mutiple_option_div[${indexPage}][${indexCard}][0]">
                             <div class="d-flex align-items-center">
+                                <div class="px-2">
                                 <input class="form-check-input" type="checkbox">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-3">
+                            </div>
+                                <div class="row no-gutters">
+                                    <div class="col">
                                         <input type="text" class="form-control" placeholder="Kode">
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col">
                                         <input type="text" class="form-control" placeholder="Pilihan">
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col">
                                         <input type="text" class="form-control" placeholder="Nilai">
                                     </div>
-                                    <div class="col-lg-2 d-flex align-items-center">
-                                        <a class="btn btn-danger btn-sm  mx-1" type="button">
-
+                                    <div class="col d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input mutiplechoice-addition " type="checkbox"
+                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][0]">
+                                            <label class="form-check-label" for="mutiplechoice-addition">
+                                                Input Text Tambahan
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                            <input class="form-control mutiplechoice-addition-text" type="text"
+                                                id="mutiplechoice-addition-text[${indexPage}][${indexCard}][0]" placeholder="Kode Text Tambahan">
+                                        </div>
+                                    <div class="col d-flex align-items-center">
+                                        <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][0]"  type="button">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-success btn-sm add-checkbox-option" type="button">
+                                        <a class="btn btn-success btn-sm add-checkbox-option" id="add-checkbox-option[${indexPage}][${indexCard}][0]" type="button">
                                             Tambah
                                         </a>
                                     </div>
@@ -1261,7 +1408,6 @@
 
                     <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
-
                         <div class="row ">
                             <div class="col-lg-2">
                                 <input type="text" class="form-control" placeholder="Kode Provinsi">

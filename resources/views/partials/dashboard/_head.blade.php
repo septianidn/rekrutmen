@@ -299,7 +299,8 @@
         padding-right: 15px;
     }
 
-    .singlechoice-addition-text {
+    .singlechoice-addition-text,
+    .mutiplechoice-addition-text {
         visibility: hidden;
 
     }
