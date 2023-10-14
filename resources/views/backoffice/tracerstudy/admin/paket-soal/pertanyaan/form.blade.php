@@ -11,7 +11,7 @@
                         <h4 class="card-title">Form Soal</h4>
                         <div class="d-flex ">
                             <div style="margin-right: 10px;">
-                                <button type="button" class="btn btn-m btn-primary">Lihat Form</button>
+                                <button type=" button" class="btn btn-m btn-primary">Lihat Form</button>
                             </div>
                             <button type="submit" class="btn btn-m btn-primary">Simpan Form</button>
                         </div>
@@ -22,27 +22,28 @@
 
 
 
-        <div class="fieldset-wizard-slider">
-            <div id="page-container" class="fieldset-wizard-container">
+        <form method="POST" action="">
+            @csrf
+            <div class="fieldset-wizard-slider">
+                <div id="page-container" class="fieldset-wizard-container">
 
+                </div>
+
+                <div class="d-flex justify-content-end my-4 page-navigation-container">
+                    <button type="button" name="delete"
+                        class="btn btn-danger btn-sm delete-and-previous action-button-previous me-1" value="Previous">
+                        Hapus Halaman</button>
+                    <div class="page-navigation"></div>
+                    <button type="button" name="add" class="btn btn-primary btn-sm add-and-next action-button"
+                        value="Next" ">Tambah Halaman</button>
             </div>
-
-            <div class="d-flex justify-content-end my-4 page-navigation-container">
-                <button type="button" name="delete"
-                    class="btn btn-danger btn-sm delete-and-previous action-button-previous me-1" value="Previous">
-                    Hapus Halaman</button>
-                <div class="page-navigation"></div>
-                <button type="button" name="add" class="btn btn-primary btn-sm add-and-next action-button"
-                    value="Next" ">Tambah Halaman</button>
-            </div>
-
+            </form>
         </div>
     </div>
 </x-app-layout>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 <script src="https://kit.fontawesome.com/243e6ffe26.js" crossorigin="anonymous"></script>
-
 
 <script>
     /* 
@@ -490,58 +491,116 @@
         });
     }
 
+
+    //PILIHAN GANDA LISTENER
     function radioBoxListener() {
+
+        $(document).off('click', '.add-radio-option');
         $(document).on('click', '.add-radio-option', function() {
-            var newElement = `
-    <div class="radio-option py-1" id="option">
-        <div class="d-flex align-items-center">
-            <div class="px-2">
-                <input class="form-check-input" type="radio">
-            </div>
-            <div class="row no-gutters">
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Kode">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Pilihan">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Nilai">
-                </div>
-                <div class="col d-flex align-items-center">
-                    <div class="form-check">
-                        <input class="form-check-input singlechoice-addition" type="checkbox"
-                            id="singlechoice-addition">
-                        <label class="form-check-label" for="singlechoice-addition">
-                            Input Text Tambahan
-                        </label>
-                    </div>
-                </div>
-                <div class="col">
-                    <input class="form-control singlechoice-addition-text" type="text"
-                        id="singlechoice-addition-text" placeholder="Kode Text Tambahan">
-                </div>
-                <div class="col d-flex align-items-center">
-                    <a class="btn btn-danger btn-sm mx-1" type="button">
-                        Hapus
-                    </a>
-                    <a class="btn btn-success btn-sm add-radio-option" type="button">
-                        Tambah
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-            $(this).closest('.radio-option').after(newElement);
+
+            const id = $(this).attr('id');
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                const radioIndexs = parseInt(matches[3]);
+                console.log("PAGE" + pageIndexs, cardIndexs, radioIndexs);
+                //ADD
+                addRadioBox(pageIndexs, cardIndexs, radioIndexs, $(this))
+            }
+
         });
 
+        $(document).off('click', '.delete-radio-option');
         $(document).on('click', '.delete-radio-option', function() {
             $(this).closest('.radio-option').remove();
         });
 
-        radioBoxAdditionalListener();
+        // radioBoxAdditionalListener();
 
+    }
+
+    function addRadioBox(pageIndexs, cardIndexs, radioIndexs, radioBoxElement) {
+        const newElementRadioBox = generateRadioBox(pageIndexs, cardIndexs, radioIndexs + 1);
+        const radioBefore = $(`#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`);
+        const radioAfter = $(`#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs + 1}\\]`);
+        if (radioAfter.length > 0) {
+            radioAfter.before(newElementRadioBox);
+        } else {
+            radioBefore.after(newElementRadioBox);
+        }
+        resetIndexRadioBox(pageIndexs, cardIndexs);
+    }
+
+    function resetIndexRadioBox(pageIndexs, cardIndexs) {
+
+        const radioBoxElements = $(`[id^="singlechoice_option_div[${pageIndexs}][${cardIndexs}]"]`);
+        console.log("PIW");
+        console.log(radioBoxElements);
+        const pattern = /\[(\d+)\]\[(\d+)\]\[(\d+)\]/;
+
+        radioBoxElements.each(function(index) {
+            const thisRadioBoxElements = $(this);
+            const matches = thisRadioBoxElements.attr('id').match(pattern);
+            const pageIndex = matches[1];
+            const cardIndex = matches[2];
+            const radioIndex = index;
+
+            thisRadioBoxElements.attr('id', `singlechoice_option_div[${pageIndex}][${cardIndex}][${index}]`);
+
+            $(this).find("[id]").each(function() {
+                const id = $(this).attr("id");
+                if (matches) {
+                    const newIdRadioBox = id.replace(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/,
+                        `[${pageIndex}][${cardIndex}][${radioIndex}]`);
+                    $(this).attr('id', `${newIdRadioBox}`);
+                }
+            });
+
+        });
+    }
+
+    function generateRadioBox(indexPage, indexCard, indexRadioOption) {
+        return `   <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][${indexRadioOption}]">
+                            <div class="d-flex align-items-center">
+                                <div class="px-2">
+                                    <input class="form-check-input" type="radio">
+                                </div>
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Kode">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Pilihan">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="Nilai">
+                                    </div>
+                                    <div class="col d-flex align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input singlechoice-addition " type="checkbox"
+                                                id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]">
+                                            <label class="form-check-label" for="singlechoice-addition">
+                                                Input Text Tambahan
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input class="form-control singlechoice-addition-text" type="text"
+                                            id="singlechoice-addition-text[${indexPage}][${indexCard}][${indexRadioOption}]" placeholder="Kode Text Tambahan">
+                                    </div>
+                                    <div class="col d-flex align-items-center">
+                                        <a class="btn btn-danger btn-sm mx-1  delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][${indexRadioOption}]" type="button">
+                                            Hapus
+                                        </a>
+                                        <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][${indexRadioOption}]" type="button">
+                                            Tambah
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
     }
 
     function radioBoxAdditionalListener() {
@@ -554,6 +613,8 @@
             }
         });
     }
+
+    //END RADIO BOX LISTENER
 
     function dragCard() {
         new Sortable(document.getElementById('card_container'), {
@@ -586,6 +647,7 @@
             if (matches) {
                 const pageIndexs = parseInt(matches[1]);
                 const cardIndexs = parseInt(matches[2]);
+                console.log("PAGE" + pageIndexs);
                 addCard(pageIndexs, cardIndexs, $(this));
             }
         });
@@ -633,11 +695,9 @@
 
         })
 
-        // initializeTinymce();
+        initializeTinymce();
         initializeSelect2();
         // initializeTagify();
-
-
 
     }
 
@@ -657,13 +717,18 @@
         });
     }
 
+
+
     function initializeTinymce() {
-        tinymce.remove();
-        const textareaPertanyaan = document.querySelectorAll("textarea[id^=pertanyaan\\[]");
+        tinymce.remove("textarea");
+        const textareaPertanyaan = document.querySelectorAll("textarea[id^=pertanyaan");
         textareaPertanyaan.forEach(function(textarea) {
-            const index = textarea.id.match(/\[(\d+)\]/)[1];
+            const id = textarea.id;
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+            const pageIndexs = parseInt(matches[1]);
+            const cardIndexs = parseInt(matches[2]);
             tinymce.init({
-                selector: `textarea#pertanyaan\\[${index}\\]`,
+                selector: `textarea#pertanyaan\\[${pageIndexs}\\]\\[${cardIndexs}\\]`,
                 branding: false,
                 plugins: 'autolink link image lists preview code wordcount table',
                 toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | ' +
@@ -674,13 +739,17 @@
                 file_picker_types: 'image',
                 setup: function(ed) {
                     ed.on("click", function() {
-                        const cardSoal = $(textarea).closest('.card-soal');
+                        const cardSoal = $(
+                                `#pertanyaan\\[${pageIndexs}\\]\\[${cardIndexs}\\]`
+                            )
+                            .closest('.card-soal');
                         cardSoal.addClass("active").siblings().removeClass(
                             "active");
                     });
                 }
             });
         });
+
     }
 
     function initializeSelect2() {
@@ -760,44 +829,58 @@
 
         const cardElements = $(`[id^="card-soal[${pageIndexs}]"]`);
         console.log("PIW");
-        console.log(cardElements);
+        console.log(pageIndexs);
         const pattern = /\[(\d+)\]\[(\d+)\]/;
 
         cardElements.each(function(index) {
             console.log($(this) + index);
             const thisCardELements = $(this);
-            thisCardELements.attr('id', `card-soal[${pageIndexs}][${index}]`);
-            thisCardELements.attr('data-id', index);
-            thisCardELements.attr('data-page', pageIndexs);
-            thisCardELements.attr('data-select2-id', `selectTypeJawaban_div[${pageIndexs}][${index}]`);
+            const matches = thisCardELements.attr('id').match(pattern);
+            const pageIndex = matches[1];
+            const cardIndex = index;
 
+            const iframeElement = $(this).find('iframe');
+            if (iframeElement) {
+                iframeElement.attr('id', `pertanyaann[${pageIndex}][${cardIndex}]_ifr`);
+                console.log(iframeElement.attr('id'))
+            }
+
+            thisCardELements.attr('id', `card-soal[${pageIndex}][${cardIndex}]`);
+            thisCardELements.attr('data-id', cardIndex);
+            thisCardELements.attr('data-page', pageIndex);
+            thisCardELements.attr('data-select2-id',
+                `selectTypeJawaban_div[${pageIndex}][${cardIndex}]`);
 
             $(this).find("[id], [data-card], [data-input], [data-validation]").each(function() {
                 const id = $(this).attr("id");
                 const dataInput = $(this).attr("data-input");
                 const dataValidation = $(this).attr("data-validation");
                 const dataCard = $(this).attr("data-card");
-                const matches = id.match(pattern);
 
                 if (matches) {
-                    const newIdCard = id.replace(matches[2], index);
+                    const newIdCard = id.replace(/\[(\d+)\]\[(\d+)]/,
+                        `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('id', `${newIdCard}`);
                 }
                 if (dataInput && matches) {
-                    const newDataInputCard = dataInput.replace(matches[2], index);
+                    const newDataInputCard = dataInput.replace(/\[(\d+)\]\[(\d+)]/,
+                        `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-input', newDataInputCard);
                 }
                 if (dataValidation && matches) {
-                    const newDataInputVCard = dataValidation.replace(matches[2], index);
+                    const newDataInputVCard = dataValidation.replace(/\[(\d+)\]\[(\d+)]/,
+                        `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-validation', newDataInputVCard);
                 }
                 if (dataCard && matches) {
-                    const newDataInputCard = dataCard.replace(matches[2], index);
+                    const newDataInputCard = dataCard.replace(/\[(\d+)\]\[(\d+)]/,
+                        `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-card', newDataInputCard);
                 }
             });
-
         });
+
+
 
         listenerCard();
 
@@ -1104,7 +1187,7 @@
 
                     <div class="form-group inputtype radio-option-div" id="singlechoice_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan ganda dibawah ini <span class="text-danger">*</span> </p>
-                        <div class="radio-option" id="option">
+                        <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][0]">
                             <div class="d-flex align-items-center">
                                 <div class="px-2">
                                     <input class="form-check-input" type="radio">
@@ -1121,8 +1204,8 @@
                                     </div>
                                     <div class="col d-flex align-items-center">
                                         <div class="form-check">
-                                            <input class="form-check-input singlechoice-addition" type="checkbox"
-                                                id="singlechoice-addition">
+                                            <input class="form-check-input singlechoice-addition " type="checkbox"
+                                                id="singlechoice-addition[${indexPage}][${indexCard}][0]">
                                             <label class="form-check-label" for="singlechoice-addition">
                                                 Input Text Tambahan
                                             </label>
@@ -1133,10 +1216,10 @@
                                             id="singlechoice-addition-text" placeholder="Kode Text Tambahan">
                                     </div>
                                     <div class="col d-flex align-items-center">
-                                        <a class="btn btn-danger btn-sm mx-1" type="button">
+                                        <a class="btn btn-danger btn-sm mx-1  delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][0]" type="button">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-success btn-sm add-radio-option" type="button">
+                                        <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][0]" type="button">
                                             Tambah
                                         </a>
                                     </div>
@@ -1404,8 +1487,8 @@
                         </a>
                         <hr class="hr-vertial">
                         <div class="form-check form-switch mx-2">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label text-black" for="flexSwitchCheckDefault">Wajib
+                            <input class="form-check-input" type="checkbox" id="wajibdiisi[${indexPage}][${indexCard}]">
+                            <label class="form-check-label text-black">Wajib
                                 Diisi</label>
                         </div>
                         <div class="dropup mx-2 more_dropdown">
