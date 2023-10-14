@@ -314,81 +314,142 @@
     }
 
     function gridColumnListener() {
+
+
+        let row = 1;
+        let column = 1;
+        $(document).off('click', '.grid-add-row-button');
+        $(document).on('click', '.grid-add-row-button', function() {
+
+            const id = $(this).attr('id');
+            console.log(id)
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+
+            if (matches) {
+
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+
+                var newRowNumber = $(
+                    `#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-row`
+                ).length + 1;
+
+
+                const newElementRow = generateGridElementRow(pageIndexs, cardIndexs, row + 1);
+                row++;
+                const newElementNumber = generateGridElementNumber(newRowNumber)
+                console.log(newElementNumber);
+
+                $(`#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\]`).append(newElementRow);
+                $(`#grid-number-container\\[${pageIndexs}\\]\\[${cardIndexs}\\]`).append(newElementNumber);
+
+                updateRowNumbers(pageIndexs, cardIndexs);
+                updateNumbers(pageIndexs, cardIndexs);
+            }
+
+
+        });
+
+        function generateGridElementRow(pageIndexs, cardIndexs, gridRowIndexs) {
+            return ` <div class="row my-2 grid-row"  id="grid-row[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]">
+                                        <div class="col-lg-12">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
+                                                    placeholder="Label Baris 2">
+                                                <input type="text" class="form-control grid-row-input-value"  id="grid-row-input-value[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
+                                                    placeholder="Nilai Baris 2">
+                                                <span class="input-group-text grid-delete-row" id="grid-delete-row[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]" >
+                                                    <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round"></g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <path
+                                                                d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
+                                                                fill="#000000"></path>
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>`
+        }
+
+        function generateGridElementNumber(pageIndexs, cardIndexs, gridRowIndexs, newRowNumber) {
+            return `  <div class="row my-2 align-items-center grid-number-div" data-row-number="${newRowNumber}" id="grid-number-div[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]">
+                                        <p class="text-center grid-number"> ${newRowNumber} </p>
+                                    </div>`
+        }
+
+
+
+        $(document).off('click', '.grid-add-column-button');
+        $(document).on('click', '.grid-add-column-button', function() {
+            const id = $(this).attr('id');
+            console.log(id)
+            const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
+            if (matches) {
+
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                const newElementColumn = generateGridElementColumn(pageIndexs, cardIndexs, column + 1);
+                column++;
+                $(`#grid-column-container\\[${pageIndexs}\\]\\[${cardIndexs}\\]`).append(newElementColumn);
+                updateColumnNumbers(pageIndexs, cardIndexs);
+            }
+
+        });
+
+        function generateGridElementColumn(pageIndexs, cardIndexs, gridColumnIndexs) {
+            return ` <div class="row my-2 grid-column"  id="grid-column[${pageIndexs}][${cardIndexs}][1]">
+                                        <div class="col-lg-12">
+                                            <div class="input-group ">
+                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]"
+                                                    placeholder="Label Kolom 2">
+                                                <input type="text" class="form-control grid-column-input-value"  id="grid-column-input-value[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]"
+                                                    placeholder="Nilai Kolom 2">
+                                                <span class="input-group-text grid-delete-column" id="grid-delete-column[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]">
+                                                    <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round"></g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <path
+                                                                d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
+                                                                fill="#000000"></path>
+                                                        </g>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+            `;
+        }
+
+
+        $(document).off('click', '.grid-delete-row');
         $(document).on('click', '.grid-delete-row', function() {
             var rowContainer = $(this).closest('.grid-row');
             var rowIndex = $('.grid-row').index(rowContainer); // Menghitung indeks baris
-
             rowContainer.remove();
-
-            // Hapus elemen nomor yang berkaitan berdasarkan indeks baris
             $('.grid-number-container').find('.grid-number-div').eq(rowIndex).remove();
 
             updateRowNumbers();
             updateNumbers();
         });
 
+        $(document).off('click', '.grid-delete-column');
         $(document).on('click', '.grid-delete-column', function() {
             $(this).closest('.grid-column').remove();
             updateColumnNumbers();
 
         });
-        $(document).on('click', '.grid-add-row-button', function() {
-            var newRowNumber = $('.grid-row-container .grid-row').length + 1;
-            var newElementRow = `<div class="row my-2 grid-row">
-    <div class="col-lg-12">
-        <div class="input-group">
-            <input type="text" class="form-control grid-row-input">
-            <input type="text" class="form-control grid-row-input-value">
-            <span class="input-group-text grid-delete-row">
-                <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
-                            fill="#000000"></path>
-                    </g>
-                </svg>
-            </span>
-        </div>
-    </div>
-</div>`;
-            var newElementNumber = `<div class="row my-2 align-items-center grid-number-div" data-row-number="${newRowNumber}">
-    <p class="text-center grid-number">${newRowNumber}</p>
-</div>`;
-            $('.grid-row-container').append(newElementRow);
-            $('.grid-number-container').append(newElementNumber);
-            updateRowNumbers();
-            updateNumbers();
-        });
-        $(document).on('click', '.grid-add-column-button', function() {
-            var newElementRow = `<div class="row my-2 grid-column">
-    <div class="col-lg-12">
-        <div class="input-group ">
-            <input type="text" class="form-control grid-column-input">
-            <input type="text" class="form-control grid-column-input-value">
-            <span class="input-group-text grid-delete-column">
-                <svg width="24px" height="24px" viewBox="0 -0.5 25 25" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
-                            fill="#000000"></path>
-                    </g>
-                </svg>
-            </span>
-        </div>
-    </div>
-</div>`;
-            $('.grid-column-container').append(newElementRow);
-            updateColumnNumbers();
-        });
 
-        function updateRowNumbers() {
-            $(".grid-row-container .grid-row").each(function(index) {
+
+        function updateRowNumbers(pageIndexs, cardIndexs) {
+            $(`#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-row`).each(function(index) {
                 var rowNumber = index + 1;
                 $(this).find(".grid-row-input").attr("placeholder", "Label Baris " + (index + 1));
                 $(this).find(".grid-row-input-value").attr("placeholder", "Nilai Baris " + (index + 1));
@@ -396,8 +457,8 @@
             });
         }
 
-        function updateNumbers() {
-            $(".grid-number-container .grid-number-div").each(function(index) {
+        function updateNumbers(pageIndexs, cardIndexs) {
+            $(`#grid-number-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-number-div`).each(function(index) {
                 var rowNumber = index + 1;
                 $(this).find(".grid-number").text(index + 1);
 
@@ -405,8 +466,8 @@
         }
 
 
-        function updateColumnNumbers() {
-            $(".grid-column-container .grid-column").each(function(index) {
+        function updateColumnNumbers(pageIndexs, cardIndexs) {
+            $(`#grid-column-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-column`).each(function(index) {
                 var columnNumber = index + 1;
                 $(this).find(".grid-column-input").attr("placeholder", "Label Kolom " + columnNumber);
                 $(this).find(".grid-column-input-value").attr("placeholder", "Nilai Kolom " +
@@ -417,6 +478,8 @@
 
     }
 
+
+    //RANGE LISTENER
     function rangeListener() {
         $(document).on('change', '.range-start', function() {
             var startValue = parseInt($(this).val());
@@ -848,7 +911,8 @@
 
 
     function initializeTinymce() {
-        tinymce.remove("textarea");
+        // tinymce.editors = [];
+        tinymce.remove()
         const textareaPertanyaan = document.querySelectorAll("textarea[id^=pertanyaan");
         textareaPertanyaan.forEach(function(textarea) {
             const id = textarea.id;
@@ -856,6 +920,8 @@
             const pageIndexs = parseInt(matches[1]);
             const cardIndexs = parseInt(matches[2]);
             tinymce.init({
+                mode: "specific_textareas",
+                editor_selector: "mceEditor",
                 selector: `textarea#pertanyaan\\[${pageIndexs}\\]\\[${cardIndexs}\\]`,
                 branding: false,
                 plugins: 'autolink link image lists preview code wordcount table',
@@ -1008,8 +1074,6 @@
             });
         });
 
-
-
         listenerCard();
 
     }
@@ -1057,12 +1121,18 @@
 
     function deleteCard(pageIndexs, cardIndexs, cardSelector) {
 
-        if (cardIndexs > 1) {
+        const elements = document.querySelectorAll(`[id^="card-soal\\[${pageIndexs}\\]"]`);
+        const count = elements.length;
+        if (count > 1) {
             const cardToDelete = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
             cardToDelete.remove();
             resetIndexCard(pageIndexs);
         } else {
-
+            toastMixin.fire({
+                icon: 'error',
+                animation: true,
+                title: 'Sisakan Minimal 1 Pertanyaan!',
+            });
         }
 
     }
@@ -1444,21 +1514,21 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-1 col-md-2 col-sm-2 py-3 text-center grid-number-container">
-                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="1">
+                                <div class="col-lg-1 col-md-2 col-sm-2 py-3 text-center grid-number-container" id="grid-number-container[${indexPage}][${indexCard}]">
+                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="1" id="grid-number-div[${indexPage}][${indexCard}][0]">
                                         <p class="text-center grid-number"> 1 </p>
                                     </div>
-                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="2">
+                                    <div class="row my-2 align-items-center grid-number-div" id="grid-number-div[${indexPage}][${indexCard}][1] data-row-number="2">
                                         <p class="text-center grid-number"> 2 </p>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 grid-row-container">
-                                    <div class="row my-2 grid-row">
+                                <div class="col-lg-5 col-md-5 col-sm-5 grid-row-container" id="grid-row-container[${indexPage}][${indexCard}]">
+                                    <div class="row my-2 grid-row" id="grid-row[${indexPage}][${indexCard}][0]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input"
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][0]"
                                                     placeholder="Label Baris 1">
-                                                <input type="text" class="form-control grid-row-input-value"
+                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][0]"
                                                     placeholder="Nilai Baris 1">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
@@ -1468,14 +1538,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="row my-2 grid-row">
+                                    <div class="row my-2 grid-row"  id="grid-row[${indexPage}][${indexCard}][1]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input"
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][1]"
                                                     placeholder="Label Baris 2">
-                                                <input type="text" class="form-control grid-row-input-value"
+                                                <input type="text" class="form-control grid-row-input-value"  id="grid-row-input-value[${indexPage}][${indexCard}][1]"
                                                     placeholder="Nilai Baris 2">
-                                                <span class="input-group-text grid-delete-row">
+                                                <span class="input-group-text grid-delete-row" id="grid-delete-row[${indexPage}][${indexCard}][1]" >
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1492,13 +1562,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 grid-column-container">
-                                    <div class="row my-2 grid-column">
+                                <div class="col-lg-5 col-md-5 col-sm-5 grid-column-container" id="grid-column-container[${indexPage}][${indexCard}]">
+                                    <div class="row my-2 grid-column"  id="grid-column[${indexPage}][${indexCard}][0]">
                                         <div class="col-lg-12">
-                                            <div class="input-group ">
-                                                <input type="text" class="form-control grid-column-input"
+                                            <div class="input-group">
+                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][0]"
                                                     placeholder="Label Kolom 1">
-                                                <input type="text" class="form-control grid-column-input-value"
+                                                <input type="text" class="form-control grid-column-input-value" id="grid-column-input-value[${indexPage}][${indexCard}][0]"
                                                     placeholder="Nilai Kolom 1">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
@@ -1508,14 +1578,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="row my-2 grid-column">
+                                    <div class="row my-2 grid-column"  id="grid-column[${indexPage}][${indexCard}][1]">
                                         <div class="col-lg-12">
                                             <div class="input-group ">
-                                                <input type="text" class="form-control grid-column-input"
+                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][1]"
                                                     placeholder="Label Kolom 2">
-                                                <input type="text" class="form-control grid-column-input-value"
+                                                <input type="text" class="form-control grid-column-input-value"  id="grid-column-input-value[${indexPage}][${indexCard}][1]"
                                                     placeholder="Nilai Kolom 2">
-                                                <span class="input-group-text grid-delete-column">
+                                                <span class="input-group-text grid-delete-column" id="grid-delete-column[${indexPage}][${indexCard}][1]">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1539,7 +1609,7 @@
 
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 py-2 ">
-                                    <a class="btn btn-primary btn-sm grid-add-row-button" type="button">
+                                    <a class="btn btn-primary btn-sm grid-add-row-button" type="button" id="grid-add-row-button[${indexPage}][${indexCard}]">
                                         <i class="btn-inner">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -1551,7 +1621,7 @@
                                     </a>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 py-2">
-                                    <a class="btn btn-primary btn-sm grid-add-column-button" type="button">
+                                    <a class="btn btn-primary btn-sm grid-add-column-button" type="button" id="grid-add-column-button[${indexPage}][${indexCard}]">
                                         <i class="btn-inner">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
