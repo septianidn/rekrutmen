@@ -1,12 +1,13 @@
 <!-- Backend Bundle JavaScript -->
 <script src="{{ asset('js/libs.min.js') }}"></script>
 @if (in_array('data-table', $assets ?? []))
-    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css"> --}}
     <script src="{{ asset('vendor/datatables/dataTables.buttons.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/pdfmake.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/vfs_fonts.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.print.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
 @endif
 @if (in_array('chart', $assets ?? []))
     <!-- apexchart JavaScript -->

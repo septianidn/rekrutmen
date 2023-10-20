@@ -39,7 +39,8 @@ class Alumni extends Authenticatable
         'tipe_masuk',
         'nik',
         'npwp',
-        'judul_tesis'
+        'judul_tesis',
+        'sent_pin'
         
     ];
     public function getAuthPassword()

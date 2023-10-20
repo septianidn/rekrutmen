@@ -61,6 +61,7 @@ class EmailTemplateDataTable extends DataTable
         return $this->applyScopes($model);
     }
 
+
     /**
      * Optional method if you want to use html builder.
      *
@@ -72,18 +73,40 @@ class EmailTemplateDataTable extends DataTable
                     ->setTableId('dataTable')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>> <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
-                    ->buttons(
-                        Button::make('csv')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-file-csv"></i>&nbsp Download CSV</span>'),
-                       Button::make('pdf')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-file-pdf"></i>&nbsp Download PDF</span>'),
-                       Button::make('print')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-print"></i>&nbsp Print</span>'),
-                       Button::make('reload')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'),
-                     
-                   )
+                    ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>><"row align-items-center"<"col-md-12 px-4 py-4" <"show-hide-columns">> > <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
+                   
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
                         "serverSide" => true,
+                        'buttons' => [
+                            [
+                                "extend" => "csv",
+                                "className" => "btn btn-outline-success btn-icon csv-export",
+                                "text" => '<span><i class="fa fa-file-csv"></i>&nbsp CSV</span>',
+                             
+                            ],
+                            [
+                                "extend" => "excel",
+                                "className" => "btn btn-outline-success btn-icon ",
+                                "text" => '<span><i class="fa fa-file-csv"></i>&nbsp Excel</span>',
+                             
+                            ],
+                            [
+                                "extend" => "pdf",
+                                "className" => "btn btn-outline-success btn-icon",
+                                "text" => '<span><i class="fa fa-file-pdf"></i>&nbsp PDF</span>',
+                              
+                               
+                            ],
+                            [
+                                "extend" => "print",
+                                "className" => "btn btn-outline-success btn-icon",
+                            ],
+                            ['extend'=>'reload', 'className' => 'btn btn-outline-success btn-icon', 'text' => '<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'],
+                          
+                        ],
+                        
                         "initComplete" => 'function () {
                             this.api().columns([1,2,3,4,5]).every(function () {
                                 var column = this;
@@ -110,15 +133,15 @@ class EmailTemplateDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center', 'printable' => true],
             ['data' => 'nama_template', 'name' => 'nama_template', 'title' => 'Nama Template', 'searchable' => true,],
             ['data' => 'subjek_template', 'name' => 'subjek_template', 'title' => 'Subjek Template', 'searchable' => true,],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created Date', 'searchable' => true,],
-            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Modified Date', 'searchable' => true,],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Modified Date', 'exportable' => false,],
             Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                  ->exportable(false)
+                  ->printable(false)
+                  ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

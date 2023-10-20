@@ -90,7 +90,6 @@
 
 
 @php
-    
     $laporants = optional($data)->getFirstMedia('laporants');
     $laporantsUrl = $laporants ? $laporants->getUrl() : null;
 @endphp
@@ -107,12 +106,16 @@
         pdfPreviewHeight: 1200,
         acceptedFileTypes: "application/pdf",
         pdfComponentExtraParams: 'toolbar=0&view=fit&page=1',
-        files: [{
-            source: '{{ $laporantsUrl }}',
-            options: {
-                type: 'local'
-            }
-        }],
+        @if ($laporantsUrl !== null)
+            files: [{
+
+                source: '{{ $laporantsUrl }}',
+                options: {
+                    type: 'local'
+                }
+
+            }],
+        @endif
         server: {
             url: "/backoffic3", // Ganti URL sesuai dengan endpoint Anda
             process: {

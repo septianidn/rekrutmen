@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -181,6 +182,7 @@ return [
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
 
 
     ],
@@ -239,7 +241,9 @@ return [
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
-
+        'FastExcel' => Rap2hpoutre\FastExcel\Facades\FastExcel::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
     ],
 
 ];

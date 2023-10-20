@@ -22,12 +22,12 @@ class EmailBoxController extends Controller
      //Email Outbox List
     public function index(EmailBoxDataTable $dataTable)
     {
-        // $pageTitle = trans('global-message.list_form_title',['form' => trans('emailbox.title')] );
-        // $auth_user = AuthHelper::authSession();
-        // $assets = ['data-table'];
-        // return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets'));
+        $pageTitle = trans('global-message.list_form_title',['form' => trans('emailbox.title')] );
+        $auth_user = AuthHelper::authSession();
+        $assets = ['data-table'];
+        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets'));
 
-        return view('backoffice.email.outbox.v2.list');
+        // return view('backoffice.email.outbox.v2.list');
     }
 
     public function show(Request $request, $id)

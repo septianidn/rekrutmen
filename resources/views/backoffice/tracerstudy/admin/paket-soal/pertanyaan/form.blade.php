@@ -615,7 +615,7 @@
                                             <input class="form-check-input mutiplechoice-addition " type="checkbox"
                                                 id="mutiplechoice-addition[${indexPage}][${indexCard}][${indexCheckBoxOption}]">
                                             <label class="form-check-label" for="mutiplechoice-addition">
-                                                Input Text Tambahan
+                                                Text Tambahan
                                             </label>
                                         </div>
                                     </div>
@@ -661,6 +661,40 @@
 
         });
     }
+
+    function initializeSelect2InfluenceQuestion() {
+        $('.singlechoice-influence-hide').each(function() {
+            const selectElementHide = $(this);
+            if (selectElementHide.hasClass('select2-hidden-accessible')) {
+                // Destroy the Select2 instance
+                selectElementHide.select2('destroy');
+            }
+
+            selectElementHide.select2({
+                theme: 'bootstrap-5',
+                placeholder: $(this).data('placeholder'),
+                minimumResultsForSearch: Infinity,
+                templateResult: formatState,
+                templateSelection: formatState
+            });
+        });
+
+        $('.singlechoice-influence-show').each(function() {
+            const selectElementShow = $(this);
+            if (selectElementShow.hasClass('select2-hidden-accessible')) {
+                // Destroy the Select2 instance
+                selectElementShow.select2('destroy');
+            }
+
+            selectElementShow.select2({
+                theme: 'bootstrap-5',
+                placeholder: $(this).data('placeholder'),
+                minimumResultsForSearch: Infinity,
+                templateResult: formatState,
+                templateSelection: formatState
+            });
+        });
+    }
     //PILIHAN GANDA LISTENER
     function radioBoxListener() {
 
@@ -694,6 +728,7 @@
         });
 
         radioBoxAdditionalListener();
+        initializeSelect2InfluenceQuestion();
 
     }
 
@@ -745,10 +780,11 @@
             });
 
         });
+        radioBoxListener();
     }
 
     function generateRadioBox(indexPage, indexCard, indexRadioOption) {
-        return `   <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][${indexRadioOption}]">
+        return `       <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][${indexRadioOption}]">
                             <div class="d-flex align-items-center">
                                 <div class="px-2">
                                     <input class="form-check-input" type="radio">
@@ -764,28 +800,63 @@
                                         <input type="text" class="form-control" placeholder="Nilai">
                                     </div>
                                     <div class="col d-flex align-items-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input singlechoice-addition " type="checkbox"
-                                                id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]">
-                                            <label class="form-check-label" for="singlechoice-addition">
-                                                Input Text Tambahan
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input singlechoice-addition " type="checkbox"
+                                                        id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]">
+                                                    <label class="form-check-label" for="singlechoice-addition">
+                                                        Text Tambahan
+                                                    </label>
+                                                </div>
+                                            </div>
+                                    <div class="col">
                                         <input class="form-control singlechoice-addition-text" type="text"
-                                            id="singlechoice-addition-text[${indexPage}][${indexCard}][${indexRadioOption}]" placeholder="Kode Text Tambahan">
+                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][${indexRadioOption}]" placeholder="Kode Text Tambahan">
                                     </div>
+                                  
                                     <div class="col d-flex align-items-center">
-                                        <a class="btn btn-danger btn-sm mx-1  delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][${indexRadioOption}]" type="button">
+                                        <div class="align-items-center">
+                                            <a class="btn btn-secondary btn-sm mx-1 collapsed" data-bs-toggle="collapse" href="#collapse[${indexPage}][${indexCard}][${indexRadioOption}]" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                             Lainnya
+                                            </a>
+                                        </div>
+                                        <a class="btn btn-danger btn-sm mx-1 delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][${indexRadioOption}]" type="button">
                                             Hapus
                                         </a>
                                         <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][${indexRadioOption}]" type="button">
                                             Tambah
                                         </a>
                                     </div>
+                                  
+                                </div>
+                               
+                            </div>
+                            <div class="row mt-2 mb-2">
+                                <div class="col">
+                                    <div class="collapse" id="collapse[${indexPage}][${indexCard}][${indexRadioOption}]">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="input-group" style="padding-left:30px;" >
+                                                    <div class="input-group-text text-black">Tampilkan Pertanyaan &nbsp; &nbsp;&nbsp;&nbsp;</div>
+                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][${indexRadioOption}]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
+                                                       
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12">
+                                                <div class="input-group" style="padding-left:30px;">
+                                                    <div class="input-group-text text-black">Sembunyikan Pertanyaan</div>
+                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][${indexRadioOption}]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>`
     }
 
@@ -888,6 +959,7 @@
 
         initializeTinymce();
         initializeSelect2();
+        initializeSelect2InfluenceQuestion();
         // initializeTagify();
 
     }
@@ -945,6 +1017,8 @@
         });
 
     }
+
+
 
     function initializeSelect2() {
         // Loop through each .type-jawaban-select element
@@ -1131,7 +1205,7 @@
             toastMixin.fire({
                 icon: 'error',
                 animation: true,
-                title: 'Sisakan Minimal 1 Pertanyaan!',
+                title: 'Sisakan Minimal 1 Pertanyaan Perhalaman!',
             });
         }
 
@@ -1406,31 +1480,66 @@
                                         <input type="text" class="form-control" placeholder="Nilai">
                                     </div>
                                     <div class="col d-flex align-items-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input singlechoice-addition " type="checkbox"
-                                                id="singlechoice-addition[${indexPage}][${indexCard}][0]">
-                                            <label class="form-check-label" for="singlechoice-addition">
-                                                Input Text Tambahan
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input singlechoice-addition " type="checkbox"
+                                                        id="singlechoice-addition[${indexPage}][${indexCard}][0]">
+                                                    <label class="form-check-label" for="singlechoice-addition">
+                                                        Text Tambahan
+                                                    </label>
+                                                </div>
+                                            </div>
+                                    <div class="col">
                                         <input class="form-control singlechoice-addition-text" type="text"
-                                            id="singlechoice-addition-text[${indexPage}][${indexCard}][0]" placeholder="Kode Text Tambahan">
+                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][0]" placeholder="Kode Text Tambahan">
                                     </div>
+                                  
                                     <div class="col d-flex align-items-center">
-                                        <a class="btn btn-danger btn-sm mx-1  delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][0]" type="button">
+                                        <div class="align-items-center">
+                                            <a class="btn btn-secondary btn-sm mx-1 collapsed" data-bs-toggle="collapse" href="#collapse[${indexPage}][${indexCard}][0]" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                             Lainnya
+                                            </a>
+                                        </div>
+                                        <a class="btn btn-danger btn-sm mx-1 delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][0]" type="button">
                                             Hapus
                                         </a>
                                         <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][0]" type="button">
                                             Tambah
                                         </a>
                                     </div>
+                                  
+                                </div>
+                               
+                            </div>
+                            <div class="row mt-2 mb-2">
+                                <div class="col">
+                                    <div class="collapse" id="collapse[${indexPage}][${indexCard}][0]">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="input-group" style="padding-left:30px;" >
+                                                    <div class="input-group-text text-black">Tampilkan Pertanyaan &nbsp; &nbsp;&nbsp;&nbsp;</div>
+                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][0]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
+                                                       
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12">
+                                                <div class="input-group" style="padding-left:30px;">
+                                                    <div class="input-group-text text-black">Sembunyikan Pertanyaan</div>
+                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][0]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
+
 
                     <div class="form-group inputtype checkbox-option-div" id="checkbox_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan kotak centang (checkbox) dibawah ini <span
@@ -1455,7 +1564,7 @@
                                             <input class="form-check-input mutiplechoice-addition " type="checkbox"
                                                 id="mutiplechoice-addition[${indexPage}][${indexCard}][0]">
                                             <label class="form-check-label" for="mutiplechoice-addition">
-                                                Input Text Tambahan
+                                                Text Tambahan
                                             </label>
                                         </div>
                                     </div>
@@ -1479,18 +1588,18 @@
                     <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
                         <div class="row ">
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="Kode Provinsi">
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Kode Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <select class="form-select" aria-label="Actions">
                                     <option value="Provinsi">Provinsi</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row mt-2 ">
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="Kode Kota/Kabupaten">
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Kode Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
                             </div>
                             <div class="col-lg-4">
                                 <select class="form-select" aria-label="Actions">

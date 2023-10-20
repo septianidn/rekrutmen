@@ -19,10 +19,8 @@
 <link rel="stylesheet" href="{{ asset('vendor/Leaflet/leaflet.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/hopepro/mail.min.css') }}" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
 
 
@@ -303,5 +301,32 @@
     .mutiplechoice-addition-text {
         visibility: hidden;
 
+    }
+
+    .accordion-flush {
+        background-color: transparent;
+    }
+
+    .collapsed-icon::before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+        transition: all 0.5s;
+    }
+
+
+
+    [data-bs-toggle="collapse"] .fa:before {
+        font-family: "Font Awesome 5 Free";
+        content: "\f106";
+        font-weight: 600;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    [data-bs-toggle="collapse"].collapsed .fa:before {
+        font-family: "Font Awesome 5 Free";
+        content: "\f107";
+        font-weight: 600;
+        transform: rotate(180deg);
     }
 </style>

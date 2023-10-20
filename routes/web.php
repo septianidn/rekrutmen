@@ -6,6 +6,8 @@ use App\Http\Controllers\BackOffice\AdminProdiController;
 use App\Http\Controllers\BackOffice\AlumniController;
 use App\Http\Controllers\BackOffice\DataPediaController;
 use App\Http\Controllers\BackOffice\DataPediaDetailController;
+use App\Http\Controllers\BackOffice\DataPediaSController;
+use App\Http\Controllers\BackOffice\DataProsesController;
 use App\Http\Controllers\BackOffice\EmailBoxController;
 use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\EmailTemplateController;
@@ -16,12 +18,14 @@ use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
+use App\Http\Controllers\BackOffice\KabKotaController;
 use App\Http\Controllers\BackOffice\KategoriKontenController;
 use App\Http\Controllers\BackOffice\KontenController;
 use App\Http\Controllers\BackOffice\LaporanTSController;
 use App\Http\Controllers\BackOffice\PaketSoalController;
 use App\Http\Controllers\BackOffice\PertanyaanController;
 use App\Http\Controllers\BackOffice\ProdiController;
+use App\Http\Controllers\BackOffice\ProvinsiController;
 use App\Http\Controllers\BackOffice\RekapTCController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
 use App\Http\Controllers\BackOffice\UploadFileController;
@@ -94,8 +98,26 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin']],
     Route::group(['prefix' => 'datamaster'], function () {
         Route::resource('/jenjang', JenjangController::class);
         Route::resource('/fakultas', FakultasController::class);
-        Route::resource('/databasealumni', AlumniController::class);
+
+        Route::group(['prefix' => 'alumni'], function () {
+            Route::resource('/databasealumni', AlumniController::class);
+            Route::get('/delete-selected', [AlumniController::class, 'deletedSelected'])->name('deleted-selected-alumni');
+            Route::get('/blasting-ts/create', [AlumniController::class, 'blastingtsCreate'])->name('blastingts.create');
+            Route::get('/blasting-ts/store', [AlumniController::class, 'blastingtsStore'])->name('blastingts.store');
+            Route::get('/import/create', [AlumniController::class, 'import'])->name('importdatabasealumni.create');
+            Route::get('/import/store', [AlumniController::class, 'importStore'])->name('importdatabasealumni.store');
+            Route::get('/export/csv', [AlumniController::class, 'exportCSV'])->name('exportcsvdatabasealumni.store');
+        });
+
+        Route::group(['prefix' => 'zona'], function () {
+            Route::resource('/provinsi', ProvinsiController::class);
+            Route::resource('/kabkota', KabKotaController::class);
+           
+        });
+
+
         Route::resource('/datapedia', DataPediaController::class);
+        Route::resource('/datapedias', DataPediaSController::class);
         Route::get('/datapedia/detail/{id_datapedia}', [DataPediaDetailController::class, 'index'])->name('datapediadetail.index');
         Route::get('/datapedia/create/{id_datapedia}', [DataPediaDetailController::class, 'create'])->name('datapediadetail.create');
         Route::get('/datapedia/edit/{id_datapedia}/{id}', [DataPediaDetailController::class, 'edit'])->name('datapediadetail.edit');
