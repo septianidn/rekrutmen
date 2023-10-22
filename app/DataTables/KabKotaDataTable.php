@@ -29,7 +29,7 @@ class KabKotaDataTable extends DataTable
                 return view('backoffice.datamaster.zona.kabkota.action', compact('data'));
             })
             
-            ->filterColumn('nama_provinsi', function($query, $keyword) {
+            ->filterColumn('provinsi.nama_provinsi', function($query, $keyword) {
                 $sql = "nama_provinsi LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             });
@@ -44,7 +44,7 @@ class KabKotaDataTable extends DataTable
      */
     public function query()
     {
-        $model = KabupatenKota::query();
+        $model = KabupatenKota::query()->with(['provinsi']);
         return $this->applyScopes($model);
     }
 
@@ -83,8 +83,11 @@ class KabKotaDataTable extends DataTable
     {
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
-            ['data' => 'nama_kabupaten_kota', 'name' => 'nama_kabupaten_kota', 'title' => 'Kabupaten Kota', 'searchable' => true,],
-            ['data' => 'provinsi_id', 'name' => 'provinsi_id', 'title' => 'Provinsi', 'searchable' => true,],
+            ['data' => 'kode_kabupaten_kota', 'name' => 'kode_kabupaten_kota', 'title' => 'Kode Kabupaten Kota', 'searchable' => true],
+            ['data' => 'nama_kabupaten_kota', 'name' => 'nama_kabupaten_kota', 'title' => 'Nama Kabupaten Kota', 'searchable' => true],
+            ['data' => 'provinsi.kode_provinsi', 'name' => 'provinsi.kode_provinsi', 'title' => 'Kode Provinsi', 'searchable' => true],
+            ['data' => 'provinsi.nama_provinsi', 'name' => 'provinsi.nama_provinsi', 'title' => 'Nama Provinsi', 'searchable' => true],
+        
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

@@ -1,7 +1,7 @@
 <div class="flex align-items-center list-kabkota-action">
     <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add"
-        data-size="small" data--href="{{ route('kabkota.edit', $data->id) }}" data-app-title="Edit Data Kabupaten Kota"
-        data-placement="top" title="Edit Data Kabupaten Kota">
+        data-size="small" data--href="{{ route('kabkota.edit', $data->kode_kabupaten_kota) }}"
+        data-app-title="Edit Data Kabupaten Kota" data-placement="top" title="Edit Data Kabupaten Kota">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -18,7 +18,7 @@
     <?php
     $message = __('global-message.delete_alert', ['form' => __('kabkota.title')]);
     ?>
-    <a class="btn btn-sm btn-icon btn-danger" onclick="showDeleteConfirmation({{ $data->id }})"
+    <a class="btn btn-sm btn-icon btn-danger" onclick="showDeleteConfirmation({{ $data->kode_kabupaten_kota }})"
         data-bs-toggle="tooltip" title="Hapus kabkota" href="#">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@
 
 
 <script>
-    function showDeleteConfirmation(id) {
+    function showDeleteConfirmation(kode_kabupaten_kota) {
         var message = "{!! __('global-message.delete_alert', ['form' => __('users.title')]) !!}";
 
         Swal.fire({
@@ -54,7 +54,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{ route('kabkota.destroy', '') }}/" + id;
+                form.action = "{{ route('kabkota.destroy', '') }}/" + kode_kabupaten_kota;
                 form.method = 'POST';
 
                 var csrfToken = document.createElement('input');

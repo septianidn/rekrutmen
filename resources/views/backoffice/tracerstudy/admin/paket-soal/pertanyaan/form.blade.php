@@ -1,9 +1,24 @@
 <x-app-layout :assets="$assets ?? []">
     <?php
     $datapediaOptions = App\Models\DataPedia::all() ?? null;
+    $idPaketSoal = $idPaketSoal ?? null;
     $id = $id ?? null;
+    $data = $data ?? null;
     ?>
     <div>
+        {{-- @if (isset($id))
+            {!! Form::model($data, [
+                'route' => ['pertanyaan.update', $idPaketSoal, $id],
+                'method' => 'patch',
+                'enctype' => 'multipart/form-data',
+            ]) !!}
+        @else --}}
+        {!! Form::open([
+            'route' => ['pertanyaan.store', $idPaketSoal],
+            'method' => 'post',
+            'enctype' => 'multipart/form-data',
+        ]) !!}
+        {{-- @endif --}}
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="card" data-aos="fade-down" data-aos-delay="900">
@@ -21,23 +36,20 @@
         </div>
 
 
+        <div class="fieldset-wizard-slider">
+            <div id="page-container" class="fieldset-wizard-container">
 
-        <form method="POST" action="">
-            @csrf
-            <div class="fieldset-wizard-slider">
-                <div id="page-container" class="fieldset-wizard-container">
-
-                </div>
-
-                <div class="d-flex justify-content-end my-4 page-navigation-container">
-                    <button type="button" name="delete"
-                        class="btn btn-danger btn-sm delete-and-previous action-button-previous me-1" value="Previous">
-                        Hapus Halaman</button>
-                    <div class="page-navigation"></div>
-                    <button type="button" name="add" class="btn btn-primary btn-sm add-and-next action-button"
-                        value="Next" ">Tambah Halaman</button>
             </div>
-            </form>
+
+            <div class="d-flex justify-content-end my-4 page-navigation-container">
+                <button type="button" name="delete"
+                    class="btn btn-danger btn-sm delete-and-previous action-button-previous me-1" value="Previous">
+                    Hapus Halaman</button>
+                <div class="page-navigation"></div>
+                <button type="button" name="add" class="btn btn-primary btn-sm add-and-next action-button"
+                    value="Next" ">Tambah Halaman</button>
+            </div>
+            {!! Form::close() !!}
         </div>
     </div>
 </x-app-layout>
@@ -68,6 +80,7 @@
             container.css("transform", `translateX(-${(page - 1) * width}px)`);
             $(`#page-navigation\\[${page}\\]`).addClass("active");
             inputPageTitle();
+
         }
 
 
@@ -94,9 +107,12 @@
                 const cardContainer = $(`#card_container\\[${addToPageId}\\]`)
                 const pageNavigation = $(".page-navigation");
                 pageNavigation.html(generatePageNavigation());
-                cardContainer.append(generateCard(addToPageId, 0));
+                cardContainer.append(generateCard(addToPageId, 1));
                 initializeCard();
                 showPage(addToPageId);
+                $("html, body").animate({
+                    scrollTop: 250
+                }, "slow");
 
             }
         }
@@ -243,7 +259,7 @@
             return ` <fieldset class="fieldset-wizard" id="page[${page}]">
             <div class="form-card text-start">
                 <div class="row">
-                    <input type="text" class="h3 px-2  mx-2 mb-4 dynamic-input" id="nama_halaman[${page}]" value="Halaman ${page}" style="transition: width 0.2s;">
+                    <input type="text" class="h3 px-2  mx-2 mb-4 dynamic-input" id="nama_halaman[${page}]" name="halaman_pertanyaan[${page}]nama_halaman" value="Halaman ${page}" style="transition: width 0.2s;">
                     <div class="col-sm-12 col-lg-12 card_container" id="card_container[${page}]">
                       
                     </div>
@@ -259,7 +275,7 @@
             const pageNavigation = $(".page-navigation");
             pageNavigation.html(generatePageNavigation());
             const cardContainer = $(`#card_container\\[${currentPage}\\]`)
-            cardContainer.append(generateCard(currentPage, 0));
+            cardContainer.append(generateCard(currentPage, 1));
             initializeCard();
             showPage(currentPage);
 
@@ -318,6 +334,7 @@
 
         let row = 1;
         let column = 1;
+
         $(document).off('click', '.grid-add-row-button');
         $(document).on('click', '.grid-add-row-button', function() {
 
@@ -570,7 +587,7 @@
     }
 
     function deleteCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, checkBoxElement) {
-        if (checkBoxIndexs > 0) {
+        if (checkBoxIndexs > 1) {
             const checkBoxToDelete = $(
                 `#mutiple_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs}\\]`);
             checkBoxToDelete.remove();
@@ -602,18 +619,18 @@
                             </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode">
+                                        <input type="text" class="form-control" placeholder="Kode" id="mutiplechoice-code[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan">
+                                        <input type="text" class="form-control" placeholder="Pilihan" id="mutiplechoice-label[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][label]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai">
+                                        <input type="text" class="form-control" placeholder="Nilai" id="mutiplechoice-value[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                         <div class="form-check">
                                             <input class="form-check-input mutiplechoice-addition " type="checkbox"
-                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][${indexCheckBoxOption}]">
+                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][check_tambahan]" >
                                             <label class="form-check-label" for="mutiplechoice-addition">
                                                 Text Tambahan
                                             </label>
@@ -621,7 +638,7 @@
                                     </div>
                                     <div class="col-2">
                                             <input class="form-control mutiplechoice-addition-text" type="text"
-                                                id="mutiplechoice-addition-text[${indexPage}][${indexCard}][${indexCheckBoxOption}]" placeholder="Kode Text Tambahan">
+                                                id="mutiplechoice-addition-text[${indexPage}][${indexCard}][${indexCheckBoxOption}]" placeholder="Kode Text Tambahan" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][kode_input_tambahan]">
                                         </div>
                                     <div class="col d-flex align-items-center">
                                         <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][${indexCheckBoxOption}]"  type="button">
@@ -643,21 +660,31 @@
 
         checkBoxElements.each(function(index) {
             const thisCheckBoxElements = $(this);
-            const matches = thisCheckBoxElements.attr('id').match(pattern);
+            const matches = $(this).attr("id").match(pattern);
             const pageIndex = matches[1];
             const cardIndex = matches[2];
-            const checkBoxIndex = index;
+            //START AT 1 NOT 0
+            const checkBoxIndex = index + 1;
 
-            thisCheckBoxElements.attr('id', `mutiple_option_div[${pageIndex}][${cardIndex}][${index}]`);
+            thisCheckBoxElements.attr('id', `mutiple_option_div[${pageIndex}][${cardIndex}][${checkBoxIndex}]`);
 
-            $(this).find("[id]").each(function() {
+            $(this).find("[id], [name]").each(function() {
                 const id = $(this).attr("id");
+
+                const nameData = $(this).attr("name");
+
                 if (matches) {
-                    const newIdCheckBox = id.replace(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/,
+                    const newIdRadioBox = id.replace(pattern,
                         `[${pageIndex}][${cardIndex}][${checkBoxIndex}]`);
-                    $(this).attr('id', `${newIdCheckBox}`);
+                    $(this).attr('id', `${newIdRadioBox}`);
+                }
+                if (nameData && matches) {
+                    const newDataName = nameData.replace(pattern,
+                        `[${pageIndex}][${cardIndex}][${checkBoxIndex}]`);
+                    $(this).attr('name', newDataName);
                 }
             });
+
 
         });
     }
@@ -733,7 +760,7 @@
     }
 
     function deleteRadioBox(pageIndexs, cardIndexs, radioIndexs, radioBoxElement) {
-        if (radioIndexs > 0) {
+        if (radioIndexs > 1) {
             const radioBoxToDelete = $(
                 `#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`);
             radioBoxToDelete.remove();
@@ -766,16 +793,24 @@
             const matches = thisRadioBoxElements.attr('id').match(pattern);
             const pageIndex = matches[1];
             const cardIndex = matches[2];
-            const radioIndex = index;
+            const radioIndex = index + 1;
 
-            thisRadioBoxElements.attr('id', `singlechoice_option_div[${pageIndex}][${cardIndex}][${index}]`);
 
-            $(this).find("[id]").each(function() {
+            thisRadioBoxElements.attr('id',
+                `singlechoice_option_div[${pageIndex}][${cardIndex}][${radioIndex}]`);
+
+            $(this).find("[id], [name]").each(function() {
                 const id = $(this).attr("id");
+                const nameData = $(this).attr("name");
                 if (matches) {
-                    const newIdRadioBox = id.replace(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/,
+                    const newIdRadioBox = id.replace(pattern,
                         `[${pageIndex}][${cardIndex}][${radioIndex}]`);
                     $(this).attr('id', `${newIdRadioBox}`);
+                }
+                if (nameData && matches) {
+                    const newDataName = nameData.replace(pattern,
+                        `[${pageIndex}][${cardIndex}][${radioIndex}]`);
+                    $(this).attr('name', newDataName);
                 }
             });
 
@@ -791,18 +826,18 @@
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode">
+                                        <input type="text" class="form-control" placeholder="Kode" id="singlechoice-code[${indexPage}][${indexCard}][${indexRadioOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan">
+                                        <input type="text" class="form-control" placeholder="Pilihan" id="singlechoice-label[${indexPage}][${indexCard}][${indexRadioOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][label]">  
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai">
+                                        <input type="text" class="form-control" placeholder="Nilai" id="singlechoice-value[${indexPage}][${indexCard}][${indexRadioOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                                 <div class="form-check">
                                                     <input class="form-check-input singlechoice-addition " type="checkbox"
-                                                        id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]">
+                                                        id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]"  name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][check_tambahan]">
                                                     <label class="form-check-label" for="singlechoice-addition">
                                                         Text Tambahan
                                                     </label>
@@ -810,7 +845,7 @@
                                             </div>
                                     <div class="col">
                                         <input class="form-control singlechoice-addition-text" type="text"
-                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][${indexRadioOption}]" placeholder="Kode Text Tambahan">
+                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][${indexRadioOption}]" placeholder="Kode Text Tambahan" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][kode_input_tambahan]">
                                     </div>
                                   
                                     <div class="col d-flex align-items-center">
@@ -898,6 +933,8 @@
 
         $(document).off('click', '.card-soal');
         $(document).on('click', '.card-soal', function() {
+            $(this).removeAttr('data-aos');
+            $(this).removeAttr('data-aos-delay');
             $(this).addClass("active").siblings().removeClass("active");
         });
 
@@ -911,6 +948,7 @@
                 const cardIndexs = parseInt(matches[2]);
                 console.log("PAGE" + pageIndexs);
                 addCard(pageIndexs, cardIndexs, $(this));
+
             }
         });
 
@@ -959,6 +997,7 @@
 
         initializeTinymce();
         initializeSelect2();
+        initializeSelect2Val();
         initializeSelect2InfluenceQuestion();
         // initializeTagify();
 
@@ -980,40 +1019,46 @@
         });
     }
 
+    function tinyMce(e, pageIndexs, cardIndexs) {
+        tinymce.init({
+            mode: "exact",
+            target: e,
+            editor_selector: "mceEditor",
+            branding: false,
+            plugins: 'autolink link image lists preview code wordcount table',
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | ' +
+                'numlist bullist | link image',
+            menubar: 'file edit view insert format tools table',
+            image_title: true,
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            setup: function(ed) {
+                ed.on("click", function() {
+
+                    const cardSoal = $(
+                            `#pertanyaan\\[${pageIndexs}\\]\\[${cardIndexs}\\]`
+                        )
+                        .closest('.card-soal');
+                    cardSoal.removeAttr('data-aos');
+                    cardSoal.removeAttr('data-aos-delay');
+                    cardSoal.addClass("active").siblings().removeClass(
+                        "active");
+                });
+            }
+        });
+    }
 
 
     function initializeTinymce() {
         // tinymce.editors = [];
-        tinymce.remove()
+
         const textareaPertanyaan = document.querySelectorAll("textarea[id^=pertanyaan");
         textareaPertanyaan.forEach(function(textarea) {
             const id = textarea.id;
             const matches = id.match(/\[(\d+)\]\[(\d+)\]/);
             const pageIndexs = parseInt(matches[1]);
             const cardIndexs = parseInt(matches[2]);
-            tinymce.init({
-                mode: "specific_textareas",
-                editor_selector: "mceEditor",
-                selector: `textarea#pertanyaan\\[${pageIndexs}\\]\\[${cardIndexs}\\]`,
-                branding: false,
-                plugins: 'autolink link image lists preview code wordcount table',
-                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | ' +
-                    'numlist bullist | link image',
-                menubar: 'file edit view insert format tools table',
-                image_title: true,
-                automatic_uploads: true,
-                file_picker_types: 'image',
-                setup: function(ed) {
-                    ed.on("click", function() {
-                        const cardSoal = $(
-                                `#pertanyaan\\[${pageIndexs}\\]\\[${cardIndexs}\\]`
-                            )
-                            .closest('.card-soal');
-                        cardSoal.addClass("active").siblings().removeClass(
-                            "active");
-                    });
-                }
-            });
+            tinyMce(textarea, pageIndexs, cardIndexs);
         });
 
     }
@@ -1054,6 +1099,51 @@
         });
     }
 
+    function initializeSelect2Val() {
+        // Loop through each .type-jawaban-select element
+        var cardId = "";
+        var selectElement = "";
+
+        $('.type-validation-select').each(function() {
+            const selectElement = $(this);
+
+            // Check if the element has a Select2 instance
+            if (selectElement.hasClass('select2-hidden-accessible')) {
+                // Destroy the Select2 instance
+                selectElement.select2('destroy');
+            }
+
+            // Initialize the Select2 instance
+            selectElement.select2({
+                theme: 'bootstrap-5',
+                minimumResultsForSearch: Infinity,
+                templateResult: formatState,
+                templateSelection: formatState
+            });
+            toggleInputsVal(selectElement);
+            (function(selectElement) {
+                selectElement.on('change', function() {
+                    toggleInputsVal(selectElement);
+
+                });
+            })(selectElement);
+
+
+
+        });
+    }
+
+    function toggleInputsVal(selectElement) {
+        const selectedType = selectElement.closest('.card-body').find('.type-validation-select');
+        const selectedElement = selectedType.find('option:selected');
+        const value = selectedElement.attr('value');
+        const inputElements = selectElement.closest('.card-body').find(`.shortanswer_input`);
+
+        inputElements.each(function() {
+            const inputElement = $(this);
+            inputElement.attr('type', value);
+        });
+    }
 
 
     function toggleInputs(selectElement) {
@@ -1101,11 +1191,11 @@
         const pattern = /\[(\d+)\]\[(\d+)\]/;
 
         cardElements.each(function(index) {
-            console.log($(this) + index);
+
             const thisCardELements = $(this);
             const matches = thisCardELements.attr('id').match(pattern);
             const pageIndex = matches[1];
-            const cardIndex = index;
+            const cardIndex = parseInt(index + 1);
 
             const iframeElement = $(this).find('iframe');
             if (iframeElement) {
@@ -1119,11 +1209,13 @@
             thisCardELements.attr('data-select2-id',
                 `selectTypeJawaban_div[${pageIndex}][${cardIndex}]`);
 
-            $(this).find("[id], [data-card], [data-input], [data-validation]").each(function() {
+            $(this).find("[id], [data-card], [data-input], [data-validation], [name]").each(function() {
                 const id = $(this).attr("id");
                 const dataInput = $(this).attr("data-input");
                 const dataValidation = $(this).attr("data-validation");
                 const dataCard = $(this).attr("data-card");
+                const nameData = $(this).attr("name");
+                console.log("NAAMEDDDTA : " + nameData);
 
                 if (matches) {
                     const newIdCard = id.replace(/\[(\d+)\]\[(\d+)]/,
@@ -1144,6 +1236,12 @@
                     const newDataInputCard = dataCard.replace(/\[(\d+)\]\[(\d+)]/,
                         `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-card', newDataInputCard);
+                }
+                if (nameData && matches) {
+                    console.log("Namdecuy" + nameData);
+                    const newDataName = nameData.replace(/\[(\d+)\]\[(\d+)]/,
+                        `[${pageIndex}][${cardIndex}]`);
+                    $(this).attr('name', newDataName);
                 }
             });
         });
@@ -1166,7 +1264,9 @@
 
 
         }
+        tinymce.remove();
         resetIndexCard(pageIndexs);
+
     }
 
     function addHeading(pageIndexs, cardIndexs, cardSelector) {
@@ -1189,6 +1289,7 @@
         const clonedCard = cardToDuplicate.clone();
         cardToDuplicate.after(clonedCard);
 
+        tinymce.remove();
         resetIndexCard(pageIndexs);
     }
 
@@ -1200,6 +1301,7 @@
         if (count > 1) {
             const cardToDelete = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
             cardToDelete.remove();
+            tinymce.remove();
             resetIndexCard(pageIndexs);
         } else {
             toastMixin.fire({
@@ -1230,7 +1332,7 @@
             <div class="row">
                 <div class="form-group col-sm-12">
                     <label class="form-label text-black">Judul</label>
-                    <input class="form-control" name="judul" placeholder="Isi Judul" id="judul[${indexPage}][${indexCard}]">
+                    <input class="form-control" name="pertanyaan[${indexPage}][${indexCard}]" placeholder="Isi Judul" id="judul[${indexPage}][${indexCard}]">
                 </div>
             </div>
             <div class="row">
@@ -1319,7 +1421,8 @@
     function generateCard(indexPage, indexCard) {
         return `
 
-    <div class="card card-soal" data-aos="fade-down" data-page="${indexPage}" data-aos-delay="500" data-id="${indexCard}" id="card-soal[${indexPage}][${indexCard}]">
+   
+    <div class="card card-soal" data-aos="fade-down"  data-aos-delay="500" data-page="${indexPage}" data-id="${indexCard}" id="card-soal[${indexPage}][${indexCard}]">
         <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${indexPage}][${indexCard}]">
             <svg width="25px" height="20px" viewBox="0 0 15 15" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -1337,7 +1440,7 @@
 
                 <div class="form-group col-sm-10">
                     <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
-                    <textarea class="form-control pertanyaan-textarea" name="pertanyaan" placeholder="Isi Pertanyaan"
+                    <textarea class="form-control pertanyaan-textarea" name="pertanyaan[${indexPage}][${indexCard}][pertanyaan]" placeholder="Isi Pertanyaan"
                         id="pertanyaan[${indexPage}][${indexCard}]"></textarea>
                 </div>
 
@@ -1345,14 +1448,15 @@
                     <div class="form-group">
                         <label class="form-label text-black">Kode Pertanyaan <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Kode">
+                        <input type="text" class="form-control" placeholder="Kode Pertanyaan" maxlength="8" id="kode_soal[${indexPage}][${indexCard}]" name="pertanyaan[${indexPage}][${indexCard}][kode_soal]">
                     </div>
 
                     <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${indexPage}][${indexCard}]">
                         <label class="form-label text-black">Tipe Pertanyaan<span class="text-danger">*</span></label>
                         <select class="form-select type-jawaban-select" aria-label="Actions"
-                            id="selectTypeJawaban[${indexPage}][${indexCard}]">
-                            <option value="shortanswer_type" class="shortanswer" id="shortanswer_type[${indexPage}][${indexCard}]"
+                            id="selectTypeJawaban[${indexPage}][${indexCard}]" name="pertanyaan[${indexPage}][${indexCard}][tipe_pertanyaan]">
+
+                            <option value="general" class="shortanswer" id="shortanswer_type[${indexPage}][${indexCard}]"
                                 data-input="shortanswer_input[${indexPage}][${indexCard}]"
                                 data-validation="shortanswer_validation_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1360,7 +1464,7 @@
                                                         </svg>'>
                                 Jawaban Singkat
                             </option>
-                            <option value="paragraph_type" class="paragraph" id="paragraph_type[${indexPage}][${indexCard}]"
+                            <option value="general" class="paragraph" id="paragraph_type[${indexPage}][${indexCard}]"
                                 data-input="paragraph_input[${indexPage}][${indexCard}]"
                                 data-image='<svg width="15px" height="15px" viewBox="0 0 24 28" version="1.1" xmlns="http://www.w3.org/2000/svg" 
                                                         <title>align-left</title>
@@ -1376,46 +1480,31 @@
                                                         </svg>'>
                                 Paragraf
                             </option>
-                            <option value="singlechoice_type" class="singlechoice" id="singlechoice_type[${indexPage}][${indexCard}]"
+                            <option value="single" class="singlechoice" id="singlechoice_type[${indexPage}][${indexCard}]"
                                 data-input="singlechoice_div[${indexPage}][${indexCard}]"
                                 data-input="paragraph_input"data-image='<svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                <circle cx="12" cy="12" r="7.5" stroke="currentColor"></circle>                            </svg>                        '>
                                 Pilihan Ganda (Radio Button)
                             </option>
-                            <option value="checkbox_type" class="checkbox" id="checkbox_type[${indexPage}][${indexCard}]"
+                            <option value="mutiple" class="checkbox" id="checkbox_type[${indexPage}][${indexCard}]"
                                 data-input="checkbox_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56499 12.4068C4.29258 12.0947 3.81879 12.0626 3.50676 12.335C3.19472 12.6074 3.1626 13.0812 3.43501 13.3932L4.56499 12.4068ZM7.14286 16.5L6.57787 16.9932C6.7203 17.1564 6.92629 17.25 7.14286 17.25C7.35942 17.25 7.56542 17.1564 7.70784 16.9932L7.14286 16.5ZM15.565 7.99324C15.8374 7.68121 15.8053 7.20742 15.4932 6.93501C15.1812 6.6626 14.7074 6.69472 14.435 7.00676L15.565 7.99324ZM10.5064 11.5068C10.234 11.8188 10.2662 12.2926 10.5782 12.565C10.8902 12.8374 11.364 12.8053 11.6364 12.4932L10.5064 11.5068ZM9.67213 14.7432C9.94454 14.4312 9.91242 13.9574 9.60039 13.685C9.28835 13.4126 8.81457 13.4447 8.54215 13.7568L9.67213 14.7432ZM3.43501 13.3932L6.57787 16.9932L7.70784 16.0068L4.56499 12.4068L3.43501 13.3932ZM7.70784 16.9932L9.67213 14.7432L8.54215 13.7568L6.57787 16.0068L7.70784 16.9932ZM11.6364 12.4932L13.6007 10.2432L12.4707 9.25676L10.5064 11.5068L11.6364 12.4932ZM13.6007 10.2432L15.565 7.99324L14.435 7.00676L12.4707 9.25676L13.6007 10.2432Z" fill="#000000"></path> <path d="M20.0002 7.5625L15.7144 12.0625M11.0002 16L11.4286 16.5625L13.5715 14.3125" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                 Kotak Centang (Checkbox)
                             </option>
-                            <option value="dropdown_type" class="checkbox" id="dropdown_type[${indexPage}][${indexCard}]"
+                            <option value="dropdown" class="checkbox" id="dropdown_type[${indexPage}][${indexCard}]"
                                 data-input="dropdown_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z" stroke="#000000" stroke-width="1.224" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                 List Pilihan (Dropdown)
                             </option>
-                            <option value="gridcolumn_type" class="gridcolumn" id="gridcolumn_type[${indexPage}][${indexCard}]"
+                            <option value="grid_option" class="gridcolumn" id="gridcolumn_type[${indexPage}][${indexCard}]"
                                 data-input="gridcolumn_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.75 3C3.88235 3 3 3.88235 3 6.75C3 9.61765 3.88235 10.5 6.75 10.5C9.61765 10.5 10.5 9.61765 10.5 6.75C10.5 3.88235 9.61765 3 6.75 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6.75 13.5C3.88235 13.5 3 14.3824 3 17.25C3 20.1176 3.88235 21 6.75 21C9.61765 21 10.5 20.1176 10.5 17.25C10.5 14.3824 9.61765 13.5 6.75 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 13.5C14.3824 13.5 13.5 14.3824 13.5 17.25C13.5 20.1176 14.3824 21 17.25 21C20.1176 21 21 20.1176 21 17.25C21 14.3824 20.1176 13.5 17.25 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 3C14.3824 3 13.5 3.88235 13.5 6.75C13.5 9.61765 14.3824 10.5 17.25 10.5C20.1176 10.5 21 9.61765 21 6.75C21 3.88235 20.1176 3 17.25 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
                                 Petak Pilihan Ganda
                             </option>
-                            <option value="zona" class="skala" id="zona[${indexPage}][${indexCard}]" data-input="zona_div[${indexPage}][${indexCard}]"
+                            <option value="zone" class="skala" id="zona[${indexPage}][${indexCard}]" data-input="zona_div[${indexPage}][${indexCard}]"
                                 data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
                                 Zona
                             </option>
-                            <option value="date_type" class="date" id="date_type[${indexPage}][${indexCard}]"
-                                data-input="date_input[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
-                                Tanggal
-                            </option>
-                            <option value="time_type" class="time" id="time_type[${indexPage}][${indexCard}]"
-                                data-input="time_input[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.25 12.0005C21.25 17.1095 17.109 21.2505 12 21.2505C6.891 21.2505 2.75 17.1095 2.75 12.0005C2.75 6.89149 6.891 2.75049 12 2.75049C17.109 2.75049 21.25 6.89149 21.25 12.0005Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M15.4316 14.9429L11.6616 12.6939V7.84692" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
-                                Waktu
-                            </option>
-                            <option value="datetime_type" class="datetime" id="datetime_type[${indexPage}][${indexCard}]"
-                                data-input="datetime_input[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path d="M3.09277 9.40421H20.9167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 13.3097H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 13.3097H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 13.3097H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.442 17.1962H16.4512" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M12.0045 17.1962H12.0137" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.55818 17.1962H7.56744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M16.0433 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path d="M7.96515 2V5.29078" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
-                                Tanggal dan Waktu
-                            </option>
-
+                          
                         </select>
                         <div class="form-group inputtype shortanswer-validation-div"
                             id="shortanswer_validation_div[${indexPage}][${indexCard}]">
@@ -1424,25 +1513,28 @@
                                 </p>
                                 <label class="form-label text-black">Tipe Validasi</label>
                                 <select class="form-select type-validation-select"
-                                    id="shortanswer-type-validation[${indexPage}][${indexCard}]">
-                                    <option value="none">Tidak Ada</option>
+                                    id="shortanswer-type-validation[${indexPage}][${indexCard}]" name="pertanyaan_general[${indexPage}][${indexCard}][tipe_pertanyaan_general]">
+                                    <option value="short_answer">Tidak Ada</option>
                                     <option value="email">Email</option>
-                                    <option value="phone">Nomor Handphone</option>
+                                    <option value="tel">Nomor Handphone</option>
                                     <option value="url">URL</option>
                                     <option value="number">Angka Saja</option>
                                     <option value="letters">Huruf Saja</option>
+                                    <option value="date">Date</option>
+                                    <option value="time">Time</option>
+                                    <option value="datetime-local">Datetime</option>
                                 </select>
                             </div>
                             <div class="row">
                                 <div class="col-6 form-group" id="shortanswer-input-max-div[${indexPage}][${indexCard}]">
                                     <label class="form-label  text-black">Max Karakter</label>
-                                    <input type="number" class="form-control" placeholder="256"
-                                        id="shortanswer-input-max[${indexPage}][${indexCard}]">
+                                    <input type="number" class="form-control" placeholder="256" value="256"
+                                        id="shortanswer-input-max[${indexPage}][${indexCard}]" name="pertanyaan_general[${indexPage}][${indexCard}][max_character_jawaban]">
                                 </div>
                                 <div class="col-6 form-group" id="shortanswer-input-min-div[${indexPage}][${indexCard}]">
                                     <label class="form-label  text-black">Min Karakter</label>
                                     <input type="number" class="form-control" placeholder="-"
-                                        id="shortanswer-input-min[${indexPage}][${indexCard}]">
+                                        id="shortanswer-input-min[${indexPage}][${indexCard}]" name="pertanyaan_general[${indexPage}][${indexCard}][min_character_jawaban]">
                                 </div>
                             </div>
                         </div>
@@ -1455,7 +1547,7 @@
                     <label class="form-label text-black">Jawaban</label>
 
                     <div class="form-group inputtype" id="shortanswer_input[${indexPage}][${indexCard}]" data-card="${indexCard}">
-                        <input type="text" class="form-control" placeholder="Teks jawaban singkat" readonly>
+                        <input type="text" class="form-control shortanswer_input" placeholder="Teks jawaban singkat" readonly>
                     </div>
 
                     <div class="form-group inputtype" id="paragraph_input[${indexPage}][${indexCard}]">
@@ -1464,25 +1556,25 @@
 
                     <div class="form-group inputtype radio-option-div" id="singlechoice_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan ganda dibawah ini <span class="text-danger">*</span> </p>
-                        <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][0]">
+                        <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][1]">
                             <div class="d-flex align-items-center">
                                 <div class="px-2">
                                     <input class="form-check-input" type="radio">
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode">
+                                        <input type="text" class="form-control" placeholder="Kode" id="singlechoice-code[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan">
+                                        <input type="text" class="form-control" placeholder="Pilihan" id="singlechoice-label[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][label]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai">
+                                        <input type="text" class="form-control" placeholder="Nilai" id="singlechoice-value[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                                 <div class="form-check">
                                                     <input class="form-check-input singlechoice-addition " type="checkbox"
-                                                        id="singlechoice-addition[${indexPage}][${indexCard}][0]">
+                                                        id="singlechoice-addition[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][check_tambahan]">
                                                     <label class="form-check-label" for="singlechoice-addition">
                                                         Text Tambahan
                                                     </label>
@@ -1490,19 +1582,19 @@
                                             </div>
                                     <div class="col">
                                         <input class="form-control singlechoice-addition-text" type="text"
-                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][0]" placeholder="Kode Text Tambahan">
+                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][kode_input_tambahan]" placeholder="Kode Text Tambahan">
                                     </div>
                                   
                                     <div class="col d-flex align-items-center">
                                         <div class="align-items-center">
-                                            <a class="btn btn-secondary btn-sm mx-1 collapsed" data-bs-toggle="collapse" href="#collapse[${indexPage}][${indexCard}][0]" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <a class="btn btn-secondary btn-sm mx-1 collapsed" data-bs-toggle="collapse" href="#collapse[${indexPage}][${indexCard}][1]" role="button" aria-expanded="false" aria-controls="collapseExample">
                                              Lainnya
                                             </a>
                                         </div>
-                                        <a class="btn btn-danger btn-sm mx-1 delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][0]" type="button">
+                                        <a class="btn btn-danger btn-sm mx-1 delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][1]" type="button">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][0]" type="button">
+                                        <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][1]" type="button">
                                             Tambah
                                         </a>
                                     </div>
@@ -1512,12 +1604,12 @@
                             </div>
                             <div class="row mt-2 mb-2">
                                 <div class="col">
-                                    <div class="collapse" id="collapse[${indexPage}][${indexCard}][0]">
+                                    <div class="collapse" id="collapse[${indexPage}][${indexCard}][1]">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;" >
                                                     <div class="input-group-text text-black">Tampilkan Pertanyaan &nbsp; &nbsp;&nbsp;&nbsp;</div>
-                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][0]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
+                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][1]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
                                                        
                                                     </select>
                                                 </div>
@@ -1527,7 +1619,7 @@
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;">
                                                     <div class="input-group-text text-black">Sembunyikan Pertanyaan</div>
-                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][0]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
+                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][1]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
                                                         
                                                     </select>
                                                 </div>
@@ -1544,25 +1636,25 @@
                     <div class="form-group inputtype checkbox-option-div" id="checkbox_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan kotak centang (checkbox) dibawah ini <span
                                 class="text-danger">*</span> </p>
-                        <div class="checkbox-option mutiple_option_div" id="mutiple_option_div[${indexPage}][${indexCard}][0]">
+                        <div class="checkbox-option mutiple_option_div" id="mutiple_option_div[${indexPage}][${indexCard}][1]">
                             <div class="d-flex align-items-center">
                                 <div class="px-2">
                                 <input class="form-check-input" type="checkbox">
                             </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode">
+                                        <input type="text" class="form-control" placeholder="Kode"  id="mutiplechoice-code[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan">
+                                        <input type="text" class="form-control" placeholder="Pilihan"  id="mutiplechoice-label[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][label]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai">
+                                        <input type="text" class="form-control" placeholder="Nilai"  id="mutiplechoice-value[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                         <div class="form-check">
                                             <input class="form-check-input mutiplechoice-addition " type="checkbox"
-                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][0]">
+                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][check_tambahan]">
                                             <label class="form-check-label" for="mutiplechoice-addition">
                                                 Text Tambahan
                                             </label>
@@ -1570,13 +1662,13 @@
                                     </div>
                                     <div class="col-2">
                                             <input class="form-control mutiplechoice-addition-text" type="text"
-                                                id="mutiplechoice-addition-text[${indexPage}][${indexCard}][0]" placeholder="Kode Text Tambahan">
+                                                id="mutiplechoice-addition-text[${indexPage}][${indexCard}][1]" placeholder="Kode Text Tambahan" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][kode_input_tambahan]">
                                         </div>
                                     <div class="col d-flex align-items-center">
-                                        <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][0]"  type="button">
+                                        <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][1]"  type="button">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-success btn-sm add-checkbox-option" id="add-checkbox-option[${indexPage}][${indexCard}][0]" type="button">
+                                        <a class="btn btn-success btn-sm add-checkbox-option" id="add-checkbox-option[${indexPage}][${indexCard}][1]" type="button">
                                             Tambah
                                         </a>
                                     </div>
@@ -1624,7 +1716,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-1 col-md-2 col-sm-2 py-3 text-center grid-number-container" id="grid-number-container[${indexPage}][${indexCard}]">
-                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="1" id="grid-number-div[${indexPage}][${indexCard}][0]">
+                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="1" id="grid-number-div[${indexPage}][${indexCard}][1]">
                                         <p class="text-center grid-number"> 1 </p>
                                     </div>
                                     <div class="row my-2 align-items-center grid-number-div" id="grid-number-div[${indexPage}][${indexCard}][1] data-row-number="2">
@@ -1632,12 +1724,12 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 grid-row-container" id="grid-row-container[${indexPage}][${indexCard}]">
-                                    <div class="row my-2 grid-row" id="grid-row[${indexPage}][${indexCard}][0]">
+                                    <div class="row my-2 grid-row" id="grid-row[${indexPage}][${indexCard}][1]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][0]"
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][1]"
                                                     placeholder="Label Baris 1">
-                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][0]"
+                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][1]"
                                                     placeholder="Nilai Baris 1">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
@@ -1672,12 +1764,12 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 grid-column-container" id="grid-column-container[${indexPage}][${indexCard}]">
-                                    <div class="row my-2 grid-column"  id="grid-column[${indexPage}][${indexCard}][0]">
+                                    <div class="row my-2 grid-column"  id="grid-column[${indexPage}][${indexCard}][1]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][0]"
+                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][1]"
                                                     placeholder="Label Kolom 1">
-                                                <input type="text" class="form-control grid-column-input-value" id="grid-column-input-value[${indexPage}][${indexCard}][0]"
+                                                <input type="text" class="form-control grid-column-input-value" id="grid-column-input-value[${indexPage}][${indexCard}][1]"
                                                     placeholder="Nilai Kolom 1">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
@@ -1812,7 +1904,7 @@
                         </a>
                         <hr class="hr-vertial">
                         <div class="form-check form-switch mx-2">
-                            <input class="form-check-input" type="checkbox" id="wajibdiisi[${indexPage}][${indexCard}]">
+                            <input class="form-check-input" type="checkbox" id="wajibdiisi[${indexPage}][${indexCard}]" name="pertanyaan[${indexPage}][${indexCard}][wajib_diisi]">
                             <label class="form-check-label text-black">Wajib
                                 Diisi</label>
                         </div>
@@ -1855,6 +1947,7 @@
             </div>
         </div>
     </div>
+    
     `;
     }
 

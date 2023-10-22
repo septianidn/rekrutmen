@@ -10,6 +10,8 @@ class Provinsi extends Model
     use HasFactory;
 
     protected $table = 'provinsi';
+    protected $primaryKey ='kode_provinsi';
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -21,9 +23,10 @@ class Provinsi extends Model
         
     ];
     
-    public function kabupaten()
+    public function kabupatenKota()
     {
-        return $this->hasMany(Kabupaten::class, 'provinsi_id');
+        return $this->hasMany(KabupatenKota::class, 'provinsi_id', 'kode_provinsi');
     }
-   
+    
+ 
 }

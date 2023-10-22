@@ -11,6 +11,7 @@ class Prodi extends Model
 
     protected $table = 'prodi';
     protected $primaryKey = 'kode_prodi';
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *

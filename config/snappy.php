@@ -39,7 +39,7 @@ return [
         'timeout' => false,
         'options' => [
             'enable-local-file-access' => true,
-            
+          
         ],
         'env'     => [],
     ],
@@ -50,7 +50,7 @@ return [
         'timeout' => false,
         'options' => [
             'enable-local-file-access' => true,
-           
+          
         ],
         'env'     => [],
     ],

@@ -316,8 +316,7 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-data-zona" data-bs-parent="#sidebar-kelola-data-zona">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('provinsi.index')) }}"
-                    href="{{ route('datapedias.index') }}">
+                <a class="nav-link {{ activeRoute(route('provinsi.index')) }}" href="{{ route('provinsi.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -331,7 +330,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('kabkota.index')) }}" href="{{ route('datapedia.index') }}">
+                <a class="nav-link {{ activeRoute(route('kabkota.index')) }}" href="{{ route('kabkota.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">

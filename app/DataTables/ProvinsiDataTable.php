@@ -83,6 +83,8 @@ class ProvinsiDataTable extends DataTable
         return [
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'nama_provinsi', 'name' => 'nama_provinsi', 'title' => 'Provinsi', 'searchable' => true,],
+            ['data' => 'kode_provinsi', 'name' => 'kode_provinsi', 'title' => 'Kode Provinsi', 'searchable' => true,],
+       
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

@@ -85,9 +85,7 @@
     /* FORM BUILDER CUSTOM CSS */
     .card-soal {
         border-left: 5px solid transparent;
-        /* Menggunakan border awal dengan warna transparan */
         transition: border-left 0.3s ease, transform 0.3s ease;
-        /* Waktu transisi dan jenis efek transisi (ease = efek pelan-pelan) */
     }
 
     .card-soal.active {

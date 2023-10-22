@@ -24,7 +24,7 @@ class ProvinsiController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('provinsi.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('provinsi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Pedia" data-placement="top" title="Tambah Data">Tambah Data Pedia</a>';
+        $headerAction = '<a data--href="' . route('provinsi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Provinsi" data-placement="top" title="Tambah Data">Tambah Data</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
     
