@@ -11,6 +11,7 @@ use App\Http\Requests\PertanyaanRequest;
 use App\Models\HalamanPertanyaan;
 use App\Models\PaketSoal;
 use App\Models\Pertanyaan;
+use App\Models\PertanyaanGeneral;
 
 class PertanyaanController extends Controller
 {
@@ -50,35 +51,57 @@ class PertanyaanController extends Controller
     {
         $data = $request->all();
 
-        // foreach ($data["nama_halaman"] as $urutan => $namaHalaman) {
-        //     HalamanPertanyaan::create([
-        //         'nama_halaman' => $namaHalaman,
-        //         'urutan' => $urutan,
-        //         'paket_soal_id' => $idPaketSoal
-        // ]);
-        // }
+        foreach ($data['halaman_pertanyaan'] as $urutan => $namaHalaman) {
+            $halamanPertanyaan = HalamanPertanyaan::create([
+                'urutan' => $urutan,
+                'nama_halaman' => $namaHalaman,
+                'paket_soal_id' => $idPaketSoal
+            ]);
+    
+            // Iterate over the corresponding "pertanyaan" array
+            foreach ($data['pertanyaan'][$urutan] as $urutanPertanyaan => $pertanyaanData) {
+                $pertanyaan = Pertanyaan::create([
+                    'urutan' => $urutanPertanyaan,
+                    'halaman_id' => $halamanPertanyaan->id,
+                    'pertanyaan' => $pertanyaanData['pertanyaan'],
+                    'kode_soal' => $pertanyaanData['kode_soal'],
+                    'tipe_pertanyaan' => $pertanyaanData['tipe_pertanyaan'],
+                ]);
+    
+                // Check if "pertanyaan_general" exists and insert it
+                if (isset($data['pertanyaan_general'][$urutanPertanyaan])) {
+                    $pertanyaanGeneralData = $data['pertanyaan_general'][$urutanPertanyaan][1];
+    
+                    PertanyaanGeneral::create([
+                        'pertanyaan_id' => $pertanyaan->id,
+                        'tipe_pertanyaan_general' => $pertanyaanGeneralData['tipe_pertanyaan_general'],
+                        'max_character_jawaban' => $pertanyaanGeneralData['max_character_jawaban'],
+                        'min_character_jawaban' => $pertanyaanGeneralData['min_character_jawaban'],
+                    ]);
+                }
+            }
+        }
+    
 
-        dd($data);
-
-        // $pertanyaanData = $data["pertanyaan"];
-        // $kodeSoalData = $data["kode_soal"];
-        // $wajibDijawabData = $data["wajib_dijawab"];
-
-//         foreach ($pertanyaanData as $key => $value) {
-//             Pertanyaan::create([
-//                 'pertanyaan' => $value[1],
-//                 'kode_soal' => $kodeSoalData[$key][1],
-//                 'wajib_dijawab' => $wajibDijawabData[$key][1] === 'on' ? 1 : 0,
-//                 'halaman_id'=> 1
-//             ]);
-// }
-
+        return redirect()->route('paket-soal.index')->withSuccess(__('message.pertanyaan_msg_added',['name' => __('paket-soal.store')]));
+ 
     }
 
    
-    public function edit($id)
+    public function edit($idPaketSoal)
     {
-        
+        $assets = ['animation'];
+
+        $data = HalamanPertanyaan::with('pertanyaan.pertanyaanGeneral')
+        ->where('paket_soal_id', $idPaketSoal)
+        ->get()->toArray(); 
+
+        // dd($data);
+        if (request()->ajax()) {
+            return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','data', 'assets'))->render();
+        }
+    
+        return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','data', 'assets'))->render();
     }
 
     /**

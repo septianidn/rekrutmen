@@ -29,7 +29,10 @@ class PaketSoal extends Model
         'publish'
     ];
 
-      
+    public function halamanPertanyaan()
+    {
+       return $this->hasMany(HalamanPertanyaan::class, 'paket_soal_id');
+    }
 
    
 }

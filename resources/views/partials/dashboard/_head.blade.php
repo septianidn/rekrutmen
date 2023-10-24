@@ -295,11 +295,7 @@
         padding-right: 15px;
     }
 
-    .singlechoice-addition-text,
-    .mutiplechoice-addition-text {
-        visibility: hidden;
 
-    }
 
     .accordion-flush {
         background-color: transparent;

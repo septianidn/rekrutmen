@@ -32,6 +32,11 @@ class Pertanyaan extends Model
         return $this->belongsTo(HalamanPertanyaan::class, 'halaman_id');
     }
     
+    public function pertanyaanGeneral()
+    {
+        return $this->hasOne(PertanyaanGeneral::class, 'pertanyaan_id');
+    }
+    
 
 
 }

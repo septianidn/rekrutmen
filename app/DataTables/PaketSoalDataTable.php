@@ -4,8 +4,10 @@ namespace App\DataTables;
 
 use App\Models\Alumni;
 use App\Models\Fakultas;
+use App\Models\HalamanPertanyaan;
 use App\Models\Jenjang;
 use App\Models\PaketSoal;
+use App\Models\Pertanyaan;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -40,9 +42,21 @@ class PaketSoalDataTable extends DataTable
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
-            ->addColumn('pertanyaan', function ($query) {
-                return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">12</a>';
-            })
+            ->addColumn('jumlah_pertanyaan', function ($query) {
+                $jumlah_pertanyaan = $query->halamanPertanyaan->sum(function ($halamanPertanyaan) {
+                    return $halamanPertanyaan->pertanyaan->count();
+                });
+            
+                if( $jumlah_pertanyaan == 0 ){
+                    return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
+     
+                }
+                else{
+                    return '<a href="' . route("pertanyaan.edit", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
+     
+                }
+                })
+            
             ->addColumn('menerima_usulan', function ($data) {
                 return view('backoffice.tracerstudy.admin.paket-soal.menerima_usulan', compact('data'));
             })
@@ -52,7 +66,7 @@ class PaketSoalDataTable extends DataTable
                 $sql = "nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','pertanyaan', 'publish', 'menerima_usulan']);
+            ->rawColumns(['action','jumlah_pertanyaan', 'publish', 'menerima_usulan']);
             
     }
 
@@ -64,7 +78,7 @@ class PaketSoalDataTable extends DataTable
      */
     public function query()
     {
-        $model = PaketSoal::query();
+        $model = PaketSoal::query()->with(['halamanPertanyaan.pertanyaan']);
         return $this->applyScopes($model);
     }
 
@@ -126,8 +140,8 @@ class PaketSoalDataTable extends DataTable
             ['data' => 'tgl_selesai_tayang', 'name' => 'tgl_selesai_tayang', 'title' => 'Tanggal Selesai Tayang', 'searchable' => true,],
             ['data' => 'tahun_pelaksanaan', 'name' => 'tahun_pelaksanaan', 'title' => 'Tahun Pelaksanaan', 'searchable' => true,],
             ['data' => 'untuk_lulusan', 'name' => 'untuk_lulusan', 'title' => 'Untuk Lulusan', 'searchable' => true,],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
-            ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Usulan Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
+            ['data' => 'jumlah_pertanyaan', 'name' => 'jumlah_pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
+             //TODO USULAN PERTANYAAN
             ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
             Column::computed('menerima_usulan')
                     ->width(100)

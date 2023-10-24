@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pertanyaan', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_soal',8);
+            $table->string('kode_soal',15);
             $table->bigInteger('halaman_id')->unsigned()->index();
             $table->foreign('halaman_id')->references('id')->on('halaman_pertanyaan')->onUpdate('cascade')->onDelete('cascade');
             $table->smallInteger('urutan')->length(2);

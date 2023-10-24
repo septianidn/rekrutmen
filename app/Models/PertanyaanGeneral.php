@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HalamanPertanyaan extends Model
+class PertanyaanGeneral extends Model
 {
     use HasFactory;
 
-    protected $table = 'halaman_pertanyaan';
+    protected $table = 'pertanyaan_general';
     
     /**
      * The attributes that are mass assignable.
@@ -17,21 +17,19 @@ class HalamanPertanyaan extends Model
      * @var array
      */
     protected $fillable = [
-        'paket_soal_id',
-        'urutan',
-        'nama_halaman',
-        
+        'pertanyaan_id',
+        'tipe_pertanyaan_general',
+        'max_character_jawaban',
+        'min_character_jawaban',
+    
     ];
 
+  
     public function pertanyaan()
     {
-       return $this->hasMany(Pertanyaan::class, 'halaman_id');
+        return $this->belongsTo(Pertanyaan::class, 'pertanyaan_id');
     }
     
-    public function paketSoal()
-    {
-       return $this->belongsTo(PaketSoal::class, 'paket_soal_id');
-    }
 
 
 }
