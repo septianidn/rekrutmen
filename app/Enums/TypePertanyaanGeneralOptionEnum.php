@@ -1,7 +1,7 @@
 <?php
 namespace App\Enums;
 
-class TypePertanyaanGeneralEnum
+class TypePertanyaanGeneralOptionEnum
 {
     const SINGLE = 'single';
     const MUTIPLE = 'mutiple';

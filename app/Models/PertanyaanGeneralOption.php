@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\TypePertanyaanGeneralEnum;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PertanyaanGeneral extends Model
+class PertanyaanGeneralOption extends Model
 {
     use HasFactory;
 
-    protected $table = 'pertanyaan_general';
+    protected $table = 'pertanyaan_general_option';
     
     /**
      * The attributes that are mass assignable.
@@ -19,21 +20,26 @@ class PertanyaanGeneral extends Model
      */
     protected $fillable = [
         'pertanyaan_id',
-        'tipe_pertanyaan_general',
-        'max_character_jawaban',
-        'min_character_jawaban',
-    
+        'kode',
+        'urutan',
+        'value',
+        'label',
+        'kode_input_tambahan',
+        'tipe',
+           
     ];
 
     protected $enumCasts = [
-        'tipe_pertanyaan_general' => TypePertanyaanGeneralEnum::class,
+        'tipe' => TypePertanyaanGeneralOption::class,
     ];
 
+    
     public function pertanyaan()
     {
         return $this->belongsTo(Pertanyaan::class, 'pertanyaan_id');
     }
     
 
-  
+
+
 }

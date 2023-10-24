@@ -62,7 +62,6 @@
         PAGE LISTENER 
     */
 
-
     $(document).ready(function() {
 
 
@@ -77,12 +76,11 @@
             hideOrShowAddandDelete();
             const container = $(".fieldset-wizard-container");
             const width = container.width();
-            container.css("transform", `translateX(-${(page - 1) * width}px)`);
+            container.css("transform", `translateX(-${(page) * width}px)`);
             $(`#page-navigation\\[${page}\\]`).addClass("active");
             inputPageTitle();
 
         }
-
 
 
         function addPage(activeElementNavPageId) {
@@ -107,7 +105,7 @@
                 const cardContainer = $(`#card_container\\[${addToPageId}\\]`)
                 const pageNavigation = $(".page-navigation");
                 pageNavigation.html(generatePageNavigation());
-                cardContainer.append(generateCard(addToPageId, 1));
+                cardContainer.append(generateCard(addToPageId, 0));
                 initializeCard();
                 showPage(addToPageId);
                 $("html, body").animate({
@@ -172,6 +170,7 @@
             });
 
             if (activeElementNavPage !== null) {
+                console.log(activeElementNavPage)
                 activeElementNavPageId = activeElementNavPage.match(/\d+/)[0];
             }
             return activeElementNavPageId ?? null;
@@ -226,7 +225,7 @@
 
         $(document).on('click', '.navigation-page', function() {
             $('.navigation-page').removeClass('active');
-            const pageToNavigate = parseInt($(this).text());
+            const pageToNavigate = parseInt($(this).attr("value"));
 
             showPage(pageToNavigate);
             $(this).addClass('active');
@@ -236,10 +235,10 @@
             const pageElements = $('.fieldset-wizard');
 
             pageElements.each(function(index) {
-                $(this).attr('id', `page[${index + 1}]`);
-                $(this).find('input[id^="nama_halaman\\["]').attr('id', `nama_halaman[${index + 1}]`);
+                $(this).attr('id', `page[${index}]`);
+                $(this).find('input[id^="nama_halaman\\["]').attr('id', `nama_halaman[${index}]`);
                 $(this).find('.card_container[id^="card_container\\["]').attr('id',
-                    `card_container[${index + 1}]`);
+                    `card_container[${index}]`);
             });
 
         }
@@ -249,8 +248,9 @@
             const pageCount = $('.fieldset-wizard').length;
 
             for (let i = 1; i <= pageCount; i++) {
+                const index = i - 1;
                 navigationHTML +=
-                    `<button type="button" name="page" class="btn btn-light btn-sm navigation-page action-button-number-page me-1" id="page-navigation[${i}]" value="Number Page">${i}</button>`;
+                    `<button type="button" name="page" class="btn btn-light btn-sm navigation-page action-button-number-page me-1" id="page-navigation[${index}]" value="${index}" >${i}</button>`;
             }
             return navigationHTML;
         }
@@ -259,7 +259,7 @@
             return ` <fieldset class="fieldset-wizard" id="page[${page}]">
             <div class="form-card text-start">
                 <div class="row">
-                    <input type="text" class="h3 px-2  mx-2 mb-4 dynamic-input" id="nama_halaman[${page}]" name="halaman_pertanyaan[${page}]nama_halaman" value="Halaman ${page}" style="transition: width 0.2s;">
+                    <input type="text" class="h3 px-2  mx-2 mb-4 dynamic-input" id="nama_halaman[${page}]" name="data[${page}][nama_halaman]" value="Halaman ${page+1}" style="transition: width 0.2s;">
                     <div class="col-sm-12 col-lg-12 card_container" id="card_container[${page}]">
                       
                     </div>
@@ -269,15 +269,15 @@
         }
 
         function showFirstPage() {
-            const firstPage = generatePage(currentPage);
+            const firstPage = generatePage(0);
             const pageContainer = $("#page-container");
             pageContainer.append(firstPage);
             const pageNavigation = $(".page-navigation");
             pageNavigation.html(generatePageNavigation());
-            const cardContainer = $(`#card_container\\[${currentPage}\\]`)
-            cardContainer.append(generateCard(currentPage, 1));
+            const cardContainer = $(`#card_container\\[${0}\\]`)
+            cardContainer.append(generateCard(0, 0));
             initializeCard();
-            showPage(currentPage);
+            showPage(0);
 
         }
 
@@ -468,16 +468,16 @@
         function updateRowNumbers(pageIndexs, cardIndexs) {
             $(`#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-row`).each(function(index) {
                 var rowNumber = index + 1;
-                $(this).find(".grid-row-input").attr("placeholder", "Label Baris " + (index + 1));
-                $(this).find(".grid-row-input-value").attr("placeholder", "Nilai Baris " + (index + 1));
+                $(this).find(".grid-row-input").attr("placeholder", "Label Baris " + rowNumber);
+                $(this).find(".grid-row-input-value").attr("placeholder", "Nilai Baris " + rowNumber);
 
             });
         }
 
         function updateNumbers(pageIndexs, cardIndexs) {
             $(`#grid-number-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-number-div`).each(function(index) {
-                var rowNumber = index + 1;
-                $(this).find(".grid-number").text(index + 1);
+                var gridNumber = index + 1;
+                $(this).find(".grid-number").text(gridNumber);
 
             });
         }
@@ -587,7 +587,7 @@
                 )
                 const additionInput =
                     `<input class="form-control mutiplechoice-addition-text" type="text"
-                                        id="mutiplechoice-addition-text[${indexPage}][${indexCard}][${checkBoxIndexs}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${checkBoxIndexs}][mutiple][kode_input_tambahan]" placeholder="Kode Text Tambahan">`;
+                                        id="mutiplechoice-addition-text[${indexPage}][${indexCard}][${checkBoxIndexs}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${checkBoxIndexs}][kode_input_tambahan]" placeholder="Kode Text Tambahan">`;
 
                 additionDivs.empty();
 
@@ -602,7 +602,7 @@
     }
 
     function deleteCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, checkBoxElement) {
-        if (checkBoxIndexs > 1) {
+        if (checkBoxIndexs > 0) {
             const checkBoxToDelete = $(
                 `#mutiple_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs}\\]`);
             checkBoxToDelete.remove();
@@ -611,7 +611,7 @@
     }
 
     function addCheckBox(pageIndexs, cardIndexs, checkBoxIndexs, checkBoxElement) {
-        if (checkBoxIndexs < 30) {
+        if (checkBoxIndexs < 15) {
             const newElementCheckBox = generateCheckBox(pageIndexs, cardIndexs, checkBoxIndexs + 1);
             const checkBoxBefore = $(
                 `#mutiple_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${checkBoxIndexs}\\]`);
@@ -634,18 +634,18 @@
                             </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode" id="mutiplechoice-code[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][kode]">
+                                        <input type="text" class="form-control" placeholder="Kode" id="mutiplechoice-code[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexCheckBoxOption}][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan" id="mutiplechoice-label[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][label]">
+                                        <input type="text" class="form-control" placeholder="Pilihan" id="mutiplechoice-label[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexCheckBoxOption}][label]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai" id="mutiplechoice-value[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][value]">
+                                        <input type="text" class="form-control" placeholder="Nilai" id="mutiplechoice-value[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexCheckBoxOption}][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                         <div class="form-check">
                                             <input class="form-check-input mutiplechoice-addition " type="checkbox"
-                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexCheckBoxOption}][mutiple][check_tambahan]" >
+                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][${indexCheckBoxOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexCheckBoxOption}][check_tambahan]" >
                                             <label class="form-check-label" for="mutiplechoice-addition">
                                                 Text Tambahan
                                             </label>
@@ -678,7 +678,7 @@
             const pageIndex = matches[1];
             const cardIndex = matches[2];
             //START AT 1 NOT 0
-            const checkBoxIndex = index + 1;
+            const checkBoxIndex = index;
 
             thisCheckBoxElements.attr('id', `mutiple_option_div[${pageIndex}][${cardIndex}][${checkBoxIndex}]`);
 
@@ -693,9 +693,19 @@
                     $(this).attr('id', `${newIdRadioBox}`);
                 }
                 if (nameData && matches) {
-                    const newDataName = nameData.replace(pattern,
-                        `[${pageIndex}][${cardIndex}][${checkBoxIndex}]`);
-                    $(this).attr('name', newDataName);
+                    const patternName =
+                        /\[(\d+)\]\[pertanyaan\]\[(\d+)\]\[pertanyaan_general_option\]\[(\d+)\]/;;
+                    const matchesName = nameData.match(patternName)
+                    console.log(matchesName)
+                    if (matchesName) {
+                        const newDataName = nameData.replace(patternName,
+                            `[${pageIndex}][pertanyaan][${cardIndex}][pertanyaan_general_option][${checkBoxIndex}]`
+                        );
+                        console.log("INDES" + cardIndex);
+                        console.log("NEW DATA" + newDataName);
+                        $(this).attr('name', newDataName);
+                    }
+
                 }
             });
 
@@ -774,7 +784,7 @@
     }
 
     function deleteRadioBox(pageIndexs, cardIndexs, radioIndexs, radioBoxElement) {
-        if (radioIndexs > 1) {
+        if (radioIndexs > 0) {
             const radioBoxToDelete = $(
                 `#singlechoice_option_div\\[${pageIndexs}\\]\\[${cardIndexs}\\]\\[${radioIndexs}\\]`);
             radioBoxToDelete.remove();
@@ -807,7 +817,7 @@
             const matches = thisRadioBoxElements.attr('id').match(pattern);
             const pageIndex = matches[1];
             const cardIndex = matches[2];
-            const radioIndex = index + 1;
+            const radioIndex = index;
 
 
             thisRadioBoxElements.attr('id',
@@ -822,9 +832,18 @@
                     $(this).attr('id', `${newIdRadioBox}`);
                 }
                 if (nameData && matches) {
-                    const newDataName = nameData.replace(pattern,
-                        `[${pageIndex}][${cardIndex}][${radioIndex}]`);
-                    $(this).attr('name', newDataName);
+                    const patternName =
+                        /\[(\d+)\]\[pertanyaan\]\[(\d+)\]\[pertanyaan_general_option\]\[(\d+)\]/;;
+                    const matchesName = nameData.match(patternName)
+                    console.log(matchesName)
+                    if (matchesName) {
+                        const newDataName = nameData.replace(patternName,
+                            `[${pageIndex}][pertanyaan][${cardIndex}][pertanyaan_general_option][${radioIndex}]`
+                        );
+
+                        $(this).attr('name', newDataName);
+                    }
+
                 }
             });
 
@@ -840,18 +859,18 @@
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode" id="singlechoice-code[${indexPage}][${indexCard}][${indexRadioOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][kode]">
+                                        <input type="text" class="form-control" placeholder="Kode" id="singlechoice-code[${indexPage}][${indexCard}][${indexRadioOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexRadioOption}][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan" id="singlechoice-label[${indexPage}][${indexCard}][${indexRadioOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][label]">  
+                                        <input type="text" class="form-control" placeholder="Pilihan" id="singlechoice-label[${indexPage}][${indexCard}][${indexRadioOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexRadioOption}][label]">  
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai" id="singlechoice-value[${indexPage}][${indexCard}][${indexRadioOption}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][value]">
+                                        <input type="text" class="form-control" placeholder="Nilai" id="singlechoice-value[${indexPage}][${indexCard}][${indexRadioOption}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexRadioOption}][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                                 <div class="form-check">
                                                     <input class="form-check-input singlechoice-addition " type="checkbox"
-                                                        id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]"  name="pertanyaan_general_option[${indexPage}][${indexCard}][${indexRadioOption}][single][check_tambahan]">
+                                                        id="singlechoice-addition[${indexPage}][${indexCard}][${indexRadioOption}]"  name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${indexRadioOption}][check_tambahan]">
                                                     <label class="form-check-label" for="singlechoice-addition">
                                                         Text Tambahan
                                                     </label>
@@ -922,7 +941,7 @@
                     `#singlechoice-addition-div\\[${indexPage}\\]\\[${indexCard}\\]\\[${radioIndexs}\\]`)
                 const additionInput =
                     `<input class="form-control singlechoice-addition-text" type="text"
-                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][${radioIndexs}]" name="pertanyaan_general_option[${indexPage}][${indexCard}][${radioIndexs}][single][kode_input_tambahan]" placeholder="Kode Text Tambahan">`;
+                                        id="singlechoice-addition-text[${indexPage}][${indexCard}][${radioIndexs}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][${radioIndexs}][kode_input_tambahan]" placeholder="Kode Text Tambahan">`;
 
                 additionDivs.empty();
 
@@ -1110,7 +1129,8 @@
                 theme: 'bootstrap-5',
                 minimumResultsForSearch: Infinity,
                 templateResult: formatState,
-                templateSelection: formatState
+                templateSelection: formatState,
+
             });
             toggleInputs(selectElement);
             (function(selectElement) {
@@ -1148,6 +1168,7 @@
             });
             toggleInputsVal(selectElement);
             (function(selectElement) {
+
                 selectElement.on('change', function() {
                     toggleInputsVal(selectElement);
 
@@ -1176,8 +1197,6 @@
         const selectedType = selectElement.closest('.card-body').find('.type-jawaban-select');
         const selectedElement = selectedType.find('option:selected');
         const dataInput = selectedElement.attr('data-input');
-
-
         const pattern = /\[(\d+)\]\[(\d+)\]/;
         const matches = dataInput.match(pattern);
         if (matches) {
@@ -1189,11 +1208,27 @@
             const validationDivs = $(
                 `#shortanswer_validation_div\\[${indexPage}\\]\\[${indexCard}\\]`);
 
+            const shortInput = $(
+                `#shortanswer_input\\[${indexPage}\\]\\[${indexCard}\\]`);
+
+            const paragraphDivs = $(
+                `#paragraph_input\\[${indexPage}\\]\\[${indexCard}\\]`);
+            const singleDiv = $(
+                `#singlechoice_div\\[${indexPage}\\]\\[${indexCard}\\]`);
+            const mutipleDiv = $(
+                `#mutiplechoice_div\\[${indexPage}\\]\\[${indexCard}\\]`);
+            const gridcolumnDiv = $(
+                `#gridcolumn_div\\[${indexPage}\\]\\[${indexCard}\\]`);
+            const dropdownDiv = $(
+                `#dropdown_div\\[${indexPage}\\]\\[${indexCard}\\]`);
+            const zoneDiv = $(
+                `#zona_div\\[${indexPage}\\]\\[${indexCard}\\]`);
 
 
-            jawabanDivs.empty();
+            // jawabanDivs.empty();
             validationDivs.empty();
             if (selectedElement.attr('class') === 'shortanswer') {
+
                 const elementShortAnswer = `<div class="form-group inputtype" id="shortanswer_input[${indexPage}][${indexCard}]" data-card="${indexCard}">
                         <input type="text" class="form-control shortanswer_input" placeholder="Teks jawaban singkat" readonly>
                     </div>`;
@@ -1203,7 +1238,7 @@
                                 </p>
                                 <label class="form-label text-black">Tipe Validasi</label>
                                 <select class="form-select type-validation-select"
-                                    id="shortanswer-type-validation[${indexPage}][${indexCard}]" name="pertanyaan_general[${indexPage}][${indexCard}][tipe_pertanyaan_general]">
+                                    id="shortanswer-type-validation[${indexPage}][${indexCard}]" name="[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general][tipe_pertanyaan_general]">
                                     <option value="short_answer">Tidak Ada</option>
                                     <option value="email">Email</option>
                                     <option value="tel">Nomor Handphone</option>
@@ -1219,15 +1254,21 @@
                                 <div class="col-6 form-group" id="shortanswer-input-max-div[${indexPage}][${indexCard}]">
                                     <label class="form-label  text-black">Max Karakter</label>
                                     <input type="number" class="form-control" placeholder="255" value="255" min="1"
-                                        id="shortanswer-input-max[${indexPage}][${indexCard}]" name="pertanyaan_general[${indexPage}][${indexCard}][max_character_jawaban]">
+                                        id="shortanswer-input-max[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general][max_character_jawaban]">
                                 </div>
                                 <div class="col-6 form-group" id="shortanswer-input-min-div[${indexPage}][${indexCard}]">
                                     <label class="form-label  text-black">Min Karakter</label>
                                     <input type="number" min="0" class="form-control" placeholder="-"
-                                        id="shortanswer-input-min[${indexPage}][${indexCard}]" name="pertanyaan_general[${indexPage}][${indexCard}][min_character_jawaban]">
+                                        id="shortanswer-input-min[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general][min_character_jawaban]">
                                 </div>
                             </div>`;
-
+                shortInput.remove();
+                singleDiv.remove();
+                mutipleDiv.remove();
+                paragraphDivs.remove();
+                gridcolumnDiv.remove();
+                zoneDiv.remove();
+                dropdownDiv.remove();
                 jawabanDivs.append(elementShortAnswer);
                 validationDivs.append(valiDation);
 
@@ -1235,49 +1276,56 @@
                 const elementParagraph = `  <div class="form-group inputtype" id="paragraph_input[${indexPage}][${indexCard}]">
                         <textarea class="form-control" readonly placeholder="Paragraf"></textarea>
                     </div>`;
+                shortInput.remove();
+                singleDiv.remove();
+                mutipleDiv.remove();
+                paragraphDivs.remove();
+                gridcolumnDiv.remove();
+                zoneDiv.remove();
+                dropdownDiv.remove();
                 jawabanDivs.append(elementParagraph);
 
             } else if (selectedElement.attr('class') === 'singlechoice') {
                 const elementSingleChoice = `  <div class="form-group inputtype radio-option-div" id="singlechoice_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan ganda dibawah ini <span class="text-danger">*</span> </p>
-                        <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][1]">
+                        <div class="radio-option singlechoice_option_div" id="singlechoice_option_div[${indexPage}][${indexCard}][0]">
                             <div class="d-flex align-items-center">
                                 <div class="px-2">
                                     <input class="form-check-input" type="radio">
                                 </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode" id="singlechoice-code[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][kode]">
+                                        <input type="text" class="form-control" placeholder="Kode" id="singlechoice-code[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan" id="singlechoice-label[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][label]">
+                                        <input type="text" class="form-control" placeholder="Pilihan" id="singlechoice-label[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][label]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai" id="singlechoice-value[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][value]">
+                                        <input type="text" class="form-control" placeholder="Nilai" id="singlechoice-value[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                                 <div class="form-check">
                                                     <input class="form-check-input singlechoice-addition " type="checkbox"
-                                                        id="singlechoice-addition[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][single][check_tambahan]">
+                                                        id="singlechoice-addition[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][check_tambahan]">
                                                     <label class="form-check-label" for="singlechoice-addition">
                                                         Text Tambahan
                                                     </label>
                                                 </div>
                                             </div>
-                                    <div class="col singlechoice-addition-div" id="singlechoice-addition-div[${indexPage}][${indexCard}][1]">
+                                    <div class="col singlechoice-addition-div" id="singlechoice-addition-div[${indexPage}][${indexCard}][0]">
                                         
                                     </div>
                                   
                                     <div class="col d-flex align-items-center">
                                         <div class="align-items-center">
-                                            <a class="btn btn-secondary btn-sm mx-1 collapsed" data-bs-toggle="collapse" href="#collapse[${indexPage}][${indexCard}][1]" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <a class="btn btn-secondary btn-sm mx-1 collapsed" data-bs-toggle="collapse" href="#collapse[${indexPage}][${indexCard}][0]" role="button" aria-expanded="false" aria-controls="collapseExample">
                                              Lainnya
                                             </a>
                                         </div>
-                                        <a class="btn btn-danger btn-sm mx-1 delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][1]" type="button">
+                                        <a class="btn btn-danger btn-sm mx-1 delete-radio-option" id="delete-radio-option[${indexPage}][${indexCard}][0]" type="button">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][1]" type="button">
+                                        <a class="btn btn-success btn-sm add-radio-option" id="add-radio-option[${indexPage}][${indexCard}][0]" type="button">
                                             Tambah
                                         </a>
                                     </div>
@@ -1287,12 +1335,12 @@
                             </div>
                             <div class="row mt-2 mb-2">
                                 <div class="col">
-                                    <div class="collapse" id="collapse[${indexPage}][${indexCard}][1]">
+                                    <div class="collapse" id="collapse[${indexPage}][${indexCard}][0]">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;" >
                                                     <div class="input-group-text text-black">Tampilkan Pertanyaan &nbsp; &nbsp;&nbsp;&nbsp;</div>
-                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][1]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
+                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][0]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
                                                        
                                                     </select>
                                                 </div>
@@ -1302,7 +1350,7 @@
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;">
                                                     <div class="input-group-text text-black">Sembunyikan Pertanyaan</div>
-                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][1]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
+                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][0]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
                                                         
                                                     </select>
                                                 </div>
@@ -1314,45 +1362,54 @@
 
                         </div>
                     </div>`;
-                jawabanDivs.append(elementSingleChoice);
+                shortInput.remove();
+                paragraphDivs.remove();
+                gridcolumnDiv.remove();
+                mutipleDiv.remove();
+                zoneDiv.remove();
+                dropdownDiv.remove();
+                if (singleDiv.length < 1) {
+                    jawabanDivs.append(elementSingleChoice);
+                }
+
             } else if (selectedElement.attr('class') === 'checkbox') {
                 const elementCheckBox = `<div class="form-group inputtype checkbox-option-div" id="mutiplechoice_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi kotak centang dibawah ini <span class="text-danger">*</span> </p>
-                <div class="checkbox-option mutiple_option_div" id="mutiple_option_div[${indexPage}][${indexCard}][1]">
+                <div class="checkbox-option mutiple_option_div" id="mutiple_option_div[${indexPage}][${indexCard}][0]">
                             <div class="d-flex align-items-center">
                                 <div class="px-2">
                                 <input class="form-check-input" type="checkbox">
                             </div>
                                 <div class="row no-gutters">
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Kode"  id="mutiplechoice-code[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][kode]">
+                                        <input type="text" class="form-control" placeholder="Kode"  id="mutiplechoice-code[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][kode]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Pilihan"  id="mutiplechoice-label[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][label]">
+                                        <input type="text" class="form-control" placeholder="Pilihan"  id="mutiplechoice-label[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][label]">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nilai"  id="mutiplechoice-value[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][value]">
+                                        <input type="text" class="form-control" placeholder="Nilai"  id="mutiplechoice-value[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][value]">
                                     </div>
                                     <div class="col d-flex align-items-center">
                                         <div class="form-check">
                                             <input class="form-check-input mutiplechoice-addition" type="checkbox"
-                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][1]" name="pertanyaan_general_option[${indexPage}][${indexCard}][1][mutiple][check_tambahan]">
+                                                id="mutiplechoice-addition[${indexPage}][${indexCard}][0]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general_option][0][check_tambahan]">
                                             <label class="form-check-label" for="mutiplechoice-addition">
                                                 Text Tambahan
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col mutiplechoice-addition-div" id="mutiplechoice-addition-div[${indexPage}][${indexCard}][1]">
+                                    <div class="col mutiplechoice-addition-div" id="mutiplechoice-addition-div[${indexPage}][${indexCard}][0]">
                                         </div>
                                      </div>
                                     <div class="col d-flex align-items-center">
                                         <a class="btn btn-white btn-sm  mx-1" type="button" style="visibility:hidden;">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][1]"  type="button">
+                                        <a class="btn btn-danger btn-sm  mx-1 delete-checkbox-option" id="delete-checkbox-option[${indexPage}][${indexCard}][0]"  type="button">
                                             Hapus
                                         </a>
-                                        <a class="btn btn-success btn-sm add-checkbox-option" id="add-checkbox-option[${indexPage}][${indexCard}][1]" type="button">
+                                        <a class="btn btn-success btn-sm add-checkbox-option" id="add-checkbox-option[${indexPage}][${indexCard}][0]" type="button">
                                             Tambah
                                         </a>
                                     </div>
@@ -1360,7 +1417,16 @@
                             </div>
                             </div>
                         </div>`;
-                jawabanDivs.append(elementCheckBox);
+                shortInput.remove();
+                paragraphDivs.remove();
+                gridcolumnDiv.remove();
+                zoneDiv.remove();
+                dropdownDiv.remove();
+                singleDiv.remove();
+                if (mutipleDiv.length < 1) {
+                    jawabanDivs.append(elementCheckBox);
+                }
+
             } else if (selectedElement.attr('class') === 'grid_option') {
                 const elementGrid = ` <div class="form-group inputtype" id="gridcolumn_div[${indexPage}][${indexCard}]">
                         <p> Silahkan isi opsi pilihan dibawah ini <span class="text-danger">*</span> </p>
@@ -1378,21 +1444,23 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-1 col-md-2 col-sm-2 py-3 text-center grid-number-container" id="grid-number-container[${indexPage}][${indexCard}]">
-                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="1" id="grid-number-div[${indexPage}][${indexCard}][1]">
+                                    <div class="row my-2 align-items-center grid-number-div" data-row-number="1" id="grid-number-div[${indexPage}][${indexCard}][0]">
                                         <p class="text-center grid-number"> 1 </p>
                                     </div>
-                                    <div class="row my-2 align-items-center grid-number-div" id="grid-number-div[${indexPage}][${indexCard}][1] data-row-number="2">
+                                    <div class="row my-2 align-items-center grid-number-div" id="grid-number-div[${indexPage}][${indexCard}][0] data-row-number="2">
                                         <p class="text-center grid-number"> 2 </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 grid-row-container" id="grid-row-container[${indexPage}][${indexCard}]">
-                                    <div class="row my-2 grid-row" id="grid-row[${indexPage}][${indexCard}][1]">
+                                    <div class="row my-2 grid-row" id="grid-row[${indexPage}][${indexCard}][0]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Label Baris 1">
-                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Nilai Baris 1">
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][0]"
+                                                    placeholder="Label Baris 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][label]">
+                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][0]"
+                                                    placeholder="Nilai Baris 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][value]">
+                                                    <input type="hidden" value="row" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][tipe_grid]">
+                                                    <input type="hidden" value="1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][urutan]">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" </svg>
@@ -1405,9 +1473,12 @@
                                         <div class="col-lg-12">
                                             <div class="input-group">
                                                 <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Label Baris 2">
-                                                <input type="text" class="form-control grid-row-input-value"  id="grid-row-input-value[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Nilai Baris 2">
+                                                    placeholder="Label Baris 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][label]">
+                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][1]"
+                                                    placeholder="Nilai Baris 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][value]">
+                                                    <input type="hidden" value="row" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][tipe_grid]">
+                                                    <input type="hidden" value="2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][urutan]">
+
                                                 <span class="input-group-text grid-delete-row" id="grid-delete-row[${indexPage}][${indexCard}][1]" >
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1426,13 +1497,16 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 grid-column-container" id="grid-column-container[${indexPage}][${indexCard}]">
-                                    <div class="row my-2 grid-column"  id="grid-column[${indexPage}][${indexCard}][1]">
+                                    <div class="row my-2 grid-column"  id="grid-column[${indexPage}][${indexCard}][0]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Label Kolom 1">
-                                                <input type="text" class="form-control grid-column-input-value" id="grid-column-input-value[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Nilai Kolom 1">
+                                                <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][0]"
+                                                    placeholder="Label Kolom 1"  name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][label]">
+                                                <input type="text" class="form-control grid-column-input-value" id="grid-column-input-value[${indexPage}][${indexCard}][0]"
+                                                    placeholder="Nilai Kolom 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][value]">
+                                                
+                                                    <input type="hidden" value="column" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][tipe_grid]">
+                                                    <input type="hidden" value="1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][urutan]">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" </svg>
@@ -1445,10 +1519,12 @@
                                         <div class="col-lg-12">
                                             <div class="input-group ">
                                                 <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Label Kolom 2">
+                                                    placeholder="Label Kolom 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][label]">
                                                 <input type="text" class="form-control grid-column-input-value"  id="grid-column-input-value[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Nilai Kolom 2">
-                                                <span class="input-group-text grid-delete-column" id="grid-delete-column[${indexPage}][${indexCard}][1]">
+                                                    placeholder="Nilai Kolom 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][value]">
+                                                    <input type="hidden" value="column" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][tipe_grid]">
+                                                    <input type="hidden" value="2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][urutan]">
+                                                    <span class="input-group-text grid-delete-column" id="grid-delete-column[${indexPage}][${indexCard}][1]">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1498,7 +1574,17 @@
                             </div>
                         </div>
                     </div>`;
-                jawabanDivs.append(elementGrid);
+
+                shortInput.remove();
+                paragraphDivs.remove();
+                mutipleDiv.remove();
+                singleDiv.remove();
+                zoneDiv.remove();
+                dropdownDiv.remove();
+                if (gridcolumnDiv.length < 1) {
+                    jawabanDivs.append(elementGrid);
+                }
+
             } else if (selectedElement.attr('class') === 'dropdown') {
                 const elementDropdown = `<div class="form-group inputtype" id="dropdown_div[${indexPage}][${indexCard}]">
                         <p> Silahkan pilih data pedia yang akan ditampilkan dibawah ini <span
@@ -1512,7 +1598,18 @@
                         <p class="input-information ml-1">Untuk melihat data pedia klik <a
                                 href="{{ route('datapedia.index') }}">disini</a></p>
                     </div>`;
-                jawabanDivs.append(elementDropdown);
+
+                shortInput.remove();
+                paragraphDivs.remove();
+                mutipleDiv.remove();
+                singleDiv.remove();
+                gridcolumnDiv.remove();
+                zoneDiv.remove();
+
+                if (dropdownDiv.length < 1) {
+                    jawabanDivs.append(elementDropdown);
+                }
+
             } else if (selectedElement.attr('class') === 'zone') {
                 const elementZone = `   <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
@@ -1537,7 +1634,17 @@
                             </div>
                         </div>
                     </div>`;
-                jawabanDivs.append(elementZone);
+
+                shortInput.remove();
+                paragraphDivs.remove();
+                mutipleDiv.remove();
+                singleDiv.remove();
+                dropdownDiv.remove();
+                gridcolumnDiv.remove();
+                if (zoneDiv.length < 1) {
+                    jawabanDivs.append(elementZone);
+                }
+
             } else {
                 console.log('error')
             }
@@ -1558,12 +1665,13 @@
         console.log(pageIndexs);
         const pattern = /\[(\d+)\]\[(\d+)\]/;
 
+
         cardElements.each(function(index) {
 
             const thisCardELements = $(this);
             const matches = thisCardELements.attr('id').match(pattern);
             const pageIndex = matches[1];
-            const cardIndex = parseInt(index + 1);
+            const cardIndex = parseInt(index);
 
             const iframeElement = $(this).find('iframe');
             if (iframeElement) {
@@ -1583,33 +1691,39 @@
                 const dataValidation = $(this).attr("data-validation");
                 const dataCard = $(this).attr("data-card");
                 const nameData = $(this).attr("name");
-                console.log("NAAMEDDDTA : " + nameData);
 
                 if (matches) {
-                    const newIdCard = id.replace(/\[(\d+)\]\[(\d+)]/,
+                    const newIdCard = id.replace(pattern,
                         `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('id', `${newIdCard}`);
                 }
                 if (dataInput && matches) {
-                    const newDataInputCard = dataInput.replace(/\[(\d+)\]\[(\d+)]/,
+                    const newDataInputCard = dataInput.replace(pattern,
                         `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-input', newDataInputCard);
                 }
                 if (dataValidation && matches) {
-                    const newDataInputVCard = dataValidation.replace(/\[(\d+)\]\[(\d+)]/,
+                    const newDataInputVCard = dataValidation.replace(pattern,
                         `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-validation', newDataInputVCard);
                 }
                 if (dataCard && matches) {
-                    const newDataInputCard = dataCard.replace(/\[(\d+)\]\[(\d+)]/,
+                    const newDataInputCard = dataCard.replace(pattern,
                         `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('data-card', newDataInputCard);
                 }
                 if (nameData && matches) {
-                    console.log("Namdecuy" + nameData);
-                    const newDataName = nameData.replace(/\[(\d+)\]\[(\d+)]/,
-                        `[${pageIndex}][${cardIndex}]`);
-                    $(this).attr('name', newDataName);
+                    const patternName = /\[(\d+)\]\[pertanyaan\]\[(\d+)\]/;
+                    const matchesName = nameData.match(patternName)
+                    console.log(matchesName)
+                    if (matchesName) {
+                        const newDataName = nameData.replace(patternName,
+                            `[${pageIndex}][pertanyaan][${cardIndex}]`);
+                        console.log("INDES" + cardIndex);
+                        console.log("NEW DATA" + newDataName);
+                        $(this).attr('name', newDataName);
+                    }
+
                 }
             });
         });
@@ -1808,7 +1922,7 @@
 
                 <div class="form-group col-sm-10">
                     <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
-                    <textarea class="form-control pertanyaan-textarea" name="pertanyaan[${indexPage}][${indexCard}][pertanyaan]" placeholder="Isi Pertanyaan" 
+                    <textarea class="form-control pertanyaan-textarea" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan]" placeholder="Isi Pertanyaan" 
                         id="pertanyaan[${indexPage}][${indexCard}]"></textarea>
                 </div>
 
@@ -1816,13 +1930,13 @@
                     <div class="form-group">
                         <label class="form-label text-black">Kode Pertanyaan <span
                                 class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Kode Pertanyaan" required maxlength="15" id="kode_soal[${indexPage}][${indexCard}]" name="pertanyaan[${indexPage}][${indexCard}][kode_soal]">
+                        <input type="text" class="form-control" placeholder="Kode Pertanyaan" required maxlength="15" id="kode_soal[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][kode_soal]">
                     </div>
 
                     <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${indexPage}][${indexCard}]">
                         <label class="form-label text-black">Tipe Pertanyaan<span class="text-danger">*</span></label>
-                        <select class="form-select type-jawaban-select" aria-label="Actions"
-                            id="selectTypeJawaban[${indexPage}][${indexCard}]" name="pertanyaan[${indexPage}][${indexCard}][tipe_pertanyaan]">
+                        <select class="form-select type-jawaban-select" aria-label="Actions" data-placeholder="Pilih Tipe"
+                            id="selectTypeJawaban[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][tipe_pertanyaan]">
 
                             <option value="general" class="shortanswer" id="shortanswer_type[${indexPage}][${indexCard}]"
                                 data-input="shortanswer_input[${indexPage}][${indexCard}]"
@@ -1936,7 +2050,7 @@
                         </a>
                         <hr class="hr-vertial">
                         <div class="form-check form-switch mx-2">
-                            <input class="form-check-input" type="checkbox" id="wajibdiisi[${indexPage}][${indexCard}]" name="pertanyaan[${indexPage}][${indexCard}][wajib_diisi]">
+                            <input class="form-check-input" type="checkbox" id="wajibdiisi[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][wajib_dijawab]">
                             <label class="form-check-label text-black">Wajib
                                 Diisi</label>
                         </div>

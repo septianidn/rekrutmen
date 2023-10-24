@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TypePertanyaanEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +27,10 @@ class Pertanyaan extends Model
         
     ];
 
+    protected $enumCasts = [
+        'tipe_pertanyaan' => TypePertanyaanEnum::class,
+    ];
+
   
     public function halamanPertanyaan()
     {
@@ -35,6 +40,16 @@ class Pertanyaan extends Model
     public function pertanyaanGeneral()
     {
         return $this->hasOne(PertanyaanGeneral::class, 'pertanyaan_id');
+    }
+
+    public function pertanyaanGeneralOption()
+    {
+        return $this->hasMany(PertanyaanGeneralOption::class, 'pertanyaan_id');
+    }
+
+    public function pertanyaanGridOption()
+    {
+        return $this->hasMany(PertanyaanGridOption::class, 'pertanyaan_id');
     }
     
 

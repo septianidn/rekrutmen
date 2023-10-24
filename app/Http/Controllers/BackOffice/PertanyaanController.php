@@ -51,36 +51,37 @@ class PertanyaanController extends Controller
     {
         $data = $request->all();
 
-        foreach ($data['halaman_pertanyaan'] as $urutan => $namaHalaman) {
-            $halamanPertanyaan = HalamanPertanyaan::create([
-                'urutan' => $urutan,
-                'nama_halaman' => $namaHalaman,
-                'paket_soal_id' => $idPaketSoal
-            ]);
+        dd($data);
+        // foreach ($data['halaman_pertanyaan'] as $urutan => $namaHalaman) {
+        //     $halamanPertanyaan = HalamanPertanyaan::create([
+        //         'urutan' => $urutan,
+        //         'nama_halaman' => $namaHalaman,
+        //         'paket_soal_id' => $idPaketSoal
+        //     ]);
     
-            // Iterate over the corresponding "pertanyaan" array
-            foreach ($data['pertanyaan'][$urutan] as $urutanPertanyaan => $pertanyaanData) {
-                $pertanyaan = Pertanyaan::create([
-                    'urutan' => $urutanPertanyaan,
-                    'halaman_id' => $halamanPertanyaan->id,
-                    'pertanyaan' => $pertanyaanData['pertanyaan'],
-                    'kode_soal' => $pertanyaanData['kode_soal'],
-                    'tipe_pertanyaan' => $pertanyaanData['tipe_pertanyaan'],
-                ]);
+        //     // Iterate over the corresponding "pertanyaan" array
+        //     foreach ($data['pertanyaan'][$urutan] as $urutanPertanyaan => $pertanyaanData) {
+        //         $pertanyaan = Pertanyaan::create([
+        //             'urutan' => $urutanPertanyaan,
+        //             'halaman_id' => $halamanPertanyaan->id,
+        //             'pertanyaan' => $pertanyaanData['pertanyaan'],
+        //             'kode_soal' => $pertanyaanData['kode_soal'],
+        //             'tipe_pertanyaan' => $pertanyaanData['tipe_pertanyaan'],
+        //         ]);
     
-                // Check if "pertanyaan_general" exists and insert it
-                if (isset($data['pertanyaan_general'][$urutanPertanyaan])) {
-                    $pertanyaanGeneralData = $data['pertanyaan_general'][$urutanPertanyaan][1];
+        //         // Check if "pertanyaan_general" exists and insert it
+        //         if (isset($data['pertanyaan_general'][$urutanPertanyaan])) {
+        //             $pertanyaanGeneralData = $data['pertanyaan_general'][$urutanPertanyaan][1];
     
-                    PertanyaanGeneral::create([
-                        'pertanyaan_id' => $pertanyaan->id,
-                        'tipe_pertanyaan_general' => $pertanyaanGeneralData['tipe_pertanyaan_general'],
-                        'max_character_jawaban' => $pertanyaanGeneralData['max_character_jawaban'],
-                        'min_character_jawaban' => $pertanyaanGeneralData['min_character_jawaban'],
-                    ]);
-                }
-            }
-        }
+        //             PertanyaanGeneral::create([
+        //                 'pertanyaan_id' => $pertanyaan->id,
+        //                 'tipe_pertanyaan_general' => $pertanyaanGeneralData['tipe_pertanyaan_general'],
+        //                 'max_character_jawaban' => $pertanyaanGeneralData['max_character_jawaban'],
+        //                 'min_character_jawaban' => $pertanyaanGeneralData['min_character_jawaban'],
+        //             ]);
+        //         }
+        //     }
+        // }
     
 
         return redirect()->route('paket-soal.index')->withSuccess(__('message.pertanyaan_msg_added',['name' => __('paket-soal.store')]));
@@ -92,11 +93,11 @@ class PertanyaanController extends Controller
     {
         $assets = ['animation'];
 
-        $data = HalamanPertanyaan::with('pertanyaan.pertanyaanGeneral')
+        $data = HalamanPertanyaan::with('pertanyaan.pertanyaanGeneral', 'pertanyaan.pertanyaanGeneralOption', 'pertanyaan.pertanyaanGridOption')
         ->where('paket_soal_id', $idPaketSoal)
         ->get()->toArray(); 
 
-        // dd($data);
+        dd($data);
         if (request()->ajax()) {
             return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','data', 'assets'))->render();
         }
