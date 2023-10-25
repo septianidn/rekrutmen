@@ -16,8 +16,10 @@
         {!! Form::open([
             'route' => ['pertanyaan.store', $idPaketSoal],
             'method' => 'post',
+            'id' => 'formSoal',
             'enctype' => 'multipart/form-data',
         ]) !!}
+        @csrf
         {{-- @endif --}}
         <div class="row">
             <div class="col-sm-12 col-lg-12">
@@ -65,6 +67,8 @@
     $(document).ready(function() {
 
 
+
+
         let currentPage = 1;
         const maxPages = 10;
 
@@ -78,7 +82,9 @@
             const width = container.width();
             container.css("transform", `translateX(-${(page) * width}px)`);
             $(`#page-navigation\\[${page}\\]`).addClass("active");
+            inputPageTitle();
             initializeCard();
+
         }
 
 
@@ -186,44 +192,45 @@
             }
         });
         $(document).off('click', '.delete-and-previous');
-        $(document).on('click', '.delete-and-previous', function() {
+        $(document).on('click', '.delete-and-previous',
+            function() {
 
-            const activeElementNavPageIdToDelete = getActiveElementId();
-            if (activeElementNavPageIdToDelete !== null) {
-                console.log(activeElementNavPageIdToDelete);
-                const pageNameValue = $(`#nama_halaman\\[${activeElementNavPageIdToDelete}\\]`).val();
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-danger mx-2',
-                        cancelButton: 'btn btn-success',
-                        popup: 'rounded'
-                    },
-                    buttonsStyling: false,
-                    showClass: {
-                        popup: 'animate__animated animate__zoomIn animate__faster',
+                const activeElementNavPageIdToDelete = getActiveElementId();
+                if (activeElementNavPageIdToDelete !== null) {
+                    console.log(activeElementNavPageIdToDelete);
+                    const pageNameValue = $(`#nama_halaman\\[${activeElementNavPageIdToDelete}\\]`).val();
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-danger mx-2',
+                            cancelButton: 'btn btn-success',
+                            popup: 'rounded'
+                        },
+                        buttonsStyling: false,
+                        showClass: {
+                            popup: 'animate__animated animate__zoomIn animate__faster',
 
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__zoomOut animate__faster',
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__zoomOut animate__faster',
 
-                    }
-                })
-                swalWithBootstrapButtons.fire({
-                    title: `Hapus Halaman ${pageNameValue}?`,
-                    text: "Anda tidak akan dapat mengembalikan halaman ini!!",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal',
-                }).then(function(result) {
-                    if (result.isConfirmed) {
-                        deletePage(activeElementNavPageIdToDelete);
+                        }
+                    })
+                    swalWithBootstrapButtons.fire({
+                        title: `Hapus Halaman ${pageNameValue}?`,
+                        text: "Anda tidak akan dapat mengembalikan halaman ini!!",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal',
+                    }).then(function(result) {
+                        if (result.isConfirmed) {
+                            deletePage(activeElementNavPageIdToDelete);
 
-                    }
-                });
+                        }
+                    });
 
-            }
-        });
+                }
+            });
 
 
         $(document).on('click', '.navigation-page', function() {
@@ -250,7 +257,7 @@
                     `data[${index}][urutan]`);
                 $(this).find('input[id^="urutan\\["]').attr('value',
                     parseInt(index) + 1);
-                $(this).find('input[id^="nama_halaman\\["]').val(`Halaman ` + (index+1));
+                $(this).find('input[id^="nama_halaman\\["]').val(`Halaman ` + (index + 1));
                 $(this).addClass("padding-10");
 
                 $(this).find(
@@ -1827,7 +1834,7 @@
             });
         });
 
-
+        listenerCard();
 
     }
 
@@ -1999,10 +2006,18 @@
     `
     }
 
-    function generateCard(indexPage, indexCard) {
-        return `
 
-   
+
+
+
+
+    function generateCard(indexPage, indexCard) {
+        @php
+
+            $indexPage = 0;
+            $indexCard = 0;
+        @endphp
+        return `   
     <div class="card card-soal" data-aos="fade-down"  data-aos-delay="500" data-page="${indexPage}" data-id="${indexCard}" id="card-soal[${indexPage}][${indexCard}]">
         <div class="d-flex justify-content-center align-items-center drag-icon" id="drag-icon[${indexPage}][${indexCard}]">
             <svg width="25px" height="20px" viewBox="0 0 15 15" fill="none"
@@ -2011,45 +2026,62 @@
                 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                     <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M1.5 5.5C1.5 4.94772 1.94772 4.5 2.5 4.5C3.05228 4.5 3.5 4.94772 3.5 5.5C3.5 6.05228 3.05228 6.5 2.5 6.5C1.94772 6.5 1.5 6.05228 1.5 5.5ZM6.5 5.5C6.5 4.94772 6.94772 4.5 7.5 4.5C8.05228 4.5 8.5 4.94772 8.5 5.5C8.5 6.05228 8.05228 6.5 7.5 6.5C6.94772 6.5 6.5 6.05228 6.5 5.5ZM11.5 5.5C11.5 4.94772 11.9477 4.5 12.5 4.5C13.0523 4.5 13.5 4.94772 13.5 5.5C13.5 6.05228 13.0523 6.5 12.5 6.5C11.9477 6.5 11.5 6.05228 11.5 5.5ZM1.5 9.5C1.5 8.94772 1.94772 8.5 2.5 8.5C3.05228 8.5 3.5 8.94772 3.5 9.5C3.5 10.0523 3.05228 10.5 2.5 10.5C1.94772 10.5 1.5 10.0523 1.5 9.5ZM6.5 9.5C6.5 8.94772 6.94772 8.5 7.5 8.5C8.05228 8.5 8.5 8.94772 8.5 9.5C8.5 10.0523 8.05228 10.5 7.5 10.5C6.94772 10.5 6.5 10.0523 6.5 9.5ZM11.5 9.5C11.5 8.94772 11.9477 8.5 12.5 8.5C13.0523 8.5 13.5 8.94772 13.5 9.5C13.5 10.0523 13.0523 10.5 12.5 10.5C11.9477 10.5 11.5 10.0523 11.5 9.5Z"
-                        fill="#d1d2d1"></path>
-                </g>
-            </svg>
-        </div>
-        <div class="card-body">
-            <div class="row">
+                        d=" M1.5 5.5C1.5 4.94772 1.94772 4.5 2.5 4.5C3.05228 4.5 3.5 4.94772 3.5 5.5C3.5 6.05228
+                    3.05228 6.5 2.5 6.5C1.94772 6.5 1.5 6.05228 1.5 5.5ZM6.5 5.5C6.5 4.94772 6.94772 4.5 7.5 4.5C8.05228
+                    4.5 8.5 4.94772 8.5 5.5C8.5 6.05228 8.05228 6.5 7.5 6.5C6.94772 6.5 6.5 6.05228 6.5 5.5ZM11.5
+                    5.5C11.5 4.94772 11.9477 4.5 12.5 4.5C13.0523 4.5 13.5 4.94772 13.5 5.5C13.5 6.05228 13.0523 6.5
+                    12.5 6.5C11.9477 6.5 11.5 6.05228 11.5 5.5ZM1.5 9.5C1.5 8.94772 1.94772 8.5 2.5 8.5C3.05228 8.5 3.5
+                    8.94772 3.5 9.5C3.5 10.0523 3.05228 10.5 2.5 10.5C1.94772 10.5 1.5 10.0523 1.5 9.5ZM6.5 9.5C6.5
+                    8.94772 6.94772 8.5 7.5 8.5C8.05228 8.5 8.5 8.94772 8.5 9.5C8.5 10.0523 8.05228 10.5 7.5
+                    10.5C6.94772 10.5 6.5 10.0523 6.5 9.5ZM11.5 9.5C11.5 8.94772 11.9477 8.5 12.5 8.5C13.0523 8.5 13.5
+                    8.94772 13.5 9.5C13.5 10.0523 13.0523 10.5 12.5 10.5C11.9477 10.5 11.5 10.0523 11.5 9.5Z"
+                    fill="#d1d2d1"></path>
+                    </g>
+                    </svg>
+            </div>
+            <div class="card-body">
+                <div class="row">
 
-                <div class="form-group col-sm-10">
-                    <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
-                    <textarea class="form-control pertanyaan-textarea" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan]" placeholder="Isi Pertanyaan" 
-                        id="pertanyaan[${indexPage}][${indexCard}]"></textarea>
-                        <input type="hidden" class="urutan-card" name="data[${indexPage}][pertanyaan][${indexCard}][urutan]" value="${indexCard+1}"
-                        id="urutan-card[${indexPage}][${indexCard}]">
-                </div>
-
-                <div class="col-sm-2 col-lg-2">
-                    <div class="form-group">
-                        <label class="form-label text-black">Kode Pertanyaan <span
-                                class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Kode Pertanyaan" required maxlength="15" id="kode_soal[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][kode_soal]">
+                    <div class="form-group col-sm-10">
+                        <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
+                        <textarea class="form-control pertanyaan-textarea" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan]"
+                            placeholder="Isi Pertanyaan" id="pertanyaan[${indexPage}][${indexCard}]"></textarea>
+                        <input type="hidden" class="urutan-card"
+                            name="data[${indexPage}][pertanyaan][${indexCard}][urutan]" value="${indexCard+1}"
+                            id="urutan-card[${indexPage}][${indexCard}]">
                     </div>
 
-                    <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${indexPage}][${indexCard}]">
-                        <label class="form-label text-black">Tipe Pertanyaan<span class="text-danger">*</span></label>
-                        <select class="form-select type-jawaban-select" aria-label="Actions" data-placeholder="Pilih Tipe"
-                            id="selectTypeJawaban[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][tipe_pertanyaan]">
+                    <div class="col-sm-2 col-lg-2">
+                        <div class="form-group">
+                            <label class="form-label text-black">Kode Pertanyaan <span
+                                    class="text-danger">*</span></label>
 
-                            <option value="general" class="shortanswer" id="shortanswer_type[${indexPage}][${indexCard}]"
-                                data-input="shortanswer_input[${indexPage}][${indexCard}]"
-                                data-validation="shortanswer_validation_div[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <input type="text" class="form-control" placeholder="Kode Pertanyaan" required
+                                maxlength="15" id="kode_soal[${indexPage}][${indexCard}]"
+                                name="data[${indexPage}][pertanyaan][${indexCard}][kode_soal]"
+                                value="{{ old('data.$indexPage.pertanyaan.$indexCard.kode_soal') }}">
+                        </div>
+
+                        <div class="selectTypeJawaban_div" id="selectTypeJawaban_div[${indexPage}][${indexCard}]">
+                            <label class="form-label text-black">Tipe Pertanyaan<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select type-jawaban-select" aria-label="Actions"
+                                data-placeholder="Pilih Tipe" id="selectTypeJawaban[${indexPage}][${indexCard}]"
+                                name="data[${indexPage}][pertanyaan][${indexCard}][tipe_pertanyaan]">
+
+                                <option value="general" class="shortanswer"
+                                    id="shortanswer_type[${indexPage}][${indexCard}]"
+                                    data-input="shortanswer_input[${indexPage}][${indexCard}]"
+                                    data-validation="shortanswer_validation_div[${indexPage}][${indexCard}]"
+                                    data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M3 10H21M3 14H12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                         </svg>'>
-                                Jawaban Singkat
-                            </option>
-                            <option value="general" class="paragraph" id="paragraph_type[${indexPage}][${indexCard}]"
-                                data-input="paragraph_input[${indexPage}][${indexCard}]"
-                                data-image='<svg width="15px" height="15px" viewBox="0 0 24 28" version="1.1" xmlns="http://www.w3.org/2000/svg" 
+                                    Jawaban Singkat
+                                </option>
+                                <option value="general" class="paragraph"
+                                    id="paragraph_type[${indexPage}][${indexCard}]"
+                                    data-input="paragraph_input[${indexPage}][${indexCard}]"
+                                    data-image='<svg width="15px" height="15px" viewBox="0 0 24 28" version="1.1" xmlns="http://www.w3.org/2000/svg" 
                                                         <title>align-left</title>
                                                         <desc>Created with Sketch Beta.</desc>
                                                         <defs>
@@ -2061,141 +2093,151 @@
                                                         </g>
                                                         </g>
                                                         </svg>'>
-                                Paragraf
-                            </option>
-                            <option value="single" class="singlechoice" id="singlechoice_type[${indexPage}][${indexCard}]"
-                                data-input="singlechoice_div[${indexPage}][${indexCard}]"
-                                data-input="paragraph_input"data-image='<svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                <circle cx="12" cy="12" r="7.5" stroke="currentColor"></circle>                            </svg>                        '>
-                                Pilihan Ganda (Radio Button)
-                            </option>
-                            <option value="mutiple" class="checkbox" id="checkbox_type[${indexPage}][${indexCard}]"
-                                data-input="checkbox_div[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56499 12.4068C4.29258 12.0947 3.81879 12.0626 3.50676 12.335C3.19472 12.6074 3.1626 13.0812 3.43501 13.3932L4.56499 12.4068ZM7.14286 16.5L6.57787 16.9932C6.7203 17.1564 6.92629 17.25 7.14286 17.25C7.35942 17.25 7.56542 17.1564 7.70784 16.9932L7.14286 16.5ZM15.565 7.99324C15.8374 7.68121 15.8053 7.20742 15.4932 6.93501C15.1812 6.6626 14.7074 6.69472 14.435 7.00676L15.565 7.99324ZM10.5064 11.5068C10.234 11.8188 10.2662 12.2926 10.5782 12.565C10.8902 12.8374 11.364 12.8053 11.6364 12.4932L10.5064 11.5068ZM9.67213 14.7432C9.94454 14.4312 9.91242 13.9574 9.60039 13.685C9.28835 13.4126 8.81457 13.4447 8.54215 13.7568L9.67213 14.7432ZM3.43501 13.3932L6.57787 16.9932L7.70784 16.0068L4.56499 12.4068L3.43501 13.3932ZM7.70784 16.9932L9.67213 14.7432L8.54215 13.7568L6.57787 16.0068L7.70784 16.9932ZM11.6364 12.4932L13.6007 10.2432L12.4707 9.25676L10.5064 11.5068L11.6364 12.4932ZM13.6007 10.2432L15.565 7.99324L14.435 7.00676L12.4707 9.25676L13.6007 10.2432Z" fill="#000000"></path> <path d="M20.0002 7.5625L15.7144 12.0625M11.0002 16L11.4286 16.5625L13.5715 14.3125" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
-                                Kotak Centang (Checkbox)
-                            </option>
-                            <option value="dropdown" class="dropdown" id="dropdown_type[${indexPage}][${indexCard}]"
-                                data-input="dropdown_div[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z" stroke="#000000" stroke-width="1.224" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
-                                List Pilihan (Dropdown)
-                            </option>
-                            <option value="grid_option" class="grid_option" id="gridcolumn_type[${indexPage}][${indexCard}]"
-                                data-input="gridcolumn_div[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.75 3C3.88235 3 3 3.88235 3 6.75C3 9.61765 3.88235 10.5 6.75 10.5C9.61765 10.5 10.5 9.61765 10.5 6.75C10.5 3.88235 9.61765 3 6.75 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6.75 13.5C3.88235 13.5 3 14.3824 3 17.25C3 20.1176 3.88235 21 6.75 21C9.61765 21 10.5 20.1176 10.5 17.25C10.5 14.3824 9.61765 13.5 6.75 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 13.5C14.3824 13.5 13.5 14.3824 13.5 17.25C13.5 20.1176 14.3824 21 17.25 21C20.1176 21 21 20.1176 21 17.25C21 14.3824 20.1176 13.5 17.25 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 3C14.3824 3 13.5 3.88235 13.5 6.75C13.5 9.61765 14.3824 10.5 17.25 10.5C20.1176 10.5 21 9.61765 21 6.75C21 3.88235 20.1176 3 17.25 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
-                                Petak Pilihan Ganda
-                            </option>
-                            <option value="zone" class="zone" id="zona[${indexPage}][${indexCard}]" data-input="zona_div[${indexPage}][${indexCard}]"
-                                data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
-                                Zona
-                            </option>
-                          
-                        </select>
-                        <div class="form-group inputtype shortanswer-validation-div"
-                            id="shortanswer_validation_div[${indexPage}][${indexCard}]">
-                          
+                                    Paragraf
+                                </option>
+                                <option value="single" class="singlechoice"
+                                    id="singlechoice_type[${indexPage}][${indexCard}]"
+                                    data-input="singlechoice_div[${indexPage}][${indexCard}]"
+                                    data-input="paragraph_input"data-image='<svg xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">                                <circle cx="12" cy="12" r="7.5" stroke="currentColor"></circle>                            </svg>                        '>
+                                    Pilihan Ganda (Radio Button)
+                                </option>
+                                <option value="mutiple" class="checkbox"
+                                    id="checkbox_type[${indexPage}][${indexCard}]"
+                                    data-input="checkbox_div[${indexPage}][${indexCard}]"
+                                    data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56499 12.4068C4.29258 12.0947 3.81879 12.0626 3.50676 12.335C3.19472 12.6074 3.1626 13.0812 3.43501 13.3932L4.56499 12.4068ZM7.14286 16.5L6.57787 16.9932C6.7203 17.1564 6.92629 17.25 7.14286 17.25C7.35942 17.25 7.56542 17.1564 7.70784 16.9932L7.14286 16.5ZM15.565 7.99324C15.8374 7.68121 15.8053 7.20742 15.4932 6.93501C15.1812 6.6626 14.7074 6.69472 14.435 7.00676L15.565 7.99324ZM10.5064 11.5068C10.234 11.8188 10.2662 12.2926 10.5782 12.565C10.8902 12.8374 11.364 12.8053 11.6364 12.4932L10.5064 11.5068ZM9.67213 14.7432C9.94454 14.4312 9.91242 13.9574 9.60039 13.685C9.28835 13.4126 8.81457 13.4447 8.54215 13.7568L9.67213 14.7432ZM3.43501 13.3932L6.57787 16.9932L7.70784 16.0068L4.56499 12.4068L3.43501 13.3932ZM7.70784 16.9932L9.67213 14.7432L8.54215 13.7568L6.57787 16.0068L7.70784 16.9932ZM11.6364 12.4932L13.6007 10.2432L12.4707 9.25676L10.5064 11.5068L11.6364 12.4932ZM13.6007 10.2432L15.565 7.99324L14.435 7.00676L12.4707 9.25676L13.6007 10.2432Z" fill="#000000"></path> <path d="M20.0002 7.5625L15.7144 12.0625M11.0002 16L11.4286 16.5625L13.5715 14.3125" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
+                                    Kotak Centang (Checkbox)
+                                </option>
+                                <option value="dropdown" class="dropdown"
+                                    id="dropdown_type[${indexPage}][${indexCard}]"
+                                    data-input="dropdown_div[${indexPage}][${indexCard}]"
+                                    data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 6.00067L21 6.00139M8 12.0007L21 12.0015M8 18.0007L21 18.0015M3.5 6H3.51M3.5 12H3.51M3.5 18H3.51M4 6C4 6.27614 3.77614 6.5 3.5 6.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5C3.77614 5.5 4 5.72386 4 6ZM4 12C4 12.2761 3.77614 12.5 3.5 12.5C3.22386 12.5 3 12.2761 3 12C3 11.7239 3.22386 11.5 3.5 11.5C3.77614 11.5 4 11.7239 4 12ZM4 18C4 18.2761 3.77614 18.5 3.5 18.5C3.22386 18.5 3 18.2761 3 18C3 17.7239 3.22386 17.5 3.5 17.5C3.77614 17.5 4 17.7239 4 18Z" stroke="#000000" stroke-width="1.224" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
+                                    List Pilihan (Dropdown)
+                                </option>
+                                <option value="grid_option" class="grid_option"
+                                    id="gridcolumn_type[${indexPage}][${indexCard}]"
+                                    data-input="gridcolumn_div[${indexPage}][${indexCard}]"
+                                    data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.75 3C3.88235 3 3 3.88235 3 6.75C3 9.61765 3.88235 10.5 6.75 10.5C9.61765 10.5 10.5 9.61765 10.5 6.75C10.5 3.88235 9.61765 3 6.75 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6.75 13.5C3.88235 13.5 3 14.3824 3 17.25C3 20.1176 3.88235 21 6.75 21C9.61765 21 10.5 20.1176 10.5 17.25C10.5 14.3824 9.61765 13.5 6.75 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 13.5C14.3824 13.5 13.5 14.3824 13.5 17.25C13.5 20.1176 14.3824 21 17.25 21C20.1176 21 21 20.1176 21 17.25C21 14.3824 20.1176 13.5 17.25 13.5Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M17.25 3C14.3824 3 13.5 3.88235 13.5 6.75C13.5 9.61765 14.3824 10.5 17.25 10.5C20.1176 10.5 21 9.61765 21 6.75C21 3.88235 20.1176 3 17.25 3Z" stroke="#000000" stroke-width="1.152" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'>
+                                    Petak Pilihan Ganda
+                                </option>
+                                <option value="zone" class="zone" id="zona[${indexPage}][${indexCard}]"
+                                    data-input="zona_div[${indexPage}][${indexCard}]"
+                                    data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
+                                    Zona
+                                </option>
+
+                            </select>
+                            <div class="form-group inputtype shortanswer-validation-div"
+                                id="shortanswer_validation_div[${indexPage}][${indexCard}]">
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-10 ">
-                    <label class="form-label text-black">Jawaban</label>
+                <div class="row">
+                    <div class="col-lg-10 ">
+                        <label class="form-label text-black">Jawaban</label>
 
-                    <div class="jawaban_div" id="jawaban-div[${indexPage}][${indexCard}]">
+                        <div class="jawaban_div" id="jawaban-div[${indexPage}][${indexCard}]">
                         </div>
-                   
 
+
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="d-flex float-end">
-                        <a class="mx-1 delete_card" type="button" id="delete_card[${indexPage}][${indexCard}]">
-                            <svg width="21" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                    stroke="#009A4B" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path d="M20.708 6.23975H3.75" stroke="#009A4B" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path
-                                    d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                    stroke="#009A4B" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                            </svg>
-                        </a>
-                        <a class="mx-2 duplicate_card" type="button" id="duplicate_card[${indexPage}][${indexCard}]">
-                            <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#009A4B"
-                                stroke="#009A4B">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <title>duplicate</title>
-                                    <desc>Created with Sketch Beta.</desc>
-                                    <defs> </defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd" sketch:type="MSPage">
-                                        <g id="Icon-Set" sketch:type="MSLayerGroup"
-                                            transform="translate(-204.000000, -931.000000)" fill="#009A4B">
-                                            <path
-                                                d="M234,951 C234,952.104 233.104,953 232,953 L216,953 C214.896,953 214,952.104 214,951 L214,935 C214,933.896 214.896,933 216,933 L232,933 C233.104,933 234,933.896 234,935 L234,951 L234,951 Z M232,931 L216,931 C213.791,931 212,932.791 212,935 L212,951 C212,953.209 213.791,955 216,955 L232,955 C234.209,955 236,953.209 236,951 L236,935 C236,932.791 234.209,931 232,931 L232,931 Z M226,959 C226,960.104 225.104,961 224,961 L208,961 C206.896,961 206,960.104 206,959 L206,943 C206,941.896 206.896,941 208,941 L210,941 L210,939 L208,939 C205.791,939 204,940.791 204,943 L204,959 C204,961.209 205.791,963 208,963 L224,963 C226.209,963 228,961.209 228,959 L228,957 L226,957 L226,959 L226,959 Z"
-                                                id="duplicate" sketch:type="MSShapeGroup"> </path>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="d-flex float-end">
+                            <a class="mx-1 delete_card" type="button" id="delete_card[${indexPage}][${indexCard}]">
+                                <svg width="21" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                        stroke="#009A4B" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <path d="M20.708 6.23975H3.75" stroke="#009A4B" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path
+                                        d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                        stroke="#009A4B" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
+                            <a class="mx-2 duplicate_card" type="button"
+                                id="duplicate_card[${indexPage}][${indexCard}]">
+                                <svg width="20px" height="20px" viewBox="0 0 32 32" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#009A4B"
+                                    stroke="#009A4B">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <title>duplicate</title>
+                                        <desc>Created with Sketch Beta.</desc>
+                                        <defs> </defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none"
+                                            fill-rule="evenodd" sketch:type="MSPage">
+                                            <g id="Icon-Set" sketch:type="MSLayerGroup"
+                                                transform="translate(-204.000000, -931.000000)" fill="#009A4B">
+                                                <path
+                                                    d="M234,951 C234,952.104 233.104,953 232,953 L216,953 C214.896,953 214,952.104 214,951 L214,935 C214,933.896 214.896,933 216,933 L232,933 C233.104,933 234,933.896 234,935 L234,951 L234,951 Z M232,931 L216,931 C213.791,931 212,932.791 212,935 L212,951 C212,953.209 213.791,955 216,955 L232,955 C234.209,955 236,953.209 236,951 L236,935 C236,932.791 234.209,931 232,931 L232,931 Z M226,959 C226,960.104 225.104,961 224,961 L208,961 C206.896,961 206,960.104 206,959 L206,943 C206,941.896 206.896,941 208,941 L210,941 L210,939 L208,939 C205.791,939 204,940.791 204,943 L204,959 C204,961.209 205.791,963 208,963 L224,963 C226.209,963 228,961.209 228,959 L228,957 L226,957 L226,959 L226,959 Z"
+                                                    id="duplicate" sketch:type="MSShapeGroup"> </path>
+                                            </g>
                                         </g>
                                     </g>
-                                </g>
-                            </svg>
-                        </a>
-                        <hr class="hr-vertial">
-                        <div class="form-check form-switch mx-2">
-                            <input class="form-check-input" type="checkbox" id="wajibdiisi[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][wajib_dijawab]">
-                            <label class="form-check-label text-black">Wajib
-                                Diisi</label>
-                        </div>
-                        <div class="dropup mx-2 more_dropdown">
-                            <a class="px-2" type="button" id="dropdownMenu[${indexPage}][${indexCard}]" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <span class="fa-solid fa-ellipsis-vertical" style="color: #009a4b;"></span>
+                                </svg>
                             </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a class="dropdown-item add_heading" id="add_heading[${indexPage}][${indexCard}]" type="button"><svg
-                                            fill="#009a4b" width="20px" height="20px" viewBox="0 0 24.00 24.00"
-                                            xmlns="http://www.w3.org/2000/svg" stroke="#009a4b"
-                                            stroke-width="0.00024000000000000003">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                    d="M17,11 L17,6 L15.5,6 C15.2238576,6 15,5.77614237 15,5.5 C15,5.22385763 15.2238576,5 15.5,5 L19.5,5 C19.7761424,5 20,5.22385763 20,5.5 C20,5.77614237 19.7761424,6 19.5,6 L18,6 L18,18 L19.5,18 C19.7761424,18 20,18.2238576 20,18.5 C20,18.7761424 19.7761424,19 19.5,19 L15.5,19 C15.2238576,19 15,18.7761424 15,18.5 C15,18.2238576 15.2238576,18 15.5,18 L17,18 L17,12 L7,12 L7,18 L8.5,18 C8.77614237,18 9,18.2238576 9,18.5 C9,18.7761424 8.77614237,19 8.5,19 L4.5,19 C4.22385763,19 4,18.7761424 4,18.5 C4,18.2238576 4.22385763,18 4.5,18 L6,18 L6,6 L4.5,6 C4.22385763,6 4,5.77614237 4,5.5 C4,5.22385763 4.22385763,5 4.5,5 L8.5,5 C8.77614237,5 9,5.22385763 9,5.5 C9,5.77614237 8.77614237,6 8.5,6 L7,6 L7,11 L17,11 Z">
-                                                </path>
-                                            </g>
-                                        </svg> Tambah Judul</a></li>
-                                <li><a class="dropdown-item add_pertanyaan" id="add_pertanyaan[${indexPage}][${indexCard}]"
-                                        type="button"><svg width="18px" height="18px" viewBox="0 0 24 24"
-                                            fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"
-                                            stroke-width="0.00024000000000000003">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 13.3353 11.1354C13.1385 11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 11.6246 12.75 11.7036 12.75 11.75V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V11.75C11.25 11.2441 11.4715 10.8336 11.7266 10.533C11.9786 10.236 12.2929 10.0092 12.5715 9.84439C12.9044 9.64739 13.125 9.28655 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                                    fill="#009A4B"></path>
-                                            </g>
-                                        </svg> Tambah Pertanyaan</a></li>
-                            </ul>
+                            <hr class="hr-vertial">
+                            <div class="form-check form-switch mx-2">
+                                <input class="form-check-input" type="checkbox"
+                                    id="wajibdiisi[${indexPage}][${indexCard}]"
+                                    name="data[${indexPage}][pertanyaan][${indexCard}][wajib_dijawab]">
+                                <label class="form-check-label text-black">Wajib
+                                    Diisi</label>
+                            </div>
+                            <div class="dropup mx-2 more_dropdown">
+                                <a class="px-2" type="button" id="dropdownMenu[${indexPage}][${indexCard}]"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="fa-solid fa-ellipsis-vertical" style="color: #009a4b;"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a class="dropdown-item add_heading"
+                                            id="add_heading[${indexPage}][${indexCard}]" type="button"><svg
+                                                fill="#009a4b" width="20px" height="20px"
+                                                viewBox="0 0 24.00 24.00" xmlns="http://www.w3.org/2000/svg"
+                                                stroke="#009a4b" stroke-width="0.00024000000000000003">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M17,11 L17,6 L15.5,6 C15.2238576,6 15,5.77614237 15,5.5 C15,5.22385763 15.2238576,5 15.5,5 L19.5,5 C19.7761424,5 20,5.22385763 20,5.5 C20,5.77614237 19.7761424,6 19.5,6 L18,6 L18,18 L19.5,18 C19.7761424,18 20,18.2238576 20,18.5 C20,18.7761424 19.7761424,19 19.5,19 L15.5,19 C15.2238576,19 15,18.7761424 15,18.5 C15,18.2238576 15.2238576,18 15.5,18 L17,18 L17,12 L7,12 L7,18 L8.5,18 C8.77614237,18 9,18.2238576 9,18.5 C9,18.7761424 8.77614237,19 8.5,19 L4.5,19 C4.22385763,19 4,18.7761424 4,18.5 C4,18.2238576 4.22385763,18 4.5,18 L6,18 L6,6 L4.5,6 C4.22385763,6 4,5.77614237 4,5.5 C4,5.22385763 4.22385763,5 4.5,5 L8.5,5 C8.77614237,5 9,5.22385763 9,5.5 C9,5.77614237 8.77614237,6 8.5,6 L7,6 L7,11 L17,11 Z">
+                                                    </path>
+                                                </g>
+                                            </svg> Tambah Judul</a></li>
+                                    <li><a class="dropdown-item add_pertanyaan"
+                                            id="add_pertanyaan[${indexPage}][${indexCard}]" type="button"><svg
+                                                width="18px" height="18px" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" stroke="#000000"
+                                                stroke-width="0.00024000000000000003">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 13.3353 11.1354C13.1385 11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 11.6246 12.75 11.7036 12.75 11.75V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V11.75C11.25 11.2441 11.4715 10.8336 11.7266 10.533C11.9786 10.236 12.2929 10.0092 12.5715 9.84439C12.9044 9.64739 13.125 9.28655 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                                                        fill="#009A4B"></path>
+                                                </g>
+                                            </svg> Tambah Pertanyaan</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    `;
+
+        `;
     }
 
     function formatState(opt) {
@@ -2210,4 +2252,41 @@
             return $opt;
         }
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        $('#formSoal').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST", // Use POST method
+                url: "{{ route('pertanyaan.store', $idPaketSoal) }}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(data) {
+
+                    console.log(data);
+
+
+
+                },
+                error: function(xhr, status, error, data) {
+                    if (xhr.status == 422) {
+                        var data = xhr.responseJSON;
+                        var errorMessage = data.all_message.join(
+                            "\n");
+                        toastMixin.fire({
+                            icon: 'error',
+                            title: errorMessage,
+                        });
+                    }
+
+                }
+            });
+        });
+    });
 </script>

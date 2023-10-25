@@ -28,11 +28,13 @@ var toastMixin = Swal.mixin({
     title: '{{Session::get("error")}}',
     });
     @endif
-    @if(Session::has('errors') || ( isset($errors) && is_array($errors) && $errors->any()))
-    toastMixin.fire({
-    icon: 'error',
-    title: '{{Session::get("errors")->first() }}',
-    });
-    @endif
+    @if(Session::has('errors') || (isset($errors) && is_array($errors) && $errors->any()))
+    var errorMessages = '';
+    @foreach(Session::get("errors") as $error)
+        errorMessages += '{{$error}}\n';
+    @endforeach
+   
+@endif
+
 </script>
 
