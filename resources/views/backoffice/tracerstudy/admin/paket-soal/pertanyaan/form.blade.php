@@ -6,19 +6,19 @@
     $data = $data ?? null;
     ?>
     <div>
-        @if (isset($id))
+        {{-- @if (isset($id))
             {!! Form::model($data, [
                 'route' => ['pertanyaan.update', $idPaketSoal, $id],
                 'method' => 'patch',
                 'enctype' => 'multipart/form-data',
             ]) !!}
-        @else
-            {!! Form::open([
-                'route' => ['pertanyaan.store', $idPaketSoal],
-                'method' => 'post',
-                'enctype' => 'multipart/form-data',
-            ]) !!}
-        @endif
+        @else --}}
+        {!! Form::open([
+            'route' => ['pertanyaan.store', $idPaketSoal],
+            'method' => 'post',
+            'enctype' => 'multipart/form-data',
+        ]) !!}
+        {{-- @endif --}}
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="card" data-aos="fade-down" data-aos-delay="900">
@@ -350,10 +350,14 @@
                 var newRowNumber = $(
                     `#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-row`
                 ).length + 1;
+                var nameRow = $(
+                    `#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-row`
+                ).length;
+                //TODO: KELIPTAN GENAP
 
+                const newElementRow = generateGridElementRow(pageIndexs, cardIndexs, newRowNumber - 1, nameRow +
+                    nameRow);
 
-                const newElementRow = generateGridElementRow(pageIndexs, cardIndexs, row + 1);
-                row++;
                 const newElementNumber = generateGridElementNumber(newRowNumber)
                 console.log(newElementNumber);
 
@@ -367,14 +371,17 @@
 
         });
 
-        function generateGridElementRow(pageIndexs, cardIndexs, gridRowIndexs) {
+        function generateGridElementRow(pageIndexs, cardIndexs, gridRowIndexs, nameRowIndexs) {
             return ` <div class="row my-2 grid-row"  id="grid-row[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
                                                 <input type="text" class="form-control grid-row-input" id="grid-row-input[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
-                                                    placeholder="Label Baris 2">
-                                                <input type="text" class="form-control grid-row-input-value"  id="grid-row-input-value[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
-                                                    placeholder="Nilai Baris 2">
+                                                    placeholder="Label Baris 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][label]">
+                                                <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
+                                                    placeholder="Nilai Baris 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][value]">
+                                                    <input type="hidden" value="row" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][tipe_grid]">
+                                                    <input type="hidden" value="${gridRowIndexs}" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][urutan]">
+
                                                 <span class="input-group-text grid-delete-row" id="grid-delete-row[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]" >
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -410,23 +417,36 @@
 
                 const pageIndexs = parseInt(matches[1]);
                 const cardIndexs = parseInt(matches[2]);
-                const newElementColumn = generateGridElementColumn(pageIndexs, cardIndexs, column + 1);
-                column++;
+                var newColumn = $(
+                    `#grid-column-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-column`
+                ).length
+                var newColumnName = $(
+                    `#grid-column-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-column`
+                ).length
+                console.log("HH" + newColumn)
+                const newElementColumn = generateGridElementColumn(pageIndexs, cardIndexs, newColumn, (
+                    parseInt(
+                        newColumnName + newColumnName) + 1
+                ));
+
                 $(`#grid-column-container\\[${pageIndexs}\\]\\[${cardIndexs}\\]`).append(newElementColumn);
                 updateColumnNumbers(pageIndexs, cardIndexs);
             }
 
         });
 
-        function generateGridElementColumn(pageIndexs, cardIndexs, gridColumnIndexs) {
-            return ` <div class="row my-2 grid-column"  id="grid-column[${pageIndexs}][${cardIndexs}][1]">
+        function generateGridElementColumn(pageIndexs, cardIndexs, gridColumnIndexs, nameColumnIndexs) {
+            return ` <div class="row my-2 grid-column"  id="grid-column[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]">
                                         <div class="col-lg-12">
                                             <div class="input-group ">
                                                 <input type="text" class="form-control grid-column-input"  id="grid-column-input[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]"
-                                                    placeholder="Label Kolom 2">
+                                                 
+                                                    placeholder="Label Kolom 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][label]">
                                                 <input type="text" class="form-control grid-column-input-value"  id="grid-column-input-value[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]"
-                                                    placeholder="Nilai Kolom 2">
-                                                <span class="input-group-text grid-delete-column" id="grid-delete-column[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]">
+                                                    placeholder="Nilai Kolom 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][value]">
+                                                    <input type="hidden" value="column" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][tipe_grid]">
+                                                    <input type="hidden" value="${gridColumnIndexs+1}" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][urutan]">
+                                                    <span class="input-group-text grid-delete-column" id="grid-delete-column[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
