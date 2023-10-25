@@ -49,40 +49,46 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request, $idPaketSoal)
     {
-        $data = $request->all();
-
-        dd($data);
-        // foreach ($data['halaman_pertanyaan'] as $urutan => $namaHalaman) {
-        //     $halamanPertanyaan = HalamanPertanyaan::create([
-        //         'urutan' => $urutan,
-        //         'nama_halaman' => $namaHalaman,
-        //         'paket_soal_id' => $idPaketSoal
-        //     ]);
+        $data = $request->data;
+dd($data);
     
-        //     // Iterate over the corresponding "pertanyaan" array
-        //     foreach ($data['pertanyaan'][$urutan] as $urutanPertanyaan => $pertanyaanData) {
-        //         $pertanyaan = Pertanyaan::create([
-        //             'urutan' => $urutanPertanyaan,
-        //             'halaman_id' => $halamanPertanyaan->id,
-        //             'pertanyaan' => $pertanyaanData['pertanyaan'],
-        //             'kode_soal' => $pertanyaanData['kode_soal'],
-        //             'tipe_pertanyaan' => $pertanyaanData['tipe_pertanyaan'],
-        //         ]);
-    
-        //         // Check if "pertanyaan_general" exists and insert it
-        //         if (isset($data['pertanyaan_general'][$urutanPertanyaan])) {
-        //             $pertanyaanGeneralData = $data['pertanyaan_general'][$urutanPertanyaan][1];
-    
-        //             PertanyaanGeneral::create([
-        //                 'pertanyaan_id' => $pertanyaan->id,
-        //                 'tipe_pertanyaan_general' => $pertanyaanGeneralData['tipe_pertanyaan_general'],
-        //                 'max_character_jawaban' => $pertanyaanGeneralData['max_character_jawaban'],
-        //                 'min_character_jawaban' => $pertanyaanGeneralData['min_character_jawaban'],
+        //   foreach ($data as $halamanData) {
+        //         $halaman = HalamanPertanyaan::create([
+        //             'urutan' => $halamanData['urutan'],
+        //             'paket_soal_id' => $idPaketSoal,
+        //             'nama_halaman' => $halamanData['nama_halaman']]);
+        
+        //         foreach ($halamanData['pertanyaan'] as $pertanyaanData) {
+        //             $pertanyaan = Pertanyaan::create([
+        //                 'halaman_id' => $halaman->id,
+        //                 'kode_soal' => $pertanyaanData['kode_soal'],
+        //                 'urutan' => $pertanyaanData['urutan'],
+        //                 'pertanyaan' => $pertanyaanData['pertanyaan'],
+        //                 'tipe_pertanyaan' => $pertanyaanData['tipe_pertanyaan'],
+                        
         //             ]);
+        
+        //             // Periksa tipe pertanyaan dan simpan data sesuai dengan jenisnya
+        //             if ($pertanyaanData['tipe_pertanyaan'] === 'general') {
+        //                 $pertanyaanGeneralData = $pertanyaanData['pertanyaan_general'];
+        //                 $pertanyaanGeneral = PertanyaanGeneral::create([
+        //                     'pertanyaan_id' => $pertanyaan->id,
+        //                     'max_character_jawaban' => $pertanyaanGeneralData['max_character_jawaban'],
+        //                     // Set atribut lain sesuai kebutuhan
+        //                 ]);
+        //             } elseif ($pertanyaanData['tipe_pertanyaan'] === 'single') {
+        //                 // Proses pertanyaan tipe lain sesuai dengan jenisnya
+        //             }
+        
+        //             // Lanjutkan untuk jenis-jenis pertanyaan lainnya
+        //             // ...
         //         }
         //     }
-        // }
-    
+        
+            
+        
+        
+      
 
         return redirect()->route('paket-soal.index')->withSuccess(__('message.pertanyaan_msg_added',['name' => __('paket-soal.store')]));
  

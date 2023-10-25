@@ -78,8 +78,7 @@
             const width = container.width();
             container.css("transform", `translateX(-${(page) * width}px)`);
             $(`#page-navigation\\[${page}\\]`).addClass("active");
-            inputPageTitle();
-
+            initializeCard();
         }
 
 
@@ -88,9 +87,9 @@
             if (pageCount < maxPages) {
                 // Menghapus kelas "active" dari fieldset saat ini
                 $(`#page\\[${activeElementNavPageId}\\]`).removeClass("active");
-                $(`#page\\[${activeElementNavPageId}\\]`).addClass("padding-10");
 
                 const addToPageId = parseInt(activeElementNavPageId) + 1;
+
                 const newPage = generatePage(addToPageId);
                 const fieldSetBefore = $(`#page\\[${activeElementNavPageId}\\]`);
                 const fieldSetAfter = $(`#page\\[${addToPageId}\\]`);
@@ -102,11 +101,12 @@
                     fieldSetBefore.after(newPage);
 
                 }
-                const cardContainer = $(`#card_container\\[${addToPageId}\\]`)
                 const pageNavigation = $(".page-navigation");
                 pageNavigation.html(generatePageNavigation());
+                resetIndexPage();
+                const cardContainer = $(`#card_container\\[${addToPageId}\\]`)
                 cardContainer.append(generateCard(addToPageId, 0));
-                initializeCard();
+
                 showPage(addToPageId);
                 $("html, body").animate({
                     scrollTop: 250
@@ -145,11 +145,12 @@
         });
 
         function deletePage(pageToDeleteId) {
-            if (pageToDeleteId > 1) {
+            if (pageToDeleteId > 0) {
                 const pageToDeleteElement = $(`#page\\[${pageToDeleteId}\\]`);
                 pageToDeleteElement.remove();
                 const pageNavigation = $(".page-navigation");
                 pageNavigation.html(generatePageNavigation());
+                resetIndexPage();
                 showPage(parseInt(pageToDeleteId) - 1);
                 toastMixin.fire({
                     animation: true,
@@ -176,14 +177,15 @@
             return activeElementNavPageId ?? null;
         }
 
+        $(document).off('click', '.add-and-next');
         $(document).on('click', '.add-and-next', function() {
             const activeElementNavPageIdToAdd = getActiveElementId();
             if (activeElementNavPageIdToAdd !== null) {
                 addPage(activeElementNavPageIdToAdd);
-                resetIndexPage();
+
             }
         });
-
+        $(document).off('click', '.delete-and-previous');
         $(document).on('click', '.delete-and-previous', function() {
 
             const activeElementNavPageIdToDelete = getActiveElementId();
@@ -216,6 +218,7 @@
                 }).then(function(result) {
                     if (result.isConfirmed) {
                         deletePage(activeElementNavPageIdToDelete);
+
                     }
                 });
 
@@ -232,16 +235,83 @@
         });
 
         function resetIndexPage() {
+            tinymce.remove();
             const pageElements = $('.fieldset-wizard');
 
             pageElements.each(function(index) {
+
                 $(this).attr('id', `page[${index}]`);
                 $(this).find('input[id^="nama_halaman\\["]').attr('id', `nama_halaman[${index}]`);
                 $(this).find('.card_container[id^="card_container\\["]').attr('id',
                     `card_container[${index}]`);
-            });
+                $(this).find('input[id^="nama_halaman\\["]').attr('name',
+                    `data[${index}][nama_halaman]`);
+                $(this).find('input[id^="urutan\\["]').attr('name',
+                    `data[${index}][urutan]`);
+                $(this).find('input[id^="urutan\\["]').attr('value',
+                    parseInt(index) + 1);
+                $(this).find('input[id^="nama_halaman\\["]').val(`Halaman ` + (index+1));
+                $(this).addClass("padding-10");
 
+                $(this).find(
+                    "[id], [data-card], [data-input], [data-validation], [name],[data-select2-id], [data-page], [data-select2-id]"
+                ).each(function() {
+                    const pattern = /\[(\d+)\]/;
+                    const id = $(this).attr("id");
+                    const dataPage = $(this).attr("data-page");
+                    const dataInput = $(this).attr("data-input");
+                    const dataValidation = $(this).attr("data-validation");
+                    const dataCard = $(this).attr("data-card");
+                    const nameData = $(this).attr("name");
+                    // const dataSelect = $(this).attr("data-select2-id");
+
+                    if (id) {
+                        const newIdCard = id.replace(pattern,
+                            `[${index}]`);
+                        $(this).attr('id', `${newIdCard}`);
+                    }
+                    // if (dataSelect) {
+                    //     const newselect = dataSelect.replace(pattern,
+                    //         `[${index}]`);
+                    //     $(this).attr('data-select2-id', `${newselect}`);
+                    // }
+                    if (dataPage) {
+                        $(this).attr('data-page', index);
+                    }
+                    if (dataInput) {
+                        const newDataInputCard = dataInput.replace(pattern,
+                            `[${index}]`);
+                        $(this).attr('data-input', newDataInputCard);
+                    }
+                    if (dataValidation) {
+                        const newDataInputVCard = dataValidation.replace(pattern,
+                            `[${index}]`);
+                        $(this).attr('data-validation', newDataInputVCard);
+                    }
+                    if (dataCard) {
+                        const newDataInputCard = dataCard.replace(pattern,
+                            `[${index}]`);
+                        $(this).attr('data-card', newDataInputCard);
+                    }
+                    if (nameData) {
+                        const patternName = /data\[\d+\]\[pertanyaan\]/;
+                        const matchesName = nameData.match(patternName)
+                        console.log(matchesName)
+                        if (matchesName) {
+                            const newDataName = nameData.replace(patternName,
+                                `data[${index}][pertanyaan]`);
+
+
+                            $(this).attr('name', newDataName);
+                        }
+
+                    }
+                });
+
+            });
         }
+
+
         // Fungsi untuk menghasilkan kode HTML untuk halaman
         function generatePageNavigation() {
             let navigationHTML = "";
@@ -259,7 +329,9 @@
             return ` <fieldset class="fieldset-wizard" id="page[${page}]">
             <div class="form-card text-start">
                 <div class="row">
-                    <input type="text" class="h3 px-2  mx-2 mb-4 dynamic-input" id="nama_halaman[${page}]" name="data[${page}][nama_halaman]" value="Halaman ${page+1}" style="transition: width 0.2s;">
+                    <input type="text" class="h3 px-2  mx-2 mb-4 dynamic-input" id="nama_halaman[${page}]" name="data[${page}][nama_halaman]" value="Halaman ${parseInt(page)+1}" style="transition: width 0.2s;">
+                    <input type="hidden" class="h3 px-2  mx-2 mb-4 dynamic-input" id="urutan[${page}]" name="data[${page}][urutan]" value="${page+1}">
+                  
                     <div class="col-sm-12 col-lg-12 card_container" id="card_container[${page}]">
                       
                     </div>
@@ -322,6 +394,7 @@
 
     function initializeCard() {
 
+        tinymce.remove();
         checkBoxListener();
         radioBoxListener();
         gridColumnListener();
@@ -368,18 +441,18 @@
                 updateNumbers(pageIndexs, cardIndexs);
             }
 
-
         });
 
         function generateGridElementRow(pageIndexs, cardIndexs, gridRowIndexs, nameRowIndexs) {
             return ` <div class="row my-2 grid-row"  id="grid-row[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
-                                                    placeholder="Label Baris 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][label]">
                                                 <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
-                                                    placeholder="Nilai Baris 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][value]">
-                                                    <input type="hidden" value="row" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][tipe_grid]">
+                                                    placeholder="Kode Baris 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][value]">
+                                                  
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]"
+                                                    placeholder="Pertanyaan Baris 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][label]">
+                                                   <input type="hidden" value="row" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][tipe_grid]">
                                                     <input type="hidden" value="${gridRowIndexs}" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameRowIndexs}][urutan]">
 
                                                 <span class="input-group-text grid-delete-row" id="grid-delete-row[${pageIndexs}][${cardIndexs}][${gridRowIndexs}]" >
@@ -441,7 +514,7 @@
                                             <div class="input-group ">
                                                 <input type="text" class="form-control grid-column-input"  id="grid-column-input[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]"
                                                  
-                                                    placeholder="Label Kolom 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][label]">
+                                                    placeholder="Jawaban Kolom 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][label]">
                                                 <input type="text" class="form-control grid-column-input-value"  id="grid-column-input-value[${pageIndexs}][${cardIndexs}][${gridColumnIndexs}]"
                                                     placeholder="Nilai Kolom 2" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][value]">
                                                     <input type="hidden" value="column" name="data[${pageIndexs}][pertanyaan][${cardIndexs}][pertanyaan_grid_option][${nameColumnIndexs}][tipe_grid]">
@@ -488,8 +561,8 @@
         function updateRowNumbers(pageIndexs, cardIndexs) {
             $(`#grid-row-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-row`).each(function(index) {
                 var rowNumber = index + 1;
-                $(this).find(".grid-row-input").attr("placeholder", "Label Baris " + rowNumber);
-                $(this).find(".grid-row-input-value").attr("placeholder", "Nilai Baris " + rowNumber);
+                $(this).find(".grid-row-input").attr("placeholder", "Pertantaan Baris " + rowNumber);
+                $(this).find(".grid-row-input-value").attr("placeholder", "Kode Baris " + rowNumber);
 
             });
         }
@@ -506,7 +579,7 @@
         function updateColumnNumbers(pageIndexs, cardIndexs) {
             $(`#grid-column-container\\[${pageIndexs}\\]\\[${cardIndexs}\\] .grid-column`).each(function(index) {
                 var columnNumber = index + 1;
-                $(this).find(".grid-column-input").attr("placeholder", "Label Kolom " + columnNumber);
+                $(this).find(".grid-column-input").attr("placeholder", "Jawaban Kolom " + columnNumber);
                 $(this).find(".grid-column-input-value").attr("placeholder", "Nilai Kolom " +
                     columnNumber);
 
@@ -1475,11 +1548,12 @@
                                     <div class="row my-2 grid-row" id="grid-row[${indexPage}][${indexCard}][0]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][0]"
-                                                    placeholder="Label Baris 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][label]">
                                                 <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][0]"
-                                                    placeholder="Nilai Baris 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][value]">
-                                                    <input type="hidden" value="row" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][tipe_grid]">
+                                                    placeholder="Kode Baris 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][value]">
+                                                
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][0]"
+                                                    placeholder="Pertanyaan Baris 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][label]">
+                                                   <input type="hidden" value="row" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][tipe_grid]">
                                                     <input type="hidden" value="1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][0][urutan]">
                                                 <span class="input-group-text">
                                                     <svg width="24px" height="24px" viewBox="0 -0.5 25 25"
@@ -1492,10 +1566,11 @@
                                     <div class="row my-2 grid-row"  id="grid-row[${indexPage}][${indexCard}][1]">
                                         <div class="col-lg-12">
                                             <div class="input-group">
-                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Label Baris 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][label]">
                                                 <input type="text" class="form-control grid-row-input-value" id="grid-row-input-value[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Nilai Baris 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][value]">
+                                                    placeholder="Kode Baris 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][value]">
+                                               
+                                                <input type="text" class="form-control grid-row-input" id="grid-row-input[${indexPage}][${indexCard}][1]"
+                                                    placeholder="Pertanyaan Baris 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][label]">
                                                     <input type="hidden" value="row" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][tipe_grid]">
                                                     <input type="hidden" value="2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][2][urutan]">
 
@@ -1521,7 +1596,7 @@
                                         <div class="col-lg-12">
                                             <div class="input-group">
                                                 <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][0]"
-                                                    placeholder="Label Kolom 1"  name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][label]">
+                                                    placeholder="Jawaban Kolom 1"  name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][label]">
                                                 <input type="text" class="form-control grid-column-input-value" id="grid-column-input-value[${indexPage}][${indexCard}][0]"
                                                     placeholder="Nilai Kolom 1" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][1][value]">
                                                 
@@ -1539,7 +1614,7 @@
                                         <div class="col-lg-12">
                                             <div class="input-group ">
                                                 <input type="text" class="form-control grid-column-input"  id="grid-column-input[${indexPage}][${indexCard}][1]"
-                                                    placeholder="Label Kolom 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][label]">
+                                                    placeholder="Jawaban Kolom 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][label]">
                                                 <input type="text" class="form-control grid-column-input-value"  id="grid-column-input-value[${indexPage}][${indexCard}][1]"
                                                     placeholder="Nilai Kolom 2" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][value]">
                                                     <input type="hidden" value="column" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_grid_option][3][tipe_grid]">
@@ -1677,6 +1752,7 @@
         console.log("-----------")
     }
 
+
     //TODO: CHECK RESET INDEX AGAIN WRONGGG!!
     function resetIndexCard(pageIndexs) {
 
@@ -1698,6 +1774,9 @@
                 iframeElement.attr('id', `pertanyaann[${pageIndex}][${cardIndex}]_ifr`);
                 console.log(iframeElement.attr('id'))
             }
+            const valueUrutanCard = $(`#urutan-card\\[${pageIndex}\\]\\[${cardIndex}\\]`);
+            const newCardIndex = cardIndex + 1;
+            valueUrutanCard.val(newCardIndex);
 
             thisCardELements.attr('id', `card-soal[${pageIndex}][${cardIndex}]`);
             thisCardELements.attr('data-id', cardIndex);
@@ -1748,7 +1827,7 @@
             });
         });
 
-        listenerCard();
+
 
     }
 
@@ -1944,6 +2023,8 @@
                     <label class="form-label text-black">Pertanyaan <span class="text-danger">*</span></label>
                     <textarea class="form-control pertanyaan-textarea" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan]" placeholder="Isi Pertanyaan" 
                         id="pertanyaan[${indexPage}][${indexCard}]"></textarea>
+                        <input type="hidden" class="urutan-card" name="data[${indexPage}][pertanyaan][${indexCard}][urutan]" value="${indexCard+1}"
+                        id="urutan-card[${indexPage}][${indexCard}]">
                 </div>
 
                 <div class="col-sm-2 col-lg-2">
