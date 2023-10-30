@@ -46,13 +46,22 @@ class PertanyaanRequest extends FormRequest
     {
         $messages =[];
         
-        foreach ($this->get('data') as $key => $dataItem) {
-            $pertanyaanArray = $dataItem['pertanyaan'];
-            
-            foreach ($pertanyaanArray as $key1 => $pertanyaanItem) {
-                $messages["data.$key.pertanyaan.$key1.pertanyaan"] = "Kolom Halaman " . ($key + 1) . " , soal " . ($key1 + 1) . " wajib diisi";
+        $data = $this->get('data');
+
+        if ($data !== null) {
+            foreach ($data as $key => $dataItem) {
+
+                if (isset ($dataItem['pertanyaan'])){
+                    $pertanyaanArray = $dataItem['pertanyaan'];
+                    foreach ($pertanyaanArray as $key1 => $pertanyaanItem) {
+                        $messages["data.$key.pertanyaan.$key1.pertanyaan"] = "Silahkan Isi Halaman " .($key + 1). ", Soal " . ($key1 + 1) . "";
+                    }
+                }
+    
+               
             }
         }
+    
     
         return $messages;
     

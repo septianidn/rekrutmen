@@ -146,6 +146,8 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin']],
         Route::get('paket-soal/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
         Route::post('paket-soal/pertanyaan/{id}/store', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
         Route::get('paket-soal/pertanyaan/{id}/edit', [PertanyaanController::class, 'edit'])->name('pertanyaan.edit');
+        Route::post('paket-soal/pertanyaan/{id}/update', [PertanyaanController::class, 'update'])->name('pertanyaan.update');
+       
         Route::resource('/usulan-pertanyaan', EmailBoxController::class);
         Route::resource('/jawaban', EmailSendController::class);
     });

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pertanyaan_grid_option', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('pertanyaan_id')->unsigned()->index();
+            $table->string('kode',15);
             $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan')->onUpdate('cascade')->onDelete('cascade');
             $table->smallInteger('urutan')->length(2);
             $table->string('value',50);
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->enum('tipe_grid', ['row', 'column']);
             $table->timestamps();
                
-            $table->unique(['tipe_grid', 'pertanyaan_id', 'urutan'], 'unique_pertanyaan_grid_option');
+            $table->unique(['tipe_grid', 'pertanyaan_id', 'urutan', 'kode'], 'unique_pertanyaan_grid_option');
         });
     }
 

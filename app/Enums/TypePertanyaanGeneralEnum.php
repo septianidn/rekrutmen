@@ -12,6 +12,7 @@ class TypePertanyaanGeneralEnum
     const NUMBER = 'number';
     const URL = 'url';
     const TEL = 'tel';
+    const LETTERS = 'letters';
 }
 
 ?>
