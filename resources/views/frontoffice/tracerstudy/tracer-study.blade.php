@@ -135,14 +135,15 @@
                             <div class="job-search-wrap-two mt-50 wow fadeInUp" data-wow-delay=".7s">
                                 <!-- Single Field Item Start  -->
                                 {{-- TODO CHANGE FROM ACTION --}}
+
                                 <div class="job-search-form">
                                     {!! Form::open([
-                                        'route' => ['tracerstudy-login.create', ''],
+                                        'route' => ['kuesioner.tracerstudy-login.create', ''],
                                         'method' => 'get',
                                         'enctype' => 'multipart/form-data',
                                         'id' => 'formTC',
                                     ]) !!}
-
+                                    <x-auth-validation-errors class="mb-2 mt-3" :errors="$errors" />
                                     <div class="single-field-item">
                                         <p>Lulusan</p>
                                     </div>
@@ -1372,7 +1373,7 @@
 
             function updateFormAction() {
                 var selectedOption = selectElement.options[selectElement.selectedIndex].textContent;
-                formElement.action = "{{ route('tracerstudy-login.create', ':selectedOption') }}".replace(
+                formElement.action = "{{ route('kuesioner.tracerstudy-login.create', ':selectedOption') }}".replace(
                     ':selectedOption', selectedOption);
             }
 

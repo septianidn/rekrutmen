@@ -97,6 +97,6 @@ class LoginTCRequest extends FormRequest
      */
     public function throttleKey()
     {
-        return Str::lower($this->input('email')).'|'.$this->ip();
+        return Str::lower($this->input('pin')).'|'.$this->ip();
     }
 }

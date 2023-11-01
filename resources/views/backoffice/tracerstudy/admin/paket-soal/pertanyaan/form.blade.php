@@ -30,6 +30,9 @@
                             <div style="margin-right: 10px;">
                                 <button type=" button" class="btn btn-m btn-primary">Lihat Form</button>
                             </div>
+                            <div style="margin-right: 10px;">
+                                <button type=" button" class="btn btn-m btn-primary">Reset Form</button>
+                            </div>
                             <button type="submit" class="btn btn-m btn-primary">Simpan Form</button>
                         </div>
                     </div>
@@ -1733,24 +1736,18 @@
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
                         <div class="row ">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
+                                <input type="text" class="form-control" placeholder="Kode Soal Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
                             </div>
+                           
+                       
+                      
                             <div class="col-lg-4">
-                                <select class="form-select" aria-label="Actions">
-                                    <option value="Provinsi">Provinsi</option>
-                                </select>
+                                <input type="text" class="form-control" placeholder="Kode Soal Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
                             </div>
+                          
                         </div>
-                        <div class="row mt-2 ">
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
-                            </div>
-                            <div class="col-lg-4">
-                                <select class="form-select" aria-label="Actions">
-                                    <option value="Kabupaten">Kabupaten</option>
-                                </select>
-                            </div>
-                        </div>
+                        <p class="input-information ml-1">Untuk melihat data zona klik <a
+                                href="{{ route('kabkota.index') }}">disini</a></p>
                     </div>`;
 
                 shortInput.remove();
@@ -1795,7 +1792,7 @@
             const iframeElement = $(this).find('iframe');
             if (iframeElement) {
                 iframeElement.attr('id', `pertanyaann[${pageIndex}][${cardIndex}]_ifr`);
-                console.log(iframeElement.attr('id'))
+
             }
             const valueUrutanCard = $(`#urutan-card\\[${pageIndex}\\]\\[${cardIndex}\\]`);
             const newCardIndex = cardIndex + 1;
@@ -1814,7 +1811,8 @@
                 const dataCard = $(this).attr("data-card");
                 const nameData = $(this).attr("name");
 
-                if (matches) {
+                if (matches && id) {
+
                     const newIdCard = id.replace(pattern,
                         `[${pageIndex}][${cardIndex}]`);
                     $(this).attr('id', `${newIdCard}`);
@@ -1888,12 +1886,19 @@
 
     function duplicateCard(pageIndexs, cardIndexs, cardSelector) {
 
-        //TODO FIX THE SELECT2
+
+        //TODO: CHECK AGAIN, SELECT 2 NOT WORKING 
         const cardToDuplicate = $(`#card-soal\\[${pageIndexs}\\]\\[${cardIndexs}\\]`);
+        tinymce.remove();
+
+
+        $(`.card-soal`).removeClass("active");
         const clonedCard = cardToDuplicate.clone();
+        $(clonedCard).find("select").remove();
+
         cardToDuplicate.after(clonedCard);
 
-        tinymce.remove();
+
         resetIndexCard(pageIndexs);
     }
 
@@ -1936,7 +1941,7 @@
             <div class="row">
                 <div class="form-group col-sm-12">
                     <label class="form-label text-black">Judul</label>
-                    <input class="form-control" name="pertanyaan[${indexPage}][${indexCard}]" placeholder="Isi Judul" id="judul[${indexPage}][${indexCard}]">
+                    <input class="form-control" name="pertanyaan[${indexPage}][${indexCard}][pertanyaan]" placeholder="Isi Judul" id="judul[${indexPage}][${indexCard}]">
                 </div>
             </div>
             <div class="row">
@@ -2140,6 +2145,7 @@
                                     data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
                                     Zona
                                 </option>
+                                
 
                             </select>
                             <div class="form-group inputtype shortanswer-validation-div"

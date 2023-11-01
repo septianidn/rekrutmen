@@ -42,6 +42,12 @@ class PaketSoalDataTable extends DataTable
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
+            ->editColumn('alias_url', function ($query) {
+           
+                    return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">' . $query->alias_url . '</a>';
+     
+                })
+            
             ->addColumn('jumlah_pertanyaan', function ($query) {
                 $jumlah_pertanyaan = $query->halamanPertanyaan->sum(function ($halamanPertanyaan) {
                     return $halamanPertanyaan->pertanyaan->count();
@@ -53,7 +59,7 @@ class PaketSoalDataTable extends DataTable
                 }
                 else{
                     return '<a href="' . route("pertanyaan.edit", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
-     
+    
                 }
                 })
             
@@ -66,7 +72,7 @@ class PaketSoalDataTable extends DataTable
                 $sql = "nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','jumlah_pertanyaan', 'publish', 'menerima_usulan']);
+            ->rawColumns(['action','jumlah_pertanyaan', 'publish', 'menerima_usulan','alias_url']);
             
     }
 

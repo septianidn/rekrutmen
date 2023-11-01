@@ -574,9 +574,11 @@
                                                                             <div class="col-lg-5 col-md-5 col-sm-5 grid-row-container"
                                                                                 id="grid-row-container[{{ $key }}][{{ $keyP }}]">
 
-                                                                                @foreach (array_values(array_filter($pertanyaan['pertanyaan_grid_option'], function($option) {
-                                                                                    return $option['tipe_grid'] === 'row';
-                                                                                })) as $keyG => $pertanyaanGeneralOptionG)
+                                                                                @foreach (array_values(
+        array_filter($pertanyaan['pertanyaan_grid_option'], function ($option) {
+            return $option['tipe_grid'] === 'row';
+        }),
+    ) as $keyG => $pertanyaanGeneralOptionG)
                                                                                     @if ($pertanyaanGeneralOptionG['tipe_grid'] == 'row')
                                                                                         @php
                                                                                             $keyName = $keyG + $keyG;
@@ -613,7 +615,7 @@
 
 
                                                                                                     <span
-                                                                                                        class="input-group-text {{$keyG!==0 ? 'grid-delete-row ' :  ''}}"
+                                                                                                        class="input-group-text {{ $keyG !== 0 ? 'grid-delete-row ' : '' }}"
                                                                                                         id="grid-delete-row[{{ $key }}][{{ $keyP }}][{{ $keyG }}]">
                                                                                                         <svg width="24px"
                                                                                                             height="24px"
@@ -649,9 +651,11 @@
 
                                                                             <div class="col-lg-5 col-md-5 col-sm-5 grid-column-container"
                                                                                 id="grid-column-container[{{ $key }}][{{ $keyP }}]">
-                                                                                @foreach (array_values(array_filter($pertanyaan['pertanyaan_grid_option'], function($option) {
-                                                                                    return $option['tipe_grid'] === 'column';
-                                                                                })) as $keyG => $pertanyaanGeneralOptionG)
+                                                                                @foreach (array_values(
+        array_filter($pertanyaan['pertanyaan_grid_option'], function ($option) {
+            return $option['tipe_grid'] === 'column';
+        }),
+    ) as $keyG => $pertanyaanGeneralOptionG)
                                                                                     @if ($pertanyaanGeneralOptionG['tipe_grid'] == 'column')
                                                                                         @php
                                                                                             $keyName = $keyG + $keyG + 1;
@@ -691,10 +695,11 @@
                                                                                                         type="hidden"
                                                                                                         value="{{ $pertanyaanGeneralOptionG['urutan'] }}"
                                                                                                         name="data[{{ $key }}][pertanyaan][{{ $keyP }}][pertanyaan_grid_option][{{ $keyName }}][urutan]">
-                                                                                                  
-                                                                                                        <span class="input-group-text {{ $keyG !== 0 ? 'grid-delete-column' : '' }}"
+
+                                                                                                    <span
+                                                                                                        class="input-group-text {{ $keyG !== 0 ? 'grid-delete-column' : '' }}"
                                                                                                         id="{{ $keyG !== 0 ? 'grid-delete-column[' . $key . '][' . $keyP . '][' . $keyG . ']' : '' }}">
-                                                                                                            @if ($keyG !== 0)
+                                                                                                        @if ($keyG !== 0)
                                                                                                             <svg width="24px"
                                                                                                                 height="24px"
                                                                                                                 viewBox="0 -0.5 25 25"
@@ -715,9 +720,9 @@
                                                                                                                     </path>
                                                                                                                 </g>
                                                                                                             </svg>
-                                                                                                            @endif
-                                                                                                        </span>
-                                                                                                  
+                                                                                                        @endif
+                                                                                                    </span>
+
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -2542,28 +2547,22 @@
                 }
 
             } else if (selectedElement.attr('class') === 'zone') {
-                const elementZone = `   <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
+                const elementZone = ` <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
                         <div class="row ">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
+                                <input type="text" class="form-control" placeholder="Kode Soal Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
                             </div>
+                           
+                       
+                      
                             <div class="col-lg-4">
-                                <select class="form-select" aria-label="Actions">
-                                    <option value="Provinsi">Provinsi</option>
-                                </select>
+                                <input type="text" class="form-control" placeholder="Kode Soal Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
                             </div>
+                          
                         </div>
-                        <div class="row mt-2 ">
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
-                            </div>
-                            <div class="col-lg-4">
-                                <select class="form-select" aria-label="Actions">
-                                    <option value="Kabupaten">Kabupaten</option>
-                                </select>
-                            </div>
-                        </div>
+                        <p class="input-information ml-1">Untuk melihat data zona klik <a
+                                href="{{ route('kabkota.index') }}">disini</a></p>
                     </div>`;
 
                 shortInput.remove();

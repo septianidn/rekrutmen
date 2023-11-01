@@ -25,15 +25,20 @@ class LoginAlumniController extends Controller
      */
     public function create(Request $request)
     {
-    
-        try {
-            $record = PaketSoal::where('untuk_lulusan', $request->untuk_lulusan)->firstOrFail();
-            $untuk_lulusan = $record->untuk_lulusan;
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            abort(404); 
-        }
+      //TODO: VALIDATION LOGOUT 2
+
+                // Auth::logout();
+            try {
+                $record = PaketSoal::where('untuk_lulusan', $request->untuk_lulusan)->firstOrFail();
+                $untuk_lulusan = $record->untuk_lulusan;
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                abort(404); 
+            }
+            
+            return view('frontoffice.tracerstudy.pengisian.login', compact('untuk_lulusan'));
         
-        return view('frontoffice.tracerstudy.pengisian.login', compact('untuk_lulusan'));
+
+      
     }
 
        /**
@@ -62,15 +67,14 @@ class LoginAlumniController extends Controller
                 }
                 else if($alumni->thn_lulus == $untuk_lulusan){
 
-                    $request['email'] = 'alumni@gmail.com';
-                    $request['pin'] = $request->pin;
+                    $request['email'] = $alumni->email;
+                    $request['password'] = $request->pin;
             
                     $request->authenticate();
             
                     $request->session()->regenerate();
             
-                    return redirect()->route('tracerstudy-pengisian.prolog', ['untuk_lulusan' => $request->untuk_lulusan]);
-            
+                    return redirect(RouteServiceProvider::ALUMNI);
                        
                 }
                 else{
@@ -106,14 +110,14 @@ class LoginAlumniController extends Controller
     // /**
     //  * Destroy an authenticated session.
     //  */
-    // public function destroy(Request $request): RedirectResponse
-    // {
-    //     Auth::guard('web')->logout();
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('alumni')->logout();
 
-    //     $request->session()->invalidate();
+        $request->session()->invalidate();
 
-    //     $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
-    //     return redirect('/');
-    // }
+        return redirect('/');
+    }
 }

@@ -17,52 +17,43 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/register', [RegisteredUserController::class, 'store'])
 //                 ->middleware('guest');
 
-Route::get('/backoffic3', [AuthenticatedSessionController::class, 'create'])
-                ->middleware('guest')
+Route::group(['middleware' => ['guest:web'],'RevalidateBackHistory'], function () {
+
+Route::get('/backoffic3', [AuthenticatedSessionController::class, 'create'])    
                 ->name('login');
-
-Route::post('/backoffic3', [AuthenticatedSessionController::class, 'store'])
-                ->middleware('guest');
-
+Route::post('/backoffic3', [AuthenticatedSessionController::class, 'store']);
 Route::get('/backoffic3/forgot-password', [PasswordResetLinkController::class, 'create'])
-                ->middleware('guest')
+               
                 ->name('password.request');
 
 Route::post('/backoffic3/forgot-password', [PasswordResetLinkController::class, 'store'])
-                ->middleware('guest')
+             
                 ->name('password.email');
 
 Route::get('/backoffic3/reset-password/{token}', [NewPasswordController::class, 'create'])
-                ->middleware('guest')
+             
                 ->name('password.reset');
 
 Route::post('/backoffic3/reset-password', [NewPasswordController::class, 'store'])
-                ->middleware('guest')
+             
                 ->name('password.update');
-
-Route::get('/backoffic3/verify-email', [EmailVerificationPromptController::class, '__invoke'])
-                ->middleware('auth')
+ });
+ 
+Route::group(['middleware' => ['auth:web'],'RevalidateBackHistory'], function () {       
+Route::get('/backoffic3/verify-email', [EmailVerificationPromptController::class, '__invoke'])      
                 ->name('verification.notice');
 
 Route::get('/backoffic3/verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-                ->middleware(['auth', 'signed', 'throttle:6,1'])
+                ->middleware(['signed', 'throttle:6,1'])
                 ->name('verification.verify');
 
 Route::post('/backoffic3/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                ->middleware(['auth', 'throttle:6,1'])
+                ->middleware([ 'throttle:6,1'])
                 ->name('verification.send');
 
-Route::get('/backoffic3/confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->middleware('auth')
+Route::get('/backoffic3/confirm-password', [ConfirmablePasswordController::class, 'show'])           
                 ->name('password.confirm');
-
-Route::post('/backoffic3/confirm-password', [ConfirmablePasswordController::class, 'store'])
-                ->middleware('auth');
-
+Route::post('/backoffic3/confirm-password', [ConfirmablePasswordController::class, 'store']);           
 Route::post('/backoffic3/logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->middleware('auth')
                 ->name('logout');
-
-Route::get('/login-tracer-study', [AuthenticatedSessionController::class, 'create'])
-->middleware('guest')
-->name('login-tc');
+ });

@@ -23,6 +23,9 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                if($guard === 'alumni'){
+                    return redirect()->route('tracerstudy-pengisian.prolog');
+                }
                 return redirect(RouteServiceProvider::HOME);
             }
         }

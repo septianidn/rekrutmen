@@ -17,8 +17,12 @@ return new class extends Migration
             $table->string('subjek');
             $table->longText('isi');
             $table->timestamp('tanggal_kirim');
-            $table->string('tipe');
-            $table->string('status');
+            $table->enum('tipe', ['blasting', 'single', 'None'])->default('single');
+          
+            $table->enum('status', ['send', 'failed']);
+            $table->bigInteger('template_id')->unsigned()->index();
+            $table->foreign('template_id')->references('id')->on('email_template')->onUpdate('cascade')->onDelete('cascade');
+           
             $table->timestamps();
         });
     }

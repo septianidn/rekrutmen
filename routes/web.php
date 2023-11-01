@@ -56,25 +56,27 @@ Route::get('/storage', function () {
     Artisan::call('storage:link');
 });
 
-
-
 //Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
+
 //Tracer Study Content
 Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
 Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
 
-//Tracer Study Auth
-Route::get('/tracerstudy/login', [LoginAlumniController::class, 'create'])->name('tracerstudy-login.create')->middleware('guest');
-Route::post('/tracerstudy/login', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store')->middleware('guest');
+//Tracer Study Kuesioner
 
-//Tracer Study With Auth
-Route::group(['middleware' => 'alumni'], function () {
-    Route::get('/tracerstudy/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
+Route::prefix('tracerstudy/kuesioner')->name('kuesioner.')->group(function(){
+    Route::group(['middleware' => 'guest:alumni'], function () {
+        Route::get('/login', [LoginAlumniController::class, 'create'])->name('tracerstudy-login.create');
+        Route::post('/login', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
+    });
+    Route::group(['middleware' => 'auth:alumni'], function () {
+        Route::get('/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
+    });
 });
 
 //Back Office With Auth
-Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin']], function () {
+Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth:web', 'role:admin', 'RevalidateBackHistory']], function () {
  
     // Users Module
     Route::resource('/users', UserController::class);
@@ -153,7 +155,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin']],
     });
 });
 
-Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin|adminprodi']], function () {
+Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth:web', 'role:admin|adminprodi', 'RevalidateBackHistory']], function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
     Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
@@ -165,7 +167,7 @@ Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:admin|adm
     });
 });
 
-Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth', 'role:adminprodi']], function () {
+Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth:web', 'role:adminprodi','RevalidateBackHistory']], function () {
 
 
 });

@@ -110,9 +110,21 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
                 tinymce.activeEditor.setContent("");
             }
         }
+        function changeValueSubject() {
+            var selectedTemplateId =  $("#template").val();
+            if (selectedTemplateId !== 'default') {
+                var selectedTemplateIsi = @json($templateOptions->pluck('isi_template', 'id')->toArray());
+                tinymce.activeEditor.setContent(selectedTemplateIsi[selectedTemplateId]);
+                console.log(selectedTemplateIsi[selectedTemplateId]);
+            } else {
+                tinymce.activeEditor.setContent("");
+            }
+        }
         changeValueTemplate();
+        changeValueSubject();
         selectedTemplate.on("change", function() {
             changeValueTemplate();
+            changeValueSubject();
         });
 
 

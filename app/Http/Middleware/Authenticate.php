@@ -15,6 +15,11 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+
+            if($request->routeIs('kuesioner.*')){
+                return route('kuesioner.tracerstudy-login.create', ['untuk_lulusan' => 2024]);
+
+            }
             return route('login');
         }
     }
