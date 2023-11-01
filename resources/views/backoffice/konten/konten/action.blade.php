@@ -1,5 +1,5 @@
 <div class="flex align-items-center list-konten-action">
-    <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit Konten" href="{{ route('kelola.edit', $data->id) }}">
+    <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit Konten" href="{{ route('backoffice.kelola.edit', $data->id) }}">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -39,7 +39,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{route('konten.destroy', '')}}/" + id;
+                form.action = "{{route('backoffice.konten.destroy', '')}}/" + id;
                 form.method = 'POST';
     
                 var csrfToken = document.createElement('input');

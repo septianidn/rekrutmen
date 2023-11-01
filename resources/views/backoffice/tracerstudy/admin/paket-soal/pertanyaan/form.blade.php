@@ -14,7 +14,7 @@
             ]) !!}
         @else --}}
         {!! Form::open([
-            'route' => ['pertanyaan.store', $idPaketSoal],
+            'route' => ['backoffice.pertanyaan.store', $idPaketSoal],
             'method' => 'post',
             'id' => 'formSoal',
             'enctype' => 'multipart/form-data',
@@ -1717,7 +1717,7 @@
                             @endforeach
                         </select>
                         <p class="input-information ml-1">Untuk melihat data pedia klik <a
-                                href="{{ route('datapedia.index') }}">disini</a></p>
+                                href="{{ route('backoffice.datapedia.index') }}">disini</a></p>
                     </div>`;
 
                 shortInput.remove();
@@ -1747,7 +1747,7 @@
                           
                         </div>
                         <p class="input-information ml-1">Untuk melihat data zona klik <a
-                                href="{{ route('kabkota.index') }}">disini</a></p>
+                                href="{{ route('backoffice.kabkota.index') }}">disini</a></p>
                     </div>`;
 
                 shortInput.remove();
@@ -2283,7 +2283,7 @@
             e.preventDefault();
             $.ajax({
                 type: "POST", // Use POST method
-                url: "{{ route('pertanyaan.store', $idPaketSoal) }}",
+                url: "{{ route('backoffice.pertanyaan.store', $idPaketSoal) }}",
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },

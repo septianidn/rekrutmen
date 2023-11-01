@@ -5,7 +5,7 @@
         <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
     </svg>
     </button>
-    <a href="{{route('dashboard')}}" class="navbar-brand col-md-2 col-lg-3">
+    <a href="{{route('backoffice.dashboard')}}" class="navbar-brand col-md-2 col-lg-3">
       <img src="{{ asset('images/backoffice/logo/logounand30.svg') }}" />
       <h4 class="logo-title">{{env('APP_NAME')}}</h4>
     </a>
@@ -198,7 +198,7 @@
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-          ` <li><a class="dropdown-item" href="{{route('users.show', auth()->id() || 1)}}">Profile</a></li>
+          ` <li><a class="dropdown-item" href="{{route('backoffice.users.show', auth()->id() || 1)}}">Profile</a></li>
           
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{route('auth.signin')}}">Logout</a></li>

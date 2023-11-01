@@ -15,10 +15,9 @@ class TracerStudyLandingPageController extends Controller
      */
     public function index(Request $request)
     {
-        $optionTracerStudy = PaketSoal::select('id', 'untuk_lulusan')
+        $optionTracerStudy = PaketSoal::select('untuk_lulusan', 'alias_url')
         ->orderBy('untuk_lulusan', 'DESC') // Mengurutkan berdasarkan 'untuk_lulusan' secara ascending (A-Z)
-        ->get();
-    
+        ->get(); 
         //TODO: ORDER BY TAHUN PELAKSANAAN
         $dataLaporan = LaporanTS::orderBy('created_at', 'DESC')->take(6)->get();
         return view('frontoffice.tracerstudy.tracer-study', compact('dataLaporan','optionTracerStudy'));

@@ -6,9 +6,9 @@
 
 ?>
 @if(isset($id))
-{!! Form::model($data, ['route' => ['grup-konten.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['backoffice.grup-konten.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
 @else
-{!! Form::open(['route' => ['grup-konten.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formModal' ]) !!}
+{!! Form::open(['route' => ['backoffice.grup-konten.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formModal' ]) !!}
 @endif
     <div class="form-group">
         <label class="form-label">Nama Grup</label>

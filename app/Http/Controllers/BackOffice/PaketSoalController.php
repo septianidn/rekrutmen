@@ -21,7 +21,7 @@ class PaketSoalController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('paketsoal.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('paket-soal.create').'" class="btn btn-sm btn-primary" role="button">Tambah Paket Soal</a>';
+        $headerAction = '<a href="'.route('backoffice.paket-soal.create').'" class="btn btn-sm btn-primary" role="button">Tambah Paket Soal</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -50,7 +50,7 @@ class PaketSoalController extends Controller
         
        $paketsoal = PaketSoal::create($request->all());
 
-       return redirect()->route('paket-soal.index')->withSuccess(__('message.paketsoal_msg_added',['name' => __('paket-soal.store')]));
+       return redirect()->route('backoffice.paket-soal.index')->withSuccess(__('message.paketsoal_msg_added',['name' => __('paket-soal.store')]));
     }
 
     /**
@@ -88,7 +88,7 @@ class PaketSoalController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('paket-soal.index')->withSuccess(__('message.paketsoal_msg_updated',['name' => __('Update Paket Soal')]));
+            return redirect()->route('backoffice.paket-soal.index')->withSuccess(__('message.paketsoal_msg_updated',['name' => __('Update Paket Soal')]));
         }
         return redirect()->back()->withSuccess(__('message.paketsoal_msg_updated',['name' => 'Paket Soal']));
 

@@ -6,9 +6,9 @@
     $grupKontenOptions = GrupKonten::all();
 ?>
 @if(isset($id))
-{!! Form::model($data, ['route' => ['kategori-konten.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['backoffice.kategori-konten.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
 @else
-{!! Form::open(['route' => ['kategori-konten.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formModal' ]) !!}
+{!! Form::open(['route' => ['backoffice.kategori-konten.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formModal' ]) !!}
 @endif
     <div class="form-group">
         <label class="form-label">Nama Kategori <span class="text-danger">*</span></label>

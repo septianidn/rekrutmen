@@ -6,7 +6,7 @@
     </svg>
     </button>
     <div class="col-md-2 navbar-brand">
-      <a href="{{route('dashboard')}}" class="d-flex">
+      <a href="{{route('backoffice.dashboard')}}" class="d-flex">
         <img src="{{ asset('images/backoffice/logo/logounand30.svg') }}" />
         <h4 class="logo-title">{{env('APP_NAME')}}</h4>
       </a>
@@ -199,7 +199,7 @@
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{route('users.show', auth()->id() || 1)}}">Profile</a></li>
+            <li><a class="dropdown-item" href="{{route('backoffice.users.show', auth()->id() || 1)}}">Profile</a></li>
          
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>

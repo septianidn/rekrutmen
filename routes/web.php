@@ -67,114 +67,113 @@ Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'la
 
 Route::prefix('tracerstudy/kuesioner')->name('kuesioner.')->group(function(){
     Route::group(['middleware' => 'guest:alumni'], function () {
-        Route::get('/login', [LoginAlumniController::class, 'create'])->name('tracerstudy-login.create');
-        Route::post('/login', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
+        Route::get('/login/{alias_url}', [LoginAlumniController::class, 'create'])->name('tracerstudy-login.create');
+        Route::post('/login/{alias_url}', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
     });
     Route::group(['middleware' => 'auth:alumni'], function () {
+        Route::get('/{alias_url}', [PengisianController::class, 'show'])->name('tracerstudy-pengisian.index');
         Route::get('/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
     });
 });
 
-//Back Office With Auth
-Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth:web', 'role:admin', 'RevalidateBackHistory']], function () {
- 
-    // Users Module
-    Route::resource('/users', UserController::class);
+//Back Office 
+Route::prefix('backoffic3')->name('backoffice.')->group(function(){
+    Route::group(['middleware' => ['auth:web', 'role:admin', 'RevalidateBackHistory']], function () {
+        // Users Module
+        Route::resource('/users', UserController::class);
 
-    Route::resource('/kelola-admin', KelolaAdminController::class);
-    Route::resource('/kelola-admin-prodi', AdminProdiController::class);
+        Route::resource('/kelola-admin', KelolaAdminController::class);
+        Route::resource('/kelola-admin-prodi', AdminProdiController::class);
 
-    // Permission Module
-    // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
-    Route::resource('/permission', PermissionController::class);
-    Route::resource('/role-permission', RolePermission::class);
-    Route::resource('/role', RoleController::class);
+        // Permission Module
+        // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
+        Route::resource('/permission', PermissionController::class);
+        Route::resource('/role-permission', RolePermission::class);
+        Route::resource('/role', RoleController::class);
 
-    //Upload File
-    Route::post('/upload-laporants', [UploadFileController::class, 'tmpUpload'])->name('upload-ts');
-    Route::delete('/delete-laporants', [UploadFileController::class, 'tmpDelete'])->name('delete-ts');
-    Route::post('/upload-avatar', [UploadAvatarController::class, 'tmpUpload'])->name('upload-profile-image.store');
-    Route::delete('/delete-avatar', [UploadAvatarController::class, 'tmpDelete'])->name('upload-profile-image.destroy');
-    Route::get('/fetch-avatar', [UploadAvatarController::class, 'fetch'])->name('upload-profile-image.fetch');
+        //Upload File
+        Route::post('/upload-laporants', [UploadFileController::class, 'tmpUpload'])->name('upload-ts');
+        Route::delete('/delete-laporants', [UploadFileController::class, 'tmpDelete'])->name('delete-ts');
+        Route::post('/upload-avatar', [UploadAvatarController::class, 'tmpUpload'])->name('upload-profile-image.store');
+        Route::delete('/delete-avatar', [UploadAvatarController::class, 'tmpDelete'])->name('upload-profile-image.destroy');
+        Route::get('/fetch-avatar', [UploadAvatarController::class, 'fetch'])->name('upload-profile-image.fetch');
 
-    Route::group(['prefix' => 'datamaster'], function () {
-        Route::resource('/jenjang', JenjangController::class);
-        Route::resource('/fakultas', FakultasController::class);
+        Route::group(['prefix' => 'datamaster'], function () {
+            Route::resource('/jenjang', JenjangController::class);
+            Route::resource('/fakultas', FakultasController::class);
 
-        Route::group(['prefix' => 'alumni'], function () {
-            Route::resource('/databasealumni', AlumniController::class);
-            Route::get('/delete-selected', [AlumniController::class, 'deletedSelected'])->name('deleted-selected-alumni');
-            Route::get('/blasting-ts/create', [AlumniController::class, 'blastingtsCreate'])->name('blastingts.create');
-            Route::get('/blasting-ts/store', [AlumniController::class, 'blastingtsStore'])->name('blastingts.store');
-            Route::get('/import/create', [AlumniController::class, 'import'])->name('importdatabasealumni.create');
-            Route::get('/import/store', [AlumniController::class, 'importStore'])->name('importdatabasealumni.store');
-            Route::get('/export/csv', [AlumniController::class, 'exportCSV'])->name('exportcsvdatabasealumni.store');
+            Route::group(['prefix' => 'alumni'], function () {
+                Route::resource('/databasealumni', AlumniController::class);
+                Route::get('/delete-selected', [AlumniController::class, 'deletedSelected'])->name('deleted-selected-alumni');
+                Route::get('/blasting-ts/create', [AlumniController::class, 'blastingtsCreate'])->name('blastingts.create');
+                Route::get('/blasting-ts/store', [AlumniController::class, 'blastingtsStore'])->name('blastingts.store');
+                Route::get('/import/create', [AlumniController::class, 'import'])->name('importdatabasealumni.create');
+                Route::get('/import/store', [AlumniController::class, 'importStore'])->name('importdatabasealumni.store');
+                Route::get('/export/csv', [AlumniController::class, 'exportCSV'])->name('exportcsvdatabasealumni.store');
+            });
+
+            Route::group(['prefix' => 'zona'], function () {
+                Route::resource('/provinsi', ProvinsiController::class);
+                Route::resource('/kabkota', KabKotaController::class);
+                
+            });
+
+            Route::resource('/datapedia', DataPediaController::class);
+            Route::resource('/datapedias', DataPediaSController::class);
+            Route::get('/datapedia/detail/{id_datapedia}', [DataPediaDetailController::class, 'index'])->name('datapediadetail.index');
+            Route::get('/datapedia/create/{id_datapedia}', [DataPediaDetailController::class, 'create'])->name('datapediadetail.create');
+            Route::get('/datapedia/edit/{id_datapedia}/{id}', [DataPediaDetailController::class, 'edit'])->name('datapediadetail.edit');
+            Route::post('/datapedia/store', [DataPediaDetailController::class, 'store'])->name('datapediadetail.store');
+            Route::patch('/datapedia/update/{id}', [DataPediaDetailController::class, 'update'])->name('datapediadetail.update');
+            Route::delete('/datapedia/destroy/{id}', [DataPediaDetailController::class, 'destroy'])->name('datapediadetail.destroy');
         });
 
-        Route::group(['prefix' => 'zona'], function () {
-            Route::resource('/provinsi', ProvinsiController::class);
-            Route::resource('/kabkota', KabKotaController::class);
-           
+        Route::group(['prefix' => 'email'], function () {
+            Route::resource('/template', EmailTemplateController::class);
+            Route::resource('/outbox', EmailBoxController::class);
+            Route::resource('/send', EmailSendController::class);
         });
 
+        Route::group(['prefix' => 'konten'], function () {
+            Route::resource('/laporan-tracer-study', LaporanTSController::class);
+            Route::resource('/grup-konten', GrupKontenController::class);
+            Route::resource('/kategori-konten', KategoriKontenController::class);
+            Route::resource('/kelola', KontenController::class);
+        });
 
-        Route::resource('/datapedia', DataPediaController::class);
-        Route::resource('/datapedias', DataPediaSController::class);
-        Route::get('/datapedia/detail/{id_datapedia}', [DataPediaDetailController::class, 'index'])->name('datapediadetail.index');
-        Route::get('/datapedia/create/{id_datapedia}', [DataPediaDetailController::class, 'create'])->name('datapediadetail.create');
-        Route::get('/datapedia/edit/{id_datapedia}/{id}', [DataPediaDetailController::class, 'edit'])->name('datapediadetail.edit');
-        Route::post('/datapedia/store', [DataPediaDetailController::class, 'store'])->name('datapediadetail.store');
-        Route::patch('/datapedia/update/{id}', [DataPediaDetailController::class, 'update'])->name('datapediadetail.update');
-        Route::delete('/datapedia/destroy/{id}', [DataPediaDetailController::class, 'destroy'])->name('datapediadetail.destroy');
+        Route::group(['prefix' => 'tracer-study'], function () {
+            Route::resource('/rekap', RekapTCController::class);
+            Route::resource('/paket-soal', PaketSoalController::class);
+
+            Route::get('paket-soal/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
+            Route::post('paket-soal/pertanyaan/{id}/store', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
+            Route::get('paket-soal/pertanyaan/{id}/edit', [PertanyaanController::class, 'edit'])->name('pertanyaan.edit');
+            Route::post('paket-soal/pertanyaan/{id}/update', [PertanyaanController::class, 'update'])->name('pertanyaan.update');
+            
+            Route::resource('/usulan-pertanyaan', EmailBoxController::class);
+            Route::resource('/jawaban', EmailSendController::class);
+        });
+
     });
 
-    Route::group(['prefix' => 'email'], function () {
-        Route::resource('/template', EmailTemplateController::class);
-        Route::resource('/outbox', EmailBoxController::class);
-        Route::resource('/send', EmailSendController::class);
+    Route::group(['middleware' => ['auth:web', 'role:admin|adminprodi', 'RevalidateBackHistory']], function () {
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+        Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
+        Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
+        Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
+    
+        Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
+        Route::group(['prefix' => 'datamaster'], function () {
+            Route::resource('/prodi', ProdiController::class);
+        });
     });
 
-    Route::group(['prefix' => 'konten'], function () {
-        Route::resource('/laporan-tracer-study', LaporanTSController::class);
-        Route::resource('/grup-konten', GrupKontenController::class);
-        Route::resource('/kategori-konten', KategoriKontenController::class);
-        Route::resource('/kelola', KontenController::class);
-    });
-
-    Route::group(['prefix' => 'tracer-study'], function () {
-        Route::resource('/rekap', RekapTCController::class);
-        Route::resource('/paket-soal', PaketSoalController::class);
-
-        Route::get('paket-soal/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
-        Route::post('paket-soal/pertanyaan/{id}/store', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
-        Route::get('paket-soal/pertanyaan/{id}/edit', [PertanyaanController::class, 'edit'])->name('pertanyaan.edit');
-        Route::post('paket-soal/pertanyaan/{id}/update', [PertanyaanController::class, 'update'])->name('pertanyaan.update');
+    Route::group(['middleware' => ['auth:web', 'role:adminprodi', 'RevalidateBackHistory']], function () {
        
-        Route::resource('/usulan-pertanyaan', EmailBoxController::class);
-        Route::resource('/jawaban', EmailSendController::class);
     });
+
+   
 });
-
-Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth:web', 'role:admin|adminprodi', 'RevalidateBackHistory']], function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
-    Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
-    Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
-
-    Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
-    Route::group(['prefix' => 'datamaster'], function () {
-        Route::resource('/prodi', ProdiController::class);
-    });
-});
-
-Route::group(['prefix' => 'backoffic3', 'middleware' => ['auth:web', 'role:adminprodi','RevalidateBackHistory']], function () {
-
-
-});
-
-
-
-
 
 
 //TEMPLATE

@@ -45,7 +45,7 @@ class RoleController extends Controller
 
         $roles = Role::create($request->all());
 
-       return redirect()->route('role-permission.index')->withSuccess(__('message.roles_msg_added',['name' => __('roles.store')]));
+       return redirect()->route('backoffice.role-permission.index')->withSuccess(__('message.roles_msg_added',['name' => __('roles.store')]));
    
     }
 
@@ -93,7 +93,7 @@ class RoleController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('role-permission.index')->withSuccess(__('message.role_msg_updated',['name' => __('Update Role')]));
+            return redirect()->route('backoffice.role-permission.index')->withSuccess(__('message.role_msg_updated',['name' => __('Update Role')]));
         }
         return redirect()->back()->withSuccess(__('message.role_msg_updated',['name' => 'Data Role']));
 

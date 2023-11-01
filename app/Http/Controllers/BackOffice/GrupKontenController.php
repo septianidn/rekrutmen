@@ -27,7 +27,7 @@ class GrupKontenController extends Controller
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
     
-        $headerAction = '<a data--href="' . route('grup-konten.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Grup Konten</a>';
+        $headerAction = '<a data--href="' . route('backoffice.grup-konten.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Grup Konten</a>';
 
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
@@ -52,7 +52,7 @@ class GrupKontenController extends Controller
     
        $grupkonten = GrupKonten::create($request->all());
 
-       return redirect()->route('grup-konten.index')->withSuccess(__('message.fakultas_msg_added',['name' => __('grup-konten.store')]));
+       return redirect()->route('backoffice.grup-konten.index')->withSuccess(__('message.fakultas_msg_added',['name' => __('grup-konten.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -80,7 +80,7 @@ class GrupKontenController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('grup-konten.index')->withSuccess(__('message.grupkonten_msg_updated',['name' => __('Update Grup Konten')]));
+            return redirect()->route('backoffice.grup-konten.index')->withSuccess(__('message.grupkonten_msg_updated',['name' => __('Update Grup Konten')]));
         }
         return redirect()->back()->withSuccess(__('message.grupkonten_msg_updated',['name' => 'Data Grup Konten']));
 

@@ -26,7 +26,7 @@ class ProdiController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('prodi.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('prodi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Prodi</a>';
+        $headerAction = '<a data--href="' . route('backoffice.prodi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Prodi</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -48,7 +48,7 @@ class ProdiController extends Controller
         
        $prodi = Prodi::create($request->all());
 
-       return redirect()->route('prodi.index')->withSuccess(__('message.prodi_msg_added',['name' => __('prodi.store')]));
+       return redirect()->route('backoffice.prodi.index')->withSuccess(__('message.prodi_msg_added',['name' => __('prodi.store')]));
     }
 
     
@@ -77,7 +77,7 @@ class ProdiController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('prodi.index')->withSuccess(__('message.prodi_msg_updated',['name' => __('Update Prodi')]));
+            return redirect()->route('backoffice.prodi.index')->withSuccess(__('message.prodi_msg_updated',['name' => __('Update Prodi')]));
         }
         return redirect()->back()->withSuccess(__('message.prodi_msg_updated',['name' => 'Data Prodi']));
 

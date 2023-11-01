@@ -2,9 +2,9 @@
 $data = $data ?? null;
 ?>
 @if(isset($data))
-{!! Form::model($data, ['route' => ['jenjang.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['backoffice.jenjang.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
 @else
-{!! Form::open(['route' => ['jenjang.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['route' => ['backoffice.jenjang.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 @endif
 
 <div class="form-group col-md-12">

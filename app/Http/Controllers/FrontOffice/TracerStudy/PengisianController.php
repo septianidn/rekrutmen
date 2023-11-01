@@ -15,11 +15,22 @@ class PengisianController extends Controller
      */
     public function prolog(Request $request)
     {
-        return view('frontoffice.tracerstudy.pengisian.prolog');
+        return view('frontoffice.tracerstudy.pengisian.pengisianv2');
     }
 
    
 
+    public function show(Request $request, $alias_url)
+    {
+       
+     
+        $paket_soal = PaketSoal::where('alias_url', $alias_url)->first();
+
+        if(!$paket_soal){
+            abort(404);
+        }
+        return view('frontoffice.tracerstudy.pengisian.pengisianv2', compact('paket_soal'));
+    }
 
 
    

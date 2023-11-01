@@ -27,7 +27,7 @@ class Alumni
                 throw ValidationException::withMessages([
                         'pin' => trans('logintc.loginfirst')
                     ]);
-                    return redirect()->route('tracerstudy-login.create', ['untuk_lulusan' => $untuk_lulusan]);
+                    return redirect()->route('backoffice.tracerstudy-login.create', ['untuk_lulusan' => $untuk_lulusan]);
             }
             else{
                 return $next($request);

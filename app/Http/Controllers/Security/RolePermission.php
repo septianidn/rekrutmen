@@ -41,7 +41,7 @@ class RolePermission extends Controller
             }
         }
     
-        return redirect()->route('role-permission.index')->withSuccess(__('message.permissions_msg_updated'));
+        return redirect()->route('backoffice.role-permission.index')->withSuccess(__('message.permissions_msg_updated'));
     }
     
 }

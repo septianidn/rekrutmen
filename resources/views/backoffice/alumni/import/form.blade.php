@@ -1,5 +1,5 @@
 {!! Form::open([
-    'route' => ['importdatabasealumni.store'],
+    'route' => ['backoffice.importdatabasealumni.store'],
     'method' => 'post',
     'enctype' => 'multipart/form-data',
     'id' => 'formModalImportDBAlumni',

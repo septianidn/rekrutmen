@@ -3,9 +3,9 @@ $data = $data ?? null;
 $id_datapedia ?? null;
 ?>
 @if(isset($data))
-{!! Form::model($data, ['route' => ['datapediadetail.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['backoffice.datapediadetail.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
 @else
-{!! Form::open(['route' => ['datapediadetail.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['route' => ['backoffice.datapediadetail.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 @endif
 
 {{ Form::hidden('data_pedia_id', isset($id_datapedia) ? $id_datapedia : old('data_pedia_id'), ['class' => 'form-control']) }}

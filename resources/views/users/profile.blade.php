@@ -51,7 +51,7 @@ $profileImage = $profileImage ?? null
                      <h4 class="card-title">Informasi Akun</h4>
                   </div>
                   <div class="card-action">
-                     <a href="{{route('users.edit', auth()->user()->id )}}" class="btn btn-sm btn-primary" role="button">Edit Profil</a>
+                     <a href="{{route('backoffice.users.edit', auth()->user()->id )}}" class="btn btn-sm btn-primary" role="button">Edit Profil</a>
                   </div>
                </div>
                <div class="card-body">
@@ -82,7 +82,7 @@ $profileImage = $profileImage ?? null
                      <h4 class="card-title">Profil Pengguna</h4>
                   </div>
                   <div class="card-action">
-                     <a href="{{route('users.edit', auth()->user()->id )}}" class="btn btn-sm btn-primary" role="button">Edit Profil</a>
+                     <a href="{{route('backoffice.users.edit', auth()->user()->id )}}" class="btn btn-sm btn-primary" role="button">Edit Profil</a>
                   </div>
                </div>
               

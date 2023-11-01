@@ -25,7 +25,7 @@ class LaporanTSController extends Controller
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
     
-        $headerAction = '<a href="'.route('laporan-tracer-study.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
+        $headerAction = '<a href="'.route('backoffice.laporan-tracer-study.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
 
         // $headerAction = '<a data--href="' . route('laporan-tracer-study.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Laporan Tracer Study</a>';
 
@@ -74,7 +74,7 @@ class LaporanTSController extends Controller
        }
 
 
-       return redirect()->route('laporan-tracer-study.index')->withSuccess(__('message.laporants_msg_added',['name' => __('laporan-tracer-study.store')]));
+       return redirect()->route('backoffice.laporan-tracer-study.index')->withSuccess(__('message.laporants_msg_added',['name' => __('laporan-tracer-study.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -121,7 +121,7 @@ class LaporanTSController extends Controller
         }
         }
         if(auth()->check()){
-            return redirect()->route('laporan-tracer-study.index')->withSuccess(__('message.laporants_msg_updated',['name' => __('Update Laporan')]));
+            return redirect()->route('backoffice.laporan-tracer-study.index')->withSuccess(__('message.laporants_msg_updated',['name' => __('Update Laporan')]));
         }
         return redirect()->back()->withSuccess(__('message.laporants_msg_updated',['name' => 'Data laporants']));
 

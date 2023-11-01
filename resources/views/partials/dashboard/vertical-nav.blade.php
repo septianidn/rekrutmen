@@ -6,7 +6,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('dashboard')) }}" aria-current="page" href="{{ route('dashboard') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.dashboard')) }}" aria-current="page"
+            href="{{ route('backoffice.dashboard') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -32,8 +33,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('users.index')) }}" aria-current="page"
-            href="{{ route('users.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.users.index')) }}" aria-current="page"
+            href="{{ route('backoffice.users.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -88,8 +89,8 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-anggota" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('kelola-admin.index')) }}" aria-current="page"
-                    href="{{ route('kelola-admin.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.kelola-admin.index')) }}" aria-current="page"
+                    href="{{ route('backoffice.kelola-admin.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -102,8 +103,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('kelola-admin-prodi.index')) }}" aria-current="page"
-                    href="{{ route('kelola-admin-prodi.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.kelola-admin-prodi.index')) }}" aria-current="page"
+                    href="{{ route('backoffice.kelola-admin-prodi.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -119,8 +120,8 @@
         </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('role-permission.index')) }}" aria-current="page"
-            href="{{ route('role-permission.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.role-permission.index')) }}" aria-current="page"
+            href="{{ route('backoffice.role-permission.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -134,8 +135,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('databasealumni.index')) }}" aria-current="page"
-            href="{{ route('databasealumni.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.databasealumni.index')) }}" aria-current="page"
+            href="{{ route('backoffice.databasealumni.index') }}">
             <i class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24" fill="none">
                     <path d="M2 5C2 4.44772 2.44772 4 3 4H8.66667H21C21.5523 4 22 4.44772 22 5V8H15.3333H8.66667H2V5Z"
@@ -188,7 +189,8 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-data-jurusan" data-bs-parent="#sidebar-kelola-data-jurusan">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('fakultas.index')) }}" href="{{ route('fakultas.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.fakultas.index')) }}"
+                    href="{{ route('backoffice.fakultas.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -202,7 +204,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('jenjang.index')) }}" href="{{ route('jenjang.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.jenjang.index')) }}"
+                    href="{{ route('backoffice.jenjang.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -216,7 +219,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('prodi.index')) }}" href="{{ route('prodi.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.prodi.index')) }}"
+                    href="{{ route('backoffice.prodi.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -257,8 +261,8 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-data-pedia" data-bs-parent="#sidebar-kelola-data-pedia">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('datapedias.index')) }}"
-                    href="{{ route('datapedias.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.datapedias.index')) }}"
+                    href="{{ route('backoffice.datapedias.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -272,8 +276,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('datapedia.index')) }}"
-                    href="{{ route('datapedia.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.datapedia.index')) }}"
+                    href="{{ route('backoffice.datapedia.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -316,7 +320,8 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-data-zona" data-bs-parent="#sidebar-kelola-data-zona">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('provinsi.index')) }}" href="{{ route('provinsi.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.provinsi.index')) }}"
+                    href="{{ route('backoffice.provinsi.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -330,7 +335,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('kabkota.index')) }}" href="{{ route('kabkota.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.kabkota.index')) }}"
+                    href="{{ route('backoffice.kabkota.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -419,8 +425,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('send.create')) }}" aria-current="page"
-            href="{{ route('send.create') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.send.create')) }}" aria-current="page"
+            href="{{ route('backoffice.send.create') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -436,8 +442,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('outbox.index')) }}" aria-current="page"
-            href="{{ route('outbox.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.outbox.index')) }}" aria-current="page"
+            href="{{ route('backoffice.outbox.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -452,8 +458,8 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('template.index')) }}" aria-current="page"
-            href="{{ route('template.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.template.index')) }}" aria-current="page"
+            href="{{ route('backoffice.template.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -482,8 +488,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('rekap.index')) }}" aria-current="page"
-            href="{{ route('rekap.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.rekap.index')) }}" aria-current="page"
+            href="{{ route('backoffice.rekap.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -544,8 +550,8 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-kelola-kuesioner" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('paket-soal.index')) }}"
-                    href="{{ route('paket-soal.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.paket-soal.index')) }}"
+                    href="{{ route('backoffice.paket-soal.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -653,8 +659,8 @@
         </a>
     </li> --}}
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('laporan-tracer-study.index')) }}" aria-current="page"
-            href="{{ route('laporan-tracer-study.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.laporan-tracer-study.index')) }}" aria-current="page"
+            href="{{ route('backoffice.laporan-tracer-study.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -695,8 +701,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('role-permission.index')) }}" aria-current="page"
-            href="{{ route('role-permission.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.role-permission.index')) }}" aria-current="page"
+            href="{{ route('backoffice.role-permission.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"
@@ -710,8 +716,8 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('role-permission.index')) }}" aria-current="page"
-            href="{{ route('role-permission.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.role-permission.index')) }}" aria-current="page"
+            href="{{ route('backoffice.role-permission.index') }}">
             <i class="icon">
                 <svg width="18px" height="18px" viewBox="0 0 24 24" id="meteor-icon-kit__regular-whatsapp"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -901,8 +907,8 @@
                 </a> --}}
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('auth.confirmmail')) }}"
-                    href="{{ route('auth.confirmmail') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.auth.confirmmail')) }}"
+                    href="{{ route('backoffice.auth.confirmmail') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -916,8 +922,8 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link {{ activeRoute(route('auth.lockscreen')) }}"
-                    href="{{ route('auth.lockscreen') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.auth.lockscreen')) }}"
+                    href="{{ route('backoffice.auth.lockscreen') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -931,7 +937,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('auth.recoverpw')) }}" href="{{ route('auth.recoverpw') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.auth.recoverpw')) }}"
+                    href="{{ route('backoffice.auth.recoverpw') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -981,7 +988,7 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('users.show', 1)) }}" href="{{ route('users.show', 1) }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.users.show', 1)) }}" href="{{ route('backoffice.users.show', 1) }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -995,7 +1002,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('users.create')) }}" href="{{ route('users.create') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.users.create')) }}"
+                    href="{{ route('backoffice.users.create') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -1009,7 +1017,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('users.index')) }}" href="{{ route('users.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.users.index')) }}" href="{{ route('backoffice.users.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -1088,8 +1096,8 @@
         </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('role-permission.index')) }}"
-            href="{{ route('role-permission.index') }}" target="_blank">
+        <a class="nav-link {{ activeRoute(route('backoffice.role-permission.index')) }}"
+            href="{{ route('backoffice.role-permission.index') }}" target="_blank">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"

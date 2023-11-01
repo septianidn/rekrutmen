@@ -26,7 +26,7 @@ class AlumniController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('alumni.title')] );
         $auth_alumni = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('databasealumni.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Alumni</a>';
+        $headerAction = '<a data--href="' . route('backoffice.databasealumni.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Alumni</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_alumni','assets', 'headerAction'));
     }
 
@@ -49,7 +49,7 @@ class AlumniController extends Controller
     
        $alumni = Alumni::create($request->all());
 
-       return redirect()->route('databasealumni.index')->withSuccess(__('message.alumni_msg_added',['name' => __('databasealumni.store')]));
+       return redirect()->route('backoffice.databasealumni.index')->withSuccess(__('message.alumni_msg_added',['name' => __('databasealumni.store')]));
     }
 
 
@@ -76,7 +76,7 @@ class AlumniController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('databasealumni.index')->withSuccess(__('message.alumni_msg_updated',['name' => __('Update Alumni')]));
+            return redirect()->route('backoffice.databasealumni.index')->withSuccess(__('message.alumni_msg_updated',['name' => __('Update Alumni')]));
         }
         return redirect()->back()->withSuccess(__('message.fakultas_msg_updated',['name' => 'Data Alumni']));
 

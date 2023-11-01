@@ -23,7 +23,7 @@ class UsulanPertanyaanController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('jenjang.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('jenjang.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Jenjang" data-placement="top" title="Tambah Data">Tambah Data Jenjang</a>';
+        $headerAction = '<a data--href="' . route('backoffice.jenjang.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Jenjang" data-placement="top" title="Tambah Data">Tambah Data Jenjang</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -54,7 +54,7 @@ class UsulanPertanyaanController extends Controller
         
        $jenjang = Jenjang::create($request->all());
 
-       return redirect()->route('jenjang.index')->withSuccess(__('message.jenjang_msg_added',['name' => __('jenjang.store')]));
+       return redirect()->route('backoffice.jenjang.index')->withSuccess(__('message.jenjang_msg_added',['name' => __('jenjang.store')]));
     }
 
     /**
@@ -92,7 +92,7 @@ class UsulanPertanyaanController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('jenjang.index')->withSuccess(__('message.jenjang_msg_updated',['name' => __('Update Jenjang')]));
+            return redirect()->route('backoffice.jenjang.index')->withSuccess(__('message.jenjang_msg_updated',['name' => __('Update Jenjang')]));
         }
         return redirect()->back()->withSuccess(__('message.jenjang_msg_updated',['name' => 'My Profile']));
 

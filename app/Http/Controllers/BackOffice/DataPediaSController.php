@@ -22,7 +22,7 @@ class DataPediaSController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('datapedias.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('datapedias.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Pedia" data-placement="top" title="Tambah Data">Tambah Data Pedia</a>';
+        $headerAction = '<a data--href="' . route('backoffice.datapedias.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Pedia" data-placement="top" title="Tambah Data">Tambah Data Pedia</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
     
@@ -45,7 +45,7 @@ class DataPediaSController extends Controller
         
        $datapedias = DataPediaS::create($request->all());
 
-       return redirect()->route('datapedias.index')->withSuccess(__('message.datapedias_msg_added',['name' => __('datapedias.store')]));
+       return redirect()->route('backoffice.datapedias.index')->withSuccess(__('message.datapedias_msg_added',['name' => __('datapedias.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -71,7 +71,7 @@ class DataPediaSController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('datapedias.index')->withSuccess(__('message.datapedias_msg_updated',['name' => __('Update Data Pedia')]));
+            return redirect()->route('backoffice.datapedias.index')->withSuccess(__('message.datapedias_msg_updated',['name' => __('Update Data Pedia')]));
         }
         return redirect()->back()->withSuccess(__('message.datapedias_msg_updated',['name' => 'Data Pedia']));
 

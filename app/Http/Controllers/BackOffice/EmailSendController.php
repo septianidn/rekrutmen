@@ -78,10 +78,10 @@ class EmailSendController extends Controller
            dd($emailColumn);
         }
         else{
-            return redirect()->route('send.create')->withErrors(__('message.emailsend_msg_error_type',['name' => __('send.store')]));
+            return redirect()->route('backoffice.send.create')->withErrors(__('message.emailsend_msg_error_type',['name' => __('send.store')]));
         }
         
-        return redirect()->route('outbox.index')->withSuccess(__('message.emailsend_msg_added',['name' => __('outbox.store')]));
+        return redirect()->route('backoffice.outbox.index')->withSuccess(__('message.emailsend_msg_added',['name' => __('outbox.store')]));
     }
  
      private function saveData($recipientEmail, $subject, $content, $type, $status, $sentAt)

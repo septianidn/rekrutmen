@@ -44,7 +44,7 @@
                               </div>
                            </div>
                            <div class="modal-footer">
-                              <a type="button" class="btn btn-sm btn-danger" href="{{ route('outbox.index')}}"> Kembali</a>
+                              <a type="button" class="btn btn-sm btn-danger" href="{{ route('backoffice.outbox.index')}}"> Kembali</a>
                            </div>
              
          </div>

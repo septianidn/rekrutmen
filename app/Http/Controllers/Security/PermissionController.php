@@ -44,7 +44,7 @@ class PermissionController extends Controller
 
         $permission = Permission::create($request->all());
 
-       return redirect()->route('role-permission.index')->withSuccess(__('message.permission_msg_added',['name' => __('permission.store')]));
+       return redirect()->route('backoffice.role-permission.index')->withSuccess(__('message.permission_msg_added',['name' => __('permission.store')]));
    
     }
 
@@ -91,7 +91,7 @@ class PermissionController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('role-permission.index')->withSuccess(__('message.permission_msg_updated',['name' => __('Update Permission')]));
+            return redirect()->route('backoffice.role-permission.index')->withSuccess(__('message.permission_msg_updated',['name' => __('Update Permission')]));
         }
         return redirect()->back()->withSuccess(__('message.role_msg_updated',['name' => 'Data Permission']));
 

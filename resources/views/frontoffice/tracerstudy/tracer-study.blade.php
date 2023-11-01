@@ -138,8 +138,6 @@
 
                                 <div class="job-search-form">
                                     {!! Form::open([
-                                        'route' => ['kuesioner.tracerstudy-login.create', ''],
-                                        'method' => 'get',
                                         'enctype' => 'multipart/form-data',
                                         'id' => 'formTC',
                                     ]) !!}
@@ -149,14 +147,14 @@
                                     </div>
 
                                     <div class="single-field-item">
-                                        {{ Form::select('untuk_lulusan', $optionTracerStudy->pluck('untuk_lulusan', 'untuk_lulusan'), null, [
+                                        {{ Form::select('untuk_lulusan', $optionTracerStudy->pluck('untuk_lulusan', 'alias_url'), null, [
                                             'class' => 'form-select',
                                             'id' => 'untuk_lulusan',
                                         ]) }}
                                     </div>
 
                                     <div class="submit-btn">
-                                        <button class="btn" type="submit">Isi Kuesioner</button>
+                                        <button class="btn" id="toLogin" type="button">Isi Kuesioner</button>
                                     </div>
 
                                     {{ Form::close() }}
@@ -1368,20 +1366,16 @@
 
         document.addEventListener("DOMContentLoaded", function() {
 
-            var selectElement = document.getElementById('untuk_lulusan');
-            var formElement = document.getElementById('formTC');
+            $('#toLogin').click(function() {
+                var selectedValue = $('#untuk_lulusan').val();
 
-            function updateFormAction() {
-                var selectedOption = selectElement.options[selectElement.selectedIndex].textContent;
-                formElement.action = "{{ route('kuesioner.tracerstudy-login.create', ':selectedOption') }}".replace(
-                    ':selectedOption', selectedOption);
-            }
-
-            // Inisialisasi nilai awal
-            updateFormAction();
-
-            // Mendengarkan event change pada elemen <select>
-            selectElement.addEventListener('change', updateFormAction);
+                if (selectedValue) {
+                    // Arahkan pengguna ke URL yang sesuai
+                    var redirectUrl = "{{ route('kuesioner.tracerstudy-login.create', ':alias_url') }}".replace(
+                        ':alias_url', selectedValue);
+                    window.location.href = redirectUrl;
+                }
+            });
             initializeCounterRANDOMID();
         });
     </script>

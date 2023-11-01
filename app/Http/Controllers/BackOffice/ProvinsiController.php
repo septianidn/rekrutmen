@@ -24,7 +24,7 @@ class ProvinsiController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('provinsi.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('provinsi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Provinsi" data-placement="top" title="Tambah Data">Tambah Data</a>';
+        $headerAction = '<a data--href="' . route('backoffice.provinsi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Provinsi" data-placement="top" title="Tambah Data">Tambah Data</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
     
@@ -46,7 +46,7 @@ class ProvinsiController extends Controller
         
        $provinsi = Provinsi::create($request->all());
 
-       return redirect()->route('provinsi.index')->withSuccess(__('message.provinsi_msg_added',['name' => __('provinsi.store')]));
+       return redirect()->route('backoffice.provinsi.index')->withSuccess(__('message.provinsi_msg_added',['name' => __('provinsi.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -72,7 +72,7 @@ class ProvinsiController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('provinsi.index')->withSuccess(__('message.provinsi_msg_updated',['name' => __('Update Data Pedia')]));
+            return redirect()->route('backoffice.provinsi.index')->withSuccess(__('message.provinsi_msg_updated',['name' => __('Update Data Pedia')]));
         }
         return redirect()->back()->withSuccess(__('message.provinsi_msg_updated',['name' => 'Data Pedia']));
 

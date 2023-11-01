@@ -21,7 +21,7 @@
                         System</b>.</h4>
                 <div class="d-flex justify-content-center align-items-center">
                     <div>
-                        <a class="bg-white btn btn-light d-flex" target="_blank" href="{{ route('dashboard') }}">
+                        <a class="bg-white btn btn-light d-flex" target="_blank" href="{{ route('backoffice.dashboard') }}">
                             <svg width="22" height="22" class="me-1" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

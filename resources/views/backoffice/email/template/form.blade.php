@@ -5,12 +5,12 @@
         ?>
         @if (isset($id))
             {!! Form::model($data, [
-                'route' => ['template.update', $id],
+                'route' => ['backoffice.template.update', $id],
                 'method' => 'patch',
                 'enctype' => 'multipart/form-data',
             ]) !!}
         @else
-            {!! Form::open(['route' => ['template.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::open(['route' => ['backoffice.template.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
         @endif
         <div class="row">
             <div class="col-xl-12 col-lg-12">
@@ -20,7 +20,7 @@
                             <h4 class="card-title">{{ $id !== null ? 'Update' : 'Tambah' }} Template Email</h4>
                         </div>
                         <div class="card-action">
-                            <a href="{{ route('template.index') }}" class="btn btn-sm btn-primary"
+                            <a href="{{ route('backoffice.template.index') }}" class="btn btn-sm btn-primary"
                                 role="button">Kembali</a>
                         </div>
                     </div>

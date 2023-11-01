@@ -24,7 +24,7 @@ class KelolaAdminController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('admin.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';
+        $headerAction = '<a href="'.route('backoffice.users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -59,7 +59,7 @@ class KelolaAdminController extends Controller
         // Save user Profile data...
         $user->userProfile()->create($request->userProfile);
 
-        return redirect()->route('kelolaadmin.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
+        return redirect()->route('backoffice.kelolaadmin.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
     }
 
     /**

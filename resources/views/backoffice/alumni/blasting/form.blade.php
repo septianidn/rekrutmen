@@ -5,7 +5,7 @@ $templateEmailOption = $templateEmailOption ?? null;
 ?>
 
 {!! Form::open([
-    'route' => ['databasealumni.store'],
+    'route' => ['backoffice.databasealumni.store'],
     'method' => 'post',
     'enctype' => 'multipart/form-data',
     'id' => 'formModalBlasting',
@@ -20,7 +20,7 @@ $templateEmailOption = $templateEmailOption ?? null;
     <div class="form-group col-md-6">
         <label class="form-label" for="template_id">Template Email <span class="text-danger">*</span></label>
         {{ Form::select('template_id', $templateEmailOption, null, ['class' => 'form-control', 'placeholder' => 'Pilih Template Email', 'id' => 'template_id', 'required']) }}
-        <small>Kelola temmplate email <a href="{{ route('template.index') }}">disini</a></small>
+        <small>Kelola temmplate email <a href="{{ route('backoffice.template.index') }}">disini</a></small>
     </div>
 
 </div>

@@ -6,7 +6,7 @@
                <div class="col-md-10">
                   <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                      <div class="card-body">
-                        <a href="{{route('dashboard')}}" class="navbar-brand d-flex align-items-center mb-3">
+                        <a href="{{route('backoffice.dashboard')}}" class="navbar-brand d-flex align-items-center mb-3">
                            <img src="{{ asset('images/backoffice/logo/logounand30.svg') }}" />
                            <h4 class="logo-title ms-3">{{env('APP_NAME')}}</h4>
                         </a>

@@ -4,7 +4,7 @@ $templateOptions = \App\Models\EmailTemplate::all() ?? null;
 
 <x-app-layout :assets="$assets ?? []">
     <div>
-        {!! Form::open(['route' => ['send.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'novalidate']) !!}
+        {!! Form::open(['route' => ['backoffice.send.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'novalidate']) !!}
        <div class="row">
           <div class="col-xl-12 col-lg-12">
              <div class="card">

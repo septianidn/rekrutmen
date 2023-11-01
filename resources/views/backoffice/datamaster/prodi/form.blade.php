@@ -10,9 +10,9 @@ $jenjangOptions = Jenjang::all();
 
 ?>
 @if(isset($data))
-{!! Form::model($data, ['route' => ['prodi.update', $data->kode_prodi], 'method' => 'patch' , 'enctype' => 'multipart/form-data', 'id' => 'formModal']) !!}
+{!! Form::model($data, ['route' => ['backoffice.prodi.update', $data->kode_prodi], 'method' => 'patch' , 'enctype' => 'multipart/form-data', 'id' => 'formModal']) !!}
 @else
-{!! Form::open(['route' => ['prodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formModal']) !!}
+{!! Form::open(['route' => ['backoffice.prodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data', 'id' => 'formModal']) !!}
 @endif
 <div class="form-group col-md-12">
     <label class="form-label" for="kode_prodi">Kode Prodi <span class="text-danger">*</span></label>

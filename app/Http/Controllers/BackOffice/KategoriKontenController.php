@@ -23,7 +23,7 @@ class KategoriKontenController extends Controller
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
     
-        $headerAction = '<a data--href="' . route('kategori-konten.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Kategori Konten</a>';
+        $headerAction = '<a data--href="' . route('backoffice.kategori-konten.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Kategori Konten</a>';
 
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
@@ -48,7 +48,7 @@ class KategoriKontenController extends Controller
     
        $kategorikonten = KategoriKonten::create($request->all());
 
-       return redirect()->route('kategori-konten.index')->withSuccess(__('message.kategorikonten_msg_added',['name' => __('kategori-konten.store')]));
+       return redirect()->route('backoffice.kategori-konten.index')->withSuccess(__('message.kategorikonten_msg_added',['name' => __('kategori-konten.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -76,7 +76,7 @@ class KategoriKontenController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('kategori-konten.index')->withSuccess(__('message.kategorikonten_msg_updated',['name' => __('Update Kategori Konten')]));
+            return redirect()->route('backoffice.kategori-konten.index')->withSuccess(__('message.kategorikonten_msg_updated',['name' => __('Update Kategori Konten')]));
         }
         return redirect()->back()->withSuccess(__('message.kategorikonten_msg_updated',['name' => 'Data Kategori Konten']));
 

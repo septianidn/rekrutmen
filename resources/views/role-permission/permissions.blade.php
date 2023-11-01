@@ -8,7 +8,7 @@
                   <h4 class="card-title mb-0">Role & Permission</h4>
                </div>
                <div class="text-center ms-3 ms-lg-0 ms-md-0">
-                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('permission.create') }}" data-app-title="Tambah Permission" data-placement="top" title="Tambah Permission">
+                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('backoffice.permission.create') }}" data-app-title="Tambah Permission" data-placement="top" title="Tambah Permission">
                         <i class="btn-inner">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -16,7 +16,7 @@
                         </i>
                         <span>Tambah Permission</span>
                     </a>
-                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('role.create') }}" data-app-title="Tambah Role" data-placement="top" title="Tambah Role">
+                    <a href="#" class="mt-lg-0 mt-md-0 mt-3 btn btn-primary btn-icon" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('backoffice.role.create') }}" data-app-title="Tambah Role" data-placement="top" title="Tambah Role">
                         <i class="btn-inner">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -28,7 +28,7 @@
             </div>
             <div class="card-body px-0">
                 <div class="table-responsive">
-                    {{ Form::open(['route' => ['role-permission.store'], 'method' => 'post']) }}
+                    {{ Form::open(['route' => ['backoffice.role-permission.store'], 'method' => 'post']) }}
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -36,7 +36,7 @@
                                     @foreach ($roles as $role)
                                         <th class="text-center">{{ $role->title }}
                                         <div style="float:right;">
-                                        <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('role.edit', $role->id) }}" data-app-title="Edit Data Role" data-placement="top" title="Edit Role">
+                                        <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('backoffice.role.edit', $role->id) }}" data-app-title="Edit Data Role" data-placement="top" title="Edit Role">
                                             <span class="btn-inner">
                                                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
                                                     <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -64,7 +64,7 @@
                                 <tr class="{{ !isset($permission->parent_id) ? 'bg-body' : '' }}">
                                     <td>{{ $permission->title }}
                                     <div style="float:right;">
-                                        <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('permission.edit', $permission->id) }}" data-app-title="Edit Data Permission" data-placement="top" title="Edit Permission">
+                                        <a class="btn btn-sm btn-icon text-primary flex-end" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-size="small" data--href="{{ route('backoffice.permission.edit', $permission->id) }}" data-app-title="Edit Data Permission" data-placement="top" title="Edit Permission">
                                         <span class="btn-inner">
                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
                                                 <path d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -146,7 +146,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{route('role.destroy', '')}}/" + id;
+                form.action = "{{route('backoffice.role.destroy', '')}}/" + id;
                 form.method = 'POST';
     
                 var csrfToken = document.createElement('input');
@@ -182,7 +182,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{route('permission.destroy', '')}}/" + id;
+                form.action = "{{route('backoffice.permission.destroy', '')}}/" + id;
                 form.method = 'POST';
     
                 var csrfToken = document.createElement('input');

@@ -22,7 +22,7 @@ class DataPediaDetailController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('datapedia.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('datapediadetail.create', $id_datapedia) . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Data</a>';
+        $headerAction = '<a data--href="' . route('backoffice.datapediadetail.create', $id_datapedia) . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data" data-placement="top" title="Tambah Data">Tambah Data</a>';
        
         return $dataTable->render('global.datatable', compact('pageTitle', 'auth_user', 'assets', 'headerAction', 'id_datapedia'));
     }
@@ -46,7 +46,7 @@ class DataPediaDetailController extends Controller
         
        $datapediadetail = DataPediaDetail::create($request->all());
 
-       return redirect()->route('datapediadetail.index', $request->data_pedia_id)->withSuccess(__('message.datapedia_msg_added',['name' => __('datapedia.store')]));
+       return redirect()->route('backoffice.datapediadetail.index', $request->data_pedia_id)->withSuccess(__('message.datapedia_msg_added',['name' => __('datapedia.store')]));
     }
 
     public function edit($id_datapedia, $id, Request $request)
@@ -72,7 +72,7 @@ class DataPediaDetailController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('datapediadetail.index', $request->data_pedia_id)->withSuccess(__('message.datapediadetail_msg_updated',['name' => __('Update Data Pedia')]));
+            return redirect()->route('backoffice.datapediadetail.index', $request->data_pedia_id)->withSuccess(__('message.datapediadetail_msg_updated',['name' => __('Update Data Pedia')]));
         }
         return redirect()->back()->withSuccess(__('message.datapediadetail_msg_updated',['name' => 'Data Pedia Detail']));
 

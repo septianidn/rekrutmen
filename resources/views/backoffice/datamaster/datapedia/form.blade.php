@@ -2,9 +2,9 @@
 $data = $data ?? null;
 ?>
 @if(isset($data))
-{!! Form::model($data, ['route' => ['datapedia.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['backoffice.datapedia.update', $data->id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
 @else
-{!! Form::open(['route' => ['datapedia.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['route' => ['backoffice.datapedia.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 @endif
 
 <div class="form-group col-md-12">

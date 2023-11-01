@@ -1,6 +1,6 @@
 <div class="flex align-items-center list-provinsi-action">
     <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add"
-        data-size="small" data--href="{{ route('provinsi.edit', $data->kode_provinsi) }}"
+        data-size="small" data--href="{{ route('backoffice.provinsi.edit', $data->kode_provinsi) }}"
         data-app-title="Edit Data Provinsi" data-placement="top" title="Edit Data Provinsi">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{ route('provinsi.destroy', '') }}/" + kode_provinsi;
+                form.action = "{{ route('backoffice.provinsi.destroy', '') }}/" + kode_provinsi;
                 form.method = 'POST';
 
                 var csrfToken = document.createElement('input');

@@ -175,7 +175,7 @@ class AlumniDataTable extends DataTable
                                                 method: "GET",
                                                 headers: { "X-CSRF-TOKEN": csrfToken },
                                                 contentType: "application/json",
-                                                url: "' . route("deleted-selected-alumni") . '",
+                                                url: "' . route("backoffice.deleted-selected-alumni") . '",
                                                 data: { selectedIds: selectedIds },
                                                 success: function(response) {
                                                     $("#dataTable").DataTable().ajax.reload();
@@ -213,7 +213,7 @@ class AlumniDataTable extends DataTable
                                         method: "GET",
                                         headers: { "X-CSRF-TOKEN": csrfToken },
                                         contentType: "application/json",
-                                        url: "' . route("blastingts.create") . '",
+                                        url: "' . route("backoffice.blastingts.create") . '",
                                         data: { selectedIdBlasting: selectedIdBlasting },
                                         success: function(response) {
                                           
@@ -239,7 +239,7 @@ class AlumniDataTable extends DataTable
                                 'data-bs-toggle' => 'tooltip',
                                 'data-modal-form' => 'form',
                                 'data-icon' => 'person_add',
-                                'data--href' => route('importdatabasealumni.create'),
+                                'data--href' => route('backoffice.importdatabasealumni.create'),
                                 'data-app-title' => 'Tambah Data',
                                 'data-placement' => 'top',
                                 'title' => 'Tambah Data'

@@ -4,9 +4,9 @@
     $parentOptions = \Spatie\Permission\Models\Permission::all() ?? null;
 ?>
 @if(isset($id))
-{!! Form::model($data, ['route' => ['permission.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+{!! Form::model($data, ['route' => ['backoffice.permission.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
 @else
-{!! Form::open(['route' => ['permission.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['route' => ['backoffice.permission.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 @endif
     <div class="form-group">
         <label class="form-label">Nama Permission</label>

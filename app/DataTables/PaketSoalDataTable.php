@@ -43,9 +43,8 @@ class PaketSoalDataTable extends DataTable
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
             ->editColumn('alias_url', function ($query) {
-           
-                    return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">' . $query->alias_url . '</a>';
-     
+                return '<a href="' . route('kuesioner.tracerstudy-login.create', $query->alias_url) . '" target="_blank" class="">' . "/" . $query->alias_url . '</a>';
+
                 })
             
             ->addColumn('jumlah_pertanyaan', function ($query) {
@@ -54,11 +53,11 @@ class PaketSoalDataTable extends DataTable
                 });
             
                 if( $jumlah_pertanyaan == 0 ){
-                    return '<a href="' . route("pertanyaan.create", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
+                    return '<a href="' . route("backoffice.pertanyaan.create", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
      
                 }
                 else{
-                    return '<a href="' . route("pertanyaan.edit", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
+                    return '<a href="' . route("backoffice.pertanyaan.edit", $query->id) . '" class="">' . $jumlah_pertanyaan . '</a>';
     
                 }
                 })

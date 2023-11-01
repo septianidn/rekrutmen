@@ -15,12 +15,14 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-
             if($request->routeIs('kuesioner.*')){
-                return route('kuesioner.tracerstudy-login.create', ['untuk_lulusan' => 2024]);
-
+                $uri = $request->getRequestUri();
+                $replacement = str_replace('/tracerstudy/kuesioner/', '', $uri);
+                return route('kuesioner.tracerstudy-login.create', $replacement);
             }
-            return route('login');
+            elseif($request->routeIs('backoffice.*')){
+                return route('login');
+            }
         }
     }
 }

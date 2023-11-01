@@ -23,7 +23,7 @@ class EmailTemplateController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('emailtemplate.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('template.create').'" class="btn btn-sm btn-primary" role="button">Tambah Template</a>';
+        $headerAction = '<a href="'.route('backoffice.template.create').'" class="btn btn-sm btn-primary" role="button">Tambah Template</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -52,7 +52,7 @@ class EmailTemplateController extends Controller
         
        $emailtemplate = EmailTemplate::create($request->all());
 
-       return redirect()->route('template.index')->withSuccess(__('message.emailtemplate_msg_added',['name' => __('template.store')]));
+       return redirect()->route('backoffice.template.index')->withSuccess(__('message.emailtemplate_msg_added',['name' => __('template.store')]));
     }
 
     /**
@@ -90,7 +90,7 @@ class EmailTemplateController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('template.index')->withSuccess(__('message.emailtemplate_msg_updated',['name' => __('Update Template Email')]));
+            return redirect()->route('backoffice.template.index')->withSuccess(__('message.emailtemplate_msg_updated',['name' => __('Update Template Email')]));
         }
         return redirect()->back()->withSuccess(__('message.emailtemplate_msg_updated',['name' => 'My Profile']));
 

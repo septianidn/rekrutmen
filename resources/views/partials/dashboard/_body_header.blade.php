@@ -1,6 +1,6 @@
 <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
   <div class="container-fluid navbar-inner">
-    <a href="{{route('dashboard')}}" class="navbar-brand">
+    <a href="{{route('backoffice.dashboard')}}" class="navbar-brand">
       <img src="{{ asset('images/backoffice/logo/logounand30.svg') }}" alt="Logo Unand" >
       <h4 class="logo-title">{{env('APP_NAME')}}</h4>
     </a>
@@ -199,7 +199,7 @@
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{route('users.show', auth()->id() )}}">Profile</a></li>
+            <li><a class="dropdown-item" href="{{route('backoffice.users.show', auth()->id() )}}">Profile</a></li>
            
             <li><hr class="dropdown-divider"></li>
             <li><form method="POST" action="{{route('logout')}}">

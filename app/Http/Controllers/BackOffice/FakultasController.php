@@ -23,7 +23,7 @@ class FakultasController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('fakultas.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a data--href="' . route('fakultas.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Fakultas" data-placement="top" title="Tambah Data">Tambah Fakultas</a>';
+        $headerAction = '<a data--href="' . route('backoffice.fakultas.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Fakultas" data-placement="top" title="Tambah Data">Tambah Fakultas</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -46,7 +46,7 @@ class FakultasController extends Controller
         
        $fakultas = Fakultas::create($request->all());
 
-       return redirect()->route('fakultas.index')->withSuccess(__('message.fakultas_msg_added',['name' => __('fakultas.store')]));
+       return redirect()->route('backoffice.fakultas.index')->withSuccess(__('message.fakultas_msg_added',['name' => __('fakultas.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -72,7 +72,7 @@ class FakultasController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('fakultas.index')->withSuccess(__('message.fakultas_msg_updated',['name' => __('Update Fakultas')]));
+            return redirect()->route('backoffice.fakultas.index')->withSuccess(__('message.fakultas_msg_updated',['name' => __('Update Fakultas')]));
         }
         return redirect()->back()->withSuccess(__('message.fakultas_msg_updated',['name' => 'Data Fakultas']));
 

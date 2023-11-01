@@ -4,12 +4,12 @@ $datapedias = \App\Models\DataPediaS::all() ?? null;
 ?>
 @if (isset($data))
     {!! Form::model($data, [
-        'route' => ['datapedias.update', $data->id],
+        'route' => ['backoffice.datapedias.update', $data->id],
         'method' => 'patch',
         'enctype' => 'multipart/form-data',
     ]) !!}
 @else
-    {!! Form::open(['route' => ['datapedias.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['route' => ['backoffice.datapedias.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 @endif
 
 <div class="form-group col-md-12">

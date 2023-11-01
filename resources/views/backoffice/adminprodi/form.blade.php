@@ -5,9 +5,9 @@
          $data = $data ?? null;
       ?>
       @if(isset($id))
-      {!! Form::model($data, ['route' => ['kelola-admin-prodi.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::model($data, ['route' => ['backoffice.kelola-admin-prodi.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
       @else
-      {!! Form::open(['route' => ['kelola-admin-prodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::open(['route' => ['backoffice.kelola-admin-prodi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
       @endif
       <div class="row">
          <div class="col-xl-3 col-lg-4">
@@ -88,7 +88,7 @@
                      <h4 class="card-title">{{$id !== null ? 'Update' : 'New' }} Informasi Pengguna</h4>
                   </div>
                   <div class="card-action">
-                        <a href="{{route('users.index')}}" class="btn btn-sm btn-primary" role="button">Kembali</a>
+                        <a href="{{route('backoffice.users.index')}}" class="btn btn-sm btn-primary" role="button">Kembali</a>
                   </div>
                </div>
                <div class="card-body">

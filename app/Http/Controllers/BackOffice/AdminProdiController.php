@@ -22,7 +22,7 @@ class AdminProdiController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('adminprodi.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('kelola-admin-prodi.create').'" class="btn btn-sm btn-primary" role="button">Tambah Admin Prodi</a>';
+        $headerAction = '<a href="'.route('backoffice.kelola-admin-prodi.create').'" class="btn btn-sm btn-primary" role="button">Tambah Admin Prodi</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -65,7 +65,7 @@ class AdminProdiController extends Controller
         }
 
 
-        return redirect()->route('kelola-admin-prodi.index')->withSuccess(__('message.adminprodi_msg_added',['name' => __('adminprodi.store')]));
+        return redirect()->route('backoffice.kelola-admin-prodi.index')->withSuccess(__('message.adminprodi_msg_added',['name' => __('adminprodi.store')]));
     }
 
     /**

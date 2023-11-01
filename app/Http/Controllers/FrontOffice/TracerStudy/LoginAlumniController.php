@@ -23,23 +23,21 @@ class LoginAlumniController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create(Request $request)
-    {
-      //TODO: VALIDATION LOGOUT 2
-
-                // Auth::logout();
-            try {
-                $record = PaketSoal::where('untuk_lulusan', $request->untuk_lulusan)->firstOrFail();
-                $untuk_lulusan = $record->untuk_lulusan;
-            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-                abort(404); 
+    public function create(Request $request, $alias_url)
+    {    
+        try {
+            $paket_soal = PaketSoal::where('alias_url', $alias_url)->first();
+            if ($paket_soal) {
+                $untuk_lulusan = $paket_soal->untuk_lulusan;
+                return view('frontoffice.tracerstudy.pengisian.login', compact('untuk_lulusan'));
+            } else {
+                throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
             }
-            
-            return view('frontoffice.tracerstudy.pengisian.login', compact('untuk_lulusan'));
-        
-
-      
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            abort(404); 
+        }
     }
+    
 
        /**
      * Handle an incoming authentication request.

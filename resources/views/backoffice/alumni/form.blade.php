@@ -11,14 +11,14 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
 ?>
 @if (isset($data))
     {!! Form::model($data, [
-        'route' => ['databasealumni.update', $data->nim],
+        'route' => ['backoffice.databasealumni.update', $data->nim],
         'method' => 'patch',
         'enctype' => 'multipart/form-data',
         'id' => 'formModal',
     ]) !!}
 @else
     {!! Form::open([
-        'route' => ['databasealumni.store'],
+        'route' => ['backoffice.databasealumni.store'],
         'method' => 'post',
         'enctype' => 'multipart/form-data',
         'id' => 'formModal',

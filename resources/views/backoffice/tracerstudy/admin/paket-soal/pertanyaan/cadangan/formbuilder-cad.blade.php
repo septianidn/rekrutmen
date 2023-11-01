@@ -458,7 +458,7 @@
                             <option value="{{ $datapediaOption->id }}">{{ $datapediaOption->nama_data }}</option>
 @endforeach
 </select>
-<p class="input-information ml-1">Untuk melihat data pedia klik <a href="{{ route('datapedia.index') }}">disini</a></p>
+<p class="input-information ml-1">Untuk melihat data pedia klik <a href="{{ route('backoffice.datapedia.index') }}">disini</a></p>
 </div>
 <div class="form-group inputtype" id="date_input[0]">
     <input type="date" class="form-control">
@@ -1518,7 +1518,7 @@
                                                             <option value="{{ $datapediaOption->id }}">{{ $datapediaOption->nama_data }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <p class="input-information ml-1">Untuk melihat data pedia klik <a href="{{ route('datapedia.index') }}" >disini</a></p>                                          
+                                                    <p class="input-information ml-1">Untuk melihat data pedia klik <a href="{{ route('backoffice.datapedia.index') }}" >disini</a></p>                                          
                                                 </div>
                                                 <div class="form-group inputtype"  id="date_input[${i}]">
                                                     <input type="date" class="form-control">

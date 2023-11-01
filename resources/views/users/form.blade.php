@@ -5,9 +5,9 @@
          $data = $data ?? null;
       ?>
       @if(isset($id))
-      {!! Form::model($data, ['route' => ['users.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::model($data, ['route' => ['backoffice.users.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
       @else
-      {!! Form::open(['route' => ['users.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::open(['route' => ['backoffice.users.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
       @endif
       <div class="row">
          <div class="col-xl-3 col-lg-4">
@@ -89,7 +89,7 @@
                      <h4 class="card-title">{{$id !== null ? 'Update' : 'New' }} Informasi Pengguna</h4>
                   </div>
                   <div class="card-action">
-                        <a href="{{route('users.index')}}" class="btn btn-sm btn-primary" role="button">Kembali</a>
+                        <a href="{{route('backoffice.users.index')}}" class="btn btn-sm btn-primary" role="button">Kembali</a>
                   </div>
                </div>
                <div class="card-body">
@@ -187,7 +187,7 @@ var pond = FilePond.create(document.querySelector('.profile_image'), {
          ],
          server: {
             process: {
-               url : "{{ route('upload-profile-image.store')}}",
+               url : "{{ route('backoffice.upload-profile-image.store')}}",
                method: 'POST', // Tambahkan metode POST di sini
                headers: {
                      'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -198,7 +198,7 @@ var pond = FilePond.create(document.querySelector('.profile_image'), {
                },
             },
             revert: {
-               url : "{{ route('upload-profile-image.destroy')}}",
+               url : "{{ route('backoffice.upload-profile-image.destroy')}}",
                method: 'DELETE', 
                headers: {
                      'X-CSRF-TOKEN': '{{ csrf_token() }}',

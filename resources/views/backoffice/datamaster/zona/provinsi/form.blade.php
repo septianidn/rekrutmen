@@ -3,12 +3,12 @@ $data = $data ?? null;
 ?>
 @if (isset($data))
     {!! Form::model($data, [
-        'route' => ['provinsi.update', $data->id],
+        'route' => ['backoffice.provinsi.update', $data->id],
         'method' => 'patch',
         'enctype' => 'multipart/form-data',
     ]) !!}
 @else
-    {!! Form::open(['route' => ['provinsi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['route' => ['backoffice.provinsi.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
 @endif
 
 <div class="form-group col-md-12">

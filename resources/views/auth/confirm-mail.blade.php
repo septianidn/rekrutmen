@@ -12,7 +12,7 @@
                   <h2 class="mt-2 mb-1">Sukses Reset Password!</h2>
                   <p class="cnf-mail mb-1">Sebuah email telah dikirimkan ke {{$email}}. Silakan cek email dari perusahaan dan klik tautan yang disertakan untuk me-reset kata sandi Anda.</p>
                   <div class="d-inline-block w-100">
-                     <a href="{{route('dashboard')}}" class="btn btn-primary mt-3">Kembali</a>
+                     <a href="{{route('backoffice.dashboard')}}" class="btn btn-primary mt-3">Kembali</a>
                   </div>
                </div>
             </div>                  

@@ -1,6 +1,6 @@
 <aside class="sidebar sidebar-default navs-rounded-all sidebar-base">
     <div class="sidebar-header d-flex align-items-center justify-content-start">
-        <a href="{{route('dashboard')}}" class="navbar-brand">
+        <a href="{{route('backoffice.dashboard')}}" class="navbar-brand">
             <img src="{{ asset('images/backoffice/logo/logounand30.svg') }}" alt="Logo Unand" >
             <h4 class="logo-title">{{env('APP_NAME')}}</h4>
         </a>

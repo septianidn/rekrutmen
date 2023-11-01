@@ -32,7 +32,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{route('rekap.destroy', '')}}/" + id;
+                form.action = "{{route('backoffice.rekap.destroy', '')}}/" + id;
                 form.method = 'POST';
     
                 var csrfToken = document.createElement('input');

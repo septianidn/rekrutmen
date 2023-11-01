@@ -6,13 +6,13 @@
         ?>
         @if (isset($id))
             {!! Form::model($data, [
-                'route' => ['laporan-tracer-study.update', $id],
+                'route' => ['backoffice.laporan-tracer-study.update', $id],
                 'method' => 'patch',
                 'enctype' => 'multipart/form-data',
             ]) !!}
         @else
             {!! Form::open([
-                'route' => ['laporan-tracer-study.store'],
+                'route' => ['backoffice.laporan-tracer-study.store'],
                 'method' => 'post',
                 'enctype' => 'multipart/form-data',
                 'id' => 'formModal',
@@ -26,7 +26,7 @@
                             <h4 class="card-title">{{ $id !== null ? 'Update' : 'Tambah' }} Laporan Tracer Study</h4>
                         </div>
                         <div class="card-action">
-                            <a href="{{ route('laporan-tracer-study.index') }}" class="btn btn-sm btn-danger"
+                            <a href="{{ route('backoffice.laporan-tracer-study.index') }}" class="btn btn-sm btn-danger"
                                 role="button">Kembali</a>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                     @endif
                                     <small class="mb-2">Jika pilihan tidak tersedia, silahkan tambahkan paket soal
                                         terlebih
-                                        dahulu <a href="{{ route('paket-soal.index') }}">disini</a></small>
+                                        dahulu <a href="{{ route('backoffice.paket-soal.index') }}">disini</a></small>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Deskripsi</label>
