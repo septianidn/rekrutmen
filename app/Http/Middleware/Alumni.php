@@ -22,12 +22,13 @@ class Alumni
         try {
             $record = PaketSoal::where('untuk_lulusan', $request->input('untuk_lulusan'))->firstOrFail();
             $untuk_lulusan = $record->untuk_lulusan;
-
+            $alias_url = $record->alias_url;
+            
             if(! Auth::guard('alumni')->check()){
                 throw ValidationException::withMessages([
                         'pin' => trans('logintc.loginfirst')
                     ]);
-                    return redirect()->route('backoffice.tracerstudy-login.create', ['untuk_lulusan' => $untuk_lulusan]);
+                    return redirect()->route('backoffice.tracerstudy-login.create', $alias_url);
             }
             else{
                 return $next($request);

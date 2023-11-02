@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('npwp', 25)->unique()->nullable(true);
             $table->text('judul_tesis')->nullable(true);; 
             $table->enum('periode_wisuda', ['Wisuda I', 'Wisuda II', 'Wisuda III', 'Wisuda IV', 'Wisuda V', 'Wisuda VI'])->nullable(true);;
-            $table->enum('status_tc', ['Complete', 'Pending', 'None'])->default('None');;
+            $table->enum('status_tc', ['Complete', 'Pending', 'None'])->default('None');
+            $table->rememberToken();
            
             $table->timestamps();
         });

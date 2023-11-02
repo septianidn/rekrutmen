@@ -21,12 +21,19 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
+       
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if($guard === 'alumni'){
-                    return redirect()->route('tracerstudy-pengisian.prolog');
+                    $uri = $request->getRequestUri();
+                   
+                    $replacement = str_replace('/tracerstudy/kuesioner/login/', '', $uri);
+                    return redirect()->route('kuesioner.tracerstudy-pengisian.index', $replacement);
                 }
-                return redirect(RouteServiceProvider::HOME);
+                elseif($guard === 'web'){
+                    return redirect(RouteServiceProvider::HOME);
+                }
+                
             }
         }
 

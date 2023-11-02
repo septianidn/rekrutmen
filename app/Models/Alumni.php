@@ -32,7 +32,6 @@ class Alumni extends Authenticatable
         'tempat_lahir',
         'thn_lulus',
         'tanggal_lahir',
-        'pin',
         'nomor_handphone',
         'periode_wisuda',
         'status_tc',
@@ -43,6 +42,17 @@ class Alumni extends Authenticatable
         'sent_pin'
         
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'pin',
+        'remember_token',
+    ];
+    
     public function getAuthPassword()
     {
         return $this->pin;

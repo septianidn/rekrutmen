@@ -45,7 +45,7 @@ class LoginAlumniController extends Controller
      * @param  \App\Http\Requests\Auth\LoginTCRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginTCRequest $request) 
+    public function store(LoginTCRequest $request, $alias_url) 
     {
 
         try {
@@ -72,8 +72,8 @@ class LoginAlumniController extends Controller
             
                     $request->session()->regenerate();
             
-                    return redirect(RouteServiceProvider::ALUMNI);
-                       
+                    return redirect()->route('kuesioner.tracerstudy-pengisian.index', $alias_url);
+    
                 }
                 else{
                     throw ValidationException::withMessages([
@@ -116,6 +116,8 @@ class LoginAlumniController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('tracerstudy');
     }
+
+    
 }

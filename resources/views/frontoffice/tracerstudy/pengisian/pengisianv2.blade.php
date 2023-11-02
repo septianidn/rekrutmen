@@ -16,10 +16,7 @@
 
     <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" href="{{ asset('css/frontoffice/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/frontoffice/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/frontoffice/tiny-slider.css') }}">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('css/frontoffice/glightbox.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/frontoffice/main.css') }}">
 
 </head>
@@ -527,23 +524,12 @@
 
     <script src="{{ asset('js/frontoffice/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/wow.min.js') }}"></script>
-    <script src="{{ asset('js/frontoffice/tiny-slider.js') }}"></script>
-    <script src="{{ asset('js/frontoffice/glightbox.min.js') }}"></script>
     <script src="{{ asset('js/frontoffice/main.js') }}"></script>
 
 <!-- check info at https://github.com/yunisdev/vanilla-counter -->
 <!-- lc-needs-hard-refresh -->
 
 
-    <script type="text/javascript">
-        //========= glightbox
-        GLightbox({
-            'href': 'https://www.youtube.com/watch?v=cz4z8CyvDas',
-            'type': 'video',
-            'source': 'youtube', //vimeo, youtube or local
-            'width': 900,
-            'autoplayVideos': true,
-        });
-    </script>
+   
   </body>
 </html>

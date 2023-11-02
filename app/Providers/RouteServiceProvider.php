@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/backoffic3/dashboard';
-    public const ALUMNI = 'tracerstudy/kuesioner/prolog';
+  
 
 
     /**

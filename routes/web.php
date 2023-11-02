@@ -61,7 +61,7 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 
 //Tracer Study Content
 Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
-Route::get('/tracerstudy-laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
+Route::get('/tracerstudy/laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
 
 //Tracer Study Kuesioner
 
@@ -73,12 +73,14 @@ Route::prefix('tracerstudy/kuesioner')->name('kuesioner.')->group(function(){
     Route::group(['middleware' => 'auth:alumni'], function () {
         Route::get('/{alias_url}', [PengisianController::class, 'show'])->name('tracerstudy-pengisian.index');
         Route::get('/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
+        Route::post('/logout', [LoginAlumniController::class, 'destroy'])->name('tracerstudy-login.destroy');
     });
 });
 
-//Back Office 
+//Back Office : ROLE : ADMIN, ADMIN PRODI GUARD : WEB (CHANGE TO ADMIN)
+Route::middleware(['auth:web', 'RevalidateBackHistory'])->group(function () {
 Route::prefix('backoffic3')->name('backoffice.')->group(function(){
-    Route::group(['middleware' => ['auth:web', 'role:admin', 'RevalidateBackHistory']], function () {
+    Route::middleware('role:admin')->group(function () {
         // Users Module
         Route::resource('/users', UserController::class);
 
@@ -156,7 +158,7 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
     });
 
-    Route::group(['middleware' => ['auth:web', 'role:admin|adminprodi', 'RevalidateBackHistory']], function () {
+    Route::middleware('role:admin|adminprodi')->group(function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
         Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
         Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
@@ -168,11 +170,12 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         });
     });
 
-    Route::group(['middleware' => ['auth:web', 'role:adminprodi', 'RevalidateBackHistory']], function () {
+    Route::middleware('role:adminprodi')->group(function () {
        
     });
 
    
+});
 });
 
 

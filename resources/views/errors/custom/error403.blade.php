@@ -181,13 +181,12 @@
                         <div class="row justify-content-center">
                             <div class="col-md-8 ">
                                 <div class="mb-4">
-                                    <h2 class="mb-2">Unauthorized</h2>
+                                    <h2 class="mb-2">Forbidden</h2>
                                     <p class="mb-4">Maaf, anda diizinkan mengakses halaman</p>
                                 </div>
 
                                 <button class="btn btn-block"
-                                    onclick="window.location.href='{{ route('landingpage') }}'">Kembali Ke
-                                    Beranda</button>
+                                    onclick="window.location.href='{{ route('landingpage') }}'">Logout</button>
 
 
                             </div>
