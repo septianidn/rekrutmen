@@ -28,9 +28,9 @@ class PaketSoalDataTable extends DataTable
             ->addColumn('id', function () use (&$index) {
                 return $index++;
             })
-            ->editColumn('publish', function ($query) {
+            ->editColumn('published', function ($query) {
                 $status = 'primary';
-                switch ($query->publish) {
+                switch ($query->published) {
                     case 1:
                         $status = 'primary';
                         $text = 'Published';
@@ -42,6 +42,10 @@ class PaketSoalDataTable extends DataTable
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
+            ->addColumn('checkbox', function ($query) {
+                return '<input type="checkbox" name="paket_soal_id[]" class="paketsoal-checkbox" value="' . $query->id . '"/>';
+            })
+            
             ->editColumn('alias_url', function ($query) {
                 return '<a href="' . route('kuesioner.tracerstudy-login.create', $query->alias_url) . '" target="_blank" class="">' . "/" . $query->alias_url . '</a>';
 
@@ -62,8 +66,8 @@ class PaketSoalDataTable extends DataTable
                 }
                 })
             
-            ->addColumn('menerima_usulan', function ($data) {
-                return view('backoffice.tracerstudy.admin.paket-soal.menerima_usulan', compact('data'));
+            ->addColumn('menerima_usulan', function ($query) {
+                return view('backoffice.tracerstudy.admin.paket-soal.menerima_usulan', compact('query'));
             })
             ->addColumn('action', 'backoffice.tracerstudy.admin.paket-soal.action')
             
@@ -71,7 +75,7 @@ class PaketSoalDataTable extends DataTable
                 $sql = "nama_paket LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','jumlah_pertanyaan', 'publish', 'menerima_usulan','alias_url']);
+            ->rawColumns(['action','checkbox','jumlah_pertanyaan', 'published', 'menerima_usulan','alias_url']);
             
     }
 
@@ -98,22 +102,104 @@ class PaketSoalDataTable extends DataTable
                     ->setTableId('dataTable')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>> <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
-                    ->buttons(
-
-                    
-                        Button::make('csv')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-file-csv"></i>&nbsp Download CSV</span>'),
-                        Button::make('pdf')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-file-pdf"></i>&nbsp Download PDF</span>'),
-                        Button::make('print')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-print"></i>&nbsp Print</span>'),
-                        Button::make('reload')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'),
-                      
-                    )->headerCallback('function(thead, data, start, end, display){
+                    ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>><"row align-items-center"<"col-md-12 px-4 py-4" <"show-hide-columns">> > <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
+                    ->headerCallback('function(thead, data, start, end, display){
                         $(thead).find("th").addClass("text-center");
                     }')
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
                         "serverSide" => true,
+                        'buttons' => [
+                            ['custom'=>'deleteSelected', 'className' => 'btn btn-outline-danger btn-icon', 'text' => '<span><i class="fa fa-trash"></i>&nbsp Deleted Selected</span>' ,
+                            'action' => 'function() {
+                                var selectedIds = [];
+                                var swalWithBootstrapButtons = Swal.mixin({
+                                    customClass: {
+                                        confirmButton: "btn btn-danger mx-2",
+                                        cancelButton: "btn btn-success",
+                                        popup: "rounded"
+                                    },
+                                    buttonsStyling: false,
+                                    showClass: {
+                                        popup: "animate__animated animate__zoomIn animate__faster",
+                
+                                    },
+                                    hideClass: {
+                                        popup: "animate__animated animate__zoomOut animate__faster",
+                
+                                    }
+                                })
+                                const csrfToken = document.querySelector("meta[name=\'csrf-token\']").getAttribute("content");
+                               
+                                $("input.paketsoal-checkbox:checked").each(function() {
+                                    selectedIds.push($(this).val());
+                                });
+                                if(selectedIds.length == 0){
+                                    toastMixin.fire({
+                                        icon: "error",
+                                        animation: true,
+                                        title: "Pilih Minimal 1 Data!",
+                                    });
+                                }
+                                else if(selectedIds.length > 0){
+        
+                                    swalWithBootstrapButtons.fire({
+                                        title: `Hapus Data?`,
+                                        text: "Anda tidak akan dapat mengembalikan ini!!",
+                                        icon: "question",
+                                        showCancelButton: true,
+                                        confirmButtonText: "Ya, hapus!",
+                                        cancelButtonText: "Batal",
+                                    }).then(function(result) {
+                                        if (result.isConfirmed) {
+                                            $.ajax({
+                                                method: "GET",
+                                                headers: { "X-CSRF-TOKEN": csrfToken },
+                                                contentType: "application/json",
+                                                url: "' . route("backoffice.deleted-selected-paketsoal") . '",
+                                                data: { selectedIds: selectedIds },
+                                                success: function(response) {
+                                                    $("#dataTable").DataTable().ajax.reload();
+                                                },
+                                                error: function(data) {
+                                                    console.error(data.responseJSON);
+                                                  
+                                                }
+                                            });
+                                        }
+                                    });
+                                   
+                                }
+                        
+                               
+                            }'],
+                            [
+                                "extend" => "csv",
+                                "className" => "btn btn-outline-success btn-icon csv-export",
+                                "text" => '<span><i class="fa fa-file-csv"></i>&nbsp CSV</span>',
+                             
+                            ],
+                            [
+                                "extend" => "excel",
+                                "className" => "btn btn-outline-success btn-icon ",
+                                "text" => '<span><i class="fa fa-file-csv"></i>&nbsp Excel</span>',
+                             
+                            ],
+                            [
+                                "extend" => "pdf",
+                                "className" => "btn btn-outline-success btn-icon",
+                                "text" => '<span><i class="fa fa-file-pdf"></i>&nbsp PDF</span>',
+                              
+                               
+                            ],
+                            [
+                                "extend" => "print",
+                                "className" => "btn btn-outline-success btn-icon",
+                            ],
+                            ['extend'=>'reload', 'className' => 'btn btn-outline-success btn-icon', 'text' => '<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'],
+                          
+                        ],
                         "initComplete" => 'function () {
                             this.api().columns([1, 2, 3, 4, 5,8,9,10]).every(function () {
                                 var column = this;
@@ -138,6 +224,16 @@ class PaketSoalDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            [
+                'data'           => 'checkbox',
+                'name'           => 'checkbox',
+                'title'          => '<input type="checkbox" id="select-all-checkbox">',
+                'orderable'      => false,
+                'searchable'     => false,
+                'exportable'     => false,
+                'printable'      => false,
+                'width'          => '3px',
+            ],
             ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
             ['data' => 'nama_paket', 'name' => 'nama_paket', 'title' => 'Nama Kuesioner', 'searchable' => true,],
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
@@ -147,7 +243,7 @@ class PaketSoalDataTable extends DataTable
             ['data' => 'untuk_lulusan', 'name' => 'untuk_lulusan', 'title' => 'Untuk Lulusan', 'searchable' => true,],
             ['data' => 'jumlah_pertanyaan', 'name' => 'jumlah_pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center'],
              //TODO USULAN PERTANYAAN
-            ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
+            ['data' => 'published', 'name' => 'published', 'title' => 'Status Tayang', 'searchable' => true],
             Column::computed('menerima_usulan')
                     ->width(100)
                     ->addClass('text-center')

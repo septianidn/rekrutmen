@@ -146,7 +146,7 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         Route::group(['prefix' => 'tracer-study'], function () {
             Route::resource('/rekap', RekapTCController::class);
             Route::resource('/paket-soal', PaketSoalController::class);
-
+            Route::get('/delete-selected', [PaketSoalController::class, 'deletedSelected'])->name('deleted-selected-paketsoal');
             Route::get('paket-soal/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
             Route::post('paket-soal/pertanyaan/{id}/store', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
             Route::get('paket-soal/pertanyaan/{id}/edit', [PertanyaanController::class, 'edit'])->name('pertanyaan.edit');

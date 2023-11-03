@@ -11,12 +11,15 @@ use Illuminate\Http\Request;
 use App\Helpers\AuthHelper;
 use App\Http\Requests\PaketSoalRequest;
 use App\Http\Requests\PertanyaanRequest;
+use App\Models\DataPedia;
 use App\Models\HalamanPertanyaan;
 use App\Models\PaketSoal;
 use App\Models\Pertanyaan;
+use App\Models\PertanyaanDropdown;
 use App\Models\PertanyaanGeneral;
 use App\Models\PertanyaanGeneralOption;
 use App\Models\PertanyaanGridOption;
+use App\Models\PertanyaanZone;
 use RecursiveArrayIterator;
 use stdClass;
 
@@ -41,11 +44,12 @@ class PertanyaanController extends Controller
     {
         $assets = ['animation'];
 
+        $datapediaOptions = DataPedia::where('published', 1)->get();
         if (request()->ajax()) {
-            return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','assets'))->render();
+            return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','assets', 'datapediaOptions'))->render();
         }
     
-        return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','assets'))->render();
+        return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.form', compact('idPaketSoal','assets','datapediaOptions'))->render();
     }
 
     /**
@@ -191,6 +195,33 @@ class PertanyaanController extends Controller
                             }
                         }
                     }
+                    elseif ($pertanyaanData['tipe_pertanyaan'] === 'zone') {
+                        if (isset($pertanyaanData['pertanyaan_zone']) && is_array($pertanyaanData['pertanyaan_zone'])) {
+                        
+                            foreach ($pertanyaanData['pertanyaan_zone'] as $pertanyaanZoneData) {
+                                $pertanyaanZoneData = PertanyaanZone::create([
+                                    'pertanyaan_id' => $pertanyaan->id,
+                                    'kode_input_provinsi' => $pertanyaanZoneData['kode_input_provinsi'],
+                                    'kode_input_kab_kota' => $pertanyaanZoneData['kode_input_kab_kota'],
+                                   
+                                ]);
+                            }
+                        }
+                    }
+                    elseif ($pertanyaanData['tipe_pertanyaan'] === 'dropdown') {
+                        if (isset($pertanyaanData['pertanyaan_dropdown']) && is_array($pertanyaanData['pertanyaan_dropdown'])) {
+                        
+                            foreach ($pertanyaanData['pertanyaan_dropdown'] as $pertanyaanDropdownData) {
+                                $pertanyaanDropdownData = PertanyaanDropdown::create([
+                                    'pertanyaan_id' => $pertanyaan->id,
+                                    'placeholder' => $pertanyaanDropdownData['placeholder'],
+                                    'data_pedia_id' => $pertanyaanDropdownData['data_pedia_id'],
+                                   
+                                ]);
+                            }
+                        }
+                    }
+                    
                 }
             }
 

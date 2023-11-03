@@ -1,6 +1,6 @@
 <x-app-layout :assets="$assets ?? []">
     <?php
-    $datapediaOptions = App\Models\DataPedia::all() ?? null;
+    $datapediaOptions = $datapediaOptions ?? null;
     $idPaketSoal = $idPaketSoal ?? null;
     $id = $id ?? null;
     $data = $data ?? null;
@@ -1288,6 +1288,29 @@
         });
     }
 
+    function initializeSelect2DataPedia() {
+        // Loop through each .type-jawaban-select element
+        var cardId = "";
+        var selectElement = "";
+
+        $('.datapedia-select').each(function() {
+            const selectElement = $(this);
+
+            // Check if the element has a Select2 instance
+            if (selectElement.hasClass('select2-hidden-accessible')) {
+                // Destroy the Select2 instance
+                selectElement.select2('destroy');
+            }
+
+            // Initialize the Select2 instance
+            selectElement.select2({
+                theme: 'bootstrap-5',
+            });
+
+
+        });
+    }
+
     function toggleInputsVal(selectElement) {
         const selectedType = selectElement.closest('.card-body').find('.type-validation-select');
         const selectedElement = selectedType.find('option:selected');
@@ -1710,12 +1733,23 @@
                 const elementDropdown = `<div class="form-group inputtype" id="dropdown_div[${indexPage}][${indexCard}]">
                         <p> Silahkan pilih data pedia yang akan ditampilkan dibawah ini <span
                                 class="text-danger">*</span> </p>
-                        <select class="form-select">
+                                <div class="container-fluid">
+                                <div class="row no-gutters">
+
+                                    <div class="col-8">
+                        <select class="form-select datapedia-select" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_dropdown][data_pedia_id]">
                             <option value="">Pilih Data</option>
                             @foreach ($datapediaOptions as $datapediaOption)
                                 <option value="{{ $datapediaOption->id }}">{{ $datapediaOption->nama_data }}</option>
                             @endforeach
                         </select>
+                        </div>
+                        <div class="col-4">
+                        <input type="text" class="form-control zone-placeholder-input"  id=" zone-placeholder-input[${indexPage}][${indexCard}][1]"
+                                                    placeholder="Isi Data Placeholder" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_dropdown][placeholder]">
+                                                </div>
+                                                    </div>
+                                          </div>
                         <p class="input-information ml-1">Untuk melihat data pedia klik <a
                                 href="{{ route('backoffice.datapedia.index') }}">disini</a></p>
                     </div>`;
@@ -1736,13 +1770,10 @@
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
                         <div class="row ">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Soal Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
+                                <input type="text" class="form-control" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_zone][kode_input_provinsi]" placeholder="Kode Soal Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
                             </div>
-                           
-                       
-                      
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Soal Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
+                                <input type="text" class="form-control" placeholder="Kode Soal Kota/Kabupaten"  name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_zone][kode_input_kab_kota]" id="zona_kab_code[${indexPage}][${indexCard}]">
                             </div>
                           
                         </div>
@@ -1768,6 +1799,7 @@
 
         }
         initializeSelect2Val();
+        initializeSelect2DataPedia();
 
         console.log("-----------")
     }
@@ -2144,6 +2176,11 @@
                                     data-input="zona_div[${indexPage}][${indexCard}]"
                                     data-image='<svg width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.5 7.04148C12.3374 7.0142 12.1704 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10C15 9.82964 14.9858 9.6626 14.9585 9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M5 15.2161C4.35254 13.5622 4 11.8013 4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C9.26474 21.0797 8.13831 20.1439 7.19438 19" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'>
                                     Zona
+                                </option>
+                                <option value="identitas" class="identitas" id="identitas[${indexPage}][${indexCard}]"
+                                    data-input="identitas[${indexPage}][${indexCard}]"
+                                    data-image=' <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9849 15.3462C8.11731 15.3462 4.81445 15.931 4.81445 18.2729C4.81445 20.6148 8.09636 21.2205 11.9849 21.2205C15.8525 21.2205 19.1545 20.6348 19.1545 18.2938C19.1545 15.9529 15.8735 15.3462 11.9849 15.3462Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9849 12.0059C14.523 12.0059 16.5801 9.94779 16.5801 7.40969C16.5801 4.8716 14.523 2.81445 11.9849 2.81445C9.44679 2.81445 7.3887 4.8716 7.3887 7.40969C7.38013 9.93922 9.42394 11.9973 11.9525 12.0059H11.9849Z" stroke="currentColor" stroke-width="1.42857" stroke-linecap="round" stroke-linejoin="round"></path>                            </svg>                        '>
+                                    Identitas
                                 </option>
                                 
 

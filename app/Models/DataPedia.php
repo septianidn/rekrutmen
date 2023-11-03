@@ -18,7 +18,7 @@ class DataPedia extends Model
     protected $fillable = [
         'nama_data',
         'deskripsi_data',
-        'publish',
+        'published',
     ];
     
     public function datapediadetail()

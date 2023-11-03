@@ -1356,7 +1356,6 @@
 
             const observer = new IntersectionObserver(function(entries, observer) {
                 entries.forEach(entry => {
-                    console.log(entry);
                     VanillaCounter();
                 });
             }, options);
@@ -1365,18 +1364,19 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-
+            initializeCounterRANDOMID();
             $('#toLogin').click(function() {
                 var selectedValue = $('#untuk_lulusan').val();
 
                 if (selectedValue) {
                     // Arahkan pengguna ke URL yang sesuai
-                    var redirectUrl = "{{ route('kuesioner.tracerstudy-login.create', ':alias_url') }}".replace(
-                        ':alias_url', selectedValue);
+                    var redirectUrl = "{{ route('kuesioner.tracerstudy-login.create', ':alias_url') }}"
+                        .replace(
+                            ':alias_url', selectedValue);
                     window.location.href = redirectUrl;
                 }
             });
-            initializeCounterRANDOMID();
+
         });
     </script>
 

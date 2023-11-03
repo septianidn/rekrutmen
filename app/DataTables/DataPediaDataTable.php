@@ -38,10 +38,10 @@ class DataPediaDataTable extends DataTable
                 }
                 return '<span>'.$text.'</span>';
             })
-            ->editColumn('publish', function ($query) {
+            ->editColumn('published', function ($query) {
                 $status = 'primary';
                 $text = "Not Published";
-                switch ($query->publish) {
+                switch ($query->published) {
                     case 0:
                         $text = 'Not Published';
                         $status = 'danger';
@@ -67,7 +67,7 @@ class DataPediaDataTable extends DataTable
                 $sql = "deskripsi_data LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->rawColumns(['action','publish', 'deskripsi_data', 'jumlah_data']);
+            ->rawColumns(['action','published', 'deskripsi_data', 'jumlah_data']);
     }
 
     /**
@@ -101,7 +101,8 @@ class DataPediaDataTable extends DataTable
                        Button::make('print')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-print"></i>&nbsp Print</span>'),
                        Button::make('reload')->addClass('btn btn-primary btn-icon')->text('<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'),
                      
-                   )// ->headerCallback('function(thead, data, start, end, display){
+                   )
+                   // ->headerCallback('function(thead, data, start, end, display){
                     //     $(thead).find("th").addClass("text-center");
                     // }')
                     ->parameters([
@@ -123,7 +124,7 @@ class DataPediaDataTable extends DataTable
             ['data' => 'nama_data', 'name' => 'nama_data', 'title' => 'Nama Data', 'searchable' => true,],
             ['data' => 'deskripsi_data', 'name' => 'deskripsi_data', 'title' => 'Deskripsi Data', 'searchable' => true,],
           
-            ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
+            ['data' => 'published', 'name' => 'published', 'title' => 'Status Tayang', 'searchable' => true,],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At', 'searchable' => true,],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At', 'searchable' => true,],
             ['data' => 'jumlah_data', 'name' => 'datapediadetail_count', 'title' => 'Jumlah Data', 'searchable' => true , 'class' => 'text-center'],

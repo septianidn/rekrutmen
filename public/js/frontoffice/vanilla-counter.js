@@ -13,7 +13,7 @@ function VanillaCounter() {
         } else if (i.innerHTML != "") {
             data.format = i.innerHTML
         }
-        console.log(data.format)
+
         if (data.startAt == null) {
             throw new Error('data-start-at attribute is required')
         }
