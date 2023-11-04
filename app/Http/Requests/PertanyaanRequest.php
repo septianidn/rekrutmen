@@ -31,14 +31,12 @@ class PertanyaanRequest extends FormRequest
           
             'nama_halaman.*' => 'required',          
             'data.*.pertanyaan.*.pertanyaan' => 'required',
+            'data.*.pertanyaan.*.kode_soal' => 'required',
          
-            'pertanyaan.*.kode_soal' => 'required',
-            'pertanyaan.*.tipe_pertanyaan' => 'required',
+            'data.*.pertanyaan.*.pertanyaan_general_option.*.kode' => 'required',
+            'data.*.pertanyaan.*.pertanyaan_general_option.*.label' => 'required',
+            'data.*.pertanyaan.*.pertanyaan_general_option.*.value' => 'required'
 
-            'pertanyaan.*.pertanyaan_general_option' => 'required',
-            'pertanyaan.*.pertanyaan_general_option.*.kode' => 'required',
-            'pertanyaan.*.pertanyaan_general_option.*.label' => 'required',
-            'pertanyaan.*.pertanyaan_general_option.*.value' => 'required',
         ];
     }
 
@@ -47,25 +45,38 @@ class PertanyaanRequest extends FormRequest
         $messages =[];
         
         $data = $this->get('data');
-
+      
         if ($data !== null) {
-            foreach ($data as $key => $dataItem) {
-
-                if (isset ($dataItem['pertanyaan'])){
-                    $pertanyaanArray = $dataItem['pertanyaan'];
-                    foreach ($pertanyaanArray as $key1 => $pertanyaanItem) {
-                        $messages["data.$key.pertanyaan.$key1.pertanyaan"] = "Silahkan Isi Halaman " .($key + 1). ", Soal " . ($key1 + 1) . "";
+            foreach ($data as $indexPage => $halamanData) {
+                if (isset($halamanData['pertanyaan'])) {
+                    foreach ($halamanData['pertanyaan'] as $indexCard => $pertanyaanData) {
+                        $halaman = "Halaman " . ($indexPage + 1);
+                        $soal = "Soal " . ($indexCard + 1);
+        
+                        // Menambahkan pesan pertanyaan
+                        $messages["data.$indexPage.pertanyaan.$indexCard.pertanyaan"] = "Silahkan Isi Pertanyaan $halaman, $soal";
+                        $messages["data.$indexPage.pertanyaan.$indexCard.kode_soal"] = "Silahkan Isi Kode Soal $halaman, $soal";
+                      
+                        if ($pertanyaanData['tipe_pertanyaan'] === 'single' || $pertanyaanData['tipe_pertanyaan'] === 'mutiple') {
+                            if (isset($pertanyaanData['pertanyaan_general_option']) && is_array($pertanyaanData['pertanyaan_general_option'])) {
+                                foreach ($pertanyaanData['pertanyaan_general_option'] as $indexOption => $pertanyaanGeneralOptionData) {
+                                    $indexOptionLabel = $indexOption+1;
+                                    $messages["data.$indexPage.pertanyaan.$indexCard.pertanyaan_general_option.$indexOption.kode"] = "Silahkan Isi Kode Single Option ke $indexOptionLabel, $halaman, $soal";
+                                    $messages["data.$indexPage.pertanyaan.$indexCard.pertanyaan_general_option.$indexOption.label"] = "Silahkan Isi Label Single Option ke $indexOptionLabel, $halaman, $soal";
+                                    $messages["data.$indexPage.pertanyaan.$indexCard.pertanyaan_general_option.$indexOption.value"] = "Silahkan Isi Value Single Option ke $indexOptionLabel, $halaman, $soal";
+                                }
+                            }
+                        }
                     }
                 }
-    
-               
             }
         }
     
-    
+        dd($messages);
         return $messages;
-    
-    
+   
+
+
     }
     
 

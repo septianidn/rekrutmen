@@ -1031,7 +1031,11 @@
             didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
+            },
+            customClass: {
+                content: 'left-aligned'
             }
+            
         });
 
         function deletePage(pageToDeleteId) {
@@ -2524,12 +2528,23 @@
                 const elementDropdown = `<div class="form-group inputtype" id="dropdown_div[${indexPage}][${indexCard}]">
                         <p> Silahkan pilih data pedia yang akan ditampilkan dibawah ini <span
                                 class="text-danger">*</span> </p>
-                        <select class="form-select">
+                                <div class="container-fluid">
+                                <div class="row no-gutters">
+
+                                    <div class="col-8">
+                        <select class="form-select datapedia-select" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_dropdown][data_pedia_id]">
                             <option value="">Pilih Data</option>
                             @foreach ($datapediaOptions as $datapediaOption)
                                 <option value="{{ $datapediaOption->id }}">{{ $datapediaOption->nama_data }}</option>
                             @endforeach
                         </select>
+                        </div>
+                        <div class="col-4">
+                        <input type="text" class="form-control zone-placeholder-input"  id=" zone-placeholder-input[${indexPage}][${indexCard}][1]"
+                                                    placeholder="Isi Data Placeholder" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_dropdown][placeholder]">
+                                                </div>
+                                                    </div>
+                                          </div>
                         <p class="input-information ml-1">Untuk melihat data pedia klik <a
                                 href="{{ route('backoffice.datapedia.index') }}">disini</a></p>
                     </div>`;
@@ -2547,17 +2562,14 @@
                 }
 
             } else if (selectedElement.attr('class') === 'zone') {
-                const elementZone = ` <div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
+                const elementZone = `<div class="form-group inputtype" id="zona_div[${indexPage}][${indexCard}]">
                         <p>Silahkan isi inputan zona dibawah ini <span class="text-danger">*</span> </p>
                         <div class="row ">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Soal Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
+                                <input type="text" class="form-control" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_zone][kode_input_provinsi]" placeholder="Kode Soal Provinsi" id="zona_prov_code[${indexPage}][${indexCard}]">
                             </div>
-                           
-                       
-                      
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Kode Soal Kota/Kabupaten" id="zona_kab_code[${indexPage}][${indexCard}]">
+                                <input type="text" class="form-control" placeholder="Kode Soal Kota/Kabupaten"  name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_zone][kode_input_kab_kota]" id="zona_kab_code[${indexPage}][${indexCard}]">
                             </div>
                           
                         </div>
@@ -3114,6 +3126,10 @@
                         toastMixin.fire({
                             icon: 'error',
                             title: errorMessage,
+                            onBeforeOpen: (toast) => {
+                                toast.querySelector('.swal2-title').style
+                                    .textAlign = 'left';
+                            }
                         });
                     } else if (xhr.status === 500) {
                         console.error("Internal Server Error:", xhr.responseText);

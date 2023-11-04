@@ -35,7 +35,7 @@ class EmailTemplateRequest extends FormRequest
                 $rules = [
                     'nama_template' => 'required',
                     'subjek_template' => 'required',
-                    'isi_template' => 'required',
+                    'isi_template' => 'nullable',
 
                 ];
                 break;
@@ -43,7 +43,7 @@ class EmailTemplateRequest extends FormRequest
                 $rules = [
                     'nama_template' => 'required',
                     'subjek_template' => 'required',
-                    'isi_template' => 'required',
+                    'isi_template' => 'nullable',
                 ];
                 break;
 
@@ -57,7 +57,7 @@ class EmailTemplateRequest extends FormRequest
         return [
             'nama_template.*'  =>'Nama template harus berisi.',
             'subjek_template.*'  =>'Subjek template harus berisi.',
-            'isi_template.*'  =>'Isi template harus berisi.',
+         
         ];
     }
 

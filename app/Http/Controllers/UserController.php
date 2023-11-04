@@ -73,7 +73,7 @@ class UserController extends Controller
         }
 
 
-        return redirect()->route('users.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
+        return redirect()->route('backoffice.users.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
     }
 
     /**
@@ -184,7 +184,7 @@ class UserController extends Controller
         }
 
         if(auth()->check()){
-            return redirect()->route('users.index')->withSuccess(__('message.msg_updated',['name' => __('message.user')]));
+            return redirect()->route('backoffice.users.index')->withSuccess(__('message.msg_updated',['name' => __('message.user')]));
         }
         return redirect()->back()->withSuccess(__('message.msg_updated',['name' => 'My Profile']));
 

@@ -21,6 +21,7 @@ class EmailBoxDataTable extends DataTable
     public function dataTable($query)
     {
         $index = 1;
+     
         return datatables()
            ->eloquent($query)
             ->addColumn('id', function () use (&$index) {
@@ -43,7 +44,9 @@ class EmailBoxDataTable extends DataTable
                 $sql = "status LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-
+            ->orderColumn('id', function ($query) {
+                $query->orderBy('id', 'DESC');
+            })
             
             ->filterColumn('tanggal_kirim', function($query, $keyword) {
                 $sql = "tanggal_kirim LIKE ?";
@@ -55,10 +58,44 @@ class EmailBoxDataTable extends DataTable
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
 
-          
+            ->editColumn('status', function ($query) {
+                $status = 'failed';
+                $text = "Failed";
+                switch ($query->status) {
+                    case "failed":
+                        $text = 'Failed';
+                        $status = 'danger';
+                        break;
+                    case "send":
+                        $text = 'Send';
+                        $status = 'primary';
+                        break;
+                    case "pending":
+                        $text = 'Pending';
+                        $status = 'warning';
+                        break;
+                }
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
+            })
+            ->editColumn('tipe', function ($query) {
+                $tipe = 'single';
+                $text = "single";
+                switch ($query->tipe) {
+                    case "single":
+                        $text = 'Single';
+                        $tipe = 'primary';
+                        break;
+                    case "blasting":
+                        $text = 'Blasting';
+                        $tipe = 'secondary';
+                        break;
+                                    }
+                return '<span class="text-capitalize badge bg-'.$tipe.'">'.$text.'</span>';
+            })
             ->addColumn('action', function ($data) {
                 return view('backoffice.email.outbox.action', compact('data'));
-            });
+            })
+            ->rawColumns(['action', 'status', 'tipe']);
            
             
             
@@ -150,6 +187,7 @@ class EmailBoxDataTable extends DataTable
             ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'searchable' => true,],
             ['data' => 'tanggal_kirim', 'name' => 'tanggal_kirim', 'title' => 'Tanggal Kirim', 'searchable' => true,],
             ['data' => 'tipe', 'name' => 'tipe', 'title' => 'Tipe', 'searchable' => true,],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status', 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)
                   ->printable(true)

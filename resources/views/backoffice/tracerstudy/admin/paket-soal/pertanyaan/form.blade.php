@@ -822,18 +822,46 @@
     function initializeSelect2InfluenceQuestion() {
         $('.singlechoice-influence-hide').each(function() {
             const selectElementHide = $(this);
-            if (selectElementHide.hasClass('select2-hidden-accessible')) {
-                // Destroy the Select2 instance
-                selectElementHide.select2('destroy');
-            }
 
-            selectElementHide.select2({
-                theme: 'bootstrap-5',
-                placeholder: $(this).data('placeholder'),
-                minimumResultsForSearch: Infinity,
-                templateResult: formatState,
-                templateSelection: formatState
-            });
+
+            const selectElementHideId = $(this).attr('id');
+            const matches = selectElementHideId.match(/\[(\d+)\]\[(\d+)\]\[(\d+)\]/);
+            if (matches) {
+                const pageIndexs = parseInt(matches[1]);
+                const cardIndexs = parseInt(matches[2]);
+                const codeSoalElementsAll = $(`[id^="kode_soal[${pageIndexs}]"]`);
+                const options = [];
+
+                codeSoalElementsAll.each(function(index, element) {
+                    if (index > cardIndexs) {
+                        const value = $(element).val();
+                        options.push({
+                            id: value,
+                            text: value
+                        });
+                    }
+
+                });
+
+                if (selectElementHide.hasClass('select2-hidden-accessible')) {
+                    selectElementHide.select2('destroy');
+                }
+                selectElementHide.select2({
+                    data: options,
+                    theme: 'bootstrap-5',
+                    placeholder: $(this).data('placeholder'),
+                    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ?
+                        '100%' : 'style',
+                    closeOnSelect: false,
+
+                });
+
+                const initialValue = codeSoalElementsAll.val();
+
+                if (initialValue) {
+                    selectElementHide.val(initialValue).trigger('change');
+                }
+            }
         });
 
         $('.singlechoice-influence-show').each(function() {
@@ -845,10 +873,12 @@
 
             selectElementShow.select2({
                 theme: 'bootstrap-5',
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ?
+                    '100%' : 'style',
                 placeholder: $(this).data('placeholder'),
-                minimumResultsForSearch: Infinity,
-                templateResult: formatState,
-                templateSelection: formatState
+                closeOnSelect: false,
+
+
             });
         });
     }
@@ -1011,7 +1041,7 @@
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;" >
                                                     <div class="input-group-text text-black">Tampilkan Pertanyaan &nbsp; &nbsp;&nbsp;&nbsp;</div>
-                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][${indexRadioOption}]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
+                                                    <select  multiple="multiple" class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][${indexRadioOption}]" data-placeholder="Tampilkan Pertanyaan" >
                                                        
                                                     </select>
                                                 </div>
@@ -1021,7 +1051,7 @@
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;">
                                                     <div class="input-group-text text-black">Sembunyikan Pertanyaan</div>
-                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][${indexRadioOption}]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
+                                                    <select  multiple="multiple" class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][${indexRadioOption}]" data-placeholder="Sembunyikan Pertanyaan" >
                                                         
                                                     </select>
                                                 </div>
@@ -1029,6 +1059,7 @@
                                         </div>
                                     </div>
                                 </div>
+                               
                             </div>
 
                         </div>`
@@ -1150,7 +1181,6 @@
 
         initializeTinymce();
         initializeSelect2();
-
         initializeSelect2InfluenceQuestion();
         // initializeTagify();
 
@@ -1473,8 +1503,8 @@
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;" >
                                                     <div class="input-group-text text-black">Tampilkan Pertanyaan &nbsp; &nbsp;&nbsp;&nbsp;</div>
-                                                    <select class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][0]" data-placeholder="Tampilkan Pertanyaan" multiple="multiple">
-                                                       
+                                                    <select multiple="multiple" class="form-select singlechoice-influence-show" id="singlechoice-influence-show[${indexPage}][${indexCard}][0]" data-placeholder="Tampilkan Pertanyaan" >
+                                                    
                                                     </select>
                                                 </div>
                                             </div>
@@ -1483,7 +1513,7 @@
                                             <div class="col-12">
                                                 <div class="input-group" style="padding-left:30px;">
                                                     <div class="input-group-text text-black">Sembunyikan Pertanyaan</div>
-                                                    <select class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][0]" data-placeholder="Sembunyikan Pertanyaan" multiple="multiple">
+                                                    <select multiple="multiple" class="form-select singlechoice-influence-hide" id="singlechoice-influence-hide[${indexPage}][${indexCard}][0]" data-placeholder="Sembunyikan Pertanyaan" >
                                                         
                                                     </select>
                                                 </div>
@@ -1504,6 +1534,7 @@
                 if (singleDiv.length < 1) {
                     jawabanDivs.append(elementSingleChoice);
                 }
+                radioBoxListener();
 
             } else if (selectedElement.attr('class') === 'checkbox') {
                 const elementCheckBox = `
@@ -2352,7 +2383,13 @@
                         toastMixin.fire({
                             icon: 'error',
                             title: errorMessage,
+                            onBeforeOpen: (toast) => {
+                                toast.querySelector('.swal2-title').style
+                                    .textAlign = 'left';
+                            }
                         });
+                        console.error(errorMessage);
+
                     } else if (xhr.status === 500) {
                         console.error("Internal Server Error:", xhr.responseText);
                         toastMixin.fire({

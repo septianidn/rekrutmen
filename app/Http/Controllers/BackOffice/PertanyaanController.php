@@ -117,7 +117,7 @@ class PertanyaanController extends Controller
                         ]);
                     }
                     
-                    if ($pertanyaanData['tipe_pertanyaan'] === 'general' ) {
+                    elseif ($pertanyaanData['tipe_pertanyaan'] === 'general' ) {
                         if (isset($pertanyaanData['pertanyaan_general'])) {
                             $pertanyaanGeneralData = $pertanyaanData['pertanyaan_general'];
 
@@ -246,14 +246,12 @@ class PertanyaanController extends Controller
     public function edit($idPaketSoal)
     {
         $assets = ['animation'];
-       
-      
         $data = HalamanPertanyaan::with('pertanyaan.pertanyaanGeneral', 'pertanyaan.pertanyaanGeneralOption', 'pertanyaan.pertanyaanGridOption')
         ->where('paket_soal_id', $idPaketSoal)
         ->get()
         ->toArray();
 
-// dd($data);
+dd($data);
        
         if (request()->ajax()) {
             return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.formedit', compact('idPaketSoal','data', 'assets'))->render();

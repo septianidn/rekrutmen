@@ -16,6 +16,8 @@ use App\Mail\EmailFormat;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BlastingEmailExport;
 use App\Imports\BlastingEmailImport;
+use App\Models\EmailTemplate;
+use App\Jobs\SendMailJob;
 
 class EmailSendController extends Controller
 {
@@ -29,11 +31,14 @@ class EmailSendController extends Controller
      //To Send Email Blade
      public function create()
      {
+
+        $templateOptions = EmailTemplate::all() ?? null;
+        
          if (request()->ajax()) {
-             return view('backoffice.email.send.form')->render();
+             return view('backoffice.email.send.form', compact('templateOptions'))->render();
          }
      
-         return view('backoffice.email.send.form');
+         return view('backoffice.email.send.form', compact('templateOptions'));
      }
  
      /**
@@ -47,22 +52,25 @@ class EmailSendController extends Controller
      public function store(EmailSendRequest $request)
      {
 
+  
         if ($request->tipe == 'single') {
            
             $subject = $request->input('subjek');
             $content = $request->input('isi');
+            $templateId = $request->input('template_id') ?? '1';
+            $tipe = $request->tipe;
             $recipients = json_decode($request->input('tujuan'), true);
     
             $recipientEmails = array_column($recipients, 'value');
 
             foreach ($recipientEmails as $recipientEmail) {
-                try {
-                    // Send email using the Mailable
-                    Mail::to($recipientEmail)->send(new EmailFormat($subject, $content));
-                    $this->saveData($recipientEmail, $subject, $content, $request->tipe, 'SUCCESS', now());
-                } catch (\Exception $e) {
-                    $this->saveData($recipientEmail, $subject, $content, $request->tipe, 'FAILED', now());
-                }
+
+                    $id = $this->saveData($recipientEmail, $subject, $content,$tipe, 'pending',now(), $templateId);
+      
+                    dispatch(new SendMailJob($recipientEmail, $subject, $content, $id));
+                
+                   
+                   
             }
         }
         else if ([$request->tipe == 'blasting']){
@@ -75,29 +83,31 @@ class EmailSendController extends Controller
           
            $emailColumn = collect($data[0])->pluck('email');
 
-           dd($emailColumn);
+        //    dd($emailColumn);
+
         }
-        else{
-            return redirect()->route('backoffice.send.create')->withErrors(__('message.emailsend_msg_error_type',['name' => __('send.store')]));
-        }
-        
-        return redirect()->route('backoffice.outbox.index')->withSuccess(__('message.emailsend_msg_added',['name' => __('outbox.store')]));
+        return redirect()->route('backoffice.outbox.index')->withSuccess(__('Email sedang proses dikirim',['name' => __('outbox.store')]));
+      
     }
- 
-     private function saveData($recipientEmail, $subject, $content, $type, $status, $sentAt)
-     {
-         
-         EmailBox::create([
-             'tujuan' => $recipientEmail,
-             'subjek' => $subject,
-             'isi' => $content,
-             'tipe' => $type,
-             'status' => $status,
-             'tanggal_kirim' => $sentAt,
 
-         ]);
+    
+    private function saveData($recipientEmail, $subject, $content, $type, $status, $sentAt, $templateId)
+    {
+        if($templateId == null) {
+           $templateId = 1;
+        }
+        $create = EmailBox::create([
+            'tujuan' => $recipientEmail,
+            'subjek' => $subject,
+            'isi' => $content,
+            'tipe' => $type,
+            'status' => $status,
+            'tanggal_kirim' => $sentAt,
+            'template_id' => $templateId
 
-       
-     
-     }
+        ]);
+    
+        return $create->id;
+    }
+  
 }

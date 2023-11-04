@@ -988,7 +988,8 @@
         </a>
         <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar">
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('backoffice.users.show', 1)) }}" href="{{ route('backoffice.users.show', 1) }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.users.show', 1)) }}"
+                    href="{{ route('backoffice.users.show', 1) }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -1017,7 +1018,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ activeRoute(route('backoffice.users.index')) }}" href="{{ route('backoffice.users.index') }}">
+                <a class="nav-link {{ activeRoute(route('backoffice.users.index')) }}"
+                    href="{{ route('backoffice.users.index') }}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24"
                             fill="currentColor">

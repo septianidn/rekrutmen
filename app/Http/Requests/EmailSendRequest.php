@@ -35,13 +35,15 @@ class EmailSendRequest extends FormRequest
                 $rules = [
                     'subjek' => 'required',
                     'isi' => 'required',
-                    
+                    'tujuan' => 'required',
+                    'tujuan.*.value' => 'required|email'
+                   
 
                 ];
                 break;
             case 'patch':
                 $rules = [
-                   
+            
                     'subjek' => 'required',
                     'isi' => 'required',
                   
@@ -58,6 +60,8 @@ class EmailSendRequest extends FormRequest
         return [
             'subjek' => 'Subjek email harus berisi',
             'isi' => 'Isi email harus berisi',
+            'tujuan.required' => 'Tujuan email harus berisi',
+           
         ];
     }
 

@@ -23,6 +23,7 @@ class EmailBox extends Model
         'status',
         'tanggal_kirim',
         'tipe',
+        'template_id'
         
     ];
 
