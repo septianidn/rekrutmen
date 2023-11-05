@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -54,8 +55,23 @@ class UsersDataTable extends DataTable
                 }
                
             })
+            ->editColumn('user_type', function($query) {
+                $status = 'primary';
+                switch ($query->user_type) {
+                    case 'admin':
+                        $status = 'primary';
+                        break;
+                    case 'adminprodi':
+                        $status = 'secondary';
+                  
+                }
+                return '<span class="text-capitalize badge bg-'.$status.'">'.$query->user_type.'</span>';
+            })
+          
             ->editColumn('created_at', function($query) {
-                return date('Y/m/d',strtotime($query->created_at));
+                $carbonDate = Carbon::parse($query->created_at);
+                $formattedDate = $carbonDate->format('j F Y');
+                return $formattedDate;
             })
             ->filterColumn('full_name', function($query, $keyword) {
                 $sql = "CONCAT(users.first_name,' ',users.last_name)  like ?";
@@ -64,7 +80,7 @@ class UsersDataTable extends DataTable
            
           
             ->addColumn('action', 'users.action')
-            ->rawColumns(['action','status', 'checkbox']);
+            ->rawColumns(['action','status', 'checkbox', 'user_type'],);
     }
 
     /**

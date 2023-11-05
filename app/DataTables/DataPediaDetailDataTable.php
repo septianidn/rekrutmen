@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\DataPedia;
 use App\Models\DataPediaDetail;
 use App\Models\Jenjang;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -52,7 +53,9 @@ class DataPediaDetailDataTable extends DataTable
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$text.'</span>';
             })
             ->editColumn('created_at', function($query) {
-                return date('d M Y',strtotime($query->created_at));
+                $carbonDate = Carbon::parse($query->created_at);
+                $formattedDate = $carbonDate->format('j F Y');
+                return $formattedDate;
             })
             ->editColumn('updated_at', function($query) {
                 return date('d M Y',strtotime($query->updated_at));
