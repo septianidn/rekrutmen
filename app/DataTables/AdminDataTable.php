@@ -333,7 +333,7 @@ class AdminDataTable extends DataTable
                 'printable'      => false,
                 'width'          => '3px',
             ],
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'orderable' => false, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
