@@ -100,10 +100,10 @@ class RekapTCDataTable extends DataTable
             ['data' => 'thn_lulus', 'name' => 'nama', 'title' => 'Tahun Lulus', 'searchable' => true,],
             ['data' => 'datajawaban', 'name' => 'data_jawaban', 'title' => 'Jawaban', 'searchable' => true , 'class' => 'text-center hide-search'],
             
-            Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                 Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

@@ -125,10 +125,10 @@ class LaporanTSDataTable extends DataTable
             ['data' => 'lokasi_laporan_link', 'name' => 'lokasi_laporan_link', 'title' => 'Laporan', 'searchable' => false , 'class' => 'text-center'],
             ['data' => 'published', 'name' => 'published', 'title' => 'Publish', 'searchable' => true,]
             ,
-            Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                 Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

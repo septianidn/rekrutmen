@@ -27,9 +27,7 @@ class AlumniDataTable extends DataTable
         return datatables()
            ->eloquent($query)
            ->addIndexColumn()
-            ->addColumn('no', function () use (&$index) {
-                return $index++;
-            })
+        
             ->addColumn('checkbox', function ($query) {
                 return '<input type="checkbox" name="alumni[]" class="alumni_checkbox" value="' . $query->nim . '"/>';
             })
@@ -124,7 +122,6 @@ class AlumniDataTable extends DataTable
                     ->headerCallback('function(thead, data, start, end, display){
                         $(thead).find("th").addClass("text-center");
                     }')
-                    
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
@@ -305,7 +302,7 @@ class AlumniDataTable extends DataTable
                            
 
                             // Menambahkan kotak pencarian kolom
-                            table.api().columns([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]).every(function () {
+                            table.api().columns([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,18,19]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="\' + title + \'"/>\');
@@ -314,19 +311,18 @@ class AlumniDataTable extends DataTable
                                     .on(\'keyup\', function () {
                                         column.search($(this).val(), false, false, true).draw();
                                     });
-                            });
-                            var columnHeaders = [];
 
+                                    $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
+                            });
+
+                            // Show Hide Column
+                            var columnHeaders = [];
                             this.api().columns().every(function() {
                                 var headerText = this.header().textContent;
                                 columnHeaders.push(headerText);
                             });
-
-                            console.log(columnHeaders);
-
-                            // Membuat pilihan Select2 dari nama kolom
+                          
                             var columnSelector = $(\'<select class="select2" multiple="multiple" style="width: 100%;"></select>\');
-                        
                             columnHeaders.forEach(function (headerText,index ) {
                                 table.api().column(index).visible(false);
                                 if(index !== 0 && index !== 1 ){
@@ -334,9 +330,7 @@ class AlumniDataTable extends DataTable
                                 }
                             });
                         
-
                             columnSelector.appendTo($(\'div.show-hide-columns\'));
-             
                             var initialSelectedIndexes = [0,1,2,3,5,6,7,8,9,10,13,14,18,19,20];
                             columnSelector.val(initialSelectedIndexes).trigger("change");
 
@@ -367,15 +361,11 @@ class AlumniDataTable extends DataTable
                                 });
                             });
                         
-                            // Inisialisasi Select2
+                          
                             columnSelector.select2( {
                                 theme: "bootstrap-5",
                                   multiple: true
-                            } );
-
-
-                            
-                            
+                            } ); 
                         }'
                         
                     ]);

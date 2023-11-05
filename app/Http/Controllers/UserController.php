@@ -215,4 +215,27 @@ class UserController extends Controller
         return redirect()->back()->with($status,$message);
 
     }
+
+    public function deletedSelected(Request $request)
+    {
+        if(request()->ajax()){
+        $selectedIds = $request->input('selectedIds');
+
+        $users = User::whereIn('id', $selectedIds);
+
+        if ($users->exists()) {
+            $users->delete();
+            $status = 'success';
+            $message = __('global-message.delete_form', ['form' => __('users.title')]);
+        } else {
+            $message = 'No records found for deletion.';
+        }
+        
+        return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
+        
+        
+        }
+
+
+    }
 }

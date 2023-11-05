@@ -6,13 +6,13 @@
         ?>
         @if (isset($id))
             {!! Form::model($data, [
-                'route' => ['backoffice.laporan-tracer-study.update', $id],
+                'route' => ['backoffice.laporan.update', $id],
                 'method' => 'patch',
                 'enctype' => 'multipart/form-data',
             ]) !!}
         @else
             {!! Form::open([
-                'route' => ['backoffice.laporan-tracer-study.store'],
+                'route' => ['backoffice.laporan.store'],
                 'method' => 'post',
                 'enctype' => 'multipart/form-data',
                 'id' => 'formModal',
@@ -26,7 +26,7 @@
                             <h4 class="card-title">{{ $id !== null ? 'Update' : 'Tambah' }} Laporan Tracer Study</h4>
                         </div>
                         <div class="card-action">
-                            <a href="{{ route('backoffice.laporan-tracer-study.index') }}" class="btn btn-sm btn-danger"
+                            <a href="{{ route('backoffice.laporan.index') }}" class="btn btn-sm btn-danger"
                                 role="button">Kembali</a>
                         </div>
                     </div>

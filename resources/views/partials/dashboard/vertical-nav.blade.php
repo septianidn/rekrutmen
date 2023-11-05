@@ -659,8 +659,8 @@
         </a>
     </li> --}}
     <li class="nav-item">
-        <a class="nav-link {{ activeRoute(route('backoffice.laporan-tracer-study.index')) }}" aria-current="page"
-            href="{{ route('backoffice.laporan-tracer-study.index') }}">
+        <a class="nav-link {{ activeRoute(route('backoffice.laporan.index')) }}" aria-current="page"
+            href="{{ route('backoffice.laporan.index') }}">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4"

@@ -99,10 +99,10 @@ class DataPediasDataTable extends DataTable
             ['data' => 'parent_id', 'name' => 'parent_id', 'title' => 'Parent', 'searchable' => true,],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At', 'searchable' => true,],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At', 'searchable' => true,],
-            Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                 Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

@@ -129,10 +129,10 @@ class KontenDataTable extends DataTable
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
             ['data' => 'tags', 'name' => 'tags', 'title' => 'Tags', 'searchable' => true,],
             ['data' => 'published', 'name' => 'published', 'title' => 'Status Terbit', 'render' => null,  'orderable' => true, 'searchable' => true,],
-            Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                 Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

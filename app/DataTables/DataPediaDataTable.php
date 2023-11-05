@@ -128,9 +128,9 @@ class DataPediaDataTable extends DataTable
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At', 'searchable' => true,],
             ['data' => 'jumlah_data', 'name' => 'datapediadetail_count', 'title' => 'Jumlah Data', 'searchable' => true , 'class' => 'text-center'],
             Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+            ->exportable(false)
+            ->printable(false)
+            ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

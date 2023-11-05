@@ -130,9 +130,9 @@ class AdminProdiDataTable extends DataTable
             ['data' => 'adminprodi.prodi.jenjang.nama_jenjang', 'name' => 'adminprodi.prodi.jenjang.nama_jenjang', 'title' => 'Jenjang'],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Tanggal Ubah'],
             Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

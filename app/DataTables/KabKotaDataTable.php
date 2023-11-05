@@ -87,10 +87,10 @@ class KabKotaDataTable extends DataTable
             ['data' => 'provinsi.kode_provinsi', 'name' => 'provinsi.kode_provinsi', 'title' => 'Kode Provinsi', 'searchable' => true],
             ['data' => 'provinsi.nama_provinsi', 'name' => 'provinsi.nama_provinsi', 'title' => 'Nama Provinsi', 'searchable' => true],
         
-            Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                 Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

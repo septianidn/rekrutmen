@@ -116,10 +116,10 @@ class UsulanPertanyaanDataTable extends DataTable
             ['data' => 'publish', 'name' => 'publish', 'title' => 'Publish', 'searchable' => true,],
             ['data' => 'pertanyaan', 'name' => 'pertanyaan', 'title' => 'Jumlah Pertanyaan', 'searchable' => true , 'class' => 'text-center hide-search'],
             
-            Column::computed('action')
-                  ->exportable(true)
-                  ->printable(true)
-                  ->searchable(true)
+                 Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

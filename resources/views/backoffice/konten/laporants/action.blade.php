@@ -1,6 +1,6 @@
 <div class="flex align-items-center list-laporants-action">
     <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip" title="Edit Konten"
-        href="{{ route('backoffice.laporan-tracer-study.edit', $data->id) }}">
+        href="{{ route('backoffice.laporan.edit', $data->id) }}">
         <span class="btn-inner">
             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -52,7 +52,7 @@
         }).then(function(result) {
             if (result.isConfirmed) {
                 var form = document.createElement('form');
-                form.action = "{{ route('backoffice.laporan-tracer-study.destroy', '') }}/" + id;
+                form.action = "{{ route('backoffice.laporan.destroy', '') }}/" + id;
                 form.method = 'POST';
 
                 var csrfToken = document.createElement('input');
