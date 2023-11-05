@@ -21,9 +21,8 @@ class EmailTemplateDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+            
             ->filterColumn('nama_template', function($query, $keyword) {
                 $sql = "nama_template LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -133,7 +132,7 @@ class EmailTemplateDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center', 'printable' => true],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama_template', 'name' => 'nama_template', 'title' => 'Nama Template', 'searchable' => true,],
             ['data' => 'subjek_template', 'name' => 'subjek_template', 'title' => 'Subjek Template', 'searchable' => true,],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created Date', 'searchable' => true,],

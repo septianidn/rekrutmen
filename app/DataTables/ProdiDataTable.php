@@ -21,9 +21,7 @@ class ProdiDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 return view('backoffice.datamaster.prodi.action', compact('data'));
             })
@@ -106,7 +104,7 @@ class ProdiDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'kode_prodi', 'name' => 'kode_prodi', 'title' => 'Kode Prodi', 'searchable' => true,],
             ['data' => 'nama_prodi', 'name' => 'nama_prodi', 'title' => 'Nama Prodi', 'searchable' => true,],
             ['data' => 'fakultas.nama_fakultas', 'name' => 'fakultas.nama_fakultas', 'title' => 'Fakultas', 'searchable' => true,],

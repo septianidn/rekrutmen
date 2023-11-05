@@ -20,7 +20,7 @@ class AdminDataTable extends DataTable
         $index = 1;
         return datatables()
             ->eloquent($query)
-          
+            ->addIndexColumn()
             ->editColumn('status', function($query) {
                 $status = 'warning';
                 switch ($query->status) {
@@ -54,9 +54,7 @@ class AdminDataTable extends DataTable
             })
            
            
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           
             ->addColumn('action', 'users.action')
             ->rawColumns(['action','status']);
     }

@@ -21,9 +21,7 @@ class ProvinsiDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 return view('backoffice.datamaster.zona.provinsi.action', compact('data'));
             })
@@ -81,7 +79,7 @@ class ProvinsiDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama_provinsi', 'name' => 'nama_provinsi', 'title' => 'Provinsi', 'searchable' => true,],
             ['data' => 'kode_provinsi', 'name' => 'kode_provinsi', 'title' => 'Kode Provinsi', 'searchable' => true,],
        

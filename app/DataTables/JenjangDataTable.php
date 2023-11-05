@@ -20,9 +20,8 @@ class JenjangDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+          
             ->addColumn('action', function ($data) {
                 return view('backoffice.datamaster.jenjang.action', compact('data'));
             })
@@ -80,7 +79,7 @@ class JenjangDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama_jenjang', 'name' => 'nama_jenjang', 'title' => 'Jenjang', 'searchable' => true,],
             Column::computed('action')
                   ->exportable(true)

@@ -16,6 +16,7 @@ use App\Mail\EmailFormat;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BlastingEmailExport;
 use App\Imports\BlastingEmailImport;
+use App\Imports\EmailFormFileImport;
 use App\Models\EmailTemplate;
 use App\Jobs\SendMailJob;
 
@@ -59,31 +60,35 @@ class EmailSendController extends Controller
             $content = $request->input('isi');
             $templateId = $request->input('template_id') ?? '1';
             $tipe = $request->tipe;
+
             $recipients = json_decode($request->input('tujuan'), true);
-    
             $recipientEmails = array_column($recipients, 'value');
 
             foreach ($recipientEmails as $recipientEmail) {
 
                     $id = $this->saveData($recipientEmail, $subject, $content,$tipe, 'pending',now(), $templateId);
-      
                     dispatch(new SendMailJob($recipientEmail, $subject, $content, $id));
-                
-                   
-                   
             }
         }
+        else if ([$request->tipe == 'email_from_file']){
+
+            $subject = $request->input('subjek');
+            $content = $request->input('isi');
+            $templateId = $request->input('template_id') ?? '1';
+            $tipe = $request->tipe;
+          
+            $file = $request->file('email_from_file')->store('public/import');
+            $import = (new EmailFormFileImport( $subject, $content, $templateId))->queue($file);
+
+ 
+         }
         else if ([$request->tipe == 'blasting']){
 
           
            $file = $request->file('blasting_file');
            $import = new BlastingEmailImport;
            $data = Excel::toArray($import, $file);
-   
-          
-           $emailColumn = collect($data[0])->pluck('email');
 
-        //    dd($emailColumn);
 
         }
         return redirect()->route('backoffice.outbox.index')->withSuccess(__('Email sedang proses dikirim',['name' => __('outbox.store')]));

@@ -26,6 +26,7 @@ class AlumniDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
+           ->addIndexColumn()
             ->addColumn('no', function () use (&$index) {
                 return $index++;
             })
@@ -92,7 +93,7 @@ class AlumniDataTable extends DataTable
             });
             
     }
-    protected bool $fastExcel = true;
+  
   
     /**
      * Get query source of dataTable.
@@ -401,7 +402,7 @@ class AlumniDataTable extends DataTable
                 'width'          => '3px',
             ],
             
-            ['data' => 'no', 'name' => 'no', 'title' => 'No',  'searchable' => true, 'class' => 'text-center',   'exportable' => false],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'searchable' => true],
             ['data' => 'nim', 'name' => 'nama', 'title' => 'NIM', 'searchable' => true],
             ['data' => 'tanggal_lahir', 'name' => 'tanggal_lahir', 'title' => 'Tanggal Lahir', 'searchable' => true],

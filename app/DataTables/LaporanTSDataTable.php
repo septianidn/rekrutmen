@@ -25,9 +25,8 @@ class LaporanTSDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+            
             ->editColumn('published', function ($query) {
                 $status = 'primary';
                 switch ($query->published) {
@@ -120,7 +119,7 @@ class LaporanTSDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'paket_soal.nama_paket', 'name' => 'paket_soal.nama_paket', 'title' => 'Tracer Study', 'searchable' => true,],
             ['data' => 'deskripsi', 'name' => 'pertanyaan', 'title' => 'Deskripsi', 'searchable' => true , 'class' => 'text-center'],
             ['data' => 'lokasi_laporan_link', 'name' => 'lokasi_laporan_link', 'title' => 'Laporan', 'searchable' => false , 'class' => 'text-center'],

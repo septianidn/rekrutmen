@@ -24,9 +24,8 @@ class EmailBoxDataTable extends DataTable
      
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })          
+           ->addIndexColumn()
+                 
             ->filterColumn('tujuan', function($query, $keyword) {
                 $sql = "tujuan LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -51,6 +50,9 @@ class EmailBoxDataTable extends DataTable
             ->filterColumn('tanggal_kirim', function($query, $keyword) {
                 $sql = "tanggal_kirim LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->addColumn('checkbox', function ($query) {
+                return '<input type="checkbox" name="emailbox[]" class="emailbox_checkbox" value="' . $query->id . '"/>';
             })
             
             ->filterColumn('tipe', function($query, $keyword) {
@@ -95,7 +97,7 @@ class EmailBoxDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 return view('backoffice.email.outbox.action', compact('data'));
             })
-            ->rawColumns(['action', 'status', 'tipe']);
+            ->rawColumns(['action', 'status', 'tipe', 'checkbox']);
            
             
             
@@ -131,6 +133,69 @@ class EmailBoxDataTable extends DataTable
                         "autoWidth" => false,
                         "serverSide" => true,
                         'buttons' => [
+                            ['custom'=>'deleteSelected', 'className' => 'btn btn-outline-danger btn-icon', 'text' => '<span><i class="fa fa-trash"></i>&nbsp Deleted Selected</span>' ,
+                            'action' => 'function() {
+                                var selectedIds = [];
+                                var swalWithBootstrapButtons = Swal.mixin({
+                                    customClass: {
+                                        confirmButton: "btn btn-danger mx-2",
+                                        cancelButton: "btn btn-success",
+                                        popup: "rounded"
+                                    },
+                                    buttonsStyling: false,
+                                    showClass: {
+                                        popup: "animate__animated animate__zoomIn animate__faster",
+                
+                                    },
+                                    hideClass: {
+                                        popup: "animate__animated animate__zoomOut animate__faster",
+                
+                                    }
+                                })
+                                const csrfToken = document.querySelector("meta[name=\'csrf-token\']").getAttribute("content");
+                               
+                                $("input.emailbox_checkbox:checked").each(function() {
+                                    selectedIds.push($(this).val());
+                                });
+                                if(selectedIds.length == 0){
+                                    toastMixin.fire({
+                                        icon: "error",
+                                        animation: true,
+                                        title: "Pilih Minimal 1 Data!",
+                                    });
+                                }
+                                else if(selectedIds.length > 0){
+        
+                                    swalWithBootstrapButtons.fire({
+                                        title: `Hapus Data?`,
+                                        text: "Anda tidak akan dapat mengembalikan ini!!",
+                                        icon: "question",
+                                        showCancelButton: true,
+                                        confirmButtonText: "Ya, hapus!",
+                                        cancelButtonText: "Batal",
+                                    }).then(function(result) {
+                                        if (result.isConfirmed) {
+                                            $.ajax({
+                                                method: "GET",
+                                                headers: { "X-CSRF-TOKEN": csrfToken },
+                                                contentType: "application/json",
+                                                url: "' . route("backoffice.deleted-selected-emailbox") . '",
+                                                data: { selectedIds: selectedIds },
+                                                success: function(response) {
+                                                    $("#dataTable").DataTable().ajax.reload();
+                                                },
+                                                error: function(data) {
+                                                    console.error(data.responseJSON);
+                                                  
+                                                }
+                                            });
+                                        }
+                                    });
+                                   
+                                }
+                        
+                               
+                            }'],
                             [
                                 "extend" => "csv",
                                 "className" => "btn btn-outline-success btn-icon csv-export",
@@ -157,6 +222,27 @@ class EmailBoxDataTable extends DataTable
                             ['extend'=>'reload', 'className' => 'btn btn-outline-success btn-icon', 'text' => '<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'],
                         ],
                         "initComplete" => 'function () {
+                            var table = this;
+                            var toastMixin = Swal.mixin({
+                                        toast: true,
+                                        icon: "success",
+                                        title: "General Title",
+                                        animation: false,
+                                        position: "top-right",
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener("mouseenter", Swal.stopTimer)
+                                            toast.addEventListener("mouseleave", Swal.resumeTimer)
+                                        }
+                            });
+                  
+                            $("#select-all-checkbox").change(function () {
+                                var isChecked = $(this).is(":checked");
+                                $(".emailbox_checkbox").prop("checked", isChecked);
+                            });
+
                             this.api().columns([1,2,3,4,5]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
@@ -182,7 +268,17 @@ class EmailBoxDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            [
+                'data'           => 'checkbox',
+                'name'           => 'checkbox',
+                'title'          => '<input type="checkbox" id="select-all-checkbox">',
+                'orderable'      => false,
+                'searchable'     => false,
+                'exportable'     => false,
+                'printable'      => false,
+                'width'          => '3px',
+            ],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'tujuan', 'name' => 'tujuan', 'title' => 'Tujuan', 'searchable' => true,],
             ['data' => 'subjek', 'name' => 'subjek', 'title' => 'Subjek', 'searchable' => true,],
             ['data' => 'tanggal_kirim', 'name' => 'tanggal_kirim', 'title' => 'Tanggal Kirim', 'searchable' => true,],

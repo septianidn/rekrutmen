@@ -20,7 +20,7 @@ class UsersDataTable extends DataTable
         $index = 1;
         return datatables()
             ->eloquent($query)
-          
+            ->addIndexColumn()
             ->editColumn('status', function($query) {
                 $status = 'warning';
                 switch ($query->status) {
@@ -56,10 +56,7 @@ class UsersDataTable extends DataTable
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
            
-           
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+          
             ->addColumn('action', 'users.action')
             ->rawColumns(['action','status']);
     }
@@ -140,7 +137,7 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'orderable' => false, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama Lengkap', 'orderable' => false,  'searchable' => true,],
           
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],

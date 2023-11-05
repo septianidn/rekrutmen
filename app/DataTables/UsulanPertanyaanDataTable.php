@@ -23,9 +23,7 @@ class UsulanPertanyaanDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
             ->editColumn('publish', function ($query) {
                 $status = 'primary';
                 switch ($query->publish) {
@@ -109,7 +107,7 @@ class UsulanPertanyaanDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama_paket', 'name' => 'nama_paket', 'title' => 'Nama Paket', 'searchable' => true,],
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],
             ['data' => 'tgl_tayang', 'name' => 'tgl_tayang', 'title' => 'Tanggal Tayang', 'searchable' => true,],

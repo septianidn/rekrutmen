@@ -21,7 +21,7 @@ class AdminProdiDataTable extends DataTable
         $index = 1;
         return datatables()
             ->eloquent($query)
-          
+            ->addIndexColumn()
             ->editColumn('phone_number', function($query) {
                 if($query->phone_number != null){
                     return $query->phone_number;

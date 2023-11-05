@@ -133,6 +133,7 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         Route::group(['prefix' => 'email'], function () {
             Route::resource('/template', EmailTemplateController::class);
             Route::resource('/outbox', EmailBoxController::class);
+            Route::get('/delete-selected', [EmailBoxController::class, 'deletedSelected'])->name('deleted-selected-emailbox');
             Route::resource('/send', EmailSendController::class);
         });
 

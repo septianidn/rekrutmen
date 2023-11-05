@@ -23,9 +23,8 @@ class KategoriKontenDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+         
             ->editColumn('deskripsi', function($query) {
                 if($query->deskripsi != null){
                     return $query->deskripsi;
@@ -137,7 +136,7 @@ class KategoriKontenDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama_kategori', 'name' => 'nama_kategori', 'title' => 'Nama Kategori', 'searchable' => true,],
             ['data' => 'grup_konten.nama_grup', 'name' => 'grup_konten.nama_grup', 'title' => 'Nama Grup', 'searchable' => true,],
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],

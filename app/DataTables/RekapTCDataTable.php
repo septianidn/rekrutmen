@@ -22,10 +22,7 @@ class RekapTCDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
-          
+           ->addIndexColumn()
             ->addColumn('datajawaban', 'backoffice.tracerstudy.rekap.jawaban')
             ->addColumn('action', 'backoffice.tracerstudy.rekap.action')
             
@@ -92,7 +89,7 @@ class RekapTCDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama', 'name' => 'nama', 'title' => 'Nama', 'searchable' => true,],
             ['data' => 'nim', 'name' => 'nama', 'title' => 'NIM', 'searchable' => true,],
             ['data' => 'email', 'name' => 'email', 'title' => 'Email', 'searchable' => true,],

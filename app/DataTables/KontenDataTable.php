@@ -24,9 +24,8 @@ class KontenDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+         
             ->editColumn('published', function ($query) {
                 $status = 'primary';
                 switch ($query->published) {
@@ -124,7 +123,7 @@ class KontenDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'judul', 'name' => 'judul', 'title' => 'Judul', 'searchable' => true,],
             ['data' => 'kategori_konten.nama_kategori', 'name' => 'kategori_konten.nama_kategori', 'title' => 'Nama Kategori', 'searchable' => true,],
             ['data' => 'alias_url', 'name' => 'alias_url', 'title' => 'Alias URL', 'searchable' => true,],

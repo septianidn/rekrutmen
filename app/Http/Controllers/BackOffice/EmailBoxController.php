@@ -67,4 +67,25 @@ class EmailBoxController extends Controller
         return redirect()->back()->with($status,$message);
 
     }
+    public function deletedSelected(Request $request)
+    {
+        if(request()->ajax()){
+        $selectedIds = $request->input('selectedIds');
+
+        $emailbox =  EmailBox::whereIn('id', $selectedIds);
+        $status = 'errors';
+        $message= __('global-message.delete_form', ['form' => __('paketsoal.title')]);
+
+        if($emailbox!='') {
+            $emailbox->delete();
+            $status = 'success';
+            $message= __('global-message.delete_form', ['form' => __('paketsoal.title')]);
+            
+        }
+        return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
+        
+        }
+
+
+    }
 }

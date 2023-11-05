@@ -21,9 +21,8 @@ class DataPediaDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+          
             ->addColumn('action', function ($data) {
                 return view('backoffice.datamaster.datapedia.action', compact('data'));
             })
@@ -120,7 +119,7 @@ class DataPediaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'nama_data', 'name' => 'nama_data', 'title' => 'Nama Data', 'searchable' => true,],
             ['data' => 'deskripsi_data', 'name' => 'deskripsi_data', 'title' => 'Deskripsi Data', 'searchable' => true,],
           

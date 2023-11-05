@@ -46,7 +46,6 @@ class SendMailJob implements ShouldQueue
         try {
             $email = new EmailFormat($this->subject, $this->content);
             Mail::to($this->send_mail)->send($email);
-
             $this->updateData($this->id, 'send');
         } catch (\Exception $e) {
             $this->updateData($this->id, 'failed');
@@ -67,9 +66,7 @@ class SendMailJob implements ShouldQueue
     {
      
         $emailBox = EmailBox::findOrFail($id);
-
         $emailBox->status = $status;
-
         $emailBox->save();
             
     }

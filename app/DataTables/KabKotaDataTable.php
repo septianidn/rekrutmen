@@ -22,9 +22,8 @@ class KabKotaDataTable extends DataTable
         $index = 1;
         return datatables()
            ->eloquent($query)
-            ->addColumn('id', function () use (&$index) {
-                return $index++;
-            })
+           ->addIndexColumn()
+          
             ->addColumn('action', function ($data) {
                 return view('backoffice.datamaster.zona.kabkota.action', compact('data'));
             })
@@ -82,7 +81,7 @@ class KabKotaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            ['data' => 'id', 'name' => 'id', 'title' => 'No',  'searchable' => true, 'class' => 'text-center'],
+            ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'kode_kabupaten_kota', 'name' => 'kode_kabupaten_kota', 'title' => 'Kode Kabupaten Kota', 'searchable' => true],
             ['data' => 'nama_kabupaten_kota', 'name' => 'nama_kabupaten_kota', 'title' => 'Nama Kabupaten Kota', 'searchable' => true],
             ['data' => 'provinsi.kode_provinsi', 'name' => 'provinsi.kode_provinsi', 'title' => 'Kode Provinsi', 'searchable' => true],

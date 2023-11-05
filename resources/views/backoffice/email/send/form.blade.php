@@ -19,7 +19,7 @@
                                 <label class="col-sm-2 col-form-label" for="tujuan">Tipe<span
                                         class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                    {{ Form::select('tipe', ['single' => 'Single or Multiple', 'blasting' => 'Blasting From File'], old('tipe'), ['class' => 'form-control', 'id' => 'tipe']) }}
+                                    {{ Form::select('tipe', ['single' => 'Single or Multiple', 'blasting' => 'Blasting From File', 'email_from_file' => 'Import Email From File'], old('tipe'), ['class' => 'form-control', 'id' => 'tipe']) }}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -30,10 +30,18 @@
                                     <span class="m-0 mt-2" id="mutiple-text">
                                         <small>Jika tujuan lebih dari satu, pisah dengan tanda koma.</small>
                                     </span>
+
                                     {{ Form::file('blasting_file', ['class' => 'form-control', 'id' => 'blasting_file', 'accept' => '.csv']) }}
                                     <span class="m-0 mt-2" id="blasting-text">
+                                        <small>Format file harus bertipe *.csv, sesuaikan kolom dengan field yang akan
+                                            dikirim.
+                                        </small>
+                                    </span>
+
+                                    {{ Form::file('email_from_file', ['class' => 'form-control', 'id' => 'email_from_file', 'accept' => '.csv']) }}
+                                    <span class="m-0 mt-2" id="email_from_file-text">
                                         <small>Format file harus bertipe *.csv, download format file blasting <a
-                                                href="{{ asset('format/blasting_email.csv') }}" download> disini
+                                                href="{{ asset('format/send_to_emails.csv') }}" download> disini
                                             </a></small>
                                     </span>
 
@@ -81,9 +89,14 @@
         var selectedTemplate = $("#template");
         const tipeSelect = $("#tipe");
         const tujuanInput = $("#tujuan");
+        const mutipleText = $("#mutiple-text");
+
         const blastingFileInput = $("#blasting_file");
         const blastingText = $("#blasting-text");
-        const mutipleText = $("#mutiple-text");
+
+        const emailFromFileInput = $("#email_from_file");
+        const emailFromFileText = $("#email_from_file-text");
+
         let tagifyInstance;
 
         $('#tipe').select2({
@@ -199,6 +212,8 @@
             if (tipeSelect.val() === "single") {
                 tujuanInput.show();
                 mutipleText.show();
+                emailFromFileInput.hide();
+                emailFromFileText.hide();
                 blastingFileInput.hide();
                 blastingText.hide();
                 if (!tagifyInstance) {
@@ -216,6 +231,19 @@
                 }
                 blastingFileInput.show();
                 blastingText.show();
+                emailFromFileInput.hide();
+                emailFromFileText.hide();
+            } else if (tipeSelect.val() === "email_from_file") {
+                if (tagifyInstance) {
+                    tagifyInstance.destroy();
+                    tagifyInstance = null;
+                }
+                emailFromFileInput.show();
+                emailFromFileText.show();
+                tujuanInput.hide();
+                mutipleText.hide();
+                blastingFileInput.hide();
+                blastingText.hide();
 
             }
         }
