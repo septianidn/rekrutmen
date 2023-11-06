@@ -20,7 +20,7 @@ class PertanyaanGeneralOption extends Model
      */
     protected $fillable = [
         'pertanyaan_id',
-       
+        'kode',
         'urutan',
         'value',
         'label',

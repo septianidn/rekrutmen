@@ -27,10 +27,21 @@
             title: '{{ Session::get('error') }}',
         });
     @endif
-    @if (Session::has('errors') || (isset($errors) && is_array($errors) && $errors->any()))
-        toastMixin.fire({
-            icon: 'error',
-            title: '{{ Session::get('errors')->first() }}',
-        });
+    @if (Session::has('errors') || (isset($errors) && is_array($errors) && count($errors) > 0))
+        @php
+            $errorMessages = Session::has('errors') ? Session::get('errors')->all() : $errors->all();
+            $combinedErrorMessage = implode('<br>', $errorMessages);
+        @endphp
+
+        @if (!empty($combinedErrorMessage))
+            toastMixin.fire({
+                icon: 'error',
+                title: '{!! $combinedErrorMessage !!}',
+                onBeforeOpen: (toast) => {
+                    toast.querySelector('.swal2-title').style
+                        .textAlign = 'left';
+                }
+            });
+        @endif
     @endif
 </script>

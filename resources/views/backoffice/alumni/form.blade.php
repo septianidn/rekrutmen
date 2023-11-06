@@ -14,25 +14,25 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
         'route' => ['backoffice.databasealumni.update', $data->nim],
         'method' => 'patch',
         'enctype' => 'multipart/form-data',
-        'id' => 'formModal',
+        'id' => 'formAlumni',
     ]) !!}
 @else
     {!! Form::open([
         'route' => ['backoffice.databasealumni.store'],
         'method' => 'post',
         'enctype' => 'multipart/form-data',
-        'id' => 'formModal',
+        'id' => 'formAlumni',
     ]) !!}
 @endif
 
 <div class="row">
     <div class="form-group col-md-6">
         <label class="form-label" for="nim">NIM <span class="text-danger">*</span></label>
-        {{ Form::text('nim', old('nim'), ['class' => 'form-control', 'placeholder' => 'Nim', 'id' => 'nim', 'required']) }}
+        {{ Form::number('nim', old('nim'), ['class' => 'form-control', 'placeholder' => 'Nim', 'id' => 'nim']) }}
     </div>
     <div class="form-group col-md-6">
         <label class="form-label" for="nama">Nama <span class="text-danger">*</span></label>
-        {{ Form::text('nama', old('nama'), ['class' => 'form-control', 'placeholder' => 'Nama', 'id' => 'nama', 'required']) }}
+        {{ Form::text('nama', old('nama'), ['class' => 'form-control', 'placeholder' => 'Nama', 'id' => 'nama']) }}
     </div>
 
 </div>
@@ -51,7 +51,7 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
 
     <div class="form-group col-md-6">
         <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
-        {{ Form::text('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Email', 'required', 'id' => 'email']) }}
+        {{ Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => 'Email', 'id' => 'email']) }}
     </div>
     <div class="form-group col-md-6">
         <label class="form-label" for="nomor_handphone">Nomor Handphone</label>
@@ -59,7 +59,7 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
             <div class="input-group-prepend">
                 <span class="input-group-text">+62</span>
             </div>
-            {{ Form::text('nomor_handphone', old('nomor_handphone'), ['class' => 'form-control', 'placeholder' => 'Nomor Handphone', 'id' => 'nomor_handphone']) }}
+            {{ Form::number('nomor_handphone', old('nomor_handphone'), ['class' => 'form-control', 'placeholder' => 'Nomor Handphone', 'id' => 'nomor_handphone']) }}
         </div>
 
     </div>
@@ -72,11 +72,11 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
     </div>
     <div class="form-group col-md-4">
         <label class="form-label" for="thn_masuk">Tahun Masuk <span class="text-danger">*</span></label>
-        {{ Form::text('thn_masuk', old('thn_masuk'), ['class' => 'form-control', 'id' => 'thn_masuk', 'placeholder' => 'Tahun Masuk', 'required']) }}
+        {{ Form::number('thn_masuk', old('thn_masuk'), ['class' => 'form-control', 'min' => '2022', 'id' => 'thn_masuk', 'placeholder' => 'Tahun Masuk']) }}
     </div>
     <div class="form-group col-md-4">
         <label class="form-label" for="thn_lulus">Tahun Keluar <span class="text-danger">*</span></label>
-        {{ Form::text('thn_lulus', old('thn_lulus'), ['class' => 'form-control', 'placeholder' => 'Tahun Lulus', 'id' => 'thn_lulus', 'required']) }}
+        {{ Form::number('thn_lulus', old('thn_lulus'), ['class' => 'form-control', 'min' => '2022', 'placeholder' => 'Tahun Lulus', 'id' => 'thn_lulus']) }}
     </div>
 </div>
 <div class="row">
@@ -91,7 +91,7 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
                     ];
                 })->pluck('text', 'id'),
             old('kode_prodi_id'),
-            ['class' => 'form-control', 'id' => 'kode_prodi_id', 'placeholder' => 'Pilih Prodi', 'required'],
+            ['class' => 'form-control', 'id' => 'kode_prodi_id', 'placeholder' => 'Pilih Prodi'],
         ) }}
     </div>
     <div class="form-group col-md-4">
@@ -116,11 +116,12 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
         {{ Form::select(
             'periode_wisuda',
             [
-                'Wisuda I' => 'Wisuda I',
-                'Wisuda II' => 'Wisuda II',
-                'Wisuda III' => 'Wisuda III',
-                'Wisuda IV' => 'Wisuda IV',
-                'Wisuda V' => 'Wisuda V',
+                '1' => 'Wisuda I',
+                '2' => 'Wisuda II',
+                '3' => 'Wisuda III',
+                '4' => 'Wisuda IV',
+                '5' => 'Wisuda V',
+                '6' => 'Wisuda VI',
             ],
             old('periode_wisuda'),
             ['class' => 'form-control', 'placeholder' => 'Pilih Periode Wisuda', 'id' => 'periode_wisuda'],
@@ -152,7 +153,6 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
 
 {!! Form::close() !!}
 
-
 <script>
     $(document).ready(function() {
         $('#formModal').on('shown.bs.modal', function() {
@@ -170,6 +170,72 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
                 theme: 'bootstrap-5',
                 dropdownParent: $('#formModal'),
                 placeholder: 'Pilih Periode Wisuda'
+            });
+        });
+
+        $('#formModal').on('submit', function(event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                data: $('#formAlumni').serialize(),
+                @if (isset($data))
+                    type: "PATCH",
+                    url: "{{ route('backoffice.databasealumni.update', $data->nim) }}",
+                @else
+                    type: "POST",
+                    url: "{{ route('backoffice.databasealumni.store') }}",
+                @endif
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                success: function(data) {
+                    if (data.success) {
+                        form.closest('.modal').modal('hide');
+                        toastMixin.fire({
+                            icon: 'success',
+                            title: "Data Berhasil Disimpan" + data.success,
+                        });
+                        console.log("Success: " + data.success);
+                        var dataTable = $('#dataTable').DataTable();
+                        dataTable.ajax.reload();
+                    } else if (data.error) {
+                        toastMixin.fire({
+                            icon: 'error',
+                            title: "Data Tidak Berhasil Disimpan" + data.error,
+                        });
+
+
+                        console.log("Error: " + data.error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status == 422) {
+                        var data = xhr.responseJSON;
+                        console.log(data);
+                        var errorMessage = '';
+
+                        for (var key in data.all_message) {
+                            if (data.all_message.hasOwnProperty(key)) {
+                                errorMessage += data.all_message[key].join("\n") + "\n";
+                            }
+                        }
+                        toastMixin.fire({
+                            icon: 'error',
+                            title: errorMessage,
+                            onBeforeOpen: (toast) => {
+                                toast.querySelector('.swal2-title').style
+                                    .textAlign = 'left';
+                            }
+                        });
+                        console.error(errorMessage);
+                    } else if (xhr.status === 500) {
+                        console.error("Internal Server Error:", xhr.responseText);
+                        toastMixin.fire({
+                            icon: 'error',
+                            title: "Gagal Menyimpan Data. Internal Server Error",
+                        });
+                    }
+                }
             });
         });
 

@@ -807,8 +807,8 @@
                         const newDataName = nameData.replace(patternName,
                             `[${pageIndex}][pertanyaan][${cardIndex}][pertanyaan_general_option][${checkBoxIndex}]`
                         );
-                        console.log("INDES" + cardIndex);
-                        console.log("NEW DATA" + newDataName);
+                        // console.log("INDES" + cardIndex);
+                        // console.log("NEW DATA" + newDataName);
                         $(this).attr('name', newDataName);
                     }
 
@@ -1368,6 +1368,8 @@
                 `#jawaban-div\\[${indexPage}\\]\\[${indexCard}\\]`);
             const validationDivs = $(
                 `#shortanswer_validation_div\\[${indexPage}\\]\\[${indexCard}\\]`);
+            const validationDivsC = $(
+                `#shortanswer_v_div\\[${indexPage}\\]\\[${indexCard}\\]`);
 
             const shortInput = $(
                 `#shortanswer_input\\[${indexPage}\\]\\[${indexCard}\\]`);
@@ -1387,14 +1389,17 @@
 
 
             // jawabanDivs.empty();
-            validationDivs.empty();
+
             if (selectedElement.attr('class') === 'shortanswer') {
 
                 const elementShortAnswer = `<div class="form-group inputtype" id="shortanswer_input[${indexPage}][${indexCard}]" data-card="${indexCard}">
                         <input type="text" class="form-control shortanswer_input" placeholder="Teks jawaban singkat" readonly>
                     </div>`;
 
-                const valiDation = `<div class="form-group mt-4" id="shortanswer_input_type_div[${indexPage}][${indexCard}]">
+                const valiDation = `
+                                <div class="shortanswer_v_divv"
+                                id="shortanswer_v_div[${indexPage}][${indexCard}]">
+                                <div class="form-group mt-4" id="shortanswer_input_type_div[${indexPage}][${indexCard}]">
                                 <p class="mt-2"> Silahkan isi validasi disini <span class="text-danger">*</span>
                                 </p>
                                 <label class="form-label text-black">Tipe Validasi</label>
@@ -1422,6 +1427,7 @@
                                     <input type="number" min="0" class="form-control" placeholder="-"
                                         id="shortanswer-input-min[${indexPage}][${indexCard}]" name="data[${indexPage}][pertanyaan][${indexCard}][pertanyaan_general][min_character_jawaban]">
                                 </div>
+                            </div>
                             </div>`;
                 shortInput.remove();
                 singleDiv.remove();
@@ -1430,8 +1436,12 @@
                 gridcolumnDiv.remove();
                 zoneDiv.remove();
                 dropdownDiv.remove();
+
                 jawabanDivs.append(elementShortAnswer);
-                validationDivs.append(valiDation);
+
+                if (validationDivsC.length < 1) {
+                    validationDivs.append(valiDation);
+                }
 
             } else if (selectedElement.attr('class') === 'paragraph') {
                 const elementParagraph = `  <div class="form-group inputtype" id="paragraph_input[${indexPage}][${indexCard}]">
@@ -1444,6 +1454,7 @@
                 gridcolumnDiv.remove();
                 zoneDiv.remove();
                 dropdownDiv.remove();
+                validationDivsC.remove();
                 jawabanDivs.append(elementParagraph);
 
             } else if (selectedElement.attr('class') === 'singlechoice') {
@@ -1531,6 +1542,7 @@
                 mutipleDiv.remove();
                 zoneDiv.remove();
                 dropdownDiv.remove();
+                validationDivsC.remove();
                 if (singleDiv.length < 1) {
                     jawabanDivs.append(elementSingleChoice);
                 }
@@ -1588,6 +1600,7 @@
                 paragraphDivs.remove();
                 gridcolumnDiv.remove();
                 zoneDiv.remove();
+                validationDivsC.remove();
                 dropdownDiv.remove();
                 singleDiv.remove();
                 if (mutipleDiv.length < 1) {
@@ -1755,6 +1768,7 @@
                 mutipleDiv.remove();
                 singleDiv.remove();
                 zoneDiv.remove();
+                validationDivsC.remove();
                 dropdownDiv.remove();
                 if (gridcolumnDiv.length < 1) {
                     jawabanDivs.append(elementGrid);
@@ -1791,7 +1805,7 @@
                 singleDiv.remove();
                 gridcolumnDiv.remove();
                 zoneDiv.remove();
-
+                validationDivsC.remove();
                 if (dropdownDiv.length < 1) {
                     jawabanDivs.append(elementDropdown);
                 }
@@ -1818,6 +1832,7 @@
                 singleDiv.remove();
                 dropdownDiv.remove();
                 gridcolumnDiv.remove();
+                validationDivsC.remove();
                 if (zoneDiv.length < 1) {
                     jawabanDivs.append(elementZone);
                 }
@@ -1832,7 +1847,7 @@
         initializeSelect2Val();
         initializeSelect2DataPedia();
 
-        console.log("-----------")
+
     }
 
 
@@ -1902,8 +1917,8 @@
                     if (matchesName) {
                         const newDataName = nameData.replace(patternName,
                             `[${pageIndex}][pertanyaan][${cardIndex}]`);
-                        console.log("INDES" + cardIndex);
-                        console.log("NEW DATA" + newDataName);
+                        // console.log("INDES" + cardIndex);
+                        // console.log("NEW DATA" + newDataName);
                         $(this).attr('name', newDataName);
                     }
 
@@ -2344,62 +2359,62 @@
     }
 </script>
 
-<script>
-    $(document).ready(function() {
+ <script>
+     $(document).ready(function() {
 
-        $('#formSoal').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: "POST", // Use POST method
-                url: "{{ route('backoffice.pertanyaan.store', $idPaketSoal) }}",
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                },
-                data: $(this).serialize(),
+         $('#formSoal').on('submit', function(e) {
+             e.preventDefault();
+             $.ajax({
+                 type: "POST", // Use POST method
+                 url: "{{ route('backoffice.pertanyaan.store', $idPaketSoal) }}",
+                 headers: {
+                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                 },
+                 data: $(this).serialize(),
 
-                success: function(data) {
-                    if (data.success) {
+                 success: function(data) {
+                     if (data.success) {
 
-                        toastMixin.fire({
-                            icon: 'success',
-                            title: "Data Berhasil Disimpan" + data.success,
-                        });
-                        console.log("Success: " + data.success);
+                         toastMixin.fire({
+                             icon: 'success',
+                             title: "Data Berhasil Disimpan" + data.success,
+                         });
+                         console.log("Success: " + data.success);
 
-                    } else if (data.error) {
-                        toastMixin.fire({
-                            icon: 'error',
-                            title: "Data Tidak Berhasil Disimpan" + data.error,
-                        });
-                        console.log("Errror: " + data.error);
-                    }
+                     } else if (data.error) {
+                         toastMixin.fire({
+                             icon: 'error',
+                             title: "Data Tidak Berhasil Disimpan" + data.error,
+                         });
+                         console.log("Errror: " + data.error);
+                     }
 
-                },
-                error: function(xhr, status, error, data) {
-                    if (xhr.status == 422) {
-                        var data = xhr.responseJSON;
-                        var errorMessage = data.all_message.join(
-                            "\n");
-                        toastMixin.fire({
-                            icon: 'error',
-                            title: errorMessage,
-                            onBeforeOpen: (toast) => {
-                                toast.querySelector('.swal2-title').style
-                                    .textAlign = 'left';
-                            }
-                        });
-                        console.error(errorMessage);
+                 },
+                 error: function(xhr, status, error, data) {
+                     if (xhr.status == 422) {
+                         var data = xhr.responseJSON;
+                         var errorMessage = data.all_message.join(
+                             "\n");
+                         toastMixin.fire({
+                             icon: 'error',
+                             title: errorMessage,
+                             onBeforeOpen: (toast) => {
+                                 toast.querySelector('.swal2-title').style
+                                     .textAlign = 'left';
+                             }
+                         });
+                         console.error(errorMessage);
 
-                    } else if (xhr.status === 500) {
-                        console.error("Internal Server Error:", xhr.responseText);
-                        toastMixin.fire({
-                            icon: 'error',
-                            title: "Gagal Menyimpan Data. Internal Server Error",
-                        });
-                    }
+                     } else if (xhr.status === 500) {
+                         console.error("Internal Server Error:", xhr.responseText);
+                         toastMixin.fire({
+                             icon: 'error',
+                             title: "Gagal Menyimpan Data. Internal Server Error",
+                         });
+                     }
 
-                }
-            });
-        });
-    });
-</script>
+                 }
+             });
+         });
+     });
+ </script>

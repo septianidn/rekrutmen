@@ -33,7 +33,6 @@ class AlumniController extends Controller
     public function create(Request $request)
     {
        
-        $data = $request->all();
         $view = view('backoffice.alumni.form')->render();
         return response()->json(['data' =>  $view, 'status'=> true]);
     }
@@ -47,9 +46,19 @@ class AlumniController extends Controller
     public function store(AlumniRequest $request)
     {
     
+       $response = ['success' => [], 'error' => []];
        $alumni = Alumni::create($request->all());
 
-       return redirect()->route('backoffice.databasealumni.index')->withSuccess(__('message.alumni_msg_added',['name' => __('databasealumni.store')]));
+       if (!$alumni) {
+            $response['error'][] = 'Gagal menyimpan data alumni: ' . $alumni;
+        }
+
+
+       if (empty($response['error'])) {
+        return response()->json(['success' => $response['success']]);
+        } else {
+            return response()->json(['error' => $response['error']]);
+        }
     }
 
 

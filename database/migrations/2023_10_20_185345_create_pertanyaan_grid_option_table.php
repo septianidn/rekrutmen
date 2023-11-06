@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('kode',15);
             $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan')->onUpdate('cascade')->onDelete('cascade');
             $table->smallInteger('urutan')->length(2);
-            $table->string('value',50);
-            $table->string('label',50);
+            $table->string('value');
+            $table->string('label');
             $table->enum('tipe_grid', ['row', 'column']);
             $table->timestamps();
                

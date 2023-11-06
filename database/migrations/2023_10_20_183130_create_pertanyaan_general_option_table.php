@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('pertanyaan_id')->unsigned()->index();
             $table->foreign('pertanyaan_id')->references('id')->on('pertanyaan')->onUpdate('cascade')->onDelete('cascade');
             $table->smallInteger('urutan')->length(2);
-            $table->string('value',50);
-            $table->string('label',50);
+            $table->string('value');
+            $table->string('label');
             $table->string('kode_input_tambahan',8)->nullable();
             $table->enum('tipe', ['single', 'mutiple']);
             $table->timestamps();

@@ -56,22 +56,22 @@ class AlumniRequest extends FormRequest
                 break;
             case 'patch':
                 $rules = [
-                    // 'nim' => 'required|unique:alumni,nim,'.$nim,
-                    'email' => 'required',
+                    'nim' => 'required|unique:alumni,nim,'.$nim,
+                    'email' => 'required|email|unique:alumni,email,'.$nim,
                     'nama' => 'required',
                     'kode_prodi_id' => 'required',
                     'thn_masuk' => 'required',
                     'thn_lulus' => 'required',
                     'tempat_lahir'=> 'nullable',
                     'tanggal_lahir'=> 'nullable',
-                    // 'pin' => 'required|max:8|unique:alumni,pin,'.$nim,
-                    // 'nomor_handphone' => 'nullable|max:13|unique:alumni,nomor_handphone,'.$nim,
+                    'pin' => 'nullable|max:8|unique:alumni,pin,'.$nim,
+                    'nomor_handphone' => 'nullable|max:13|unique:alumni,nomor_handphone,'.$nim,
                     'periode_wisuda'=> 'nullable',
                     'status_tc'=> 'nullable',
                     'tipe_masuk'=> 'nullable',
                     //TODO: FIX THIS REQUEST FOR RDIT QUERY BLANK
-                    // 'nik'=> 'nullable|unique:alumni,nik,'.$nim,
-                    // 'npwp'=> 'nullable|unique:alumni,npwp,'.$nim,
+                    'nik'=> 'nullable|unique:alumni,nik,'.$nim,
+                    'npwp'=> 'nullable|unique:alumni,npwp,'.$nim,
                     'judul_tesis'=> 'nullable',
                 ];
                 break;
@@ -84,19 +84,40 @@ class AlumniRequest extends FormRequest
     public function messages()
     {
         return [
-            'nim.*'  =>'Nim harus berisi.',
-            'email.*'  =>'Email harus berisi.',
-            'nama.*'  =>'Nama harus berisi.',
-            'thn_masuk.*'  =>'Tahun Masuk harus berisi.',
-            'kode_prodi_id.*'  =>'Prodi harus berisi.',
-            'thn_lulus.*'  =>'Tahun Lulus harus berisi.',
+            'nim.required' => 'Nim harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'nama.required' => 'Nama harus diisi.',
+            'kode_prodi_id.required' => 'Kode Prodi harus diisi.',
+            'thn_masuk.required' => 'Tahun Masuk harus diisi.',
+            'thn_lulus.required' => 'Tahun Lulus harus diisi.',
+            'pin.max' => 'Panjang PIN tidak boleh lebih dari :max karakter.',
+            'nomor_handphone.max' => 'Panjang Nomor Handphone tidak boleh lebih dari :max karakter.',
+            'nim.unique' => 'Nim sudah digunakan.',
+            'nik.unique' => 'NIK sudah digunakan.',
+            'npwp.unique' => 'NPWP sudah digunakan.',
         ];
     }
 
      /**
      * @param Validator $validator
      */
+    // protected function failedValidation(Validator $validator){
+    
+    //     $data = [
+    //         'status' => true,
+    //         'message' => $validator->errors()->first(),
+    //         'all_message' =>  $validator->errors()->all()
+    //     ];
+
+    //     if ($this->ajax()) {
+    //         throw new HttpResponseException(response()->json($data,422));
+    //     } else {
+    //         throw new HttpResponseException(redirect()->back()->withInput()->with('errors', $data['all_message']));
+
+    //     }
+    // }
     protected function failedValidation(Validator $validator){
+       
         $data = [
             'status' => true,
             'message' => $validator->errors()->first(),
@@ -106,8 +127,10 @@ class AlumniRequest extends FormRequest
         if ($this->ajax()) {
             throw new HttpResponseException(response()->json($data,422));
         } else {
-            throw new HttpResponseException(redirect()->back()->withInput()->with('errors', $validator->errors()));
+            throw new HttpResponseException(redirect()->back()->withInput()->with('errors', $data['all_message']));
+
         }
+        
     }
 
 

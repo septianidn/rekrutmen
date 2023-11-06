@@ -70,7 +70,10 @@ class PertanyaanController extends Controller
                     'paket_soal_id' => $idPaketSoal,
                     'nama_halaman' => $halamanData['nama_halaman']]);
 
-                  
+                    if (!$halaman) {
+                        $response['error'][] = 'Gagal menyimpan data halaman: ' . $halaman['nama_halaman'];
+                        continue;
+                    }
         
                 foreach ($halamanData['pertanyaan'] as $pertanyaanData) {
                     $wajibDijawab = 0;
@@ -108,6 +111,13 @@ class PertanyaanController extends Controller
                         'wajib_dijawab' => $wajibDijawab,
                         
                     ]);
+
+                    
+                    if (!$pertanyaan) {
+                        $response['error'][] = 'Gagal menyimpan data pertanyaan: ' . $pertanyaanData;
+                        continue;
+                    }
+
                     if($pertanyaanData['tipe_pertanyaan'] ===  'paragraph'){
                         $pertanyaanGeneral = PertanyaanGeneral::create([
                             'pertanyaan_id' => $pertanyaan->id,
@@ -196,47 +206,39 @@ class PertanyaanController extends Controller
                         }
                     }
                     elseif ($pertanyaanData['tipe_pertanyaan'] === 'zone') {
-                        if (isset($pertanyaanData['pertanyaan_zone']) && is_array($pertanyaanData['pertanyaan_zone'])) {
+                        if (isset($pertanyaanData['pertanyaan_zone'])) {
                         
-                            foreach ($pertanyaanData['pertanyaan_zone'] as $pertanyaanZoneData) {
+                             $pertanyaanZoneData = $pertanyaanData['pertanyaan_zone'];
+
                                 $pertanyaanZoneData = PertanyaanZone::create([
                                     'pertanyaan_id' => $pertanyaan->id,
                                     'kode_input_provinsi' => $pertanyaanZoneData['kode_input_provinsi'],
                                     'kode_input_kab_kota' => $pertanyaanZoneData['kode_input_kab_kota'],
                                    
                                 ]);
-                            }
+                            
                         }
                     }
                     elseif ($pertanyaanData['tipe_pertanyaan'] === 'dropdown') {
-                        if (isset($pertanyaanData['pertanyaan_dropdown']) && is_array($pertanyaanData['pertanyaan_dropdown'])) {
-                        
-                            foreach ($pertanyaanData['pertanyaan_dropdown'] as $pertanyaanDropdownData) {
+                        if (isset($pertanyaanData['pertanyaan_dropdown'])) {
+                            $pertanyaanDropdownData =  $pertanyaanData['pertanyaan_dropdown'];
+                              
                                 $pertanyaanDropdownData = PertanyaanDropdown::create([
                                     'pertanyaan_id' => $pertanyaan->id,
-                                    'placeholder' => $pertanyaanDropdownData['placeholder'],
                                     'data_pedia_id' => $pertanyaanDropdownData['data_pedia_id'],
-                                   
+                                    'placeholder' => $pertanyaanDropdownData['placeholder'],
                                 ]);
+                                
                             }
                         }
-                    }
                     
                 }
             }
 
-            if (!$halaman) {
-                $response['error'][] = 'Gagal menyimpan data halaman: ' . $halaman['nama_halaman'];
-            } 
-            if (!$pertanyaan) {
-                $response['error'][] = 'Gagal menyimpan data pertanyaan: ' . $pertanyaanData['pertanyaan'];
-            } 
-            
+
             if (empty($response['error'])) {
-              
                 return response()->json(['success' => $response['success']]);
             } else {
-               
                 return response()->json(['error' => $response['error']]);
             }
         
@@ -251,7 +253,7 @@ class PertanyaanController extends Controller
         ->get()
         ->toArray();
 
-dd($data);
+// dd($data);
        
         if (request()->ajax()) {
             return view('backoffice.tracerstudy.admin.paket-soal.pertanyaan.formedit', compact('idPaketSoal','data', 'assets'))->render();

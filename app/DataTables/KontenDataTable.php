@@ -50,7 +50,7 @@ class KontenDataTable extends DataTable
             })
             ->filterColumn('alias_url', function($query, $keyword) {
                 $sql = "alias_url LIKE  ?";
-                return $query->whereRaw($sql, ["%{$keyword}%"]);
+                return $query->whereRaw($sql,  ["%{$keyword}%"]);
             })
             ->filterColumn('published', function($query, $keyword) {
                 $sql = "published LIKE  ?";
