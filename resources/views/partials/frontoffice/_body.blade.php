@@ -1,6 +1,6 @@
 @include('partials.frontoffice._body_loader')
 
-<main class="main-content">
+<main class="main-content" id="main-content">
     @include('partials.frontoffice._body_nav')
 
     {{ $slot }}

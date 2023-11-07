@@ -248,7 +248,7 @@ class PertanyaanController extends Controller
     public function edit($idPaketSoal)
     {
         $assets = ['animation'];
-        $data = HalamanPertanyaan::with('pertanyaan.pertanyaanGeneral', 'pertanyaan.pertanyaanGeneralOption', 'pertanyaan.pertanyaanGridOption')
+        $data = HalamanPertanyaan::with('pertanyaan.pertanyaanGeneral', 'pertanyaan.pertanyaanGeneralOption', 'pertanyaan.pertanyaanGridOption', 'pertanyaan.pertanyaanZona', 'pertanyaan.pertanyaanDropdown')
         ->where('paket_soal_id', $idPaketSoal)
         ->get()
         ->toArray();

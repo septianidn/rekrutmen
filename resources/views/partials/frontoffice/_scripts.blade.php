@@ -2,6 +2,8 @@
 <script src="{{ asset('js/frontoffice/main.js') }}"></script>
 <script src="{{ asset('js/frontoffice/jquery-3.7.1.min.js') }}"></script>
 
+<script src="{{ asset('js/plugins/form-wizard.js') }}"></script>
+
 @if (in_array('vanilla-counter', $assets ?? []))
     <script defer="" src="{{ asset('js/frontoffice/vanilla-counter.js') }} "></script>
 @endif

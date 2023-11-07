@@ -253,7 +253,7 @@
       </div>
     </section> --}}
 
-    <section class="about-us section">
+    <section class="about-us section bg-white">
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-6 col-md-10 col-12">
@@ -412,7 +412,7 @@
       </div>
     </section> --}}
 
-    <section class="find-job section">
+    <section class="find-job section bg-white">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -761,7 +761,11 @@
                                     </a>
                                 </h4>
                                 <p>
-                                    {{ $laporan->deskripsi_laporan ?? 'Laporan ini ditujukan untuk melihat hasil akhir tracer study untuk lulusan ' . $laporan->paket_soal->untuk_lulusan }}
+                                    {!! $laporan->deskripsi_laporan ??
+                                        ($laporan->paket_soal
+                                            ? 'Laporan ini ditujukan untuk melihat hasil akhir tracer study untuk lulusan ' .
+                                                $laporan->paket_soal->untuk_lulusan
+                                            : '') !!}
                                 </p>
                                 @php
                                     $fileLaporan = $laporan->getFirstMedia('laporants') ?? null;

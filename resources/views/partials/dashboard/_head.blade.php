@@ -21,18 +21,6 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-
-
-
-<!-- SURVEY JS CREATOR -->
-{{-- <link href="https://unpkg.com/survey-jquery/defaultV2.min.css" type="text/css" rel="stylesheet">
-
-<link rel="stylesheet" href="https://unpkg.com/survey-core@1.9.101/defaultV2.css" />
-<link rel="stylesheet" href="https://unpkg.com/survey-creator-core@1.9.101/survey-creator-core.css" /> --}}
-
-
-
-
 <link rel="stylesheet" href="{{ asset('vendor/aos/dist/aos.css') }}" />
 <style>
     th.hide-search input {
@@ -46,14 +34,6 @@
 <link href="{{ asset('vendor/select2/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet">
 
 <link href="{{ asset('vendor/tagify/tagify.css') }}" rel="stylesheet">
-
-
-{{-- <link href="{{ asset('vendor/filepond/dist/filepond.min.css') }}" rel="stylesheet"> --}}
-{{-- 
-<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" /> --}}
-
-{{-- <link href="https://unpkg.com/filepond@4.26.1/dist/filepond.min.css" rel="stylesheet"> --}}
-
 
 {{-- Custom Css From library --}}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
@@ -82,7 +62,7 @@
         background-color: #009A4B;
     }
 
-  
+
     /* FORM BUILDER CUSTOM CSS */
     .card-soal {
         border-left: 5px solid transparent;

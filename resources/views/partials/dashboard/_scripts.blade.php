@@ -25,7 +25,7 @@
 <!-- fslightbox JavaScript -->
 <script src="{{ asset('js/plugins/fslightbox.js') }}"></script>
 <script src="{{ asset('js/plugins/slider-tabs.js') }}"></script>
-<script src="{{ asset('js/plugins/form-wizardv2.js') }}"></script>
+<script src="{{ asset('js/plugins/form-wizard.js') }}"></script>
 
 <!-- settings JavaScript -->
 <script src="{{ asset('js/plugins/setting.js') }}"></script>

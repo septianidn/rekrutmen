@@ -47,6 +47,15 @@ class Pertanyaan extends Model
         return $this->hasMany(PertanyaanGeneralOption::class, 'pertanyaan_id');
     }
 
+    public function pertanyaanZona()
+    {
+        return $this->hasOne(PertanyaanZone::class, 'pertanyaan_id');
+    }
+    public function pertanyaanDropdown()
+    {
+        return $this->hasOne(PertanyaanDropdown::class, 'pertanyaan_id');
+    }
+
     public function pertanyaanGridOption()
     {
         return $this->hasMany(PertanyaanGridOption::class, 'pertanyaan_id');

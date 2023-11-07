@@ -42,7 +42,7 @@
                                             </a>
                                         </h4>
                                         <p>
-                                            {{ $laporan->deskripsi_laporan ?? 'Laporan ini ditujukan untuk melihat hasil akhir tracer study untuk lulusan ' . $laporan->paket_soal->untuk_lulusan }}
+                                          {!! $laporan->deskripsi_laporan ?? ($laporan->paket_soal ? 'Laporan ini ditujukan untuk melihat hasil akhir tracer study untuk lulusan ' . $laporan->paket_soal->untuk_lulusan : '') !!}
                                         </p>
                                         @php
                                             $fileLaporan = $laporan->getFirstMedia('laporants');

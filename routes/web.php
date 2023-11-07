@@ -71,7 +71,7 @@ Route::prefix('tracerstudy/kuesioner')->name('kuesioner.')->group(function(){
         Route::post('/login/{alias_url}', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
     });
     Route::group(['middleware' => 'auth:alumni'], function () {
-        Route::get('/{alias_url}', [PengisianController::class, 'show'])->name('tracerstudy-pengisian.index');
+        Route::get('/{alias_url}', [PengisianController::class, 'mulai'])->name('tracerstudy-pengisian.index');
         Route::get('/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
         Route::post('/logout', [LoginAlumniController::class, 'destroy'])->name('tracerstudy-login.destroy');
     });

@@ -1,10 +1,6 @@
 <x-front-office-layout :assets="$assets ?? []">
 
-
-
-
-
-    <section class="hero-area style3">
+    <section class="hero-area style3 bg-white">
         <!-- Single Slider -->
         <div class="hero-inner">
             <div class="container">

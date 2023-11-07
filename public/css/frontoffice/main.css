@@ -1208,10 +1208,10 @@ ol {
 }
 
 .button .btn:hover {
-    background-color: #081828;
+    background-color: #026d36;
     color: #fff;
-    -webkit-box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
-    box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
+    -webkit-box-shadow: 0 1rem 3rem rgba(13, 86, 42, 0.15) !important;
+    box-shadow: 0 1rem 3rem rgba(35, 45, 35, 0.15) !important;
 }
 
 .button .btn-alt {
@@ -1245,9 +1245,9 @@ ol {
     top: 0;
     opacity: 1;
     z-index: 999999999;
-    background-image: url(../../images/frontoffice/loading.svg);
+    background-image: url(../../images/frontoffice/loader2.gif);
     background-repeat: no-repeat;
-    background-size: 50px;
+    background-size: 150px;
     background-position: center;
 }
 
@@ -1653,7 +1653,7 @@ ol {
 
 .header .button .btn:hover {
     color: #fff;
-    background-color: #081828;
+    background-color: #026d36;
     border-color: transparent;
     -webkit-transform: none;
     transform: none;
@@ -1899,7 +1899,7 @@ ol {
 }
 
 .hero-area.style2 .tns-controls button:hover {
-    background-color: #081828;
+    background-color: #026d36;
     color: #fff;
 }
 
@@ -2026,7 +2026,7 @@ ol {
 }
 
 .hero-area.style4 .hero-inner .hero-text .button .btn:hover {
-    background-color: #081828;
+    background-color: #026d36;
     color: #fff;
 }
 
@@ -3632,7 +3632,7 @@ blockquote .shape {
 }
 
 .sidebar .widget.search-widget form button:hover {
-    background-color: #081828;
+    background-color: #026d36;
     color: #fff;
 }
 
@@ -4458,7 +4458,7 @@ blockquote .shape {
 }
 
 .call-action.style2 .button .btn:hover {
-    background-color: #081828;
+    background-color: #026d36;
     color: #fff;
 }
 
@@ -4504,7 +4504,7 @@ blockquote .shape {
 
 .call-action .section-title .button .btn:hover {
     color: #fff;
-    background-color: #081828;
+    background-color: #026d36;
 }
 
 .call-action.overlay::before {
@@ -6048,7 +6048,7 @@ blockquote .shape {
         margin-top: -25px;
     }
     .hero-area.style2 .tns-controls button:hover {
-        background-color: #081828;
+        background-color: #026d36;
         color: #fff;
     }
     .hero-area.style2 .tns-controls button:first-child {
@@ -6489,7 +6489,7 @@ blockquote .shape {
         font-size: 15px;
     }
     .hero-area.style2 .tns-controls button:hover {
-        background-color: #081828;
+        background-color: #026d36;
         color: #fff;
     }
     .hero-area.style2 .tns-controls button:first-child {
