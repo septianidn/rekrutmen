@@ -79,15 +79,21 @@ class AlumniController extends Controller
      */
     public function update(AlumniRequest $request, $nim)
     {
-
-        $alumni= Alumni::findOrFail($nim);
+        $response = ['success' => [], 'error' => []];
+        $alumni = Alumni::where('nim', $nim)->firstOrFail();
         $alumni->fill($request->all())->update();
 
 
-        if(auth()->check()){
-            return redirect()->route('backoffice.databasealumni.index')->withSuccess(__('message.alumni_msg_updated',['name' => __('Update Alumni')]));
+        if (!$alumni) {
+            $response['error'][] = 'Gagal menyimpan data alumni: ' . $alumni;
         }
-        return redirect()->back()->withSuccess(__('message.fakultas_msg_updated',['name' => 'Data Alumni']));
+
+
+       if (empty($response['error'])) {
+            return response()->json(['success' => $response['success']]);
+        } else {
+            return response()->json(['error' => $response['error']]);
+        }
 
     }
 

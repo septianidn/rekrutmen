@@ -72,11 +72,11 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
     </div>
     <div class="form-group col-md-4">
         <label class="form-label" for="thn_masuk">Tahun Masuk <span class="text-danger">*</span></label>
-        {{ Form::number('thn_masuk', old('thn_masuk'), ['class' => 'form-control', 'min' => '2022', 'id' => 'thn_masuk', 'placeholder' => 'Tahun Masuk']) }}
+        {{ Form::number('thn_masuk', old('thn_masuk'), ['class' => 'form-control', 'min' => '1990', 'id' => 'thn_masuk', 'placeholder' => 'Tahun Masuk']) }}
     </div>
     <div class="form-group col-md-4">
         <label class="form-label" for="thn_lulus">Tahun Keluar <span class="text-danger">*</span></label>
-        {{ Form::number('thn_lulus', old('thn_lulus'), ['class' => 'form-control', 'min' => '2022', 'placeholder' => 'Tahun Lulus', 'id' => 'thn_lulus']) }}
+        {{ Form::number('thn_lulus', old('thn_lulus'), ['class' => 'form-control', 'min' => '1990', 'placeholder' => 'Tahun Lulus', 'id' => 'thn_lulus']) }}
     </div>
 </div>
 <div class="row">
@@ -153,6 +153,9 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
 
 {!! Form::close() !!}
 
+
+    
+
 <script>
     $(document).ready(function() {
         $('#formModal').on('shown.bs.modal', function() {
@@ -190,10 +193,11 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
                 },
                 success: function(data) {
                     if (data.success) {
+                        $('#formAlumni').trigger("reset");
                         form.closest('.modal').modal('hide');
                         toastMixin.fire({
                             icon: 'success',
-                            title: "Data Berhasil Disimpan" + data.success,
+                            title: "Data Berhasil Disimpan",
                         });
                         console.log("Success: " + data.success);
                         var dataTable = $('#dataTable').DataTable();
@@ -222,7 +226,7 @@ $prodiOptions = Prodi::with('fakultas', 'jenjang')->get();
                         toastMixin.fire({
                             icon: 'error',
                             title: errorMessage,
-                            onBeforeOpen: (toast) => {
+                            willOpen: (toast) => {
                                 toast.querySelector('.swal2-title').style
                                     .textAlign = 'left';
                             }

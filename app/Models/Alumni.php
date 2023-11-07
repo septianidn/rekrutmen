@@ -14,7 +14,8 @@ class Alumni extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'alumni';
-    protected $primaryKey = 'nim';
+    public $primaryKey = 'nim';
+    public $incrementing = false;
     protected $guard = 'alumni';
     protected $password = 'pin';
 
@@ -32,6 +33,7 @@ class Alumni extends Authenticatable
         'tempat_lahir',
         'thn_lulus',
         'tanggal_lahir',
+        'pin',
         'nomor_handphone',
         'periode_wisuda',
         'status_tc',
@@ -49,7 +51,6 @@ class Alumni extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'pin',
         'remember_token',
     ];
     
