@@ -21,7 +21,7 @@ class LaporanTS extends Model implements HasMedia
     protected $fillable = [
         'paket_soal_id',
         'lokasi_laporan',
-        'deskripsi',
+        'deskripsi_laporan',
         'published'
     ];
 

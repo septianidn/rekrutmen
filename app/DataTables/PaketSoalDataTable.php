@@ -101,7 +101,7 @@ class PaketSoalDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>><"row align-items-center"<"col-md-12 px-4 py-4" <"show-hide-columns">> > <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
-                    ->headerCallback('function(thead, data, start, end, display){
+                     ->headerCallback('function(thead, data, start, end, display){
                         $(thead).find("th").addClass("text-center");
                     }')
                     ->parameters([
@@ -199,7 +199,9 @@ class PaketSoalDataTable extends DataTable
                           
                         ],
                         "initComplete" => 'function () {
-                            this.api().columns([1, 2, 3, 4, 5,8,9,10]).every(function () {
+
+                            var table = this;
+                            this.api().columns([1, 2, 3, 4, 5,6,7,8,9,10]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
     
@@ -210,6 +212,57 @@ class PaketSoalDataTable extends DataTable
                                     column.search($(this).val(), false, false, true).draw();
                                 });
                             });
+
+                            var columnHeaders = [];
+                            this.api().columns().every(function() {
+                                var headerText = this.header().textContent;
+                                columnHeaders.push(headerText);
+                            });
+                          
+                            var columnSelector = $(\'<select class="select2" multiple="multiple" style="width: 100%;"></select>\');
+                            columnHeaders.forEach(function (headerText,index ) {
+                                table.api().column(index).visible(false);
+                                if(index !== 0 && index !== 1 ){
+                                    columnSelector.append(\'<option value="\' + index + \'">\' + headerText + \'</option>\');
+                                }
+                            });
+                        
+                            columnSelector.appendTo($(\'div.show-hide-columns\'));
+                            var initialSelectedIndexes = [0,1,2,3,4,5,6,7,8,9,10,11];
+                            columnSelector.val(initialSelectedIndexes).trigger("change");
+
+                            var initialSelectedIndexesInit = [0,1,2,10,11];
+
+                            columnSelector.on("select2:unselecting", function (e) {
+                                var deselectedValue = e.params.args.data.id;
+                                if (initialSelectedIndexesInit.includes(parseInt(deselectedValue))) {
+                                    e.preventDefault(); 
+                                }
+                            });
+
+                            initialSelectedIndexes.forEach(function (columnIndex) {
+                                table.api().column(0).visible(true);
+                                table.api().column(1).visible(true);
+                                table.api().column(columnIndex).visible(true);
+                            });
+                            
+                            columnSelector.on(\'change\', function () {
+                                var selectedColumns = $(this).val();
+                                var columns = table.api().columns().indexes().toArray();
+                                table.api().columns(columns).visible(false);
+
+                                selectedColumns.forEach(function (columnIndex) {
+                                    table.api().column(0).visible(true);
+                                    table.api().column(1).visible(true);
+                                    table.api().column(columnIndex).visible(true);
+                                });
+                            });
+                        
+                          
+                            columnSelector.select2( {
+                                theme: "bootstrap-5",
+                                  multiple: true
+                            } ); 
                         }'
                     ]);
     }

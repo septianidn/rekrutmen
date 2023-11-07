@@ -27,7 +27,7 @@ class PengisianController extends Controller
                 $untuk_lulusan = $paket_soal->untuk_lulusan;
                 $thn_lulus =  Auth::guard('alumni')->user()->thn_lulus;
             if( $untuk_lulusan == $thn_lulus){
-                return view('frontoffice.tracerstudy.pengisian.pengisianv2', compact('paket_soal'));
+                return view('frontoffice.tracerstudy.pengisian.mulai', compact('paket_soal'));
             }
             elseif($untuk_lulusan !== $thn_lulus ){
                 abort(403);

@@ -1,6 +1,5 @@
 <x-app-layout :assets="$assets ?? []">
     <?php
-    $datapediaOptions = App\Models\DataPedia::all() ?? null;
     $id = $id ?? null;
     ?>
     <div>
@@ -51,8 +50,20 @@
 
                         </div>
                         <div class="form-group">
-                            <label class="form-label text-black" for="deskripsi_paket">Deskripsi Paket</label>
-                            {{ Form::textarea('deskripsi_paket', old('deskripsi_paket'), ['class' => 'form-control', 'placeholder' => 'Isi deskripsi', 'id' => 'deskripsi_paket']) }}
+                            <label class="form-label text-black" for="prolog_login">Prolog Login</label>
+                            {{ Form::textarea('prolog_login', old('prolog_login'), ['class' => 'form-control', 'placeholder' => 'Isi Prolog Login', 'id' => 'prolog_login']) }}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label text-black" for="deskripsi">Deskripsi Paket</label>
+                            {{ Form::textarea('deskripsi', old('deskripsi'), ['class' => 'form-control', 'placeholder' => 'Isi deskripsi', 'id' => 'deskripsi']) }}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label text-black" for="result_message">Result Message</label>
+                            {{ Form::textarea('result_message', old('result_message'), ['class' => 'form-control', 'placeholder' => 'Isi Result Message', 'id' => 'result_message']) }}
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label text-black" for="prolog_after_logout">Prolog After Logout</label>
+                            {{ Form::textarea('prolog_after_logout', old('prolog_after_logout'), ['class' => 'form-control', 'placeholder' => 'Isi Prolog After Logout', 'id' => 'prolog_after_logout']) }}
                         </div>
                         <div class="form-group">
                             <label class="form-label text-black" for="tahun_pelaksanaan">Tahun Pelaksanaan<span
@@ -83,7 +94,7 @@
 
                         </div>
                         <hr>
-                        <button type="submit" class="btn btn-primary btn-sm float-end">Tambah Paket
+                        <button type="submit" class="btn btn-primary btn-sm float-end">{{ $id !== null ? 'Update' : 'Tambah' }} Paket
                             Soal</button>
                     </div>
                 </div>
@@ -100,9 +111,36 @@
 <script>
     $(document).ready(function() {
         tinymce.init({
-            selector: `textarea#deskripsi_paket`,
+            selector: `#deskripsi`,
+            height: '400',
             branding: false,
-            plugins: 'image code advlist anchor autolink autoresize charmap codesample emoticons fullscreen insertdatetime link lists media preview searchreplace table template visualchars wordcount',
+            plugins: " advlist  anchor  autolink autosave template charmap  codesample directionality  emoticons  help image insertdatetime link  lists media   nonbreaking pagebreak   searchreplace table     visualchars wordcount",
+            toolbar: "undo redo | template | blocks fontfamily fontsize | styleselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify  | link image | outdent indent | numlist bullist | align lineheight checklist bullist numlist | indent outdent | removeformat typography | template",
+            menubar: 'file edit view insert format tools table',
+        });
+        tinymce.init({
+            selector: `#prolog_after_logout`,
+            height: '400',
+            branding: false,
+            plugins: " advlist  anchor  autolink autosave template charmap  codesample directionality  emoticons  help image insertdatetime link  lists media   nonbreaking pagebreak   searchreplace table     visualchars wordcount",
+            toolbar: "undo redo | template | blocks fontfamily fontsize | styleselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify  | link image | outdent indent | numlist bullist | align lineheight checklist bullist numlist | indent outdent | removeformat typography | template",
+            menubar: 'file edit view insert format tools table',
+        });
+        tinymce.init({
+            selector: `#result_message`,
+            height: '400',
+            branding: false,
+            plugins: " advlist  anchor  autolink autosave template charmap  codesample directionality  emoticons  help image insertdatetime link  lists media   nonbreaking pagebreak   searchreplace table     visualchars wordcount",
+            toolbar: "undo redo | template | blocks fontfamily fontsize | styleselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify  | link image | outdent indent | numlist bullist | align lineheight checklist bullist numlist | indent outdent | removeformat typography | template",
+            menubar: 'file edit view insert format tools table',
+        });
+        tinymce.init({
+            selector: `#prolog_login`,
+            height: '400',
+            branding: false,
+            plugins: " advlist  anchor  autolink autosave template charmap  codesample directionality  emoticons  help image insertdatetime link  lists media   nonbreaking pagebreak   searchreplace table     visualchars wordcount",
+            toolbar: "undo redo | template | blocks fontfamily fontsize | styleselect | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify  | link image | outdent indent | numlist bullist | align lineheight checklist bullist numlist | indent outdent | removeformat typography | template",
+            menubar: 'file edit view insert format tools table',
         });
         $("#tahun_pelaksanaan").datepicker({
             format: "yyyy",

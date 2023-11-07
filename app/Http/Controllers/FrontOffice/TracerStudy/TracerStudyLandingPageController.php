@@ -19,8 +19,11 @@ class TracerStudyLandingPageController extends Controller
         ->orderBy('untuk_lulusan', 'DESC') // Mengurutkan berdasarkan 'untuk_lulusan' secara ascending (A-Z)
         ->get(); 
         //TODO: ORDER BY TAHUN PELAKSANAAN
+
+        $assets = ['vanilla-counter', 'glightbox'];
+
         $dataLaporan = LaporanTS::orderBy('created_at', 'DESC')->take(6)->get();
-        return view('frontoffice.tracerstudy.tracer-study', compact('dataLaporan','optionTracerStudy'));
+        return view('frontoffice.tracerstudy.tracer-study', compact('assets','dataLaporan','optionTracerStudy'));
     }
 
     public function laporan(Request $request)

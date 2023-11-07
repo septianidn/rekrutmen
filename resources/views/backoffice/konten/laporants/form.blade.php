@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Deskripsi</label>
-                                    {{ Form::textarea('deskripsi', old('deskripsi' ?? null), ['class' => 'form-control', 'id' => 'deskripsi', 'placeholder' => 'Deskripsi', 'rows' => 3]) }}
+                                    {{ Form::textarea('deskripsi_laporan', old('deskripsi_laporan' ?? null), ['class' => 'form-control', 'id' => 'deskripsi_laporan', 'placeholder' => 'Deskripsi', 'rows' => 3]) }}
                                 </div>
 
                                 <div class="form-group">

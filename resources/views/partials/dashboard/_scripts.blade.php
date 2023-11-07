@@ -30,8 +30,6 @@
 <!-- settings JavaScript -->
 <script src="{{ asset('js/plugins/setting.js') }}"></script>
 
-
-
 <script src="{{ asset('js/plugins/circle-progress.js') }}"></script>
 @if (in_array('animation', $assets ?? []))
     <!--aos javascript-->

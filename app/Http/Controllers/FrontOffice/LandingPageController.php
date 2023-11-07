@@ -12,8 +12,8 @@ class LandingPageController extends Controller
      */
     public function index(Request $request)
     {
-        
-        return view('frontoffice.landing-page');
+        $assets = ['slider', 'wow'];
+        return view('frontoffice.landing-page', compact('assets'));
     }
 
    
