@@ -2,12 +2,6 @@
 
 // Controllers
 
-use App\Http\Controllers\BackOffice\AdminProdiController;
-use App\Http\Controllers\BackOffice\AlumniController;
-use App\Http\Controllers\BackOffice\DataPediaController;
-use App\Http\Controllers\BackOffice\DataPediaDetailController;
-use App\Http\Controllers\BackOffice\DataPediaSController;
-use App\Http\Controllers\BackOffice\DataProsesController;
 use App\Http\Controllers\BackOffice\EmailBoxController;
 use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\EmailTemplateController;
@@ -15,26 +9,20 @@ use App\Http\Controllers\BackOffice\FakultasController;
 use App\Http\Controllers\BackOffice\GrupKontenController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
-use App\Http\Controllers\FrontOffice\TracerStudy\TracerStudyLandingPageController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\JenjangController;
-use App\Http\Controllers\BackOffice\KabKotaController;
+
 use App\Http\Controllers\BackOffice\KategoriKontenController;
+use App\Http\Controllers\BackOffice\KonselorController;
 use App\Http\Controllers\BackOffice\KontenController;
-use App\Http\Controllers\BackOffice\LaporanTSController;
-use App\Http\Controllers\BackOffice\PaketSoalController;
-use App\Http\Controllers\BackOffice\PertanyaanController;
+
 use App\Http\Controllers\BackOffice\ProdiController;
-use App\Http\Controllers\BackOffice\ProvinsiController;
-use App\Http\Controllers\BackOffice\RekapTCController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
-use App\Http\Controllers\BackOffice\UploadFileController;
-use App\Http\Controllers\FrontOffice\TracerStudy\LoginAlumniController;
-use App\Http\Controllers\FrontOffice\TracerStudy\PengisianController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\PermissionController;
 use App\Http\Controllers\UserController;
+use App\Models\Konselor;
 use Illuminate\Support\Facades\Artisan;
 // Packages
 use Illuminate\Support\Facades\Route;
@@ -59,23 +47,6 @@ Route::get('/storage', function () {
 //Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 
-//Tracer Study Content
-Route::get('/tracerstudy', [TracerStudyLandingPageController::class, 'index'])->name('tracerstudy');
-Route::get('/tracerstudy/laporan', [TracerStudyLandingPageController::class, 'laporan'])->name('tracerstudy-laporan');
-
-//Tracer Study Kuesioner
-
-Route::prefix('tracerstudy/kuesioner')->name('kuesioner.')->group(function(){
-    Route::group(['middleware' => 'guest:alumni'], function () {
-        Route::get('/login/{alias_url}', [LoginAlumniController::class, 'create'])->name('tracerstudy-login.create');
-        Route::post('/login/{alias_url}', [LoginAlumniController::class, 'store'])->name('tracerstudy-login.store');
-    });
-    Route::group(['middleware' => 'auth:alumni'], function () {
-        Route::get('/{alias_url}', [PengisianController::class, 'mulai'])->name('tracerstudy-pengisian.index');
-        Route::get('/prolog', [PengisianController::class, 'prolog'])->name('tracerstudy-pengisian.prolog');
-        Route::post('/logout', [LoginAlumniController::class, 'destroy'])->name('tracerstudy-login.destroy');
-    });
-});
 
 //Back Office : ROLE : ADMIN, ADMIN PRODI GUARD : WEB (CHANGE TO ADMIN)
 
@@ -89,11 +60,17 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
             Route::resource('/users', UserController::class);
             Route::get('/delete-selected', [UserController::class, 'deletedSelected'])->name('deleted-selected-users');
             Route::resource('/kelola-admin', KelolaAdminController::class);
-            Route::resource('/kelola-admin-prodi', AdminProdiController::class);
+            Route::get('/admin/delete-selected', [KelolaAdminController::class, 'deletedSelected'])->name('deleted-selected-admin');
+
             Route::post('/upload-avatar', [UploadAvatarController::class, 'tmpUpload'])->name('upload-profile-image.store');
             Route::delete('/delete-avatar', [UploadAvatarController::class, 'tmpDelete'])->name('upload-profile-image.destroy');
             Route::get('/fetch-avatar', [UploadAvatarController::class, 'fetch'])->name('upload-profile-image.fetch');
         });
+
+
+            Route::resource('/konselor', KonselorController::class);
+            Route::get('/konselor/delete-selected', [KonselorController::class, 'deletedSelected'])->name('deleted-selected-konselor');
+
         // Permission Module
         // Route::get('/role-permission',[RolePermission::class, 'index'])->name('role.permission.list');
         Route::group(['prefix' => 'security'], function () {
@@ -106,31 +83,6 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
             Route::resource('/jenjang', JenjangController::class);
             Route::resource('/fakultas', FakultasController::class);
 
-            Route::group(['prefix' => 'alumni'], function () {
-                Route::resource('/databasealumni', AlumniController::class);
-                Route::get('/delete-selected', [AlumniController::class, 'deletedSelected'])->name('deleted-selected-alumni');
-                Route::get('/blasting-ts/create', [AlumniController::class, 'blastingtsCreate'])->name('blastingts.create');
-                Route::get('/blasting-ts/store', [AlumniController::class, 'blastingtsStore'])->name('blastingts.store');
-                Route::get('/import/create', [AlumniController::class, 'import'])->name('importdatabasealumni.create');
-                Route::get('/import/store', [AlumniController::class, 'importStore'])->name('importdatabasealumni.store');
-                Route::get('/export/csv', [AlumniController::class, 'exportCSV'])->name('exportcsvdatabasealumni.store');
-            });
-
-            Route::group(['prefix' => 'zona'], function () {
-                Route::resource('/provinsi', ProvinsiController::class);
-                Route::resource('/kabkota', KabKotaController::class);
-                
-            });
-            Route::resource('/datapedia', DataPediaController::class);
-            Route::resource('/datapedias', DataPediaSController::class);
-            Route::group(['prefix' => 'datapedia'], function () {
-                Route::get('/detail/{id_datapedia}', [DataPediaDetailController::class, 'index'])->name('datapediadetail.index');
-                Route::get('/create/{id_datapedia}', [DataPediaDetailController::class, 'create'])->name('datapediadetail.create');
-                Route::get('/edit/{id_datapedia}/{id}', [DataPediaDetailController::class, 'edit'])->name('datapediadetail.edit');
-                Route::post('/store', [DataPediaDetailController::class, 'store'])->name('datapediadetail.store');
-                Route::patch('/update/{id}', [DataPediaDetailController::class, 'update'])->name('datapediadetail.update');
-                Route::delete('/destroy/{id}', [DataPediaDetailController::class, 'destroy'])->name('datapediadetail.destroy');
-            });
         });
 
 
@@ -142,54 +94,34 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         });
 
         Route::group(['prefix' => 'konten'], function () {
-            Route::resource('/grup', GrupKontenController::class);
-            Route::resource('/kategori', KategoriKontenController::class);
-            Route::resource('/kelola', KontenController::class);
+            Route::resource('/grup-konten', GrupKontenController::class);
+            Route::resource('/kategori-konten', KategoriKontenController::class);
+            Route::resource('/kelola-konten', KontenController::class);
         });
 
-        Route::group(['prefix' => 'tracer-study'], function () {
-          
-            Route::resource('/rekap', RekapTCController::class);
-            Route::resource('/jawaban', EmailSendController::class);
-            Route::resource('/usulan-pertanyaan', EmailBoxController::class);
-            Route::resource('/laporan', LaporanTSController::class);
 
-            Route::group(['prefix' => 'laporan'], function () {
-                Route::post('/upload-laporants', [UploadFileController::class, 'tmpUpload'])->name('upload-ts');
-                Route::delete('/delete-laporants', [UploadFileController::class, 'tmpDelete'])->name('delete-ts');
-            });
-
-            Route::group(['prefix' => 'paket-soal'], function () {
-                Route::resource('/paket-soal', PaketSoalController::class);
-                Route::get('/delete-selected', [PaketSoalController::class, 'deletedSelected'])->name('deleted-selected-paketsoal');
-                Route::get('/pertanyaan/{id}', [PertanyaanController::class, 'create'])->name('pertanyaan.create');
-                Route::post('/pertanyaan/{id}/store', [PertanyaanController::class, 'store'])->name('pertanyaan.store');
-                Route::get('pertanyaan/{id}/edit', [PertanyaanController::class, 'edit'])->name('pertanyaan.edit');
-                Route::post('/pertanyaan/{id}/update', [PertanyaanController::class, 'update'])->name('pertanyaan.update');
-            });
-        });
 
     });
 
-    Route::middleware('role:admin|adminprodi')->group(function () {
+    Route::middleware('role:admin|konselor')->group(function () {
         Route::middleware('RevalidateBackHistory')->group(function () {
             Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
         });
         Route::get('/confirmmail', [HomeController::class, 'confirmmail'])->name('auth.confirmmail');
         Route::get('/lockscreen', [HomeController::class, 'lockscreen'])->name('auth.lockscreen');
         Route::get('/recoverpw', [HomeController::class, 'recoverpw'])->name('auth.recoverpw');
-    
+
         Route::get('/userprivacysetting', [HomeController::class, 'userprivacysetting'])->name('auth.userprivacysetting');
         Route::group(['prefix' => 'datamaster'], function () {
             Route::resource('/prodi', ProdiController::class);
         });
     });
 
-    Route::middleware('role:adminprodi')->group(function () {
-       
+    Route::middleware('role:konselor')->group(function () {
+
     });
 
-   
+
 });
 });
 

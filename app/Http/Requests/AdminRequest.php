@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class UserRequest extends FormRequest
+class AdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $method = strtolower($this->method());
-        $user_id = $this->route()->user;
+        $user_id = $this->route()->kelola_admin;
 
         $rules = [];
         switch ($method) {

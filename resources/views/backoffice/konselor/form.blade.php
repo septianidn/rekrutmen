@@ -5,9 +5,9 @@
          $data = $data ?? null;
       ?>
       @if(isset($id))
-      {!! Form::model($data, ['route' => ['backoffice.users.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::model($data, ['route' => ['backoffice.konselor.update', $id], 'method' => 'patch' , 'enctype' => 'multipart/form-data']) !!}
       @else
-      {!! Form::open(['route' => ['backoffice.users.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+      {!! Form::open(['route' => ['backoffice.konselor.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
       @endif
       <div class="row">
          <div class="col-xl-3 col-lg-4">
@@ -68,10 +68,6 @@
                             </div>
                         </div>
                      </div>
-                     <div class="form-group">
-                        <label class="form-label">User Role: <span class="text-danger">*</span></label>
-                        {{Form::select('user_role', $roles , old('user_role') ? old('user_role') : $data->user_type ?? 'admin', ['class' => 'form-control', 'id' => 'user_role', 'placeholder' => 'Select User Role'])}}
-                     </div>
 
 
                </div>
@@ -82,7 +78,7 @@
             <div class="card">
                <div class="card-header d-flex justify-content-between">
                   <div class="header-title">
-                     <h4 class="card-title">{{$id !== null ? 'Update' : '' }} Informasi Pengguna</h4>
+                     <h4 class="card-title">{{$id !== null ? 'Update' : '' }} Informasi Akun Konselor</h4>
                   </div>
                   <div class="card-action">
                         <a href="{{route('backoffice.users.index')}}" class="btn btn-sm btn-primary" role="button">Kembali</a>
@@ -136,7 +132,7 @@
             <div class="card">
                <div class="card-header d-flex justify-content-between">
                   <div class="header-title">
-                     <h4 class="card-title">{{$id !== null ? 'Update' : '' }} Informasi Konselor</h4>
+                     <h4 class="card-title">{{$id !== null ? 'Update' : '' }} Informasi Tambahan Konselor</h4>
                   </div>
 
                </div>
@@ -159,8 +155,8 @@
                </div>
 
             </div>
+            <button type="submit" class="btn btn-sm btn-primary">{{$id !== null ? 'Update' : 'Tambah' }} Konselor</button>
         </div>
-        <button type="submit" class="btn btn-sm btn-primary">{{$id !== null ? 'Update' : 'Tambah' }} Pengguna</button>
 
          </div>
         </div>
@@ -293,29 +289,4 @@ var pond = FilePond.create(document.querySelector('.profile_image'), {
 
 
 
-<script>
 
-   $(document).ready(function() {
-       // Event listener untuk inputan "User Role"
-       $('#user_role').on('change', function() {
-
-           var selectedUserRole = $(this).find('option:selected').text();
-
-           if (selectedUserRole === 'konselor' || selectedUserRole === 'Konselor') {
-               $('#konselor_div').show();
-           } else {
-
-               $('#konselor_div').hide();
-           }
-
-       });
-
-
-       $('#user_role').trigger('change');
-   });
-   $('.prodi').select2({
-      theme: 'bootstrap-5',
-      placeholder : 'Pilih prodi..'
-   });
-
-</script>

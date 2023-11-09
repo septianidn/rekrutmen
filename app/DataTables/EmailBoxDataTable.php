@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Alumni;
+
 use App\Models\EmailBox;
 use App\Models\Fakultas;
 use App\Models\Jenjang;
@@ -21,16 +21,16 @@ class EmailBoxDataTable extends DataTable
     public function dataTable($query)
     {
         $index = 1;
-     
+
         return datatables()
            ->eloquent($query)
            ->addIndexColumn()
-                 
+
             ->filterColumn('tujuan', function($query, $keyword) {
                 $sql = "tujuan LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-             
+
             ->filterColumn('subjek', function($query, $keyword) {
                 $sql = "subjek LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -46,7 +46,7 @@ class EmailBoxDataTable extends DataTable
             ->orderColumn('id', function ($query) {
                 $query->orderBy('id', 'DESC');
             })
-            
+
             ->filterColumn('tanggal_kirim', function($query, $keyword) {
                 $sql = "tanggal_kirim LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -54,7 +54,7 @@ class EmailBoxDataTable extends DataTable
             ->addColumn('checkbox', function ($query) {
                 return '<input type="checkbox" name="emailbox[]" class="emailbox_checkbox" value="' . $query->id . '"/>';
             })
-            
+
             ->filterColumn('tipe', function($query, $keyword) {
                 $sql = "tipe LIKE ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -98,9 +98,9 @@ class EmailBoxDataTable extends DataTable
                 return view('backoffice.email.outbox.action', compact('data'));
             })
             ->rawColumns(['action', 'status', 'tipe', 'checkbox']);
-           
-            
-            
+
+
+
     }
 
     /**
@@ -127,7 +127,7 @@ class EmailBoxDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('<"row align-items-center"<"col-md-2 px-4"f><"col-md-10 px-4 text-right" B>> <"table-responsive my-3" rt><"row align-items-center"<"col-md-2" l><"col-md-8 text-right float-end-datatables" i><"col-md-2" p>><"clear">')
-               
+
                     ->parameters([
                         "processing" => true,
                         "autoWidth" => false,
@@ -145,15 +145,15 @@ class EmailBoxDataTable extends DataTable
                                     buttonsStyling: false,
                                     showClass: {
                                         popup: "animate__animated animate__zoomIn animate__faster",
-                
+
                                     },
                                     hideClass: {
                                         popup: "animate__animated animate__zoomOut animate__faster",
-                
+
                                     }
                                 })
                                 const csrfToken = document.querySelector("meta[name=\'csrf-token\']").getAttribute("content");
-                               
+
                                 $("input.emailbox_checkbox:checked").each(function() {
                                     selectedIds.push($(this).val());
                                 });
@@ -165,7 +165,7 @@ class EmailBoxDataTable extends DataTable
                                     });
                                 }
                                 else if(selectedIds.length > 0){
-        
+
                                     swalWithBootstrapButtons.fire({
                                         title: `Hapus Data?`,
                                         text: "Anda tidak akan dapat mengembalikan ini!!",
@@ -186,34 +186,34 @@ class EmailBoxDataTable extends DataTable
                                                 },
                                                 error: function(data) {
                                                     console.error(data.responseJSON);
-                                                  
+
                                                 }
                                             });
                                         }
                                     });
-                                   
+
                                 }
-                        
-                               
+
+
                             }'],
                             [
                                 "extend" => "csv",
                                 "className" => "btn btn-outline-success btn-icon csv-export",
                                 "text" => '<span><i class="fa fa-file-csv"></i>&nbsp CSV</span>',
-                             
+
                             ],
                             [
                                 "extend" => "excel",
                                 "className" => "btn btn-outline-success btn-icon ",
                                 "text" => '<span><i class="fa fa-file-csv"></i>&nbsp Excel</span>',
-                             
+
                             ],
                             [
                                 "extend" => "pdf",
                                 "className" => "btn btn-outline-success btn-icon",
                                 "text" => '<span><i class="fa fa-file-pdf"></i>&nbsp PDF</span>',
-                              
-                               
+
+
                             ],
                             [
                                 "extend" => "print",
@@ -237,7 +237,7 @@ class EmailBoxDataTable extends DataTable
                                             toast.addEventListener("mouseleave", Swal.resumeTimer)
                                         }
                             });
-                  
+
                             $("#select-all-checkbox").change(function () {
                                 var isChecked = $(this).is(":checked");
                                 $(".emailbox_checkbox").prop("checked", isChecked);
@@ -246,15 +246,15 @@ class EmailBoxDataTable extends DataTable
                             this.api().columns([1,2,3,4,5]).every(function () {
                                 var column = this;
                                 var title = $(column.header()).text();
-    
+
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="\' + title + \'"/>\');
-    
+
                                 $(input).appendTo($(column.footer()).empty())
                                 .on(\'keyup\', function () {
                                     column.search($(this).val(), false, false, true).draw();
                                 });
 
-                               
+
                             });
                         }'
                     ]);

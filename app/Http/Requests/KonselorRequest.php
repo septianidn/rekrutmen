@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class UserRequest extends FormRequest
+class KonselorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $method = strtolower($this->method());
-        $user_id = $this->route()->user;
-
+        $user_id = $this->route()->konselor;
+      
         $rules = [];
         switch ($method) {
             case 'post':
@@ -45,7 +45,6 @@ class UserRequest extends FormRequest
                 break;
             case 'patch':
                 $rules = [
-
                     'email' => 'required|max:191|email|unique:users,email,'.$user_id,
                     'phone_number'=>'max:13',
                     'password' => 'confirmed|min:8|nullable',

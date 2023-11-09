@@ -22,29 +22,23 @@ class Prodi extends Model
         'nama_prodi',
         'jenjang_id',
         'fakultas_id'
-        
+
     ];
 
-    
+
 
 
     public function fakultas()
     {
         return $this->belongsTo(Fakultas::class, 'fakultas_id');
     }
-   
+
     public function jenjang()
     {
         return $this->belongsTo(Jenjang::class, 'jenjang_id');
     }
 
-    public function alumni()
-    {
-        return $this->hasMany(Alumni::class, 'kode_prodi');
-    }
 
-    public function adminprodi()
-    {
-        return $this->hasMany(Admin::class, 'kode_prodi_id', 'kode_prodi');
-    }
+
+   
 }

@@ -53,7 +53,7 @@ class UsersDataTable extends DataTable
                 else{
                     return '-';
                 }
-               
+
             })
             ->editColumn('user_type', function($query) {
                 $status = 'primary';
@@ -61,13 +61,17 @@ class UsersDataTable extends DataTable
                     case 'admin':
                         $status = 'primary';
                         break;
-                    case 'adminprodi':
+                    case 'konselor':
+                        $status = 'danger';
+                        break;
+                    case 'mahasiswa':
                         $status = 'secondary';
-                  
+                        break;
+
                 }
                 return '<span class="text-capitalize badge bg-'.$status.'">'.$query->user_type.'</span>';
             })
-          
+
             ->editColumn('created_at', function($query) {
                 $carbonDate = Carbon::parse($query->created_at);
                 $formattedDate = $carbonDate->format('j F Y');
@@ -77,8 +81,8 @@ class UsersDataTable extends DataTable
                 $sql = "CONCAT(users.first_name,' ',users.last_name)  like ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-           
-          
+
+
             ->addColumn('action', 'users.action')
             ->rawColumns(['action','status', 'checkbox', 'user_type'],);
     }
@@ -91,7 +95,7 @@ class UsersDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->with(['adminprodi']);
+        $model = User::query();
         return $this->applyScopes($model);
     }
 
@@ -127,15 +131,15 @@ class UsersDataTable extends DataTable
                                     buttonsStyling: false,
                                     showClass: {
                                         popup: "animate__animated animate__zoomIn animate__faster",
-                
+
                                     },
                                     hideClass: {
                                         popup: "animate__animated animate__zoomOut animate__faster",
-                
+
                                     }
                                 })
                                 const csrfToken = document.querySelector("meta[name=\'csrf-token\']").getAttribute("content");
-                               
+
                                 $("input.user_checkbox:checked").each(function() {
                                     selectedIds.push($(this).val());
                                 });
@@ -147,7 +151,7 @@ class UsersDataTable extends DataTable
                                     });
                                 }
                                 else if(selectedIds.length > 0){
-        
+
                                     swalWithBootstrapButtons.fire({
                                         title: `Hapus Data?`,
                                         text: "Anda tidak akan dapat mengembalikan ini!!",
@@ -168,22 +172,22 @@ class UsersDataTable extends DataTable
                                                 },
                                                 error: function(data) {
                                                     console.error(data.responseJSON);
-                                                  
+
                                                 }
                                             });
                                         }
                                     });
-                                   
+
                                 }
-                        
-                               
+
+
                             }'],
                             ['custom'=>'importData', 'className' => 'btn btn-outline-success btn-icon importData', 'text' => '<i class="fa-solid fa-file-import"></i>&nbspImport',
                             'attr' => [
                                 'data-bs-toggle' => 'tooltip',
                                 'data-modal-form' => 'form',
                                 'data-icon' => 'person_add',
-                                'data--href' => route('backoffice.importdatabasealumni.create'),
+                                'data--href' => '',
                                 'data-app-title' => 'Import Data',
                                 'data-placement' => 'top',
                                 'title' => 'Import Data'
@@ -193,30 +197,30 @@ class UsersDataTable extends DataTable
                                 "extend" => "csv",
                                 "className" => "btn btn-outline-success btn-icon csv-export",
                                 "text" => '<span><i class="fa fa-file-csv"></i>&nbsp CSV</span>',
-                             
+
                             ],
                             [
                                 "extend" => "excel",
                                 "className" => "btn btn-outline-success btn-icon ",
                                 "text" => '<span><i class="fa fa-file-csv"></i>&nbsp Excel</span>',
-                             
+
                             ],
                             [
                                 "extend" => "pdf",
                                 "className" => "btn btn-outline-success btn-icon",
                                 "text" => '<span><i class="fa fa-file-pdf"></i>&nbsp PDF</span>',
-                              
-                               
+
+
                             ],
                             [
                                 "extend" => "print",
                                 "className" => "btn btn-outline-success btn-icon",
                             ],
                             ['extend'=>'reload', 'className' => 'btn btn-outline-success btn-icon', 'text' => '<span><i class="fa fa-refresh"></i>&nbsp Reload</span>'],
-                          
+
                         ],
                         "initComplete" => 'function () {
-                          
+
                             var table = this;
                             var toastMixin = Swal.mixin({
                                         toast: true,
@@ -232,23 +236,23 @@ class UsersDataTable extends DataTable
                                             toast.addEventListener("mouseleave", Swal.resumeTimer)
                                         }
                             });
-                  
+
                             $("#select-all-checkbox").change(function () {
                                 var isChecked = $(this).is(":checked");
                                 $(".user_checkbox").prop("checked", isChecked);
                             });
-                    
-                       
+
+
                             $(".row-checkbox").change(function () {
                                 var allChecked = $(".user_checkbox:checked").length === $(".user_checkbox").length;
                                 $("#select-all-checkbox").prop("checked", allChecked);
                             });
 
-                          
+
                             this.api().columns([2,3,4,5,6,7,8]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
-                            
+
                                 $(input).appendTo($(column.footer()).empty())
                                 .on(\'keyup\', function () {
                                     column.search($(this).val(), false, false, true).draw();
@@ -256,7 +260,7 @@ class UsersDataTable extends DataTable
 
                                 $(\'.datatable tfoot tr\').appendTo(\'.datatable thead\');
                             });
-                           
+
                             this.api().columns([5]).every(function () {
                                 var column = this;
                                 var select = $(\'<select class="form-control form-control-sm"><option value="">Semua</option><option value="active">Aktif<option value="pending">Pending</option><option value="blocked">Blocked</option></option><option value="inactive">Tidak Aktif</option></select>\')
@@ -265,7 +269,7 @@ class UsersDataTable extends DataTable
                                         var val = $.fn.dataTable.util.escapeRegex(
                                             $(this).val()
                                         );
-                    
+
                                         column
                                             .search(val ? \'^\' + val + \'$\' : \'\', true, false)
                                             .draw();
@@ -280,7 +284,7 @@ class UsersDataTable extends DataTable
                                         var val = $.fn.dataTable.util.escapeRegex(
                                             $(this).val()
                                         );
-                    
+
                                         column
                                             .search(val ? \'^\' + val + \'$\' : \'\', true, false)
                                             .draw();
@@ -293,7 +297,7 @@ class UsersDataTable extends DataTable
                                 var headerText = this.header().textContent;
                                 columnHeaders.push(headerText);
                             });
-                          
+
                             var columnSelector = $(\'<select class="select2" multiple="multiple" style="width: 100%;"></select>\');
                             columnHeaders.forEach(function (headerText,index ) {
                                 table.api().column(index).visible(false);
@@ -301,7 +305,7 @@ class UsersDataTable extends DataTable
                                     columnSelector.append(\'<option value="\' + index + \'">\' + headerText + \'</option>\');
                                 }
                             });
-                        
+
                             columnSelector.appendTo($(\'div.show-hide-columns\'));
                             var initialSelectedIndexes = [0,1,2,3,5,6,7,8];
                             columnSelector.val(initialSelectedIndexes).trigger("change");
@@ -311,7 +315,7 @@ class UsersDataTable extends DataTable
                             columnSelector.on("select2:unselecting", function (e) {
                                 var deselectedValue = e.params.args.data.id;
                                 if (initialSelectedIndexesInit.includes(parseInt(deselectedValue))) {
-                                    e.preventDefault(); 
+                                    e.preventDefault();
                                 }
                             });
 
@@ -320,7 +324,7 @@ class UsersDataTable extends DataTable
                                 table.api().column(1).visible(true);
                                 table.api().column(columnIndex).visible(true);
                             });
-                            
+
                             columnSelector.on(\'change\', function () {
                                 var selectedColumns = $(this).val();
                                 var columns = table.api().columns().indexes().toArray();
@@ -332,14 +336,14 @@ class UsersDataTable extends DataTable
                                     table.api().column(columnIndex).visible(true);
                                 });
                             });
-                        
-                          
+
+
                             columnSelector.select2( {
                                 theme: "bootstrap-5",
                                   multiple: true
-                            } ); 
+                            } );
                         }'
-                      
+
                     ]);
     }
 
@@ -363,7 +367,7 @@ class UsersDataTable extends DataTable
             ],
             ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
             ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama Lengkap', 'orderable' => false,  'searchable' => true,],
-          
+
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
             ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             [

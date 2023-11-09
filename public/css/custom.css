@@ -6,6 +6,7 @@
 * NOTE: This file contains the styling for Template.
 *
 */
+
 :focus {
     outline: none;
 }
@@ -108,7 +109,6 @@ body {
     .login-header {
         height: 12.5rem !important;
     }
-
     .login-bottom {
         margin-top: -6.25rem;
     }
@@ -326,24 +326,20 @@ body {
         margin: unset !important;
         margin-bottom: 2rem !important;
     }
-
     .iq-star-inserted .iq-star-inserted-1.col {
         padding-right: -webkit-calc(var(--bs-gutter-x) / 2);
         padding-right: calc(var(--bs-gutter-x) / 2);
     }
-
     .iq-star-inserted .iq-star-inserted-2.col {
         padding-right: -webkit-calc(var(--bs-gutter-x) / 2);
         padding-right: calc(var(--bs-gutter-x) / 2);
         padding-left: -webkit-calc(var(--bs-gutter-x) / 2);
         padding-left: calc(var(--bs-gutter-x) / 2);
     }
-
     .iq-star-inserted .iq-star-inserted-2.col .card {
         height: unset;
         margin-bottom: 2rem !important;
     }
-
     .iq-star-inserted .iq-star-inserted-3.col {
         padding-left: -webkit-calc(var(--bs-gutter-x) / 2);
         padding-left: calc(var(--bs-gutter-x) / 2);
@@ -394,12 +390,7 @@ body {
     padding: 1.5rem;
 }
 
-.bd-cheatsheet
-    section
-    article
-    .card.iq-document-card
-    .tab-content
-    pre.language-markup {
+.bd-cheatsheet section article .card.iq-document-card .tab-content pre.language-markup {
     margin: unset;
 }
 
@@ -480,11 +471,9 @@ body {
         grid-template-columns: 1fr 4fr 1fr;
         grid-template-rows: auto;
     }
-
     .bd-aside.sticky-xl-top {
         top: 2rem !important;
     }
-
     .bd-header {
         position: fixed;
         top: 0;
@@ -493,11 +482,9 @@ body {
         z-index: 1030;
         grid-column: 1 / span 3;
     }
-
     .sticky-xl-top {
         z-index: 2;
     }
-
     .bd-cheatsheet,
     .bd-cheatsheet section,
     .bd-cheatsheet article {
@@ -507,18 +494,15 @@ body {
         grid-column: span 2 / span 2;
         grid-template-rows: auto;
     }
-
     .bd-aside {
         grid-area: 1/1;
         scroll-margin-top: 4rem;
     }
-
     .bd-cheatsheet section,
-    .bd-cheatsheet section > .iq-side-content {
+    .bd-cheatsheet section>.iq-side-content {
         top: 2rem;
         scroll-margin-top: 0;
     }
-
     .bd-cheatsheet article,
     .bd-cheatsheet .bd-heading {
         top: -webkit-calc(7.2rem + 2rem);
@@ -526,7 +510,6 @@ body {
         scroll-margin-top: -webkit-calc(7.8rem + 2rem);
         scroll-margin-top: calc(7.8rem + 2rem);
     }
-
     .bd-cheatsheet .bd-heading {
         z-index: 1;
         -webkit-box-ordinal-group: 3;
@@ -534,15 +517,12 @@ body {
         -ms-flex-order: 2;
         order: 2;
     }
-
     .bd-cheatsheet .bd-heading .card {
         margin-bottom: 0;
     }
-
     .bd-cheatsheet article .iq-document-card {
         margin-bottom: unset;
     }
-
     .bd-cheatsheet article .iq-document-card.iq-doc-head {
         margin-top: -6.8rem;
     }
@@ -564,27 +544,21 @@ body {
     .header .container {
         max-width: unset !important;
     }
-
     aside.mobile-offcanvas {
         margin-top: unset !important;
     }
-
     aside.mobile-offcanvas .offcanvas-header {
         display: block;
     }
-
     .body-class-1 {
         padding: unset;
     }
-
     .body-class-1.container {
         max-width: unset;
     }
-
     #content .iq-side-content .card {
         margin-top: 1.25rem;
     }
-
     .mobile-offcanvas {
         visibility: hidden;
         -webkit-transform: translateX(-100%);
@@ -601,26 +575,21 @@ body {
         width: 75%;
         overflow-y: scroll;
         overflow-x: hidden;
-        -webkit-transition: visibility 0.3s ease-in-out,
-            -webkit-transform 0.3s ease-in-out;
-        transition: visibility 0.3s ease-in-out,
-            -webkit-transform 0.3s ease-in-out;
+        -webkit-transition: visibility 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+        transition: visibility 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
         -o-transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
         transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
-        transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
-            -webkit-transform 0.3s ease-in-out;
+        transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
         background: rgba(255, 255, 255, 0.8392156863);
         -webkit-backdrop-filter: blur(0.5rem);
         backdrop-filter: blur(0.5rem);
     }
-
     .mobile-offcanvas.show {
         visibility: visible;
         -webkit-transform: translateY(0);
         -ms-transform: translateY(0);
         transform: translateY(0);
     }
-
     .mobile-offcanvas .container,
     .mobile-offcanvas .container-fluid {
         display: block;
@@ -632,15 +601,12 @@ body {
     .bd-cheatsheet {
         margin-top: -3rem;
     }
-
     aside.mobile-offcanvas .offcanvas-header {
         display: none;
     }
-
     .bd-cheatsheet section .iq-side-content {
         grid-column-end: 3;
     }
-
     .bd-cheatsheet section .iq-side-content .card {
         margin-bottom: 0;
     }
@@ -749,5 +715,6 @@ body.uikit .btn-download {
     transition: all 400ms ease;
     cursor: pointer;
 }
+
 
 /*# sourceMappingURL=maps/custom.min.css.map */

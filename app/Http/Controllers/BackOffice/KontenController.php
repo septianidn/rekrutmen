@@ -22,19 +22,19 @@ class KontenController extends Controller
         $pageTitle = trans('global-message.list_form_title',['form' => trans('konten.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-    
-        $headerAction = '<a href="'.route('backoffice.kelola.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
+
+        $headerAction = '<a href="'.route('backoffice.kelola-konten.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konten</a>';
 
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
     public function create(Request $request)
     {
-       
+
         if (request()->ajax()) {
             return view('backoffice.konten.konten.form')->render();
         }
-    
+
         return view('backoffice.konten.konten.form');
     }
 
@@ -45,12 +45,12 @@ class KontenController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(KontenRequest $request)
-    {        
-       
-    
+    {
+
+
        $konten = Konten::create($request->all());
 
-       return redirect()->route('backoffice.kelola.index')->withSuccess(__('message.konten_msg_added',['name' => __('kelola.store')]));
+       return redirect()->route('backoffice.kelola-konten.index')->withSuccess(__('message.konten_msg_added',['name' => __('kelola.store')]));
     }
 
     public function edit(Request $request, $id)
@@ -77,7 +77,7 @@ class KontenController extends Controller
 
 
         if(auth()->check()){
-            return redirect()->route('backoffice.kelola.index')->withSuccess(__('message.konten_msg_updated',['name' => __('Update Konten')]));
+            return redirect()->route('backoffice.kelola-konten.index')->withSuccess(__('message.konten_msg_updated',['name' => __('Update Konten')]));
         }
         return redirect()->back()->withSuccess(__('message.konten_msg_updated',['name' => 'Data Konten']));
 

@@ -23,8 +23,14 @@ class RoleTableSeeder extends Seeder
                 'permissions' => ['role','role-add', 'role-list', 'permission', 'permission-add', 'permission-list']
             ],
             [
-                'name' => 'adminprodi',
-                'title' => 'Admin Prodi',
+                'name' => 'konselor',
+                'title' => 'Konselor',
+                'status' => 1,
+                'permissions' => []
+            ],
+            [
+                'name' => 'mahasiswa',
+                'title' => 'Mahasiswa',
                 'status' => 1,
                 'permissions' => []
             ]

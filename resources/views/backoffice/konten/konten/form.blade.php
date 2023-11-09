@@ -7,12 +7,12 @@
         ?>
         @if (isset($id))
             {!! Form::model($data, [
-                'route' => ['backoffice.kelola.update', $id],
+                'route' => ['backoffice.kelola-konten.update', $id],
                 'method' => 'patch',
                 'enctype' => 'multipart/form-data',
             ]) !!}
         @else
-            {!! Form::open(['route' => ['backoffice.kelola.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::open(['route' => ['backoffice.kelola-konten.store'], 'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
         @endif
         <div class="row">
             <div class="col-xl-12 col-lg-12">

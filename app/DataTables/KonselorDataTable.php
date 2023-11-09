@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Konselor;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +10,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class AdminDataTable extends DataTable
+class KonselorDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -34,10 +35,13 @@ class AdminDataTable extends DataTable
                     case 'active':
                         $status = 'primary';
                         break;
+                    case 'banned':
+                        $status = 'warning';
+                        break;
                     case 'inactive':
                         $status = 'danger';
                         break;
-                    case 'block':
+                    case 'blocked':
                         $status = 'dark';
                         break;
                 }
@@ -52,20 +56,20 @@ class AdminDataTable extends DataTable
                 }
 
             })
+
             ->editColumn('created_at', function($query) {
                 $carbonDate = Carbon::parse($query->created_at);
                 $formattedDate = $carbonDate->format('j F Y');
                 return $formattedDate;
             })
             ->filterColumn('full_name', function($query, $keyword) {
-                $sql = "CONCAT(users.first_name,' ',users.last_name)  like ?";
+                $sql = "CONCAT(first_name,' ',last_name)  like ?";
                 return $query->whereRaw($sql, ["%{$keyword}%"]);
             })
 
 
-
-            ->addColumn('action', 'backoffice.kelolaadmin.action')
-            ->rawColumns(['action','status', 'checkbox']);
+            ->addColumn('action', 'backoffice.konselor.action')
+            ->rawColumns(['action','status', 'checkbox'],);
     }
 
     /**
@@ -76,7 +80,7 @@ class AdminDataTable extends DataTable
      */
     public function query()
     {
-        $model = User::query()->where('user_type', 'admin');
+        $model = User::query()->with(['konselor'])->where('user_type', 'konselor');
         return $this->applyScopes($model);
     }
 
@@ -146,7 +150,7 @@ class AdminDataTable extends DataTable
                                                 method: "GET",
                                                 headers: { "X-CSRF-TOKEN": csrfToken },
                                                 contentType: "application/json",
-                                                url: "' . route("backoffice.deleted-selected-admin") . '",
+                                                url: "' . route("backoffice.deleted-selected-konselor") . '",
                                                 data: { selectedIds: selectedIds },
                                                 success: function(response) {
                                                     $("#dataTable").DataTable().ajax.reload();
@@ -230,7 +234,7 @@ class AdminDataTable extends DataTable
                             });
 
 
-                            this.api().columns([2,3,4,5,6]).every(function () {
+                            this.api().columns([2,3,4,5,6,7,8]).every(function () {
                                 var column = this;
                                 var input = $(\'<input type="text" class="form-control form-control-sm" placeholder="Cari" />\');
 
@@ -257,7 +261,20 @@ class AdminDataTable extends DataTable
                                     });
                             });
 
+                            this.api().columns([6]).every(function () {
+                                var column = this;
+                                var select = $(\'<select class="form-control form-control-sm"><option value="">Semua</option><option value="admin">Admin</option><option value="adminprodi">Admin Prodi</option></select>\')
+                                    .appendTo($(column.footer()).empty())
+                                    .on(\'change\', function () {
+                                        var val = $.fn.dataTable.util.escapeRegex(
+                                            $(this).val()
+                                        );
 
+                                        column
+                                            .search(val ? \'^\' + val + \'$\' : \'\', true, false)
+                                            .draw();
+                                    });
+                            });
 
                              // Show Hide Column
                             var columnHeaders = [];
@@ -275,10 +292,10 @@ class AdminDataTable extends DataTable
                             });
 
                             columnSelector.appendTo($(\'div.show-hide-columns\'));
-                            var initialSelectedIndexes = [0,1,2,3,4,5,6,7];
+                            var initialSelectedIndexes = [0,1,2,3,5,6,7,8,9];
                             columnSelector.val(initialSelectedIndexes).trigger("change");
 
-                            var initialSelectedIndexesInit = [0,1,2,5,6,7];
+                            var initialSelectedIndexesInit = [0,1,5,6,7,8,9];
 
                             columnSelector.on("select2:unselecting", function (e) {
                                 var deselectedValue = e.params.args.data.id;
@@ -334,9 +351,18 @@ class AdminDataTable extends DataTable
                 'width'          => '3px',
             ],
             ['data' =>'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable'=> false, 'searchable'=> false ],
-            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama', 'orderable' => false,  'searchable' => true,],
-            ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
+
+            ['data' => 'full_name', 'name' => 'full_name', 'title' => 'Nama Lengkap', 'orderable' => false,  'searchable' => true,],
+            [
+                'data' => 'konselor.nip',
+                'name' => 'konselor.nip',
+                'title' => 'NIP',
+                'orderable' => true,
+                'searchable' => true,
+            ],
+
             ['data' => 'email', 'name' => 'email', 'title' => 'Email',  'searchable' => true,],
+            ['data' => 'phone_number', 'name' => 'phone_number', 'title' => 'No. Telp',  'searchable' => true,],
             [
                 'data' => 'status',
                 'name' => 'status',
@@ -345,11 +371,19 @@ class AdminDataTable extends DataTable
                 'orderable' => true,
                 'searchable' => true,
             ],
-            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Join Date'],
+            [
+                'data' => 'konselor.deskripsi',
+                'name' => 'konselor.deskripsi',
+                'title' => 'Deskripsi',
+                'orderable' => true,
+                'searchable' => true,
+            ],
+
+            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Bergabung Pada'],
             Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->searchable(false)
+                  ->exportable(false)
+                  ->printable(false)
+                  ->searchable(false)
                   ->width(100)
                   ->addClass('text-center hide-search'),
         ];

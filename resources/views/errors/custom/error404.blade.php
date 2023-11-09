@@ -2,10 +2,10 @@
 
 
 
-    
+
     <!DOCTYPE html>
     <html class="no-js" lang="zxx">
-    
+
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -14,54 +14,54 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" type="image/x-icon"href="{{ asset('images/frontoffice/favicon.png') }}" />
         <!-- Place favicon.ico in the root directory -->
-    
+
         <!-- Web Font -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
             rel="stylesheet">
-    
+
         <!-- ========================= CSS here ========================= -->
         <link rel="stylesheet" href="{{ asset('css/frontoffice/bootstrap.min.css') }}">
         <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
         <link rel="stylesheet" href="{{ asset('css/frontoffice/main.css') }}">
         <style>
-        
-        
+
+
     @media (max-width: 991.98px) {
       .content .bg {
-        height: 500px; } 
+        height: 500px; }
     }
-    
+
     .content .contents, .content .bg {
       width: 50%; }
       @media (max-width: 1199.98px) {
         .content .contents, .content .bg {
-          width: 100%; 
-        } 
+          width: 100%;
         }
-    
+        }
+
     .content .bg {
       background-size: cover;
       background-position: center; }
-    
+
     .content a {
       color: #888;
       text-decoration: underline; }
-    
+
     .content .btn {
       height: 54px;
       padding-left: 30px;
       padding-right: 30px; }
-    
+
     .content .forgot-pass {
       position: relative;
       top: 2px;
       font-size: 14px; }
-    
-    
+
+
       .btn{
         background-color: #009A4B;
         color: white;
-        
+
       }
       .btn:hover{
         background-color: #007538;
@@ -70,11 +70,11 @@
     .content .btn {
       height: 48px;
       padding-left: 30px;
-      padding-right: 30px; 
+      padding-right: 30px;
       font-size: 14px;
     }
-  
-    
+
+
     </style>
     </head>
       <body>
@@ -85,7 +85,7 @@
             your experience and security.
           </p>
         <![endif]-->
-    
+
         <div id="loading-area"></div>
         <!-- Start Header Area -->
         {{-- TODO : FETCH FROM DB --}}
@@ -128,7 +128,7 @@
                           </ul>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('tracerstudy') }}" class="{{ request()->routeIs('tracerstudy') ? 'active' : '' }}">Tracer Study</a>
+                          <a href="" class="">Tracer Study</a>
                         </li>
                         <li class="nav-item">
                           <a href="#">Konseling </a>
@@ -136,9 +136,9 @@
                         <li class="nav-item">
                           <a >Publikasi</a>
                           <ul class="sub-menu">
-                            <li>
+                            {{-- <li>
                               <a href="{{ route('tracerstudy-laporan') }}" class="{{ request()->routeIs('tracerstudy-laporan') ? 'active' : '' }}">Laporan Tracer Study</a>
-                            </li>
+                            </li> --}}
                             <li><a href="">Laporan Pertanyaan Tracer Study</a></li>
                             <li>
                               <a href="#"
@@ -183,7 +183,7 @@
             </div>
           </div>
         </header>
-    
+
         <section class="section gradient">
             <div class="section content">
                 <div class="container mt-4">
@@ -198,22 +198,22 @@
                           <h2 class="mb-2">Oops, Halaman Tidak Ditemukan</h2>
                           <p class="mb-4">Halaman yang anda cari tidak ditemukan</p>
                         </div>
-                      
+
                         <button class="btn btn-block" onclick="window.location.href='{{ route('landingpage') }}'">Kembali Ke Beranda</button>
 
-                       
+
                         </div>
                       </div>
-                      
+
                     </div>
-                    
+
                   </div>
                 </div>
-              
+
               </div>
-            
+
         </section>
-    
+
         <div class="client-logo-section">
             <div class="container">
               <div class="client-logo-wrapper">
@@ -279,7 +279,7 @@
                       <a href="/"
                         ><img
                          src="{{ asset('images/frontoffice/logo/logo.svg') }}"  alt="#" />
-                    
+
                       </a>
                     </div>
                     <p>
@@ -349,7 +349,7 @@
                           <li><a href="#">Kontak</a></li>
                         </ul>
                         <h3 class="visitor">Visitor</h3><a href="https://info.flagcounter.com/tNou"><img src="https://s01.flagcounter.com/count2/tNou/bg_FFFFFF/txt_000000/border_FFFFFF/columns_3/maxflags_12/viewers_3/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
-                          
+
                         </form>
                       </div>
                     </div>
@@ -358,7 +358,7 @@
               </div>
             </div>
           </div>
-    
+
           <div class="footer-bottom">
             <div class="container">
               <div class="inner">
@@ -390,16 +390,16 @@
             </div>
           </div>
         </footer>
-    
+
         <!--/ End Footer Area -->
-    
+
         <!-- ========================= scroll-top ========================= -->
         <a href="#" class="scroll-top btn-hover">
             <i class="lni lni-chevron-up"></i>
         </a>
-    
+
         <!-- ========================= JS here ========================= -->
-    
+
         <script src="{{ asset('js/frontoffice/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/frontoffice/wow.min.js') }}"></script>
         <script src="{{ asset('js/frontoffice/main.js') }}"></script>

@@ -15,12 +15,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            if($request->routeIs('kuesioner.*')){
-                $uri = $request->getRequestUri();
-                $replacement = str_replace('/tracerstudy/kuesioner/', '', $uri);
-                return route('kuesioner.tracerstudy-login.create', $replacement);
-            }
-            elseif($request->routeIs('backoffice.*')){
+
+            if($request->routeIs('backoffice.*')){
                 return route('login');
             }
         }

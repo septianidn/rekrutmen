@@ -125,8 +125,8 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('tracerstudy') }}"
-                                            class="{{ request()->routeIs('tracerstudy') ? 'active' : '' }}">Tracer
+                                        <a href=""
+                                            class="">Tracer
                                             Study</a>
                                     </li>
                                     <li class="nav-item">

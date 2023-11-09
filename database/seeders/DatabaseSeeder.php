@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role as ModelsRole;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,9 +20,19 @@ class DatabaseSeeder extends Seeder
             RoleTableSeeder::class,
             UserTableSeeder::class,
         ]);
-        \App\Models\User::factory(3)->create()->each(function($user) {
-            $user->assignRole('admin');
+
+        // Create 6 additional users with different user types
+        User::factory(6)->create()->each(function ($user) {
+            // Check user_type and assign corresponding role
+            if ($user->user_type === 'admin') {
+                $user->assignRole('admin');
+            } elseif ($user->user_type === 'konselor') {
+                $user->assignRole('konselor');
+            } elseif ($user->user_type === 'mahasiswa') {
+                $user->assignRole('mahasiswa');
+            }
+
+            //TODO: TAMBAHIN AJA ROLE YG LAIN
         });
-       
     }
 }

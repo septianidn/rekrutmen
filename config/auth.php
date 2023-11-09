@@ -41,11 +41,6 @@ return [
             'provider' => 'users',
         ],
 
-        'alumni' => [ 
-            'driver' => 'session',
-            'provider' => 'alumni', 
-            'hash' => false,
-        ],
 
         'api' => [
             'driver' => 'token',
@@ -77,10 +72,6 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'alumni' => [
-            'driver' => 'alumniprovider',
-            'model' => App\Models\Alumni::class, 
-        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

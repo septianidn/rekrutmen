@@ -1,31 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BackOffice;
+
+use App\DataTables\AdminDataTable;
+use App\DataTables\KonselorDataTable;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
 use App\Models\User;
 use App\Helpers\AuthHelper;
+use App\Http\Requests\KonselorRequest;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserRequest;
-use App\Models\konselor;
-
-use App\Models\StatusUser;
+use App\Models\Konselor;
 use App\Models\TemporaryFiles;
 
-class UserController extends Controller
+class KonselorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(UsersDataTable $dataTable)
+    public function index(KonselorDataTable $dataTable)
     {
-        $pageTitle = trans('global-message.list_form_title',['form' => trans('users.title')] );
+        $pageTitle = trans('global-message.list_form_title',['form' => trans('konsoler.title')] );
         $auth_user = AuthHelper::authSession();
         $assets = ['data-table'];
-        $headerAction = '<a href="'.route('backoffice.users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';
+        $headerAction = '<a href="'.route('backoffice.konselor.create').'" class="btn btn-sm btn-primary" role="button">Tambah Konselor</a>';
         return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
     }
 
@@ -36,13 +39,13 @@ class UserController extends Controller
      */
     public function create()
     {
-
         $roles = Role::where('status', 1)
         ->where('name', 'not like', 'mahasiswa')
         ->get()
         ->pluck('title', 'id');
 
-        return view('users.form', compact('roles'));
+
+        return view('backoffice.konselor.form', compact('roles'));
     }
 
     /**
@@ -51,16 +54,16 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(KonselorRequest $request)
     {
         $request['password'] = bcrypt($request->password);
+        $request['user_type'] = 'konselor' ;
 
-        $roleName = Role::findById($request->user_role)->name ?? 'admin';
-
-        $request['user_type'] = $roleName;
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_image)->first();
 
+        //crate user dulu
         $user = User::create($request->all());
+
         if($temporaryFile){
             $user->addMedia(storage_path('app/public/profile_image/tmp/' . $request->profile_image . '/' . $temporaryFile->filename))
             ->toMediaCollection('profile_image');
@@ -68,38 +71,15 @@ class UserController extends Controller
             $temporaryFile->delete();
         }
 
-        $user->assignRole($roleName);
+        $user->assignRole('konselor');
+        //baru create konselor
+        $user->konselor()->create($request->konselor);
 
-        //KONSELOR
-        if ($request['user_type'] == 'konselor') {
-            $user->konselor()->create($request->konselor);
-        }
 
-        return redirect()->route('backoffice.users.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
+
+        return redirect()->route('backoffice.konselor.index')->withSuccess(__('message.konselor_msg_added',['name' => __('konsoler.store')]));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-        $roles = Role::where('status', 1)
-        ->where('name', 'not like', 'mahasiswa')
-        ->get()
-        ->pluck('title', 'id');
-
-        $data = User::findOrFail($id);
-
-        $profileImage = $data->getFirstMedia('profile_image');
-
-
-
-        return view('users.profile', compact('data', 'profileImage', 'roles'));
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -109,15 +89,18 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data = User::findOrFail($id);
+        $data = User::with('konselor')->findOrFail($id);
 
         $data['user_type'] = $data->roles->pluck('id')[0] ?? null;
 
-      
-        $roles = Role::where('status', 1)->get()->pluck('title', 'id');
+        $roles = Role::where('status', 1)
+        ->where('name', 'not like', 'mahasiswa')
+        ->get()
+        ->pluck('title', 'id');
+
         $profileImage = getSingleMedia($data, 'profile_image');
 
-        return view('users.form', compact('data','id','roles', 'profileImage'));
+        return view('backoffice.konselor.form', compact('data','id', 'roles', 'profileImage'));
     }
 
     /**
@@ -127,45 +110,28 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(KonselorRequest $request, $id)
     {
-        // dd($request->all());
         $user = User::findOrFail($id);
 
         $request['password'] = $request->password != '' ? bcrypt($request->password) : $user->password;
-        $nameRoles = Role::where('id', $request->user_role)->first();
-        $request['user_type'] = $nameRoles->name;
 
-        //cek apakah ada data user yang akan diedit ada di table konselor
+        $request['user_type'] = 'konselor';
+
+        //cek apakah ada data user yang akan diedit ada di table konselor, pastinya ada
         $userDelete = $user->konselor()->where('user_id', $user->id)->first();
 
         //jika ada data user di table konselor (si konselor)
         if ($userDelete != null) {
-            //cek inputan dari form edit field roles nya, jika berisi admin (mau berubah dari konselor ke admin), maka hapus data di table konselor
-            if ($nameRoles->name == 'admin') {
-                $userDelete->delete();
-            }
-             //cek inputan dari form edit field roles nya, jika berisi konselor (mau ubah data konselornya), maka update data konselor saja.
-            else if ($nameRoles->name == 'konselor') {
                 $user->konselor()->update(['nip' => $request->konselor['nip'], 'deskripsi' => $request->konselor['deskripsi']]);
-            }
         }
-        //jika tidak ada data user di table konselor
-        else {
-            // cek inputan dari form edit field roles nya, jika berisi konselor ( mau berubah dari admin ke konselor),  maka create data di table konselor
-            if ($nameRoles->name === 'konselor'){
-                $user->konselor()->create(['nip' => $request->konselor['nip'], 'deskripsi' => $request->konselor['deskripsi']]);
-            }
-        }
-
-
 
         // User user data...
         $userUpdate = $user->fill($request->all())->update();
 
         //jika berhasil update, assign role
         if ($userUpdate) {
-            $user->assignRole(Role::findById($request->user_role)->name);
+            $user->assignRole('konselor');
         }
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_image)->first();
@@ -182,10 +148,9 @@ class UserController extends Controller
         }
 
         if(auth()->check()){
-            return redirect()->route('backoffice.users.index')->withSuccess(__('message.msg_updated',['name' => __('message.user')]));
+            return redirect()->route('backoffice.konselor.index')->withSuccess(__('message.msg_updated',['name' => __('message.user')]));
         }
         return redirect()->back()->withSuccess(__('message.msg_updated',['name' => 'My Profile']));
-
     }
 
     /**
@@ -196,7 +161,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        // otomatis di konselor jg ke delete karena pake cascade
         $user = User::findOrFail($id);
         $status = 'errors';
         $message= __('global-message.delete_form', ['form' => __('users.title')]);
@@ -214,7 +178,6 @@ class UserController extends Controller
         return redirect()->back()->with($status,$message);
 
     }
-
 
     public function deletedSelected(Request $request)
     {

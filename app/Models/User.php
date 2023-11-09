@@ -60,14 +60,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function adminprodi() {
-        return $this->hasOne(AdminProdi::class, 'user_id', 'id');
-    }
-
-    public function statusUser()
-    {
-        return $this->belongsTo(StatusUser::class, 'status_id', 'id');
+    public function konselor() {
+        return $this->hasOne(Konselor::class, 'user_id', 'id');
     }
 
     
+
+
+
 }

@@ -37,18 +37,19 @@
                     </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('tracerstudy') }}" class="{{ request()->routeIs('tracerstudy') ? 'active' : '' }}">Tracer Study</a>
-                  </li>
+                    {{-- <a href="{{ route('tracerstudy') }}" class="{{ request()->routeIs('tracerstudy') ? 'active' : '' }}">Tracer Study</a> --}}
+                    <a href="">Tracer Study</a>
+                </li>
                   <li class="nav-item">
                     <a href="#">Konseling </a>
                   </li>
                   <li class="nav-item">
                     <a href="#">Publikasi</a>
                     <ul class="sub-menu">
-                      <li>
+                      {{-- <li>
                         <a href="{{ route('tracerstudy-laporan') }}" class="{{ request()->routeIs('tracerstudy-laporan') ? 'active' : '' }}">Laporan Tracer Study</a>
-                      </li>
-                      <li><a href="#">Laporan Pertanyaan Tracer Study</a></li>
+                      </li> --}}
+                     
                       <li>
                         <a href="#"
                           >Dashboard Progress</a
