@@ -13,7 +13,7 @@
     {{ asset(__('images/error/4032.png')) }}
 @endsection
 @section('button')
-    <form method="POST" action="{{ route('kuesioner.tracerstudy-login.destroy') }}">
+    <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button class="btn btn-block" type="submit">
             {{ __('Log out') }}

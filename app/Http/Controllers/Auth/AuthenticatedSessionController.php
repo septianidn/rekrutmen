@@ -29,12 +29,43 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-      
-        $request->authenticate();
+        // $request->authenticate();
 
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
-        return redirect(RouteServiceProvider::HOME);
+        // $user = Auth::user();
+
+        //     // Redirect based on user role
+        //     if ($user->hasRole('admin')) {
+        //         return redirect()->route('admin.dashboard');
+        //     } elseif ($user->hasRole('vendor')) {
+        //         return redirect()->route('vendor.dashboard');
+        //     } else {
+        //         return redirect()->route('user.dashboard');
+        //     }
+
+        // return redirect(RouteServiceProvider::HOME);
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user()->user_type;
+
+            // Redirect based on user role
+            if ($user == 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user == 'employer') {
+                return redirect()->route('employer.profile');
+            } elseif ($user == 'mahasiswa') {
+                return redirect()->route('jobseeker.index');
+            }
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
     }
 
     /**

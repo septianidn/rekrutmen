@@ -25,3 +25,9 @@
     <script src="{{ asset('vendor/aos/dist/aos.js') }}"></script>
 @endif
 <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
+
+<script data-navigate-once>
+    document.addEventListener('livewire:navigated', function() { 
+    
+})
+</script>

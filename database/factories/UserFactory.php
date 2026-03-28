@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class UserFactory extends Factory
 {
@@ -17,41 +17,18 @@ class UserFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
-        $fname = $this->faker->firstName;
-        $lname = $this->faker->lastName;
-        $fullname = Str::lower($fname).Str::lower($lname);
-        $status = $this->faker->numberBetween(0,2);
-        switch ($status) {
-            case 1:
-                $status = 'active';
-                break;
-
-            case 2:
-                $status = 'inactive';
-                break;
-            case 3:
-                $status = 'blocked';
-                break;
-                
-                default:
-                $status = 'pending';
-                break;
-        }
         return [
-            'first_name' => $fname,
-            'last_name' => $lname,
-            'phone_number' => $this->faker->phoneNumber,
-            'street_addr' => $this->faker->address,
-            'email' => $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => bcrypt('password'),
-            'user_type' => 'admin',
-            'status' => 'active'
+            'password' => $this->faker->password(),
+            'email' => $this->faker->safeEmail(),
+            'email_verified_at' => $this->faker->dateTime(),
+            'phone_number' => $this->faker->phoneNumber(),
+            'address' => $this->faker->regexify('[A-Za-z0-9]{150}'),
+            'user_type' => $this->faker->regexify('[A-Za-z0-9]{10}'),
+            'status' => $this->faker->randomElement(["pending","active","blocked","inactive"]),
+            'profile_image' => $this->faker->regexify('[A-Za-z0-9]{250}'),
         ];
     }
 }

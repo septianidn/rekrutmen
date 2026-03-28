@@ -17,7 +17,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/backoffic3/dashboard';
+    public function user_check(){
+
+    }
+    public const HOME = '/employer/profile';
   
 
 

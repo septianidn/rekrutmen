@@ -16,6 +16,10 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
 
+            if($request->routeIs('employer.*')){
+                
+                return route('employer.login.create');
+            }
             if($request->routeIs('backoffice.*')){
                 return route('login');
             }

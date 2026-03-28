@@ -71,6 +71,9 @@
                 </ul>
               </div>
               <!-- navbar collapse -->
+              
+              @if (!Auth::check())
+                  
               <div class="button">
                 <a
                   href="javacript:"
@@ -87,6 +90,13 @@
                   >Daftar</a
                 >
               </div>
+              @else ()
+                <form action="{{route('employer.logout')}}" method="POST">
+                  @csrf
+                  <button type="submit" class="btn btn-success">Logout</button>
+                </form>
+              @endif
+              
             </nav>
           </div>
         </div>

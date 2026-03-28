@@ -4,7 +4,7 @@
     @include('partials.frontoffice._body_nav')
 
     {{ $slot }}
-
+    
     @include('partials.frontoffice._body_client')
 
     @include('partials.frontoffice._body_footer')

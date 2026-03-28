@@ -2,240 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\DataTables\UsersDataTable;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
-use App\Helpers\AuthHelper;
-use Spatie\Permission\Models\Role;
-use App\Http\Requests\UserRequest;
-use App\Models\konselor;
-
-use App\Models\StatusUser;
-use App\Models\TemporaryFiles;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(UsersDataTable $dataTable)
+    public function index(Request $request): Response
     {
-        $pageTitle = trans('global-message.list_form_title',['form' => trans('users.title')] );
-        $auth_user = AuthHelper::authSession();
-        $assets = ['data-table'];
-        $headerAction = '<a href="'.route('backoffice.users.create').'" class="btn btn-sm btn-primary" role="button">Tambah User</a>';
-        return $dataTable->render('global.datatable', compact('pageTitle','auth_user','assets', 'headerAction'));
+        $users = User::all();
+
+        return view('user.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request): Response
     {
-
-        $roles = Role::where('status', 1)
-        ->where('name', 'not like', 'mahasiswa')
-        ->get()
-        ->pluck('title', 'id');
-
-        return view('users.form', compact('roles'));
+        return view('user.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request)
+    public function store(UserStoreRequest $request): Response
     {
-        $request['password'] = bcrypt($request->password);
+        $user = User::create($request->validated());
 
-        $roleName = Role::findById($request->user_role)->name ?? 'admin';
+        $request->session()->flash('user.id', $user->id);
 
-        $request['user_type'] = $roleName;
-        $temporaryFile = TemporaryFiles::where('folder', $request->profile_image)->first();
-
-        $user = User::create($request->all());
-        if($temporaryFile){
-            $user->addMedia(storage_path('app/public/profile_image/tmp/' . $request->profile_image . '/' . $temporaryFile->filename))
-            ->toMediaCollection('profile_image');
-            rmdir(storage_path('app/public/profile_image/tmp/' . $request->profile_image));
-            $temporaryFile->delete();
-        }
-
-        $user->assignRole($roleName);
-
-        //KONSELOR
-        if ($request['user_type'] == 'konselor') {
-            $user->konselor()->create($request->konselor);
-        }
-
-        return redirect()->route('backoffice.users.index')->withSuccess(__('message.user_msg_added',['name' => __('users.store')]));
+        return redirect()->route('user.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Request $request, User $user): Response
     {
-
-        $roles = Role::where('status', 1)
-        ->where('name', 'not like', 'mahasiswa')
-        ->get()
-        ->pluck('title', 'id');
-
-        $data = User::findOrFail($id);
-
-        $profileImage = $data->getFirstMedia('profile_image');
-
-
-
-        return view('users.profile', compact('data', 'profileImage', 'roles'));
+        return view('user.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Request $request, User $user): Response
     {
-        $data = User::findOrFail($id);
-
-        $data['user_type'] = $data->roles->pluck('id')[0] ?? null;
-
-      
-        $roles = Role::where('status', 1)->get()->pluck('title', 'id');
-        $profileImage = getSingleMedia($data, 'profile_image');
-
-        return view('users.form', compact('data','id','roles', 'profileImage'));
+        return view('user.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UserRequest $request, $id)
+    public function update(UserUpdateRequest $request, User $user): Response
     {
-        // dd($request->all());
-        $user = User::findOrFail($id);
+        $user->update($request->validated());
 
-        $request['password'] = $request->password != '' ? bcrypt($request->password) : $user->password;
-        $nameRoles = Role::where('id', $request->user_role)->first();
-        $request['user_type'] = $nameRoles->name;
+        $request->session()->flash('user.id', $user->id);
 
-        //cek apakah ada data user yang akan diedit ada di table konselor
-        $userDelete = $user->konselor()->where('user_id', $user->id)->first();
-
-        //jika ada data user di table konselor (si konselor)
-        if ($userDelete != null) {
-            //cek inputan dari form edit field roles nya, jika berisi admin (mau berubah dari konselor ke admin), maka hapus data di table konselor
-            if ($nameRoles->name == 'admin') {
-                $userDelete->delete();
-            }
-             //cek inputan dari form edit field roles nya, jika berisi konselor (mau ubah data konselornya), maka update data konselor saja.
-            else if ($nameRoles->name == 'konselor') {
-                $user->konselor()->update(['nip' => $request->konselor['nip'], 'deskripsi' => $request->konselor['deskripsi']]);
-            }
-        }
-        //jika tidak ada data user di table konselor
-        else {
-            // cek inputan dari form edit field roles nya, jika berisi konselor ( mau berubah dari admin ke konselor),  maka create data di table konselor
-            if ($nameRoles->name === 'konselor'){
-                $user->konselor()->create(['nip' => $request->konselor['nip'], 'deskripsi' => $request->konselor['deskripsi']]);
-            }
-        }
-
-
-
-        // User user data...
-        $userUpdate = $user->fill($request->all())->update();
-
-        //jika berhasil update, assign role
-        if ($userUpdate) {
-            $user->assignRole(Role::findById($request->user_role)->name);
-        }
-
-        $temporaryFile = TemporaryFiles::where('folder', $request->profile_image)->first();
-
-        // Save user image...
-        if (isset($request->profile_image) && $request->profile_image != null) {
-            $user->clearMediaCollection('profile_image');
-            if($temporaryFile){
-                $user->addMedia(storage_path('app/public/profile_image/tmp/' . $request->profile_image . '/' . $temporaryFile->filename))
-                ->toMediaCollection('profile_image');
-                rmdir(storage_path('app/public/profile_image/tmp/' . $request->profile_image));
-                $temporaryFile->delete();
-            }
-        }
-
-        if(auth()->check()){
-            return redirect()->route('backoffice.users.index')->withSuccess(__('message.msg_updated',['name' => __('message.user')]));
-        }
-        return redirect()->back()->withSuccess(__('message.msg_updated',['name' => 'My Profile']));
-
+        return redirect()->route('user.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request, User $user): Response
     {
-        // otomatis di konselor jg ke delete karena pake cascade
-        $user = User::findOrFail($id);
-        $status = 'errors';
-        $message= __('global-message.delete_form', ['form' => __('users.title')]);
+        $user->delete();
 
-        if($user!='') {
-            $user->delete();
-            $status = 'success';
-            $message= __('global-message.delete_form', ['form' => __('users.title')]);
-        }
-
-        if(request()->ajax()) {
-            return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
-        }
-
-        return redirect()->back()->with($status,$message);
-
-    }
-
-
-    public function deletedSelected(Request $request)
-    {
-        if(request()->ajax()){
-        $selectedIds = $request->input('selectedIds');
-
-        $users = User::whereIn('id', $selectedIds);
-
-        if ($users->exists()) {
-            $users->delete();
-            $status = 'success';
-            $message = __('global-message.delete_form', ['form' => __('users.title')]);
-        } else {
-            $message = 'No records found for deletion.';
-        }
-
-        return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
-
-
-        }
-
-
+        return redirect()->route('user.index');
     }
 }

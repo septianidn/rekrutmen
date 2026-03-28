@@ -593,17 +593,18 @@
                             <div class="or-devider">
                                 <span>Or</span>
                             </div>
-                            <form action="/">
+                            <form action="{{ route('employer.login.store') }}" method="POST">
+                                @csrf
                                 <div class="form-group">
                                     <label for="email" class="label">E-mail</label>
                                     <input type="email" class="form-control" placeholder="example@gmail.com"
-                                        id="email" />
+                                        id="email" name="email"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="label">Password</label>
                                     <div class="position-relative">
                                         <input type="password" class="form-control" id="password"
-                                            placeholder="Masukkan password" />
+                                            placeholder="Masukkan password" name="password"/>
                                     </div>
                                 </div>
                                 <div class="form-group d-flex flex-wrap justify-content-between">
@@ -616,7 +617,7 @@
                                     <a href class="font-size-3 text-dodger line-height-reset">Lupa Password?</a>
                                 </div>
                                 <div class="form-group mb-8 button">
-                                    <button class="btn">Masuk</button>
+                                    <button class="btn" type="submit">Masuk</button>
                                 </div>
                                 <p class="text-center create-new-account">
                                     Don’t have an account? <a href="#">Create a free account</a>

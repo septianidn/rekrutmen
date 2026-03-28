@@ -1,0 +1,208 @@
+models:
+  User:
+    password: string:250
+    email: string:50 unique
+    email_verified_at: nullable timestamp
+    phone_number: string:15 nullable
+    address: string:150 nullable
+    user_type: string:10 default:'admin'
+    status: enum:pending,active,blocked,inactive default:'pending'
+    profile_image: string:250 nullable
+    relationships: 
+      hasOne: Employer, Jobseeker
+      
+  Pembayaran:
+    user_id: id foreign:user.id
+    membership_id: id foreign:pembayaran.id
+    tgl_mulai: date
+    tgl_berakhir: date
+    nomor_rekening: id foreign:account.id
+    relationships:
+      belongsTo: Account, Membership, User
+
+  Account:
+    nama_bank: string:25
+    atas_nama: string:35
+    relationships:
+      hasMany: Pembayaran
+
+  Membership:
+    nama_membership: string:50
+    durasi: string:25
+    harga: string:50
+    relationships: 
+      hasMany: Pembayaran
+
+  Employer:
+    user_id: id foreign:user.id
+    nama_perusahaan: string:50
+    deskripsi_perusahaan: text
+    industriType_id: id foreign:industriType.id
+    alamat: string:150 nullable
+    relationships:
+      hasMany: IndustriType, Job
+      belongsTo: User
+
+  IndustriType:
+    nama_industri: string:50
+    relationships:
+      belongsTo: Employer
+
+  Job:
+    employer_id: id foreign:employer.id
+    nama_pekerjaan: string:50
+    kuota: integer
+    posisi_id: id foreign:posisi.id
+    relationships:
+      hasMany: Step
+      belongsTo: Posisi
+
+  Posisi:
+    nama_posisi: string:25
+    relationships:
+      hasMany: Job
+
+  Step:
+    job_id: id foreign:job.id
+    proses_id: id foreign:proses.id
+    deskripsi: text
+    relationships: 
+      belongsTo: Job, Proses
+
+  Proses:
+    nama_proses: string:50
+    relationships:
+      hasMany: Step
+
+  Progress:
+    application_id: id foreign:progress.id
+    step_id: id foreign:step.id
+    catatan: text
+    lulus: boolean
+    relationships:
+      belongsTo: Application, Step
+
+  Application:
+    jobseeker_id: id foreign:jobseeker.id
+    tanggal_apply: date
+    relationships: 
+      hasMany: Progress
+      belongsTo: Jobseeker
+
+  Jobseeker:
+    user_id: id foreign:user.id
+    first_name: string:20
+    last_name: string:20
+    jenis_kelamin: string:15
+    ttl: date
+    jobseeker_id_type: id foreign:jobseekerType.id
+    relationships:
+      belongsTo: User, JobseekerType
+      hasMany: Organisasi, Bahasa, RiwayatKerja, Prestasi, Pelatihan, Rekomendasi, RiwayatPendidikan
+
+  JobseekerType: 
+    jobseekerType: string:15
+    relationships: 
+      hasMany: Jobseeker
+  
+  Organisasi:
+    jobseeker_id: id foreign:jobseeker.id
+    nama_organisasi: string:30
+    jabatan: string:20
+    keterangan: text
+    relationships:
+      belongsTo: Jobseeker
+
+  Bahasa:
+    jobseeker_id: id foreign:jobseeker.id
+    bahasa: string:20
+    keterangan: text
+    relationships:
+      belongsTo: Jobseeker
+  
+  RiwayatKerja:
+    jobseeker_id: id foreign:jobseeker.id
+    keterangan: text
+    relationships:
+      belongsTo: Jobseeker
+  
+  Prestasi:
+    jobseeker_id: id foreign:jobseeker.id
+    nama_penghargaan: string:40
+    tahun: string:4
+    dokumen: string:250
+    relationships:
+      belongsTo: Jobseeker
+
+  RiwayatPendidikan:
+    jobseeker_id: id foreign:jobseeker.id
+    jenjang: string:5
+    instansi: string:50
+    indeks_nilai: string:4 nullable
+    keterangan: text
+    relationships:
+      belongsTo: Jobseeker
+
+  Pelatihan:
+    jobseeker_id: id foreign:jobseeker.id
+    nama_pelatihan: string:50
+    tahun: string:4
+    sertifikat: string:250
+    relationships:
+      belongsTo: Jobseeker
+
+  Rekomendasi:
+    jobseeker_id: id foreign:jobseeker.id
+    nama_perekomendasi: string:30
+    posisi: string:20
+    no_hp: string:14
+    alamat: string:50
+    relationships:
+      belongsTo: Jobseeker
+
+
+controllers:
+  Jobseeker:
+    resource
+  Membership:
+    resource
+  Pembayaran:
+    resource
+  Account:
+    resource
+  User:
+    resource
+  Employer:
+    resource
+  IndustriType:
+    resource
+  Job:
+    resource
+  Posisi:
+    resource
+  Step:
+    resource
+  Proses:
+    resource
+  Progress:
+    resource
+  Application:
+    resource
+  JobseekerType:
+    resource
+  Organisasi:
+    resource
+  Bahasa:
+    resource
+  RiwayatKerja:
+    resource
+  Prestasi:
+    resource
+  RiwayatPendidikan:
+    resource
+  Pelatihan:
+    resource
+  Rekomendasi:
+    resource
+    
+

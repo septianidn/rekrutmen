@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="{{ asset('css/frontoffice/tiny-slider.css') }}">
 <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{ asset('css/frontoffice/glightbox.min.css') }}">
+<script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+
 
 @include('sweetalert::alert')
 

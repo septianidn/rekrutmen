@@ -1,31 +1,38 @@
 <?php
 
 // Controllers
-
-use App\Http\Controllers\BackOffice\EmailBoxController;
-use App\Http\Controllers\BackOffice\EmailSendController;
-use App\Http\Controllers\BackOffice\EmailTemplateController;
-use App\Http\Controllers\BackOffice\FakultasController;
-use App\Http\Controllers\BackOffice\GrupKontenController;
+use App\Models\Konselor;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\FrontOffice\LandingPageController;
-use App\Http\Controllers\BackOffice\KelolaAdminController;
-use App\Http\Controllers\BackOffice\JenjangController;
-
-use App\Http\Controllers\BackOffice\KategoriKontenController;
-use App\Http\Controllers\BackOffice\KonselorController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\Security\RoleController;
+use App\Http\Controllers\Security\RolePermission;
+use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\BackOffice\KontenController;
 
-use App\Http\Controllers\BackOffice\ProdiController;
-use App\Http\Controllers\BackOffice\UploadAvatarController;
-use App\Http\Controllers\Security\RolePermission;
-use App\Http\Controllers\Security\RoleController;
+use App\Http\Controllers\BackOffice\JenjangController;
+use App\Http\Controllers\BackOffice\EmailBoxController;
+use App\Http\Controllers\BackOffice\FakultasController;
+
+use App\Http\Controllers\BackOffice\KonselorController;
 use App\Http\Controllers\Security\PermissionController;
-use App\Http\Controllers\UserController;
-use App\Models\Konselor;
-use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\BackOffice\EmailSendController;
+use App\Http\Controllers\BackOffice\GrupKontenController;
+use App\Http\Controllers\BackOffice\KelolaAdminController;
+use App\Http\Controllers\BackOffice\UploadAvatarController;
+use App\Http\Controllers\FrontOffice\LandingPageController;
+use App\Http\Controllers\BackOffice\EmailTemplateController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // Packages
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BackOffice\KategoriKontenController;
+use App\Http\Controllers\Auth\EmployerAuth\AuthenticatedSessionController as AuthenticatedSessionControllerEmployer;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobseekerController;
+use App\Livewire\RiwayatPendidikan;
+use App\Models\Jobseeker;
+use Illuminate\Routing\RouteGroup;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +53,49 @@ Route::get('/storage', function () {
 
 //Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
+
+
+Route::prefix('employer')->name('employer.')->group(function(){
+
+    Route::group(['middleware' => 'guest'], function () {
+        Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login.create');
+        Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
+        Route::post('/logout', [AuthenticatedSessionControllerEmployer::class, 'destroy'])->name('logout');
+       
+    });
+    
+Route::group(['middleware' => 'role:employer'], function () {
+        Route::get('/verifikasi', [EmployerController::class, 'verifikasi'])->name('cek_verifikasi');
+        Route::post('/verifikasi', [EmployerController::class, 'store'])->name('verifikasi');
+
+    Route::group(['middleware' => 'verified_employer'], function(){
+        Route::get('/profile', [EmployerController::class, 'index'])->name('profile');      
+        // Route::get('/jobs', [JobController::class, 'index'])->name('jobs');      
+        // Route::get('/job/create', [JobController::class, 'create'])->name('job.create');      
+        // Route::post('/job/store', [JobController::class, 'store'])->name('job.store');   
+        // Route::post('/job/store', [JobController::class, 'store'])->name('job.store');   
+        Route::resource('job', JobController::class);
+
+        });
+        
+           
+        // Route::post('/{alias_url}/submit', [PengisianController::class, 'submit'])->name('tracerstudy-pengisian.form-submit');
+        // Route::post('/{alias_url}/check-influence', [PengisianController::class, 'checkInfluence'])->name('tracerstudy-pengisian.form-check-influence');
+        // Route::post('/{alias_url}/change-flag', [PengisianController::class, 'changeFlag'])->name('tracerstudy-pengisian.form-change-flag');
+        // Route::get('/{alias_url}/{nim}/logout', [PengisianController::class, 'finished'])->name('tracerstudy-pengisian.form-finished');
+        // Route::get('/logout/{alias_url}', [AuthenticatedSessionControllerAlumni::class, 'destroy'])->name('tracerstudy-login.destroy');
+
+    });
+});
+
+Route::prefix('jobseeker')->name('jobseeker.')->group(function(){
+    Route::group(['middleware'=> 'role:mahasiswa'], function(){
+        Route::get('jobseeker/index', [JobseekerController::class, 'index'])->name('index');
+        Route::get('jobseeker/profile', [JobseekerController::class,'profile'])->name('profile');
+        Route::get('jobseeker/profile/riwayat-pendidikan', RiwayatPendidikan::class)->name('profile.riwayat-pendidikan');
+        Route::get('jobseeker/jobs', [JobseekerController::class, 'joblist'])->name('jobs');
+    });
+});
 
 
 //Back Office : ROLE : ADMIN, ADMIN PRODI GUARD : WEB (CHANGE TO ADMIN)
@@ -123,6 +173,8 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
 
 });
+
+
 });
 
 
@@ -195,3 +247,169 @@ Route::group(['prefix' => 'icons'], function () {
 //Extra Page Routs
 Route::get('privacy-policy', [HomeController::class, 'privacypolicy'])->name('pages.privacy-policy');
 Route::get('terms-of-use', [HomeController::class, 'termsofuse'])->name('pages.term-of-use');
+
+
+// Route::resource('jobseeker', App\Http\Controllers\JobseekerController::class)->only('index', 'create', 'store');
+
+
+// Route::resource('jobseeker', App\Http\Controllers\JobseekerController::class)->only('index', 'create', 'store');
+
+
+
+
+
+// Route::resource('jobseeker', App\Http\Controllers\JobseekerController::class);
+
+// Route::resource('membership', App\Http\Controllers\MembershipController::class);
+
+// Route::resource('pembayaran', App\Http\Controllers\PembayaranController::class);
+
+// Route::resource('account', App\Http\Controllers\AccountController::class);
+
+// Route::resource('user', App\Http\Controllers\UserController::class);
+
+// Route::resource('employer', App\Http\Controllers\EmployerController::class);
+
+// Route::resource('industri-type', App\Http\Controllers\IndustriTypeController::class);
+
+// Route::resource('job', App\Http\Controllers\JobController::class);
+
+// Route::resource('posisi', App\Http\Controllers\PosisiController::class);
+
+// Route::resource('step', App\Http\Controllers\StepController::class);
+
+// Route::resource('proses', App\Http\Controllers\ProsesController::class);
+
+// Route::resource('progress', App\Http\Controllers\ProgressController::class);
+
+// Route::resource('application', App\Http\Controllers\ApplicationController::class);
+
+// Route::resource('jobseeker-type', App\Http\Controllers\JobseekerTypeController::class);
+
+// Route::resource('organisasi', App\Http\Controllers\OrganisasiController::class);
+
+// Route::resource('bahasa', App\Http\Controllers\BahasaController::class);
+
+// Route::resource('riwayat-kerja', App\Http\Controllers\RiwayatKerjaController::class);
+
+// Route::resource('prestasi', App\Http\Controllers\PrestasiController::class);
+
+// Route::resource('riwayat-pendidikan', App\Http\Controllers\RiwayatPendidikanController::class);
+
+// Route::resource('pelatihan', App\Http\Controllers\PelatihanController::class);
+
+// Route::resource('rekomendasi', App\Http\Controllers\RekomendasiController::class);
+
+// Route::resource('posisi', App\Http\Controllers\PosisiController::class);
+
+// Route::resource('step', App\Http\Controllers\StepController::class);
+
+// Route::resource('proses', App\Http\Controllers\ProsesController::class);
+
+// Route::resource('progress', App\Http\Controllers\ProgressController::class);
+
+// Route::resource('application', App\Http\Controllers\ApplicationController::class);
+
+// Route::resource('jobseeker-type', App\Http\Controllers\JobseekerTypeController::class);
+
+// Route::resource('organisasi', App\Http\Controllers\OrganisasiController::class);
+
+// Route::resource('bahasa', App\Http\Controllers\BahasaController::class);
+
+// Route::resource('riwayat-kerja', App\Http\Controllers\RiwayatKerjaController::class);
+
+// Route::resource('prestasi', App\Http\Controllers\PrestasiController::class);
+
+// Route::resource('riwayat-pendidikan', App\Http\Controllers\RiwayatPendidikanController::class);
+
+// Route::resource('pelatihan', App\Http\Controllers\PelatihanController::class);
+
+// Route::resource('rekomendasi', App\Http\Controllers\RekomendasiController::class);
+
+
+
+
+// Route::resource('jobseeker', App\Http\Controllers\JobseekerController::class);
+
+// Route::resource('membership', App\Http\Controllers\MembershipController::class);
+
+// Route::resource('pembayaran', App\Http\Controllers\PembayaranController::class);
+
+// Route::resource('account', App\Http\Controllers\AccountController::class);
+
+// Route::resource('user', App\Http\Controllers\UserController::class);
+
+// Route::resource('employer', App\Http\Controllers\EmployerController::class);
+
+// Route::resource('industri-type', App\Http\Controllers\IndustriTypeController::class);
+
+// Route::resource('job', App\Http\Controllers\JobController::class);
+
+// Route::resource('posisi', App\Http\Controllers\PosisiController::class);
+
+// Route::resource('step', App\Http\Controllers\StepController::class);
+
+// Route::resource('proses', App\Http\Controllers\ProsesController::class);
+
+// Route::resource('progress', App\Http\Controllers\ProgressController::class);
+
+// Route::resource('application', App\Http\Controllers\ApplicationController::class);
+
+// Route::resource('jobseeker-type', App\Http\Controllers\JobseekerTypeController::class);
+
+// Route::resource('organisasi', App\Http\Controllers\OrganisasiController::class);
+
+// Route::resource('bahasa', App\Http\Controllers\BahasaController::class);
+
+// Route::resource('riwayat-kerja', App\Http\Controllers\RiwayatKerjaController::class);
+
+// Route::resource('prestasi', App\Http\Controllers\PrestasiController::class);
+
+// Route::resource('riwayat-pendidikan', App\Http\Controllers\RiwayatPendidikanController::class);
+
+// Route::resource('pelatihan', App\Http\Controllers\PelatihanController::class);
+
+// Route::resource('rekomendasi', App\Http\Controllers\RekomendasiController::class);
+
+
+// Route::resource('jobseeker', App\Http\Controllers\JobseekerController::class);
+
+// Route::resource('membership', App\Http\Controllers\MembershipController::class);
+
+// Route::resource('pembayaran', App\Http\Controllers\PembayaranController::class);
+
+// Route::resource('account', App\Http\Controllers\AccountController::class);
+
+// Route::resource('user', App\Http\Controllers\UserController::class);
+
+// Route::resource('employer', App\Http\Controllers\EmployerController::class);
+
+// Route::resource('industri-type', App\Http\Controllers\IndustriTypeController::class);
+
+// Route::resource('job', App\Http\Controllers\JobController::class);
+
+// Route::resource('posisi', App\Http\Controllers\PosisiController::class);
+
+// Route::resource('step', App\Http\Controllers\StepController::class);
+
+// Route::resource('proses', App\Http\Controllers\ProsesController::class);
+
+// Route::resource('progress', App\Http\Controllers\ProgressController::class);
+
+// Route::resource('application', App\Http\Controllers\ApplicationController::class);
+
+// Route::resource('jobseeker-type', App\Http\Controllers\JobseekerTypeController::class);
+
+// Route::resource('organisasi', App\Http\Controllers\OrganisasiController::class);
+
+// Route::resource('bahasa', App\Http\Controllers\BahasaController::class);
+
+// Route::resource('riwayat-kerja', App\Http\Controllers\RiwayatKerjaController::class);
+
+// Route::resource('prestasi', App\Http\Controllers\PrestasiController::class);
+
+// Route::resource('riwayat-pendidikan', App\Http\Controllers\RiwayatPendidikanController::class);
+
+// Route::resource('pelatihan', App\Http\Controllers\PelatihanController::class);
+
+// Route::resource('rekomendasi', App\Http\Controllers\RekomendasiController::class);

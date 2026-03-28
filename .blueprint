@@ -1,0 +1,226 @@
+created:
+    - app/Http/Controllers/JobseekerController.php
+    - app/Http/Controllers/MembershipController.php
+    - app/Http/Controllers/PembayaranController.php
+    - app/Http/Controllers/AccountController.php
+    - app/Http/Controllers/UserController.php
+    - app/Http/Controllers/EmployerController.php
+    - app/Http/Controllers/IndustriTypeController.php
+    - app/Http/Controllers/JobController.php
+    - app/Http/Controllers/PosisiController.php
+    - app/Http/Controllers/StepController.php
+    - app/Http/Controllers/ProsesController.php
+    - app/Http/Controllers/ProgressController.php
+    - app/Http/Controllers/ApplicationController.php
+    - app/Http/Controllers/JobseekerTypeController.php
+    - app/Http/Controllers/OrganisasiController.php
+    - app/Http/Controllers/BahasaController.php
+    - app/Http/Controllers/RiwayatKerjaController.php
+    - app/Http/Controllers/PrestasiController.php
+    - app/Http/Controllers/RiwayatPendidikanController.php
+    - app/Http/Controllers/PelatihanController.php
+    - app/Http/Controllers/RekomendasiController.php
+    - database/factories/UserFactory.php
+    - database/factories/PembayaranFactory.php
+    - database/factories/AccountFactory.php
+    - database/factories/MembershipFactory.php
+    - database/factories/EmployerFactory.php
+    - database/factories/IndustriTypeFactory.php
+    - database/factories/JobFactory.php
+    - database/factories/PosisiFactory.php
+    - database/factories/StepFactory.php
+    - database/factories/ProsesFactory.php
+    - database/factories/ProgressFactory.php
+    - database/factories/ApplicationFactory.php
+    - database/factories/JobseekerFactory.php
+    - database/factories/JobseekerTypeFactory.php
+    - database/factories/OrganisasiFactory.php
+    - database/factories/BahasaFactory.php
+    - database/factories/RiwayatKerjaFactory.php
+    - database/factories/PrestasiFactory.php
+    - database/factories/RiwayatPendidikanFactory.php
+    - database/factories/PelatihanFactory.php
+    - database/factories/RekomendasiFactory.php
+    - database/migrations/2024_01_08_150440_create_users_table.php
+    - database/migrations/2024_01_08_150441_create_pembayarans_table.php
+    - database/migrations/2024_01_08_150442_create_accounts_table.php
+    - database/migrations/2024_01_08_150443_create_memberships_table.php
+    - database/migrations/2024_01_08_150444_create_employers_table.php
+    - database/migrations/2024_01_08_150445_create_industri_types_table.php
+    - database/migrations/2024_01_08_150446_create_jobs_table.php
+    - database/migrations/2024_01_08_150447_create_posisis_table.php
+    - database/migrations/2024_01_08_150448_create_steps_table.php
+    - database/migrations/2024_01_08_150449_create_proses_table.php
+    - database/migrations/2024_01_08_150450_create_progress_table.php
+    - database/migrations/2024_01_08_150451_create_applications_table.php
+    - database/migrations/2024_01_08_150452_create_jobseekers_table.php
+    - database/migrations/2024_01_08_150453_create_jobseeker_types_table.php
+    - database/migrations/2024_01_08_150454_create_organisasis_table.php
+    - database/migrations/2024_01_08_150455_create_bahasas_table.php
+    - database/migrations/2024_01_08_150456_create_riwayat_kerjas_table.php
+    - database/migrations/2024_01_08_150457_create_prestasis_table.php
+    - database/migrations/2024_01_08_150458_create_riwayat_pendidikans_table.php
+    - database/migrations/2024_01_08_150459_create_pelatihans_table.php
+    - database/migrations/2024_01_08_150500_create_rekomendasis_table.php
+    - app/Models/User.php
+    - app/Models/Pembayaran.php
+    - app/Models/Account.php
+    - app/Models/Membership.php
+    - app/Models/Employer.php
+    - app/Models/IndustriType.php
+    - app/Models/Job.php
+    - app/Models/Posisi.php
+    - app/Models/Step.php
+    - app/Models/Proses.php
+    - app/Models/Progress.php
+    - app/Models/Application.php
+    - app/Models/Jobseeker.php
+    - app/Models/JobseekerType.php
+    - app/Models/Organisasi.php
+    - app/Models/Bahasa.php
+    - app/Models/RiwayatKerja.php
+    - app/Models/Prestasi.php
+    - app/Models/RiwayatPendidikan.php
+    - app/Models/Pelatihan.php
+    - app/Models/Rekomendasi.php
+    - tests/Feature/Http/Controllers/JobseekerControllerTest.php
+    - tests/Feature/Http/Controllers/MembershipControllerTest.php
+    - tests/Feature/Http/Controllers/PembayaranControllerTest.php
+    - tests/Feature/Http/Controllers/AccountControllerTest.php
+    - tests/Feature/Http/Controllers/UserControllerTest.php
+    - tests/Feature/Http/Controllers/EmployerControllerTest.php
+    - tests/Feature/Http/Controllers/IndustriTypeControllerTest.php
+    - tests/Feature/Http/Controllers/JobControllerTest.php
+    - tests/Feature/Http/Controllers/PosisiControllerTest.php
+    - tests/Feature/Http/Controllers/StepControllerTest.php
+    - tests/Feature/Http/Controllers/ProsesControllerTest.php
+    - tests/Feature/Http/Controllers/ProgressControllerTest.php
+    - tests/Feature/Http/Controllers/ApplicationControllerTest.php
+    - tests/Feature/Http/Controllers/JobseekerTypeControllerTest.php
+    - tests/Feature/Http/Controllers/OrganisasiControllerTest.php
+    - tests/Feature/Http/Controllers/BahasaControllerTest.php
+    - tests/Feature/Http/Controllers/RiwayatKerjaControllerTest.php
+    - tests/Feature/Http/Controllers/PrestasiControllerTest.php
+    - tests/Feature/Http/Controllers/RiwayatPendidikanControllerTest.php
+    - tests/Feature/Http/Controllers/PelatihanControllerTest.php
+    - tests/Feature/Http/Controllers/RekomendasiControllerTest.php
+updated:
+    - routes/web.php
+skipped:
+    - resources/views/jobseeker/index.blade.php
+    - resources/views/jobseeker/create.blade.php
+    - resources/views/jobseeker/show.blade.php
+    - resources/views/jobseeker/edit.blade.php
+    - resources/views/membership/index.blade.php
+    - resources/views/membership/create.blade.php
+    - resources/views/membership/show.blade.php
+    - resources/views/membership/edit.blade.php
+    - resources/views/pembayaran/index.blade.php
+    - resources/views/pembayaran/create.blade.php
+    - resources/views/pembayaran/show.blade.php
+    - resources/views/pembayaran/edit.blade.php
+    - resources/views/account/index.blade.php
+    - resources/views/account/create.blade.php
+    - resources/views/account/show.blade.php
+    - resources/views/account/edit.blade.php
+    - resources/views/user/index.blade.php
+    - resources/views/user/create.blade.php
+    - resources/views/user/show.blade.php
+    - resources/views/user/edit.blade.php
+    - resources/views/employer/index.blade.php
+    - resources/views/employer/create.blade.php
+    - resources/views/employer/show.blade.php
+    - resources/views/employer/edit.blade.php
+    - resources/views/industriType/index.blade.php
+    - resources/views/industriType/create.blade.php
+    - resources/views/industriType/show.blade.php
+    - resources/views/industriType/edit.blade.php
+    - resources/views/job/index.blade.php
+    - resources/views/job/create.blade.php
+    - resources/views/job/show.blade.php
+    - resources/views/job/edit.blade.php
+    - resources/views/posisi/index.blade.php
+    - resources/views/posisi/create.blade.php
+    - resources/views/posisi/show.blade.php
+    - resources/views/posisi/edit.blade.php
+    - resources/views/step/index.blade.php
+    - resources/views/step/create.blade.php
+    - resources/views/step/show.blade.php
+    - resources/views/step/edit.blade.php
+    - resources/views/prose/index.blade.php
+    - resources/views/prose/create.blade.php
+    - resources/views/prose/show.blade.php
+    - resources/views/prose/edit.blade.php
+    - resources/views/progress/index.blade.php
+    - resources/views/progress/create.blade.php
+    - resources/views/progress/show.blade.php
+    - resources/views/progress/edit.blade.php
+    - resources/views/application/index.blade.php
+    - resources/views/application/create.blade.php
+    - resources/views/application/show.blade.php
+    - resources/views/application/edit.blade.php
+    - resources/views/jobseekerType/index.blade.php
+    - resources/views/jobseekerType/create.blade.php
+    - resources/views/jobseekerType/show.blade.php
+    - resources/views/jobseekerType/edit.blade.php
+    - resources/views/organisasi/index.blade.php
+    - resources/views/organisasi/create.blade.php
+    - resources/views/organisasi/show.blade.php
+    - resources/views/organisasi/edit.blade.php
+    - resources/views/bahasa/index.blade.php
+    - resources/views/bahasa/create.blade.php
+    - resources/views/bahasa/show.blade.php
+    - resources/views/bahasa/edit.blade.php
+    - resources/views/riwayatKerja/index.blade.php
+    - resources/views/riwayatKerja/create.blade.php
+    - resources/views/riwayatKerja/show.blade.php
+    - resources/views/riwayatKerja/edit.blade.php
+    - resources/views/prestasi/index.blade.php
+    - resources/views/prestasi/create.blade.php
+    - resources/views/prestasi/show.blade.php
+    - resources/views/prestasi/edit.blade.php
+    - resources/views/riwayatPendidikan/index.blade.php
+    - resources/views/riwayatPendidikan/create.blade.php
+    - resources/views/riwayatPendidikan/show.blade.php
+    - resources/views/riwayatPendidikan/edit.blade.php
+    - resources/views/pelatihan/index.blade.php
+    - resources/views/pelatihan/create.blade.php
+    - resources/views/pelatihan/show.blade.php
+    - resources/views/pelatihan/edit.blade.php
+    - resources/views/rekomendasi/index.blade.php
+    - resources/views/rekomendasi/create.blade.php
+    - resources/views/rekomendasi/show.blade.php
+    - resources/views/rekomendasi/edit.blade.php
+models:
+    EmailBox: {  }
+    EmailTemplate: {  }
+    Fakultas: {  }
+    GrupKonten: {  }
+    Jenjang: {  }
+    KategoriKonten: {  }
+    Konselor: {  }
+    Konten: {  }
+    Prodi: {  }
+    TemporaryFiles: {  }
+    User: { password: 'string:250', email: 'string:50 unique', email_verified_at: 'nullable timestamp', phone_number: 'string:15 nullable', address: 'string:150 nullable', user_type: "string:10 default:'admin'", status: "enum:pending,active,blocked,inactive default:'pending'", profile_image: 'string:250 nullable', relationships: { hasOne: 'Employer, Jobseeker' } }
+    Users: { password: 'string:250', email: 'string:50 unique', email_verified_at: 'nullable timestamp', phone_number: 'string:15 nullable', address: 'string:150 nullable', user_type: "string:10 default:'admin'", status: "enum:pending,active,blocked,inactive default:'pending'", profile_image: 'string:250 nullable', relationships: { hasOne: 'Employer, Jobseeker' } }
+    Pembayaran: { user_id: 'id foreign:user.id', membership_id: 'id foreign:pembayaran.id', tgl_mulai: date, tgl_berakhir: date, nomor_rekening: 'id foreign:account.id', relationships: { belongsTo: 'Account, Membership, User' } }
+    Account: { nama_bank: 'string:25', atas_nama: 'string:35', relationships: { hasMany: Pembayaran } }
+    Membership: { nama_membership: 'string:50', durasi: 'string:25', harga: 'string:50', relationships: { hasMany: Pembayaran } }
+    Employer: { user_id: 'id foreign:user.id', nama_perusahaan: 'string:50', deskripsi_perusahaan: text, industriType_id: 'id foreign:industriType.id', alamat: 'string:150 nullable', relationships: { hasMany: 'IndustriType, Job', belongsTo: User } }
+    IndustriType: { nama_industri: 'string:50', relationships: { belongsTo: Employer } }
+    Job: { employer_id: 'id foreign:employer.id', nama_pekerjaan: 'string:50', kuota: integer, posisi_id: 'id foreign:posisi.id', relationships: { hasMany: Step, belongsTo: Posisi } }
+    Posisi: { nama_posisi: 'string:25', relationships: { hasMany: Job } }
+    Step: { job_id: 'id foreign:job.id', proses_id: 'id foreign:proses.id', deskripsi: text, relationships: { belongsTo: 'Job, Proses' } }
+    Proses: { nama_proses: 'string:50', relationships: { hasMany: Step } }
+    Progress: { application_id: 'id foreign:progress.id', step_id: 'id foreign:step.id', catatan: text, lulus: boolean, relationships: { belongsTo: 'Application, Step' } }
+    Application: { jobseeker_id: 'id foreign:jobseeker.id', tanggal_apply: date, relationships: { hasMany: Progress, belongsTo: Jobseeker } }
+    Jobseeker: { user_id: 'id foreign:user.id', first_name: 'string:20', last_name: 'string:20', jenis_kelamin: 'string:15', ttl: date, jobseeker_id_type: 'id foreign:jobseekerType.id', relationships: { belongsTo: 'User, JobseekerType', hasMany: 'Organisasi, Bahasa, RiwayatKerja, Prestasi, Pelatihan, Rekomendasi, RiwayatPendidikan' } }
+    JobseekerType: { jobseekerType: 'string:15', relationships: { hasMany: Jobseeker } }
+    Organisasi: { jobseeker_id: 'id foreign:jobseeker.id', nama_organisasi: 'string:30', jabatan: 'string:20', keterangan: text, relationships: { belongsTo: Jobseeker } }
+    Bahasa: { jobseeker_id: 'id foreign:jobseeker.id', bahasa: 'string:20', keterangan: text, relationships: { belongsTo: Jobseeker } }
+    RiwayatKerja: { jobseeker_id: 'id foreign:jobseeker.id', keterangan: text, relationships: { belongsTo: Jobseeker } }
+    Prestasi: { jobseeker_id: 'id foreign:jobseeker.id', nama_penghargaan: 'string:40', tahun: 'string:4', dokumen: 'string:250', relationships: { belongsTo: Jobseeker } }
+    RiwayatPendidikan: { jobseeker_id: 'id foreign:jobseeker.id', jenjang: 'string:5', instansi: 'string:50', indeks_nilai: 'string:4 nullable', keterangan: text, relationships: { belongsTo: Jobseeker } }
+    Pelatihan: { jobseeker_id: 'id foreign:jobseeker.id', nama_pelatihan: 'string:50', tahun: 'string:4', sertifikat: 'string:250', relationships: { belongsTo: Jobseeker } }
+    Rekomendasi: { jobseeker_id: 'id foreign:jobseeker.id', nama_perekomendasi: 'string:30', posisi: 'string:20', no_hp: 'string:14', alamat: 'string:50', relationships: { belongsTo: Jobseeker } }

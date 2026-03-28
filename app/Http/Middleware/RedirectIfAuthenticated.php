@@ -25,7 +25,12 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
 
-                if($guard === 'web'){
+                if($guard === 'employer'){
+                    
+                    return redirect()->route('employer.index');
+                }
+
+                else if($guard === 'web'){
                     return redirect(RouteServiceProvider::HOME);
                 }
 

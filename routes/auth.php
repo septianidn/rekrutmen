@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/register', [RegisteredUserController::class, 'store'])
 //                 ->middleware('guest');
 
+//Auth
+
+
+
 Route::group(['middleware' => ['guest:web'],'RevalidateBackHistory'], function () {
 
     Route::get('/backoffic3', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -25,6 +29,14 @@ Route::group(['middleware' => ['guest:web'],'RevalidateBackHistory'], function (
     Route::post('/backoffic3/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
     Route::get('/backoffic3/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
     Route::post('/backoffic3/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('user.login');
+    Route::post('/register', [AuthenticatedSessionController::class, 'store'])->name('user.store');
+    Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->name('user.password.request');
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('user.password.email');
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('user.password.reset');
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('user.password.store');
+
 });
  
 Route::group(['middleware' => ['auth:web'],'RevalidateBackHistory'], function () {       
@@ -41,4 +53,19 @@ Route::group(['middleware' => ['auth:web'],'RevalidateBackHistory'], function ()
     Route::post('/backoffic3/confirm-password', [ConfirmablePasswordController::class, 'store']);           
     Route::post('/backoffic3/logout', [AuthenticatedSessionController::class, 'destroy'])
                     ->name('logout');
+
+
+    Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
+                    ->name('user.verification.notice');
+    Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+                    ->middleware(['signed', 'throttle:6,1'])
+                    ->name('user.verification.verify');
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+                    ->middleware([ 'throttle:6,1'])
+                    ->name('user.verification.send');
+    Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])           
+                    ->name('user.password.confirm');
+    Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']);           
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+                    ->name('.user.logout');
  });
