@@ -8,6 +8,11 @@
                 <div class="row">
                     <div class="col-lg-12 col-12">
                         <div class="inner-content">
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="{{ route('employer.profile.edit') }}" class="btn btn-primary btn-sm">
+                                    <i class="lni lni-pencil-alt"></i> Edit Profil
+                                </a>
+                            </div>
                             <!-- Start Personal Top Content -->
                             <div class="personal-top-content">
                                 <div class="row">

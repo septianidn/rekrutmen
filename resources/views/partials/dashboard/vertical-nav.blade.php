@@ -97,6 +97,25 @@
     </li>
     {{-- END USERS MENU SECTION --}}
 
+    {{-- START JOB FAIR SECTION --}}
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.job-fair.index')) }}" aria-current="page"
+            href="{{ route('backoffice.job-fair.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M16.34 1.99976H7.67C4.28 1.99976 2 4.37976 2 7.91976V16.0898C2 19.6198 4.28 21.9998 7.67 21.9998H16.34C19.73 21.9998 22 19.6198 22 16.0898V7.91976C22 4.37976 19.73 1.99976 16.34 1.99976Z" fill="currentColor"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1246 8.18934C11.1246 8.67134 11.5156 9.06234 11.9976 9.06234C12.4886 9.06234 12.8796 8.67134 12.8796 8.18934C12.8796 7.70734 12.4886 7.31634 12.0066 7.31634C11.5246 7.31634 11.1246 7.70734 11.1246 8.18934ZM12.8696 11.362C12.8696 10.88 12.4786 10.489 11.9966 10.489C11.5146 10.489 11.1246 10.88 11.1246 11.362V15.846C11.1246 16.328 11.5146 16.719 11.9966 16.719C12.4786 16.719 12.8696 16.328 12.8696 15.846V11.362Z" fill="currentColor"></path>
+                </svg>
+            </i>
+            <span class="item-name">Kelola Job Fair</span>
+        </a>
+    </li>
+    {{-- END JOB FAIR SECTION --}}
+
+    <li>
+        <hr class="hr-horizontal">
+    </li>
+
     {{-- START ADMINISTRASI MENU SECTION --}}
     <li class="nav-item static-item">
         <a class="nav-link static-item disabled" href="#" tabindex="-1">

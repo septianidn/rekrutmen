@@ -4,8 +4,7 @@
             <li><a class="@yield('profile')" href="{{route('employer.profile')}}"><i class="lni lni-clipboard"></i>Profile</a>
             </li>
             <li><a class="@yield('jobs')" href="{{route('employer.job.index')}}"><i class="lni lni-bookmark"></i> Jobs</a></li>
-            <li><a class="@yield('application')" href="notifications.html"><i class="lni lni-alarm"></i> Applications <span
-                class="notifi">5</span></a></li>
+            <li><a class="@yield('jobfair')" href="{{route('employer.job-fair.index')}}"><i class="lni lni-calendar"></i> Job Fair</a></li>
                 {{-- <li><a href="manage-applications.html"><i class="lni lni-envelope"></i> Manage
                     Applications</a></li>
                     <li><a href="manage-resumes.html"><i class="lni lni-files"></i> Manage Resumes</a></li>

@@ -89,4 +89,9 @@ class Jobseeker extends Model
     {
         return $this->hasMany(RiwayatPendidikan::class);
     }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
 }

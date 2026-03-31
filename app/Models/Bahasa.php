@@ -10,6 +10,8 @@ class Bahasa extends Model
 {
     use HasFactory;
 
+    protected $table = 'bahasa';
+
     /**
      * The attributes that are mass assignable.
      *

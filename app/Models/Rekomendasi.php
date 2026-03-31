@@ -10,6 +10,8 @@ class Rekomendasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'rekomendasi';
+
     /**
      * The attributes that are mass assignable.
      *

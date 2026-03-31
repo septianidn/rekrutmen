@@ -10,6 +10,8 @@ class Prestasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'prestasi';
+
     /**
      * The attributes that are mass assignable.
      *

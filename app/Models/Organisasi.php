@@ -10,6 +10,8 @@ class Organisasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'organisasi';
+
     /**
      * The attributes that are mass assignable.
      *

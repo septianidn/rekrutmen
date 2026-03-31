@@ -16,9 +16,9 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-        $jobs = Auth::user()->employer->jobs;
-        //$jobs = Job::where('employer_id', $user->id)->get();
-        //$jobs = Job::join('employer', 'job.employer_id', 'employer.id')->join('users', 'users.id', 'employer.user_id')->where('users.id', $user->id)->get();
+        $jobs = Job::where('employer_id', Auth::user()->employer->id)
+            ->withCount('applications')
+            ->get();
 
         return view('frontoffice.employer.job.index', compact('jobs'));
     }

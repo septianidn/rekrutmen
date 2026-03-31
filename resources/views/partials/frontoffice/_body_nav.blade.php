@@ -90,11 +90,45 @@
                   >Daftar</a
                 >
               </div>
-              @else ()
-                <form action="{{route('employer.logout')}}" method="POST">
-                  @csrf
-                  <button type="submit" class="btn btn-success">Logout</button>
-                </form>
+              @else
+                <div class="d-flex align-items-center">
+                  {{-- Notification Bell --}}
+                  <div class="dropdown me-3">
+                    <a href="#" class="position-relative" id="frontNotifDrop" data-bs-toggle="dropdown" style="color: #333; font-size: 20px;">
+                      <i class="lni lni-alarm"></i>
+                      @if($notifCount > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">{{ $notifCount }}</span>
+                      @endif
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end p-0 shadow" style="width: 340px; max-height: 400px;" aria-labelledby="frontNotifDrop">
+                      <div class="d-flex justify-content-between align-items-center bg-primary text-white p-3">
+                        <strong>Notifikasi ({{ $notifCount }})</strong>
+                        @if($notifCount > 0)
+                          <form action="{{ route('notification.mark-all-read') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-light py-0 px-2">Tandai dibaca</button>
+                          </form>
+                        @endif
+                      </div>
+                      <div style="max-height: 300px; overflow-y: auto;">
+                        @forelse($notifications as $notif)
+                          <a href="{{ route('notification.read', $notif->id) }}" class="dropdown-item py-2 border-bottom {{ !$notif->is_read ? 'bg-light' : '' }}" style="white-space: normal;">
+                            <strong class="d-block" style="font-size: 13px;">{{ $notif->title }}</strong>
+                            <small class="text-muted">{{ Str::limit($notif->message, 60) }}</small>
+                            <small class="text-muted d-block">{{ $notif->created_at->diffForHumans() }}</small>
+                          </a>
+                        @empty
+                          <div class="p-3 text-center text-muted">Tidak ada notifikasi.</div>
+                        @endforelse
+                      </div>
+                    </div>
+                  </div>
+
+                  <form action="{{route('employer.logout')}}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Logout</button>
+                  </form>
+                </div>
               @endif
               
             </nav>

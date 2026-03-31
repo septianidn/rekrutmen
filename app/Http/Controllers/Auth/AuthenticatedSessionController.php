@@ -55,7 +55,7 @@ class AuthenticatedSessionController extends Controller
 
             // Redirect based on user role
             if ($user == 'admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('backoffice.dashboard');
             } elseif ($user == 'employer') {
                 return redirect()->route('employer.profile');
             } elseif ($user == 'mahasiswa') {

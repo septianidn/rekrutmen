@@ -13,6 +13,7 @@ use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\BackOffice\KontenController;
 
 use App\Http\Controllers\BackOffice\JenjangController;
+use App\Http\Controllers\BackOffice\JobFairController;
 use App\Http\Controllers\BackOffice\EmailBoxController;
 use App\Http\Controllers\BackOffice\FakultasController;
 
@@ -22,12 +23,15 @@ use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\GrupKontenController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
+use App\Http\Controllers\FrontOffice\JobFairController as FrontJobFairController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
 use App\Http\Controllers\BackOffice\EmailTemplateController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // Packages
 use App\Http\Controllers\BackOffice\KategoriKontenController;
 use App\Http\Controllers\Auth\EmployerAuth\AuthenticatedSessionController as AuthenticatedSessionControllerEmployer;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobseekerController;
 use App\Livewire\RiwayatPendidikan;
@@ -54,6 +58,12 @@ Route::get('/storage', function () {
 //Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 
+// Notifications (all authenticated users)
+Route::middleware('auth')->group(function () {
+    Route::get('/notification/{id}/read', [NotificationController::class, 'markAsRead'])->name('notification.read');
+    Route::post('/notification/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notification.mark-all-read');
+});
+
 
 Route::prefix('employer')->name('employer.')->group(function(){
 
@@ -69,12 +79,23 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::post('/verifikasi', [EmployerController::class, 'store'])->name('verifikasi');
 
     Route::group(['middleware' => 'verified_employer'], function(){
-        Route::get('/profile', [EmployerController::class, 'index'])->name('profile');      
+        Route::get('/profile', [EmployerController::class, 'index'])->name('profile');
+        Route::get('/profile/edit', [EmployerController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile/update', [EmployerController::class, 'update'])->name('profile.update');      
         // Route::get('/jobs', [JobController::class, 'index'])->name('jobs');      
         // Route::get('/job/create', [JobController::class, 'create'])->name('job.create');      
         // Route::post('/job/store', [JobController::class, 'store'])->name('job.store');   
         // Route::post('/job/store', [JobController::class, 'store'])->name('job.store');   
         Route::resource('job', JobController::class);
+        Route::get('/job/{job}/applicants', [ApplicationController::class, 'applicants'])->name('job.applicants');
+        Route::patch('/application/{application}/status', [ApplicationController::class, 'updateStatus'])->name('application.update-status');
+        Route::get('/applicant/{jobseeker}/cv', [ApplicationController::class, 'viewCv'])->name('applicant.cv');
+        Route::get('/applicant/{jobseeker}/cv-pdf', [ApplicationController::class, 'downloadCv'])->name('applicant.cv-pdf');
+
+        Route::get('/job-fair', [FrontJobFairController::class, 'employerIndex'])->name('job-fair.index');
+        Route::get('/job-fair/{jobFair}', [FrontJobFairController::class, 'employerShow'])->name('job-fair.show');
+        Route::post('/job-fair/{jobFair}/register', [FrontJobFairController::class, 'employerRegister'])->name('job-fair.register');
+        Route::delete('/job-fair/{jobFair}/cancel/{jobId}', [FrontJobFairController::class, 'employerCancel'])->name('job-fair.cancel');
 
         });
         
@@ -92,8 +113,15 @@ Route::prefix('jobseeker')->name('jobseeker.')->group(function(){
     Route::group(['middleware'=> 'role:mahasiswa'], function(){
         Route::get('jobseeker/index', [JobseekerController::class, 'index'])->name('index');
         Route::get('jobseeker/profile', [JobseekerController::class,'profile'])->name('profile');
+        Route::get('jobseeker/profile/edit', [JobseekerController::class, 'editProfile'])->name('profile.edit');
+        Route::put('jobseeker/profile/update', [JobseekerController::class, 'updateProfile'])->name('profile.update');
         Route::get('jobseeker/profile/riwayat-pendidikan', RiwayatPendidikan::class)->name('profile.riwayat-pendidikan');
         Route::get('jobseeker/jobs', [JobseekerController::class, 'joblist'])->name('jobs');
+        Route::post('jobseeker/jobs/{job}/apply', [JobseekerController::class, 'applyJob'])->name('jobs.apply');
+        Route::get('jobseeker/my-applications', [JobseekerController::class, 'myApplications'])->name('my-applications');
+        Route::get('jobseeker/cv-pdf', [JobseekerController::class, 'downloadCvPdf'])->name('cv-pdf');
+        Route::get('jobseeker/job-fair', [FrontJobFairController::class, 'studentIndex'])->name('job-fair.index');
+        Route::get('jobseeker/job-fair/{jobFair}', [FrontJobFairController::class, 'studentShow'])->name('job-fair.show');
     });
 });
 
@@ -142,6 +170,9 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
             Route::get('/delete-selected', [EmailBoxController::class, 'deletedSelected'])->name('deleted-selected-emailbox');
             Route::resource('/send', EmailSendController::class);
         });
+
+        Route::resource('/job-fair', JobFairController::class);
+        Route::patch('/job-fair/{job_fair}/participant/{pivot}', [JobFairController::class, 'updateParticipant'])->name('job-fair.participant.update');
 
         Route::group(['prefix' => 'konten'], function () {
             Route::resource('/grup-konten', GrupKontenController::class);

@@ -16,19 +16,19 @@ class Application extends Model
      *
      * @var array
      */
+    protected $table = 'application';
+
     protected $fillable = [
         'jobseeker_id',
+        'job_id',
         'tanggal_apply',
+        'status',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
         'jobseeker_id' => 'integer',
+        'job_id' => 'integer',
         'tanggal_apply' => 'date',
     ];
 
@@ -40,5 +40,10 @@ class Application extends Model
     public function jobseeker(): BelongsTo
     {
         return $this->belongsTo(Jobseeker::class);
+    }
+
+    public function job(): BelongsTo
+    {
+        return $this->belongsTo(Job::class);
     }
 }

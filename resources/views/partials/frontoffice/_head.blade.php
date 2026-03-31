@@ -24,8 +24,9 @@
         }
     }
 
-    header {
-        max-height: 0px;
+    header.header {
+        position: relative;
+        z-index: 100;
     }
 
     .content .contents,

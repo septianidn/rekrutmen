@@ -10,6 +10,8 @@ class RiwayatPendidikan extends Model
 {
     use HasFactory;
 
+    protected $table = 'riwayat_pendidikan';
+
     /**
      * The attributes that are mass assignable.
      *

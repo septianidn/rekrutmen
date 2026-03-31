@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployerStoreRequest;
-use App\Http\Requests\EmployerUpdateRequest;
 use App\Models\Employer;
+use App\Models\IndustriType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,18 +63,40 @@ class EmployerController extends Controller
         return view('employer.show', compact('employer'));
     }
 
-    public function edit(Request $request, Employer $employer): Response
+    public function edit()
     {
-        return view('employer.edit', compact('employer'));
+        $assets = ['vanilla-counter', 'glightbox', 'animation', 'wow'];
+        $user = Auth::user();
+        $employer = Employer::where('user_id', $user->id)->first();
+        $industriTypes = IndustriType::all();
+
+        return view('frontoffice.employer.profile.edit', compact('assets', 'employer', 'user', 'industriTypes'));
     }
 
-    public function update(EmployerUpdateRequest $request, Employer $employer): Response
+    public function update(Request $request)
     {
-        $employer->update($request->validated());
+        $request->validate([
+            'nama_perusahaan' => 'required|string|max:50',
+            'deskripsi_perusahaan' => 'required|string',
+            'industriType_id' => 'required|exists:industri_type,id',
+            'alamat_perusahaan' => 'nullable|string|max:150',
+            'telp_perusahaan' => 'nullable|string|max:20',
+            'website' => 'nullable|string|max:255',
+        ]);
 
-        $request->session()->flash('employer.id', $employer->id);
+        $user = Auth::user();
+        $employer = Employer::where('user_id', $user->id)->first();
 
-        return redirect()->route('employer.index');
+        $employer->update($request->only([
+            'nama_perusahaan',
+            'deskripsi_perusahaan',
+            'industriType_id',
+            'alamat_perusahaan',
+            'telp_perusahaan',
+            'website',
+        ]));
+
+        return redirect()->route('employer.profile')->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function destroy(Request $request, Employer $employer): Response

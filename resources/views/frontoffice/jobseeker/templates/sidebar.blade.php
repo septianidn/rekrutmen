@@ -8,11 +8,13 @@
                 <i class="lni lni-bookmark"></i>Profile
             </x-sidebar-link>
             <x-sidebar-link :href="route('jobseeker.jobs')" :active="request()->routeIs('jobseeker.jobs')">
-                <i class="lni lni-clipboard"></i>Jobs
+                <i class="lni lni-briefcase"></i>Jobs
             </x-sidebar-link>
-            <x-sidebar-link :href="route('jobseeker.index')" :active="request()->routeIs('')">
-                <i class="lni lni-alarm"></i>Applications <span
-                class="notifi">5</span>
+            <x-sidebar-link :href="route('jobseeker.my-applications')" :active="request()->routeIs('jobseeker.my-applications')">
+                <i class="lni lni-envelope"></i>Lamaran Saya
+            </x-sidebar-link>
+            <x-sidebar-link :href="route('jobseeker.job-fair.index')" :active="request()->routeIs('jobseeker.job-fair.*')">
+                <i class="lni lni-calendar"></i>Job Fair
             </x-sidebar-link>
         </ul>
 </div>

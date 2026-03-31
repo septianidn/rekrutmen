@@ -10,6 +10,8 @@ class Pelatihan extends Model
 {
     use HasFactory;
 
+    protected $table = 'pelatihan';
+
     /**
      * The attributes that are mass assignable.
      *
