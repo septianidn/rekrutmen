@@ -29,7 +29,9 @@ class JobStoreRequest extends FormRequest
             'ekspektasi_gaji' => ['required', 'integer'],
             'worktime' => ['required', 'string'],
             'application_deadline' => ['required', 'date'],
-
+            'steps' => ['nullable', 'array'],
+            'steps.*.proses_id' => ['nullable', 'integer', 'exists:proses,id'],
+            'steps.*.deskripsi' => ['nullable', 'string'],
         ];
     }
 }

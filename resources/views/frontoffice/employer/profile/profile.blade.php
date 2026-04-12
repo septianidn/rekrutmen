@@ -1,206 +1,79 @@
 @extends('frontoffice.employer.index')
 @section('profile', 'active')
+@section('page-title', 'Profil Perusahaan')
+@section('page-subtitle', 'Informasi lengkap tentang perusahaan Anda.')
 @section('content')
-        <!-- Main Content Start -->
     <div class="resume">
         <div class="container">
-            <div class="resume-inner">
-                <div class="row">
-                    <div class="col-lg-12 col-12">
-                        <div class="inner-content">
-                            <div class="d-flex justify-content-end mb-3">
-                                <a href="{{ route('employer.profile.edit') }}" class="btn btn-primary btn-sm">
-                                    <i class="lni lni-pencil-alt"></i> Edit Profil
-                                </a>
+            <div class="inner-content">
+
+                <div class="card border">
+                    <div class="card-body p-4">
+                        {{-- Header --}}
+                        <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap">
+                            <div class="me-3">
+                                <h4 class="mb-1">
+                                    <i class="lni lni-apartment me-2 text-primary"></i>
+                                    {{ $employer->nama_perusahaan ?? '-' }}
+                                </h4>
+                                @if($employer->industriType?->nama_industri)
+                                    <p class="text-muted mb-0 small">
+                                        <i class="lni lni-briefcase me-1"></i>
+                                        {{ $employer->industriType->nama_industri }}
+                                    </p>
+                                @endif
                             </div>
-                            <!-- Start Personal Top Content -->
-                            <div class="personal-top-content">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5 col-12">
-                                        <div class="name-head">
-                                            <a class="mb-2" href="#"><img class="circle-54"
-                                                    src="assets/images/resume/avater.png" alt=""></a>
-                                            <h4><a class="name" href="#">{{$employer->nama_perusahaan}}</a></h4>
-                                            <p><a class="deg" href="#">{{$employer->nama_industri}}</a></p>
-                                            <ul class="social">
-                                                <li><a href="#"><i class="lni lni-facebook-original"></i></a></li>
-                                                <li><a href="#"><i class="lni lni-twitter-original"></i></a></li>
-                                                <li><a href="#"><i class="lni lni-linkedin-original"></i></a></li>
-                                                <li><a href="#"><i class="lni lni-dribbble"></i></a></li>
-                                                <li><a href="#"><i class="lni lni-pinterest"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-12">
-                                        <div class="content-right">
-                                            <h5 class="title-main">Contact Info</h5>
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Location</h5>
-                                                <p>{{$employer->alamat_perusahaan}}</p>
-                                            </div>
-                                            <!-- Single List -->
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">E-mail</h5>
-                                                <p>{{$employer->email}}</p>
-                                            </div>
-                                            <!-- Single List -->
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Phone</h5>
-                                                <p>{{$employer->phone_number}}</p>
-                                            </div>
-                                            <!-- Single List -->
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Website Linked</h5>
-                                                <p><a href="#">{{$employer->website}}</a></p>
-                                            </div>
-                                            <!-- Single List -->
-                                        </div>
-                                    </div>
-                                </div>
+                            <a href="{{ route('employer.profile.edit') }}" class="btn btn-primary btn-sm">
+                                <i class="lni lni-pencil-alt me-1"></i> Edit Profil
+                            </a>
+                        </div>
+
+                        <hr class="my-3">
+
+                        {{-- Contact grid --}}
+                        <div class="row g-3 mb-3">
+                            <div class="col-12">
+                                <p class="text-muted small mb-1">
+                                    <i class="lni lni-map-marker me-1"></i> Alamat
+                                </p>
+                                <p class="mb-0">{{ $employer->alamat_perusahaan ?: 'Belum diisi' }}</p>
                             </div>
-                            <!-- End Personal Top Content -->
-                            <!-- Start Single Section -->
-                            <div class="single-section">
-                                <h4>About</h4>
-                                <p class="font-size-4 mb-8">{{$employer->deskripsi_perusahaan}}</p>
-                                
+                            <div class="col-12 col-md-6">
+                                <p class="text-muted small mb-1">
+                                    <i class="lni lni-phone me-1"></i> Telepon
+                                </p>
+                                <p class="mb-0">{{ $employer->telp_perusahaan ?: 'Belum diisi' }}</p>
                             </div>
-                            <!-- End Single Section -->
-                            <!-- Start Single Section -->
-                            <div class="single-section skill">
-                                <h4>Skills</h4>
-                                <ul class="list-unstyled d-flex align-items-center flex-wrap">
-                                    <li>
-                                        <a href="#">Agile</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wireframing</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Prototyping</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Information</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Waterfall Model</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">New Layout</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Ui/Ux Design</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Web Design</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Graphics Design</a>
-                                    </li>
-                                </ul>
+                            <div class="col-12 col-md-6">
+                                <p class="text-muted small mb-1">
+                                    <i class="lni lni-world me-1"></i> Website
+                                </p>
+                                <p class="mb-0 text-truncate">
+                                    @if($employer->website)
+                                        <a href="{{ $employer->website }}" target="_blank" rel="noopener">{{ $employer->website }}</a>
+                                    @else
+                                        Belum diisi
+                                    @endif
+                                </p>
                             </div>
-                            <!-- End Single Section -->
-                            <!-- Start Single Section -->
-                            <div class="single-section exprerience">
-                                <h4>Work Exprerience</h4>
-                                <!-- Single Exp -->
-                                <div class="single-exp mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/work1.png" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Lead Product Designer</a>
-                                            </h3>
-                                            <a href="#">Airabnb</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Jun 2020 - April 2023- 3 years</a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>New York, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Exp -->
-                                <!-- Single Exp -->
-                                <div class="single-exp mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/work2.png" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Senior UI/UX Designer</a>
-                                            </h3>
-                                            <a href="#">Google Inc</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Jun 2020 - April 2023- 3 years</a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>New York, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Exp -->
-                            </div>
-                            <!-- End Single Section -->
-                            <!-- Start Single Section -->
-                            <div class="single-section education">
-                                <h4>Education</h4>
-                                <!-- Single Edu -->
-                                <div class="single-edu mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/edu1.svg" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Masters in Art Design</a>
-                                            </h3>
-                                            <a href="#">Harvard University</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Jun 2020 - April 2023- 3 years</a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>Brylin, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Edu -->
-                                <!-- Single Edu -->
-                                <div class="single-edu mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/edu2.svg" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Bachelor in Software Engineering</a>
-                                            </h3>
-                                            <a href="#">Manipal Institute of Technology</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Fed 2019 - April 2023 - 4 years </a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>New York, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Edu -->
-                            </div>
-                            <!-- End Single Section -->
+                        </div>
+
+                        <hr class="my-3">
+
+                        {{-- About --}}
+                        <div>
+                            <p class="text-muted small mb-1">
+                                <i class="lni lni-information me-1"></i> Tentang Perusahaan
+                            </p>
+                            @if($employer->deskripsi_perusahaan)
+                                <p class="mb-0" style="line-height: 1.7;">{{ $employer->deskripsi_perusahaan }}</p>
+                            @else
+                                <p class="text-muted mb-0">Belum ada deskripsi perusahaan.</p>
+                            @endif
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

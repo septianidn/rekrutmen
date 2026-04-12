@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Proses;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProsesSeeder extends Seeder
@@ -14,34 +13,17 @@ class ProsesSeeder extends Seeder
     public function run(): void
     {
         $proses = [
-            [
-                'nama_proses' => 'Tes Administrasi',
-                
-            ],
-            [
-                'nama_proses' => 'Ujian SKD',
-                
-            ],
-            [
-                'nama_proses' => 'Ujian TPS',
-                
-            ],
-            [
-                'nama_proses' => 'Wawancara awal',
-                
-            ],
-            [
-                'nama_proses' => 'Magang',
-                
-            ],
-            [
-                'nama_proses' => 'Wawancara Final',
-                
-            ],
+            ['nama_proses' => 'Tes Administrasi'],
+            ['nama_proses' => 'Uji Kompetensi'],
+            ['nama_proses' => 'Wawancara'],
+            ['nama_proses' => 'Pengumuman'],
         ];
 
-        foreach ($proses as $key => $value) {
-            $step = Proses::create($value);
+        foreach ($proses as $value) {
+            Proses::updateOrCreate(
+                ['nama_proses' => $value['nama_proses']],
+                $value
+            );
         }
     }
 }

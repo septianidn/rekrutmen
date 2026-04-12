@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php -l app/Http/Controllers/JobController.php)",
+      "Bash(php -l app/Http/Controllers/ApplicationController.php)",
+      "Bash(php -l app/Models/Application.php)",
+      "Bash(php -l app/Models/Step.php)",
+      "Bash(php -l database/seeders/ProsesSeeder.php)",
+      "Bash(php -l database/migrations/2026_04_12_100000_add_urutan_to_step_table.php)",
+      "Bash(php -l app/Http/Requests/JobStoreRequest.php)",
+      "Bash(php -l app/Http/Requests/JobUpdateRequest.php)",
+      "Bash(php artisan:*)",
+      "Bash(grep -r \"bootstrap\" resources/views/components/front-office-layout*)",
+      "Bash(php -l app/Http/Controllers/JobseekerController.php)",
+      "Bash(grep -r \"use App\\\\\\\\\\\\\\\\Models\\\\\\\\\\\\\\\\\" \"/c/Septian/Sistem Informasi/Tugas Akhir/Backup/pusatkarir-v1/app\" --include=\"*.php\")",
+      "Bash(grep -l \"TemporaryFiles\\\\|EmailBox\\\\|EmailTemplate\\\\|Jenjang\" \"C:/Septian/Sistem Informasi/Tugas Akhir/Backup/pusatkarir-v1/app/Http/Controllers/\"*.php \"C:/Septian/Sistem Informasi/Tugas Akhir/Backup/pusatkarir-v1/app/Http/Controllers/BackOffice/\"*.php)",
+      "Bash(grep:*)",
+      "Bash(xxd \"/c/Septian/Sistem Informasi/Tugas Akhir/Backup/pusatkarir-v1/resources/views/frontoffice/landing-page.blade.php\")",
+      "Bash(python3 -c ':*)",
+      "Bash(php -r ':*)",
+      "Bash(pwd -P)"
+    ]
+  }
+}

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Job;
 use App\Models\Jobseeker;
+use App\Models\Progress;
+use App\Models\Step;
 use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -88,6 +90,80 @@ class ApplicationController extends Controller
         $user = $jobseeker->user;
 
         return view('frontoffice.employer.job.view-cv', compact('user', 'jobseeker'));
+    }
+
+    /**
+     * Employer screen to review & update an applicant's step progress.
+     */
+    public function progress(Application $application)
+    {
+        $employer = Auth::user()->employer;
+
+        if ($application->job->employer_id !== $employer->id) {
+            abort(403);
+        }
+
+        $application->load([
+            'jobseeker.user',
+            'job.steps.proses',
+            'progress',
+        ]);
+
+        $progressMap = $application->progressByStep();
+
+        return view('frontoffice.employer.job.progress', [
+            'application' => $application,
+            'progressMap' => $progressMap,
+        ]);
+    }
+
+    /**
+     * Create/update a Progress entry for a specific step.
+     */
+    public function updateProgress(Request $request, Application $application, Step $step)
+    {
+        $employer = Auth::user()->employer;
+
+        if ($application->job->employer_id !== $employer->id) {
+            abort(403);
+        }
+
+        if ($step->job_id !== $application->job_id) {
+            abort(404);
+        }
+
+        $data = $request->validate([
+            'lulus' => ['required', 'in:0,1'],
+            'catatan' => ['nullable', 'string'],
+        ]);
+
+        Progress::updateOrCreate(
+            [
+                'application_id' => $application->id,
+                'step_id' => $step->id,
+            ],
+            [
+                'lulus' => (bool) $data['lulus'],
+                'catatan' => $data['catatan'] ?? '',
+            ]
+        );
+
+        // Notify jobseeker
+        $application->load('jobseeker.user', 'job');
+        $studentUser = $application->jobseeker->user ?? null;
+        if ($studentUser) {
+            $prosesName = $step->proses->nama_proses ?? 'Tahap seleksi';
+            $status = $data['lulus'] ? 'lulus' : 'tidak lulus';
+            NotificationService::send(
+                $studentUser->id,
+                'application_progress',
+                'Update Tahap Seleksi',
+                "Anda {$status} pada tahap {$prosesName} untuk posisi {$application->job->nama_pekerjaan}.",
+                route('jobseeker.my-applications')
+            );
+        }
+
+        return back()->with('success', 'Progress tahap berhasil diperbarui.');
     }
 
     public function downloadCv(Jobseeker $jobseeker)

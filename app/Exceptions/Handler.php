@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,6 +39,22 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function renderHttpException(HttpExceptionInterface $e)
+    {
+        try {
+            $request = request();
+            app(\App\Http\Middleware\EncryptCookies::class)->handle($request, function ($req) {
+                app(\Illuminate\Session\Middleware\StartSession::class)->handle($req, function ($req) {
+                    // Session is now booted, @auth/@guest will work in error views
+                });
+            });
+        } catch (\Throwable $th) {
+            // Silently fail — buttons will show as if guest
+        }
+
+        return parent::renderHttpException($e);
     }
 
     public function render($request, Throwable $exception)

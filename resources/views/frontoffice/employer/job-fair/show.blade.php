@@ -1,38 +1,41 @@
 @extends('frontoffice.employer.index')
 @section('jobfair', 'active')
+@section('page-title', 'Detail Job Fair')
+@section('page-subtitle', 'Informasi event job fair.')
 @section('content')
 
-<div class="job-items">
-    <div class="mb-3">
-        <a href="{{ route('employer.job-fair.index') }}" class="btn btn-outline-secondary btn-sm">&larr; Kembali</a>
-    </div>
+<div class="mb-3">
+    <a href="{{ route('employer.job-fair.index') }}" class="btn btn-outline-secondary btn-sm">&larr; Kembali</a>
+</div>
 
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
+{{-- Job Fair Info --}}
+<div class="job-items mb-3">
     <h4 class="mb-1">{{ $jobFair->nama }}</h4>
     <p class="text-muted">
         <i class="lni lni-map-marker"></i> {{ $jobFair->lokasi }} &middot;
         {{ $jobFair->tanggal_mulai->format('d M Y') }} - {{ $jobFair->tanggal_selesai->format('d M Y') }}
     </p>
     @if($jobFair->deskripsi)
-        <p>{{ $jobFair->deskripsi }}</p>
+        <p class="mb-0">{{ $jobFair->deskripsi }}</p>
     @endif
+</div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
-    <hr>
-
-    {{-- Register a job --}}
-    <h5>Daftarkan Lowongan</h5>
+{{-- Register a job --}}
+<div class="job-items mb-3">
+    <h5 class="mb-3">Daftarkan Lowongan</h5>
     @if($jobs->isEmpty())
-        <div class="alert alert-warning">Anda belum memiliki lowongan. Buat lowongan terlebih dahulu.</div>
+        <div class="alert alert-warning mb-0">Anda belum memiliki lowongan. Buat lowongan terlebih dahulu.</div>
     @else
-        <form action="{{ route('employer.job-fair.register', $jobFair) }}" method="POST" class="row mb-4">
+        <form action="{{ route('employer.job-fair.register', $jobFair) }}" method="POST" class="row">
             @csrf
-            <div class="col-md-8">
+            <div class="col-12 col-md-8 mb-2 mb-md-0">
                 <select name="job_id" class="form-select">
                     @foreach($jobs as $job)
                         @if(!in_array($job->id, $registeredJobIds))
@@ -41,7 +44,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 @if(count($registeredJobIds) < $jobs->count())
                     <button type="submit" class="btn btn-primary btn-sm">Daftarkan</button>
                 @else
@@ -50,12 +53,14 @@
             </div>
         </form>
     @endif
+</div>
 
-    {{-- Registered jobs --}}
-    @if($registrations->isNotEmpty())
-    <h5>Lowongan Terdaftar</h5>
+{{-- Registered jobs --}}
+@if($registrations->isNotEmpty())
+<div class="job-items mb-3">
+    <h5 class="mb-3">Lowongan Terdaftar</h5>
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped mb-0">
             <thead>
                 <tr>
                     <th>Lowongan</th>
@@ -90,7 +95,7 @@
             </tbody>
         </table>
     </div>
-    @endif
 </div>
+@endif
 
 @endsection

@@ -42,7 +42,7 @@ class Job extends Model
 
     public function steps(): HasMany
     {
-        return $this->hasMany(Step::class);
+        return $this->hasMany(Step::class)->orderBy('urutan');
     }
 
     public function posisi(): BelongsTo

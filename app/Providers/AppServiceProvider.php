@@ -26,7 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', function ($view) {
+        View::composer([
+            'partials.frontoffice._body_nav',
+            'frontoffice.employer.template.sidebar',
+            'frontoffice.jobseeker.templates.body',
+        ], function ($view) {
             if (Auth::check()) {
                 $view->with('notifCount', NotificationService::unreadCount(Auth::id()));
                 $view->with('notifications', NotificationService::getRecent(Auth::id(), 10));

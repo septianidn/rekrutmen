@@ -1,5 +1,7 @@
 @extends('frontoffice.employer.index')
 @section('profile', 'active')
+@section('page-title', 'Edit Profil')
+@section('page-subtitle', 'Perbarui informasi perusahaan Anda.')
 @section('content')
 <div class="resume">
     <div class="container">
@@ -29,14 +31,14 @@
                             @method('PUT')
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Nama Perusahaan <span class="text-danger">*</span></label>
                                         <input type="text" name="nama_perusahaan" class="form-control"
                                             value="{{ old('nama_perusahaan', $employer->nama_perusahaan) }}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Tipe Industri <span class="text-danger">*</span></label>
                                         <select name="industriType_id" class="form-control" required>
@@ -59,14 +61,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Telepon Perusahaan</label>
                                         <input type="text" name="telp_perusahaan" class="form-control"
                                             value="{{ old('telp_perusahaan', $employer->telp_perusahaan) }}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Website</label>
                                         <input type="text" name="website" class="form-control"

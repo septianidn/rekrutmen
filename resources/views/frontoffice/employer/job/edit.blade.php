@@ -1,5 +1,7 @@
 @extends('frontoffice.employer.index')
 @section('jobs', 'active')
+@section('page-title', 'Edit Lowongan')
+@section('page-subtitle', 'Perbarui detail lowongan pekerjaan.')
 @section('content')
 
 <section class="job-post">
@@ -25,13 +27,13 @@
                                         <input class="form-control" type="text" name="alamat" value="{{$jobs->alamat}}">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Position</label>
                                         <input class="form-control" type="text" name="posisi" value="{{$jobs->posisi}}">                                        
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Job Types*</label>
                                         <select class="select" name="worktime">
@@ -43,7 +45,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Application Deadline</label>
                                         <div class="input-group date" id="datetimepicker">
@@ -53,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Salary Starting at</label>
                                         <select class="select" name="ekspektasi_gaji">
@@ -79,6 +81,69 @@
                                         <textarea name="deskripsi_pekerjaan" class="form-control" rows="5" value="{{$jobs->deskripsi_pekerjaan}}"></textarea>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-12">
+                                    <h4 class="title mt-3">Tahap Seleksi</h4>
+                                    @php
+                                        $progressExists = \App\Models\Progress::whereHas('step', fn($q) => $q->where('job_id', $jobs->id))->exists();
+                                    @endphp
+                                    @if($progressExists)
+                                        <div class="alert alert-warning">
+                                            Tahap seleksi tidak dapat diubah karena sudah ada pelamar yang sedang diproses.
+                                        </div>
+                                    @endif
+                                    <p class="text-muted mb-2">
+                                        Tentukan tahapan yang harus dilalui pelamar. Urutan mengikuti urutan baris di bawah.
+                                    </p>
+                                    <div id="steps-wrapper">
+                                        @php
+                                            $existingSteps = old('steps', $jobs->steps->map(fn($s) => [
+                                                'proses_id' => $s->proses_id,
+                                                'deskripsi' => $s->deskripsi,
+                                            ])->toArray());
+                                            if (empty($existingSteps)) {
+                                                $existingSteps = [['proses_id' => '', 'deskripsi' => '']];
+                                            }
+                                        @endphp
+                                        @foreach($existingSteps as $i => $step)
+                                        <div class="row align-items-start step-row mb-2" data-step-row>
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Tahap</label>
+                                                    <select class="form-control" name="steps[{{ $i }}][proses_id]" {{ $progressExists ? 'disabled' : '' }}>
+                                                        <option value="">-- Pilih Tahap --</option>
+                                                        @foreach($prosesList as $proses)
+                                                            <option value="{{ $proses->id }}" {{ (string)($step['proses_id'] ?? '') === (string)$proses->id ? 'selected' : '' }}>
+                                                                {{ $proses->nama_proses }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-7">
+                                                <div class="form-group">
+                                                    <label>Deskripsi / Instruksi</label>
+                                                    <input type="text" class="form-control" name="steps[{{ $i }}][deskripsi]"
+                                                           value="{{ $step['deskripsi'] ?? '' }}"
+                                                           placeholder="Contoh: upload berkas KTP, CV, transkrip"
+                                                           {{ $progressExists ? 'disabled' : '' }}>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-1 d-flex align-items-center" style="padding-top: 28px;">
+                                                @unless($progressExists)
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" data-remove-step>&times;</button>
+                                                @endunless
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    @unless($progressExists)
+                                        <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="add-step-btn">
+                                            + Tambah Tahap
+                                        </button>
+                                    @endunless
+                                </div>
+
                                 <div class="col-lg-12 button">
                                     <button class="btn">
                                         Post a Job
@@ -95,37 +160,37 @@
                                         <input class="form-control" type="text" name="Company">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Company Website</label>
                                         <input class="form-control" type="text" name="Website">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Company Industry</label>
                                         <input class="form-control" type="text" name="Industry">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Facebook Page (Link)</label>
                                         <input class="form-control" type="text" name="Link">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Linkedin Page (Link)</label>
                                         <input class="form-control" type="text" name="Link">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Twitter Page (Link)</label>
                                         <input class="form-control" type="text" name="Link">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Instagram Page (Link)</label>
                                         <input class="form-control" type="text" name="Link">
@@ -148,13 +213,13 @@
                             </div>
                             <h3 class="title">Recruiter Information</h3>
                             <div class="row">
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Full Name</label>
                                         <input class="form-control" type="text" name="Name">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input class="form-control" type="email" name="email">
@@ -201,5 +266,55 @@
             ],
             height: 300
         });
+
+        (function () {
+            const wrapper = document.getElementById('steps-wrapper');
+            const addBtn = document.getElementById('add-step-btn');
+            if (!wrapper || !addBtn) return;
+
+            const prosesOptions = @json($prosesList->map(fn($p) => ['id' => $p->id, 'nama' => $p->nama_proses])->values());
+
+            function reindex() {
+                wrapper.querySelectorAll('[data-step-row]').forEach((row, i) => {
+                    row.querySelectorAll('[name]').forEach((el) => {
+                        el.name = el.name.replace(/steps\[\d+\]/, `steps[${i}]`);
+                    });
+                });
+            }
+
+            addBtn.addEventListener('click', function () {
+                const i = wrapper.querySelectorAll('[data-step-row]').length;
+                const optsHtml = ['<option value="">-- Pilih Tahap --</option>']
+                    .concat(prosesOptions.map(o => `<option value="${o.id}">${o.nama}</option>`))
+                    .join('');
+                const html = `
+                    <div class="row align-items-start step-row mb-2" data-step-row>
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label>Tahap</label>
+                                <select class="form-control" name="steps[${i}][proses_id]">${optsHtml}</select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <div class="form-group">
+                                <label>Deskripsi / Instruksi</label>
+                                <input type="text" class="form-control" name="steps[${i}][deskripsi]" placeholder="Contoh: upload berkas KTP, CV, transkrip">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-1 d-flex align-items-center" style="padding-top: 28px;">
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-remove-step>&times;</button>
+                        </div>
+                    </div>`;
+                wrapper.insertAdjacentHTML('beforeend', html);
+            });
+
+            wrapper.addEventListener('click', function (e) {
+                if (e.target.matches('[data-remove-step]')) {
+                    const row = e.target.closest('[data-step-row]');
+                    if (row) row.remove();
+                    reindex();
+                }
+            });
+        })();
     </script>
 @endsection

@@ -9,6 +9,6 @@
 @endsection
 @section('button')
 <button class="btn btn-block"
-onclick="window.location.href='{{ route('landingpage') }}'">Kembali Ke
+onclick="window.location.href='@if(auth()->check() && auth()->user()->hasRole('employer')){{ route('employer.index') }}@elseif(auth()->check() && auth()->user()->hasRole('mahasiswa')){{ route('jobseeker.index') }}@else{{ route('landingpage') }}@endif'">Kembali Ke
 Beranda</button>
 @endsection

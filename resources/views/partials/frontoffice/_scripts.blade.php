@@ -52,5 +52,20 @@
                 }
             });
         });
+
+        // Alert dismiss handler
+        document.querySelectorAll('.btn-close[data-bs-dismiss="alert"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var alert = btn.closest('.alert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.addEventListener('transitionend', function() {
+                        alert.remove();
+                    });
+                    // Fallback if no transition
+                    setTimeout(function() { if (alert.parentNode) alert.remove(); }, 300);
+                }
+            });
+        });
     });
 </script>

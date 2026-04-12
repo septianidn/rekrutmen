@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployerStoreRequest;
+use App\Models\Application;
 use App\Models\Employer;
 use App\Models\IndustriType;
+use App\Models\Job;
+use App\Models\JobFair;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,15 +17,70 @@ class EmployerController extends Controller
 {
     
 
+    public function home()
+    {
+        $user = Auth::user();
+        $employer = $user->employer;
+
+        // Job stats
+        $totalJobs = Job::where('employer_id', $employer->id)->count();
+        $activeJobs = Job::where('employer_id', $employer->id)
+            ->where(function ($q) {
+                $q->whereNull('application_deadline')
+                  ->orWhere('application_deadline', '>=', now());
+            })->count();
+
+        // Application stats
+        $jobIds = Job::where('employer_id', $employer->id)->pluck('id');
+        $stats = [
+            'total' => Application::whereIn('job_id', $jobIds)->count(),
+            'pending' => Application::whereIn('job_id', $jobIds)->where('status', 'pending')->count(),
+            'accepted' => Application::whereIn('job_id', $jobIds)->where('status', 'accepted')->count(),
+            'rejected' => Application::whereIn('job_id', $jobIds)->where('status', 'rejected')->count(),
+        ];
+
+        // Recent applications
+        $recentApplications = Application::whereIn('job_id', $jobIds)
+            ->with(['job', 'jobseeker.user'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Active job fairs
+        $activeJobFairs = JobFair::where('status', 'active')
+            ->where('tanggal_selesai', '>=', now())
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Company profile completeness
+        $profileItems = [
+            ['label' => 'Nama Perusahaan', 'filled' => (bool) $employer->nama_perusahaan],
+            ['label' => 'Deskripsi Perusahaan', 'filled' => (bool) $employer->deskripsi_perusahaan],
+            ['label' => 'Tipe Industri', 'filled' => (bool) $employer->industriType_id],
+            ['label' => 'Alamat', 'filled' => (bool) $employer->alamat_perusahaan],
+            ['label' => 'Telepon', 'filled' => (bool) $employer->telp_perusahaan],
+            ['label' => 'Website', 'filled' => (bool) $employer->website],
+        ];
+        $profileScore = collect($profileItems)->where('filled', true)->count();
+        $profileTotal = count($profileItems);
+        $profilePercent = $profileTotal > 0 ? round(($profileScore / $profileTotal) * 100) : 0;
+
+        return view('frontoffice.employer.home', compact(
+            'user', 'employer', 'totalJobs', 'activeJobs',
+            'stats', 'recentApplications', 'activeJobFairs',
+            'profileItems', 'profileScore', 'profileTotal', 'profilePercent'
+        ));
+    }
+
     public function index()
     {
         $assets = ['vanilla-counter', 'glightbox', 'animation','wow'];
-                   
+
         $user = Auth::user();
-       $employer = Employer::where('user_id', $user->id)->join('industri_type','industri_type.id', 'employer.industriType_id')->join('users', 'users.id', 'user_id')->first();
-            
-        return view('frontoffice.employer.profile.profile', compact('assets','employer'));
-       
+        $employer = Employer::with('industriType')->where('user_id', $user->id)->first();
+
+        return view('frontoffice.employer.profile.profile', compact('assets', 'employer'));
     }
 
     public function verifikasi(){

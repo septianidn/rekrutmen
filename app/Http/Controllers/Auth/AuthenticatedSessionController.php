@@ -57,7 +57,7 @@ class AuthenticatedSessionController extends Controller
             if ($user == 'admin') {
                 return redirect()->route('backoffice.dashboard');
             } elseif ($user == 'employer') {
-                return redirect()->route('employer.profile');
+                return redirect()->route('employer.index');
             } elseif ($user == 'mahasiswa') {
                 return redirect()->route('jobseeker.index');
             }

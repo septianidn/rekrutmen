@@ -153,7 +153,7 @@
                         <div class="section-title">
                             <span class="wow fadeInDown" data-wow-delay=".2s">GETTING STARTED TO WORK</span>
                             <h2 class="wow fadeInUp" data-wow-delay=".4s">
-                                Don’t just find. Be found. Put your CV in front of great
+                                Don't just find. Be found. Put your CV in front of great
                                 employers
                             </h2>
                             <p class="wow fadeInUp" data-wow-delay=".6s">
@@ -522,7 +522,7 @@
                         </div>
                         <div class="content-body">
                             <h4 class="title">
-                                <a href="blog-single.html">We’ve Weeded Through Hundreds Of Job Hunting</a>
+                                <a href="blog-single.html">We've Weeded Through Hundreds Of Job Hunting</a>
                             </h4>
                             <div class="meta-details">
                                 <ul>
@@ -553,159 +553,10 @@
 
 
 
-    {{-- TODO : LOGIN MODAL JOBSEEKER AND Employer --}}
-    <div class="modal fade form-modal" id="login" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog max-width-px-840 position-relative">
-            <button type="button"
-                class="circle-32 btn-reset bg-white pos-abs-tr mt-md-n6 mr-lg-n6 focus-reset z-index-supper"
-                data-dismiss="modal">
-                <i class="lni lni-close"></i>
-            </button>
-            <div class="login-modal-main">
-                <div class="row no-gutters">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="heading">
-                                <h3>Masuk Disini</h3>
-                                <p>
-                                    Log in to continue your account <br />
-                                    and explore new jobs.
-                                </p>
-                            </div>
-                            <div class="social-login">
-                                <ul>
-                                    <li>
-                                        <a class="linkedin" href="#"><i class="lni lni-linkedin-original"></i>
-                                            Log in with
-                                            LinkedIn</a>
-                                    </li>
-                                    <li>
-                                        <a class="google" href="#"><i class="lni lni-google"></i> Log in with
-                                            Google</a>
-                                    </li>
-                                    <li>
-                                        <a class="facebook" href="#"><i class="lni lni-facebook-original"></i>
-                                            Log in with
-                                            Facebook</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="or-devider">
-                                <span>Or</span>
-                            </div>
-                            <form action="{{ route('employer.login.store') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="email" class="label">E-mail</label>
-                                    <input type="email" class="form-control" placeholder="example@gmail.com"
-                                        id="email" name="email"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="label">Password</label>
-                                    <div class="position-relative">
-                                        <input type="password" class="form-control" id="password"
-                                            placeholder="Masukkan password" name="password"/>
-                                    </div>
-                                </div>
-                                <div class="form-group d-flex flex-wrap justify-content-between">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value
-                                            id="flexCheckDefault" />
-                                        <label class="form-check-label" for="flexCheckDefault">Remember
-                                            password</label>
-                                    </div>
-                                    <a href class="font-size-3 text-dodger line-height-reset">Lupa Password?</a>
-                                </div>
-                                <div class="form-group mb-8 button">
-                                    <button class="btn" type="submit">Masuk</button>
-                                </div>
-                                <p class="text-center create-new-account">
-                                    Don’t have an account? <a href="#">Create a free account</a>
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade form-modal" id="signup" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog max-width-px-840 position-relative">
-            <button type="button"
-                class="circle-32 btn-reset bg-white pos-abs-tr mt-md-n6 mr-lg-n6 focus-reset z-index-supper"
-                data-dismiss="modal">
-                <i class="lni lni-close"></i>
-            </button>
-            <div class="login-modal-main">
-                <div class="row no-gutters">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="heading">
-                                <h3>
-                                    Create a free Account <br />
-                                    Today
-                                </h3>
-                                <p>
-                                    Create your account to continue <br />
-                                    and explore new jobs.
-                                </p>
-                            </div>
-                            <div class="social-login">
-                                <ul>
-                                    <li>
-                                        <a class="linkedin" href="#"><i class="lni lni-linkedin-original"></i>
-                                            Import from
-                                            LinkedIn</a>
-                                    </li>
-                                    <li>
-                                        <a class="google" href="#"><i class="lni lni-google"></i> Import from
-                                            Google</a>
-                                    </li>
-                                    <li>
-                                        <a class="facebook" href="#"><i class="lni lni-facebook-original"></i>
-                                            Import from
-                                            Facebook</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="or-devider">
-                                <span>Or</span>
-                            </div>
-                            <form action="/">
-                                <div class="form-group">
-                                    <label for="email" class="label">E-mail</label>
-                                    <input type="email" class="form-control" placeholder="example@gmail.com" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="label">Password</label>
-                                    <div class="position-relative">
-                                        <input type="password" class="form-control" placeholder="Enter password" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="label">Confirm Password</label>
-                                    <div class="position-relative">
-                                        <input type="password" class="form-control" placeholder="Enter password" />
-                                    </div>
-                                </div>
-                                <div class="form-group d-flex flex-wrap justify-content-between">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value />
-                                        <label class="form-check-label" for="flexCheckDefault">Agree to the <a
-                                                href="#">Terms & Conditions</a></label>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-8 button">
-                                    <button class="btn">Sign Up</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Login & Signup Modals --}}
+    @guest
+        @include('partials.frontoffice._auth_modals')
+    @endguest
 
 </x-front-office-layout>
 

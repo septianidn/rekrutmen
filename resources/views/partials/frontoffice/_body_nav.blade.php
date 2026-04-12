@@ -31,7 +31,7 @@
                   <li class="nav-item">
                     <a href="#">Karir</a>
                     <ul class="sub-menu">
-                      <li><a href="#">Vacancy</a></li>
+                      <li><a href="@auth @if(auth()->user()->hasRole('employer')){{ route('employer.job.index') }}@elseif(auth()->user()->hasRole('mahasiswa')){{ route('jobseeker.jobs') }}@else{{ route('vacancy') }}@endif @else{{ route('vacancy') }}@endauth">Vacancy</a></li>
                       <li><a href="#">Test Call</a></li>
                       <li><a href="#">Article</a></li>
                     </ul>
@@ -100,7 +100,7 @@
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">{{ $notifCount }}</span>
                       @endif
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end p-0 shadow" style="width: 340px; max-height: 400px;" aria-labelledby="frontNotifDrop">
+                    <div class="dropdown-menu dropdown-menu-end p-0 shadow" style="width: min(340px, calc(100vw - 30px)); max-height: 400px;" aria-labelledby="frontNotifDrop">
                       <div class="d-flex justify-content-between align-items-center bg-primary text-white p-3">
                         <strong>Notifikasi ({{ $notifCount }})</strong>
                         @if($notifCount > 0)

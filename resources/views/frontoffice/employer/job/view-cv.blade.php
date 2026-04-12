@@ -1,5 +1,7 @@
 @extends('frontoffice.employer.index')
 @section('jobs', 'active')
+@section('page-title', 'CV Pelamar')
+@section('page-subtitle', 'Lihat CV pelamar secara lengkap.')
 @section('content')
 
 <div class="job-items">

@@ -1,5 +1,7 @@
 @extends('frontoffice.employer.index')
 @section('jobs', 'active')
+@section('page-title', 'Detail Lowongan')
+@section('page-subtitle', 'Informasi lengkap lowongan pekerjaan.')
 @section('content')
         <!-- Main Content Start -->
     <div class="resume">
@@ -126,6 +128,26 @@
                                 </ul>
                             </div>
                             <!-- End Single Section -->
+                            <!-- Start Recruitment Steps Section -->
+                            <div class="single-section">
+                                <h4>Tahap Seleksi</h4>
+                                @if($jobs->steps->isEmpty())
+                                    <p class="text-muted">Belum ada tahap seleksi yang diatur untuk lowongan ini.</p>
+                                @else
+                                    <ol class="ps-3">
+                                        @foreach($jobs->steps as $step)
+                                            <li class="mb-2">
+                                                <strong>{{ $step->proses->nama_proses ?? '-' }}</strong>
+                                                @if(!empty($step->deskripsi))
+                                                    <br>
+                                                    <span class="text-muted">{{ $step->deskripsi }}</span>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ol>
+                                @endif
+                            </div>
+                            <!-- End Recruitment Steps Section -->
                             <!-- Start Single Section -->
                             <div class="single-section exprerience">
                                 <h4>Work Exprerience</h4>

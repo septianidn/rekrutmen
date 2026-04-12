@@ -57,6 +57,8 @@ Route::get('/storage', function () {
 
 //Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
+Route::get('/vacancy', [LandingPageController::class, 'vacancy'])->name('vacancy');
+Route::post('/register', [AuthenticatedSessionControllerEmployer::class, 'register'])->name('register')->middleware('guest');
 
 // Notifications (all authenticated users)
 Route::middleware('auth')->group(function () {
@@ -71,7 +73,7 @@ Route::prefix('employer')->name('employer.')->group(function(){
         Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login.create');
         Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
         Route::post('/logout', [AuthenticatedSessionControllerEmployer::class, 'destroy'])->name('logout');
-       
+
     });
     
 Route::group(['middleware' => 'role:employer'], function () {
@@ -79,6 +81,7 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::post('/verifikasi', [EmployerController::class, 'store'])->name('verifikasi');
 
     Route::group(['middleware' => 'verified_employer'], function(){
+        Route::get('/index', [EmployerController::class, 'home'])->name('index');
         Route::get('/profile', [EmployerController::class, 'index'])->name('profile');
         Route::get('/profile/edit', [EmployerController::class, 'edit'])->name('profile.edit');
         Route::put('/profile/update', [EmployerController::class, 'update'])->name('profile.update');      
@@ -89,6 +92,8 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::resource('job', JobController::class);
         Route::get('/job/{job}/applicants', [ApplicationController::class, 'applicants'])->name('job.applicants');
         Route::patch('/application/{application}/status', [ApplicationController::class, 'updateStatus'])->name('application.update-status');
+        Route::get('/application/{application}/progress', [ApplicationController::class, 'progress'])->name('application.progress');
+        Route::post('/application/{application}/progress/{step}', [ApplicationController::class, 'updateProgress'])->name('application.progress.update');
         Route::get('/applicant/{jobseeker}/cv', [ApplicationController::class, 'viewCv'])->name('applicant.cv');
         Route::get('/applicant/{jobseeker}/cv-pdf', [ApplicationController::class, 'downloadCv'])->name('applicant.cv-pdf');
 
@@ -111,17 +116,18 @@ Route::group(['middleware' => 'role:employer'], function () {
 
 Route::prefix('jobseeker')->name('jobseeker.')->group(function(){
     Route::group(['middleware'=> 'role:mahasiswa'], function(){
-        Route::get('jobseeker/index', [JobseekerController::class, 'index'])->name('index');
-        Route::get('jobseeker/profile', [JobseekerController::class,'profile'])->name('profile');
-        Route::get('jobseeker/profile/edit', [JobseekerController::class, 'editProfile'])->name('profile.edit');
-        Route::put('jobseeker/profile/update', [JobseekerController::class, 'updateProfile'])->name('profile.update');
-        Route::get('jobseeker/profile/riwayat-pendidikan', RiwayatPendidikan::class)->name('profile.riwayat-pendidikan');
-        Route::get('jobseeker/jobs', [JobseekerController::class, 'joblist'])->name('jobs');
-        Route::post('jobseeker/jobs/{job}/apply', [JobseekerController::class, 'applyJob'])->name('jobs.apply');
-        Route::get('jobseeker/my-applications', [JobseekerController::class, 'myApplications'])->name('my-applications');
-        Route::get('jobseeker/cv-pdf', [JobseekerController::class, 'downloadCvPdf'])->name('cv-pdf');
-        Route::get('jobseeker/job-fair', [FrontJobFairController::class, 'studentIndex'])->name('job-fair.index');
-        Route::get('jobseeker/job-fair/{jobFair}', [FrontJobFairController::class, 'studentShow'])->name('job-fair.show');
+        Route::get('index', [JobseekerController::class, 'index'])->name('index');
+        Route::get('profile', [JobseekerController::class,'profile'])->name('profile');
+        Route::get('profile/edit', [JobseekerController::class, 'editProfile'])->name('profile.edit');
+        Route::put('profile/update', [JobseekerController::class, 'updateProfile'])->name('profile.update');
+        Route::get('profile/riwayat-pendidikan', RiwayatPendidikan::class)->name('profile.riwayat-pendidikan');
+        Route::get('jobs', [JobseekerController::class, 'joblist'])->name('jobs');
+        Route::post('jobs/{job}/apply', [JobseekerController::class, 'applyJob'])->name('jobs.apply');
+        Route::get('my-applications', [JobseekerController::class, 'myApplications'])->name('my-applications');
+        Route::get('my-applications/{application}/progress', [JobseekerController::class, 'applicationProgress'])->name('application.progress');
+        Route::get('cv-pdf', [JobseekerController::class, 'downloadCvPdf'])->name('cv-pdf');
+        Route::get('job-fair', [FrontJobFairController::class, 'studentIndex'])->name('job-fair.index');
+        Route::get('job-fair/{jobFair}', [FrontJobFairController::class, 'studentShow'])->name('job-fair.show');
     });
 });
 

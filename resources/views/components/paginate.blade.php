@@ -1,42 +1,34 @@
-@if ($paginator->hasPages())
-    <ul class="pagination center">
+<nav>
+    <ul class="pagination mb-0" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0;">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
-            <li class="disabled"><span>{{ __('Prev') }}</span></li>
+            <li class="page-item disabled">
+                <span class="page-link"><i class="lni lni-arrow-left"></i></span>
+            </li>
         @else
-            <li><i class="lni lni-arrow-left"></i><a href="{{ $paginator->previousPageUrl() }}" rel="prev">{{ __('Prev') }}</a></li>
+            <li class="page-item">
+                <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev"><i class="lni lni-arrow-left"></i></a>
+            </li>
         @endif
-        
-        <ul class="pagination-list">
-        
-        <li class="active"><a href="#">{{ $paginator->currentPage()}}</a></li>   
-       
-      
-       </ul>
-        
+
+        {{-- Pagination Elements --}}
+        @foreach ($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
+            @if ($page == $paginator->currentPage())
+                <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+            @else
+                <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+            @endif
+        @endforeach
+
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-            <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">{{ __('Next') }}</a></li>
+            <li class="page-item">
+                <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next"><i class="lni lni-arrow-right"></i></a>
+            </li>
         @else
-            <li class="disabled"><span>{{ __('Next') }}</span></li>
+            <li class="page-item disabled">
+                <span class="page-link"><i class="lni lni-arrow-right"></i></span>
+            </li>
         @endif
     </ul>
-@endif
-<!-- Pagination -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="pagination center">
-                            
-                            
-                            
-                                <li><a href="#"><i class="lni lni-arrow-left"></i></a></li>
-                                
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#"><i class="lni lni-arrow-right"></i></a></li>
-                            
-                        </div>
-                    </div>
-                </div>
-<!--/ End Pagination -->
+</nav>

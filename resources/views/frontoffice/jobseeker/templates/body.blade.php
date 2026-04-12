@@ -21,13 +21,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumbs-content">
-                        <h1 class="page-title">Resume</h1>
-                        <p>Business plan draws on a wide range of knowledge from different business<br> disciplines.
-                            Business draws on a wide range of different business .</p>
+                        <h1 class="page-title">@yield('page-title', 'Dashboard')</h1>
+                        <p>@yield('page-subtitle', 'Kelola profil dan lamaran Anda di Pusat Karir.')</p>
                     </div>
                     <ul class="breadcrumb-nav">
-                        <li><a href="index.html">Home</a></li>
-                        <li>Resume</li>
+                        <li><a href="{{ route('jobseeker.index') }}">Home</a></li>
+                        <li>@yield('page-title', 'Dashboard')</li>
                     </ul>
                 </div>
             </div>

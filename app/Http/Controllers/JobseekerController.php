@@ -7,6 +7,7 @@ use App\Http\Requests\JobseekerUpdateRequest;
 use App\Models\Application;
 use App\Models\Bahasa;
 use App\Models\Job;
+use App\Models\JobFair;
 use App\Models\Jobseeker;
 use App\Models\JobseekerType;
 use App\Models\Organisasi;
@@ -26,10 +27,62 @@ class JobseekerController extends Controller
 {
     public function index(Request $request)
     {
-        
-        $jobseekers = Jobseeker::all();
+        $user = Auth::user();
+        $jobseeker = $user->jobseeker;
 
-        return view('frontoffice.jobseeker.index', compact('jobseekers'));
+        // Profile completeness
+        // Mandatory items marked with (wajib)
+        $profileItems = [];
+        if ($jobseeker) {
+            $profileItems = [
+                ['label' => 'Nama Lengkap', 'filled' => $user->first_name && $user->first_name !== '-', 'required' => false],
+                ['label' => 'No. Telepon', 'filled' => (bool) $user->phone_number, 'required' => false],
+                ['label' => 'Alamat', 'filled' => (bool) $user->street_addr, 'required' => false],
+                ['label' => 'Jenis Kelamin', 'filled' => $jobseeker->jenis_kelamin && $jobseeker->jenis_kelamin !== '-', 'required' => false],
+                ['label' => 'Riwayat Pendidikan', 'filled' => $jobseeker->riwayatPendidikans()->exists(), 'required' => true],
+                ['label' => 'Bahasa', 'filled' => $jobseeker->bahasas()->exists(), 'required' => true],
+                ['label' => 'Riwayat Kerja', 'filled' => $jobseeker->riwayatKerjas()->exists(), 'required' => false],
+                ['label' => 'Organisasi', 'filled' => $jobseeker->organisasis()->exists(), 'required' => false],
+                ['label' => 'Prestasi', 'filled' => $jobseeker->prestasis()->exists(), 'required' => false],
+                ['label' => 'Pelatihan', 'filled' => $jobseeker->pelatihans()->exists(), 'required' => false],
+                ['label' => 'Rekomendasi', 'filled' => $jobseeker->rekomendasis()->exists(), 'required' => false],
+            ];
+        }
+        $profileTotal = count($profileItems);
+        $profileScore = collect($profileItems)->where('filled', true)->count();
+        $profilePercent = $profileTotal > 0 ? round(($profileScore / $profileTotal) * 100) : 0;
+        $mandatoryComplete = collect($profileItems)->where('required', true)->every('filled', true);
+
+        // Application stats
+        $stats = [
+            'total' => 0,
+            'pending' => 0,
+            'accepted' => 0,
+            'rejected' => 0,
+        ];
+        if ($jobseeker) {
+            $applications = Application::where('jobseeker_id', $jobseeker->id);
+            $stats['total'] = (clone $applications)->count();
+            $stats['pending'] = (clone $applications)->where('status', 'pending')->count();
+            $stats['accepted'] = (clone $applications)->where('status', 'accepted')->count();
+            $stats['rejected'] = (clone $applications)->where('status', 'rejected')->count();
+        }
+
+        // Latest jobs
+        $latestJobs = Job::with('employer')->latest()->take(6)->get();
+
+        // Applied job IDs (to show badge on latest jobs)
+        $appliedJobIds = [];
+        if ($jobseeker) {
+            $appliedJobIds = Application::where('jobseeker_id', $jobseeker->id)
+                ->pluck('job_id')
+                ->toArray();
+        }
+
+        return view('frontoffice.jobseeker.index', compact(
+            'user', 'jobseeker', 'profilePercent', 'profileScore', 'profileTotal',
+            'profileItems', 'mandatoryComplete', 'stats', 'latestJobs', 'appliedJobIds'
+        ));
     }
 
     public function create(Request $request): Response
@@ -206,15 +259,25 @@ class JobseekerController extends Controller
         $user = Auth::user();
         $jobseeker = $user->jobseeker;
 
+        // Profile must exist
         if (!$jobseeker) {
-            $jobseeker = Jobseeker::create([
-                'user_id' => $user->id,
-                'first_name' => $user->first_name ?? '-',
-                'last_name' => $user->last_name ?? '-',
-                'jenis_kelamin' => '-',
-                'ttl' => now()->toDateString(),
-                'jobseeker_type_id' => 1,
-            ]);
+            return back()->with('error', 'Anda harus melengkapi profil terlebih dahulu sebelum melamar.')
+                         ->with('redirect_profile', route('jobseeker.profile.edit'));
+        }
+
+        // Mandatory: riwayat pendidikan & bahasa
+        $missing = [];
+        if (!$jobseeker->riwayatPendidikans()->exists()) {
+            $missing[] = 'Riwayat Pendidikan';
+        }
+        if (!$jobseeker->bahasas()->exists()) {
+            $missing[] = 'Bahasa';
+        }
+
+        if (!empty($missing)) {
+            $fields = implode(' dan ', $missing);
+            return back()->with('error', "Anda harus melengkapi {$fields} di profil sebelum melamar pekerjaan.")
+                         ->with('redirect_profile', route('jobseeker.profile.edit'));
         }
 
         $existing = Application::where('jobseeker_id', $jobseeker->id)
@@ -276,11 +339,28 @@ class JobseekerController extends Controller
 
         if ($jobseeker) {
             $applications = Application::where('jobseeker_id', $jobseeker->id)
-                ->with('job.employer')
+                ->with(['job.employer', 'job.steps.proses', 'progress'])
                 ->latest()
                 ->get();
         }
 
         return view('frontoffice.jobseeker.my-applications', compact('applications'));
+    }
+
+    public function applicationProgress(Application $application)
+    {
+        $jobseeker = Auth::user()->jobseeker;
+
+        if (!$jobseeker || $application->jobseeker_id !== $jobseeker->id) {
+            abort(403);
+        }
+
+        $application->load(['job.employer', 'job.steps.proses', 'progress']);
+        $progressMap = $application->progressByStep();
+        $currentStep = $application->currentStep();
+
+        return view('frontoffice.jobseeker.application-progress', compact(
+            'application', 'progressMap', 'currentStep'
+        ));
     }
 }

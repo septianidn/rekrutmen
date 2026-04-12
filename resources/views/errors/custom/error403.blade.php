@@ -119,7 +119,7 @@
                                     <li class="nav-item">
                                         <a href="#">Karir</a>
                                         <ul class="sub-menu">
-                                            <li><a href="#">Vacancy</a></li>
+                                            <li><a href="@auth @if(auth()->user()->hasRole('employer')){{ route('employer.job.index') }}@elseif(auth()->user()->hasRole('mahasiswa')){{ route('jobseeker.jobs') }}@else{{ route('vacancy') }}@endif @else{{ route('vacancy') }}@endauth">Vacancy</a></li>
                                             <li><a href="#">Test Call</a></li>
                                             <li><a href="#">Article</a></li>
                                         </ul>

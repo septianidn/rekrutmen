@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth\EmployerAuth;
 
+use App\Models\User;
+use App\Models\Jobseeker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\EmployerAuth\LoginEmployerRequest;
@@ -62,7 +65,43 @@ class AuthenticatedSessionController extends Controller
     }
 
 
-    public function destroy(Request $request) 
+    public function register(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:employer,mahasiswa',
+            'jobseeker_type_id' => 'required_if:role,mahasiswa|nullable|exists:jobseeker_type,id',
+        ]);
+
+        $isJobseeker = $request->role === 'mahasiswa';
+
+        $user = User::create([
+            'first_name' => '-',
+            'last_name' => '-',
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'user_type' => $isJobseeker ? 'mahasiswa' : 'employer',
+            'status' => 'active',
+        ]);
+
+        $user->assignRole($isJobseeker ? 'mahasiswa' : 'employer');
+
+        if ($isJobseeker) {
+            Jobseeker::create([
+                'user_id' => $user->id,
+                'first_name' => '-',
+                'last_name' => '-',
+                'jobseeker_type_id' => $request->jobseeker_type_id,
+            ]);
+        }
+
+        Auth::login($user);
+
+        return redirect()->route($isJobseeker ? 'jobseeker.index' : 'employer.cek_verifikasi');
+    }
+
+    public function destroy(Request $request)
     {
 
         Auth::logout();

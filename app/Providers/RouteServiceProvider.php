@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public function user_check(){
 
     }
-    public const HOME = '/employer/profile';
+    public const HOME = '/employer/home';
   
 
 

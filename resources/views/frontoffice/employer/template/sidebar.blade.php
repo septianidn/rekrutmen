@@ -1,6 +1,7 @@
 <div class="dashbord-sidebar">
         <ul>
             <li class="heading">Manage Account</li>
+            <li><a class="@yield('home')" href="{{route('employer.index')}}"><i class="lni lni-home"></i>Home</a></li>
             <li><a class="@yield('profile')" href="{{route('employer.profile')}}"><i class="lni lni-clipboard"></i>Profile</a>
             </li>
             <li><a class="@yield('jobs')" href="{{route('employer.job.index')}}"><i class="lni lni-bookmark"></i> Jobs</a></li>
