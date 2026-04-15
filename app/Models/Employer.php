@@ -24,7 +24,11 @@ class Employer extends Model
         'industriType_id',
         'alamat_perusahaan',
         'telp_perusahaan',
-        'website'
+        'website',
+        'verification_status',
+        'verified_at',
+        'verification_note',
+        'verified_by',
     ];
 
     /**
@@ -36,7 +40,29 @@ class Employer extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'industriType_id' => 'integer',
+        'verified_at' => 'datetime',
+        'verified_by' => 'integer',
     ];
+
+    public function isVerified(): bool
+    {
+        return $this->verification_status === 'approved';
+    }
+
+    public function isPending(): bool
+    {
+        return $this->verification_status === 'pending';
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->verification_status === 'rejected';
+    }
+
+    public function verifier(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'verified_by');
+    }
 
     public function industriTypes(): HasMany
     {
@@ -55,6 +81,6 @@ class Employer extends Model
 
     public function industriType(): BelongsTo
     {
-        return $this->belongsTo(IndustriType::class);
+        return $this->belongsTo(IndustriType::class, 'industriType_id');
     }
 }

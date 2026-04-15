@@ -105,3 +105,31 @@ php artisan queue:work
 - Livewire components are under `app/Livewire/` and `resources/views/` Blade counterparts.
 - PDF generation uses both dompdf and snappy (wkhtmltopdf) — check which one a specific feature uses before modifying.
 - Indonesian language is used throughout (`Bahasa`, `Prodi`, `Fakultas`, `Jenjang` are Indonesian academic terms).
+
+## Known Flaws (Audit — 2026-04-15)
+
+Open issues in business flow and implementation. Cited with file:line at time of audit; verify before acting.
+
+### Critical
+
+1. ~~**No employer verification gate**~~ — **Fixed 2026-04-15.** Employer now submits data at `/employer/verifikasi`, gets `verification_status='pending'`, and is blocked by `CompleteProfile` middleware until an admin approves via `/backoffic3/employer-verification`. Rejection captures a note and notifies the employer via `NotificationService`. See migration `2026_04_15_100000_add_verification_to_employer_table.php`, `app/Http/Controllers/BackOffice/EmployerVerificationController.php`.
+2. ~~**Application pipeline skips steps**~~ — **Fixed 2026-04-15.** `Application::isStepEditable()` + `isFinalized()` enforce that only the current (first unpassed) step is editable and only while `status='pending'`. `ApplicationController::updateProgress` rejects out-of-order or post-finalization updates with an error flash. After each save, `syncStatusFromProgress()` auto-sets `accepted` (all steps lulus) or `rejected` (any step failed). The progress view hides the form on locked steps with a reason message.
+3. **Job deletion unprotected for in-flight applications** — `app/Http/Controllers/JobController.php:93-99`. No soft delete, no check for open applications. Orphans hiring history.
+4. **Job fair registration ignores dates & capacity** — `app/Http/Controllers/FrontOffice/JobFairController.php:53-91, 110-111`. Only filters `status='active'`; no `tanggal_mulai <= now() <= tanggal_selesai` check, no capacity limit. Uses raw `DB::table()->insert()` (lines 69-76) instead of the model — loses timestamps/casts.
+
+### Important
+
+5. **Membership & Pembayaran are scaffolds** — routes commented out at `routes/web.php:300-302`. Controllers exist but no paywall on job posting. Either wire it up or drop from the ERD so scope is honest.
+6. **Academic data not normalized** — `RiwayatPendidikan.jenjang` is free-text (migration `2024_01_08_150458`). `Prodi` model exists (`app/Models/Prodi.php:13-14`, PK `kode_prodi`) but is **not** FK'd from `RiwayatPendidikan`. Blocks "alumni per prodi" reporting — core value for a pusat karir.
+7. **Profile completion not enforced before applying** — `app/Http/Controllers/Auth/EmployerAuth/AuthenticatedSessionController.php:68-101` creates placeholder Jobseeker rows (`'-'` for name, etc.). `applyJob()` re-checks education/bahasa at `ApplicationController` (~lines 270-281). Move the gate to first login.
+8. **Notifications half-wired** — `NotificationService` fires on application events, but bell UI, unread count, and email channel are thin/missing.
+
+### Nice to have
+
+- **N+1 on employer dashboard** — `app/Http/Controllers/EmployerController.php:26-47` runs 4 separate queries per job set. Use `withCount` / eager loading.
+- **`JobStoreRequest::authorize()` returns `true`** — move `employer_id` ownership check into the FormRequest instead of trusting the controller.
+- **Jobseeker index lacks eager loading** — `app/Http/Controllers/JobseekerController.php:72-79` fetches applied job IDs separately and does not eager-load `employer`.
+
+### Suggested sidang-defense priorities
+
+Focus on ~~(1) employer verification~~, ~~(2) enforced pipeline state machine~~, (6) normalized academic fields — they map directly to the project's stated purpose and each is a small, demonstrable change.

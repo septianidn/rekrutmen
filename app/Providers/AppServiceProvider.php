@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer([
             'partials.frontoffice._body_nav',
+            'partials.dashboard._body_header',
             'frontoffice.employer.template.sidebar',
             'frontoffice.jobseeker.templates.body',
         ], function ($view) {

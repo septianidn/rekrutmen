@@ -22,6 +22,7 @@ use App\Http\Controllers\Security\PermissionController;
 use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\GrupKontenController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
+use App\Http\Controllers\BackOffice\EmployerVerificationController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
 use App\Http\Controllers\FrontOffice\JobFairController as FrontJobFairController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
@@ -179,6 +180,11 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
         Route::resource('/job-fair', JobFairController::class);
         Route::patch('/job-fair/{job_fair}/participant/{pivot}', [JobFairController::class, 'updateParticipant'])->name('job-fair.participant.update');
+
+        Route::get('/employer-verification', [EmployerVerificationController::class, 'index'])->name('employer-verification.index');
+        Route::get('/employer-verification/{employer}', [EmployerVerificationController::class, 'show'])->name('employer-verification.show');
+        Route::post('/employer-verification/{employer}/approve', [EmployerVerificationController::class, 'approve'])->name('employer-verification.approve');
+        Route::post('/employer-verification/{employer}/reject', [EmployerVerificationController::class, 'reject'])->name('employer-verification.reject');
 
         Route::group(['prefix' => 'konten'], function () {
             Route::resource('/grup-konten', GrupKontenController::class);

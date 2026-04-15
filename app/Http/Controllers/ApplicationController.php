@@ -119,6 +119,10 @@ class ApplicationController extends Controller
 
     /**
      * Create/update a Progress entry for a specific step.
+     *
+     * Enforces the pipeline state machine:
+     *   - application must not be finalized (status still pending)
+     *   - only the current (next unpassed) step may be updated
      */
     public function updateProgress(Request $request, Application $application, Step $step)
     {
@@ -130,6 +134,16 @@ class ApplicationController extends Controller
 
         if ($step->job_id !== $application->job_id) {
             abort(404);
+        }
+
+        $application->load('job.steps');
+
+        if ($application->isFinalized()) {
+            return back()->with('error', 'Lamaran sudah final (' . $application->status . '). Tahap tidak dapat diubah.');
+        }
+
+        if (!$application->isStepEditable($step)) {
+            return back()->with('error', 'Tahap seleksi harus diisi berurutan. Selesaikan tahap sebelumnya terlebih dahulu.');
         }
 
         $data = $request->validate([
@@ -148,19 +162,41 @@ class ApplicationController extends Controller
             ]
         );
 
-        // Notify jobseeker
+        $application->refresh()->load('job.steps', 'progress');
+        $application->syncStatusFromProgress();
+        $application->refresh();
+
         $application->load('jobseeker.user', 'job');
         $studentUser = $application->jobseeker->user ?? null;
         if ($studentUser) {
             $prosesName = $step->proses->nama_proses ?? 'Tahap seleksi';
             $status = $data['lulus'] ? 'lulus' : 'tidak lulus';
-            NotificationService::send(
-                $studentUser->id,
-                'application_progress',
-                'Update Tahap Seleksi',
-                "Anda {$status} pada tahap {$prosesName} untuk posisi {$application->job->nama_pekerjaan}.",
-                route('jobseeker.my-applications')
-            );
+
+            if ($application->status === 'accepted') {
+                NotificationService::send(
+                    $studentUser->id,
+                    'application_accepted',
+                    'Selamat! Lamaran Diterima',
+                    "Anda telah lulus seluruh tahap seleksi untuk posisi {$application->job->nama_pekerjaan}.",
+                    route('jobseeker.my-applications')
+                );
+            } elseif ($application->status === 'rejected') {
+                NotificationService::send(
+                    $studentUser->id,
+                    'application_rejected',
+                    'Lamaran Ditolak',
+                    "Anda tidak lulus pada tahap {$prosesName} untuk posisi {$application->job->nama_pekerjaan}.",
+                    route('jobseeker.my-applications')
+                );
+            } else {
+                NotificationService::send(
+                    $studentUser->id,
+                    'application_progress',
+                    'Update Tahap Seleksi',
+                    "Anda {$status} pada tahap {$prosesName} untuk posisi {$application->job->nama_pekerjaan}.",
+                    route('jobseeker.my-applications')
+                );
+            }
         }
 
         return back()->with('success', 'Progress tahap berhasil diperbarui.');

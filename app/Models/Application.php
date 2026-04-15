@@ -78,4 +78,58 @@ class Application extends Model
         // All steps passed
         return null;
     }
+
+    public function isFinalized(): bool
+    {
+        return in_array($this->status, ['accepted', 'rejected'], true);
+    }
+
+    /**
+     * A step is editable only when it is the current step AND
+     * the application has not been finalized yet.
+     */
+    public function isStepEditable(Step $step): bool
+    {
+        if ($this->isFinalized()) {
+            return false;
+        }
+
+        $current = $this->currentStep();
+        return $current && $current->id === $step->id;
+    }
+
+    /**
+     * Derive the application status from current progress entries.
+     *   - any step failed  -> rejected
+     *   - all steps passed -> accepted
+     *   - otherwise        -> pending
+     */
+    public function syncStatusFromProgress(): void
+    {
+        $steps = $this->job?->steps ?? collect();
+        if ($steps->isEmpty()) {
+            return;
+        }
+
+        $progressMap = $this->progressByStep();
+        $anyFailed = false;
+        $allPassed = true;
+
+        foreach ($steps as $step) {
+            $p = $progressMap->get($step->id);
+            if ($p && !$p->lulus) {
+                $anyFailed = true;
+                break;
+            }
+            if (!$p || !$p->lulus) {
+                $allPassed = false;
+            }
+        }
+
+        $newStatus = $anyFailed ? 'rejected' : ($allPassed ? 'accepted' : 'pending');
+
+        if ($this->status !== $newStatus) {
+            $this->update(['status' => $newStatus]);
+        }
+    }
 }

@@ -97,6 +97,14 @@
     </li>
     {{-- END USERS MENU SECTION --}}
 
+    {{-- START REKRUTMEN MENU SECTION --}}
+    <li class="nav-item static-item">
+        <a class="nav-link static-item disabled" href="#" tabindex="-1">
+            <span class="default-icon">Rekrutmen</span>
+            <span class="mini-icon">-</span>
+        </a>
+    </li>
+
     {{-- START JOB FAIR SECTION --}}
     <li class="nav-item">
         <a class="nav-link {{ activeRoute(route('backoffice.job-fair.index')) }}" aria-current="page"
@@ -111,6 +119,28 @@
         </a>
     </li>
     {{-- END JOB FAIR SECTION --}}
+
+    {{-- START EMPLOYER VERIFICATION SECTION --}}
+    @php
+        $pendingEmployers = \App\Models\Employer::where('verification_status', 'pending')->count();
+    @endphp
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.employer-verification.index')) }}" aria-current="page"
+            href="{{ route('backoffice.employer-verification.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M18.5 2h-13A3.5 3.5 0 0 0 2 5.5v13A3.5 3.5 0 0 0 5.5 22h13a3.5 3.5 0 0 0 3.5-3.5v-13A3.5 3.5 0 0 0 18.5 2Z" fill="currentColor"/>
+                    <path d="m10.58 15.42-2.83-2.83a.996.996 0 1 1 1.41-1.41l2.12 2.12 4.95-4.95a.996.996 0 1 1 1.41 1.41l-5.66 5.66a.996.996 0 0 1-1.4 0Z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Verifikasi Employer</span>
+            @if ($pendingEmployers > 0)
+                <span class="badge bg-warning ms-auto">{{ $pendingEmployers }}</span>
+            @endif
+        </a>
+    </li>
+    {{-- END EMPLOYER VERIFICATION SECTION --}}
+    {{-- END REKRUTMEN MENU SECTION --}}
 
     <li>
         <hr class="hr-horizontal">

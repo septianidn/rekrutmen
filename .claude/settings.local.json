@@ -18,7 +18,9 @@
       "Bash(xxd \"/c/Septian/Sistem Informasi/Tugas Akhir/Backup/pusatkarir-v1/resources/views/frontoffice/landing-page.blade.php\")",
       "Bash(python3 -c ':*)",
       "Bash(php -r ':*)",
-      "Bash(pwd -P)"
+      "Bash(pwd -P)",
+      "Bash(php docs/generate_staruml_mdj.php)",
+      "Bash(php docs/generate_drawio.php)"
     ]
   }
 }

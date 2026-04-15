@@ -1,0 +1,3872 @@
+{
+    "_type": "Project",
+    "_id": "AAA-project",
+    "name": "PusatKarir",
+    "author": "Generated from Laravel migrations",
+    "ownedElements": [
+        {
+            "_type": "UMLModel",
+            "_id": "AAA-model",
+            "_parent": {
+                "$ref": "AAA-project"
+            },
+            "name": "Model",
+            "ownedElements": [
+                {
+                    "_type": "ERDDataModel",
+                    "_id": "AAA-datamodel",
+                    "_parent": {
+                        "$ref": "AAA-model"
+                    },
+                    "name": "PusatKarir Schema",
+                    "ownedElements": [
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-users",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "users",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-id",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-first_name",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "first_name",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-last_name",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "last_name",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-email",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "email",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": true,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-phone_number",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "phone_number",
+                                    "type": "VARCHAR",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-street_addr",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "street_addr",
+                                    "type": "VARCHAR",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-email_verified_at",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "email_verified_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-user_type",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "user_type",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-password",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "password",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-status",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "status",
+                                    "type": "ENUM",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-profile_image",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "profile_image",
+                                    "type": "VARCHAR",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-remember_token",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "remember_token",
+                                    "type": "VARCHAR",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 100
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-users-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-users"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-social_media",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "social_media",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-social_media-id",
+                                    "_parent": {
+                                        "$ref": "ent-social_media"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-social_media-platform_social_media",
+                                    "_parent": {
+                                        "$ref": "ent-social_media"
+                                    },
+                                    "name": "platform_social_media",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-social_media-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-social_media"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-social_media-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-social_media"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-user_social_media",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "user_social_media",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-user_social_media-id",
+                                    "_parent": {
+                                        "$ref": "ent-user_social_media"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-user_social_media-user_id",
+                                    "_parent": {
+                                        "$ref": "ent-user_social_media"
+                                    },
+                                    "name": "user_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-users-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-user_social_media-social_media_id",
+                                    "_parent": {
+                                        "$ref": "ent-user_social_media"
+                                    },
+                                    "name": "social_media_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-social_media-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-user_social_media-social_media_name",
+                                    "_parent": {
+                                        "$ref": "ent-user_social_media"
+                                    },
+                                    "name": "social_media_name",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-user_social_media-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-user_social_media"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-user_social_media-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-user_social_media"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-notification",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "notification",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-id",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-user_id",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "user_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-users-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-type",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "type",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-title",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "title",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 150
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-message",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "message",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-link",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "link",
+                                    "type": "VARCHAR",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-is_read",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "is_read",
+                                    "type": "BOOLEAN",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-notification-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-notification"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-industri_type",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "industri_type",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-industri_type-id",
+                                    "_parent": {
+                                        "$ref": "ent-industri_type"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-industri_type-nama_industri",
+                                    "_parent": {
+                                        "$ref": "ent-industri_type"
+                                    },
+                                    "name": "nama_industri",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-industri_type-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-industri_type"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-industri_type-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-industri_type"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-employer",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "employer",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-id",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-user_id",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "user_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-users-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-industriType_id",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "industriType_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-industri_type-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-nama_perusahaan",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "nama_perusahaan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-deskripsi_perusahaan",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "deskripsi_perusahaan",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-alamat_perusahaan",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "alamat_perusahaan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-telp_perusahaan",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "telp_perusahaan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-website",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "website",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-employer-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-employer"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-posisi",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "posisi",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-posisi-id",
+                                    "_parent": {
+                                        "$ref": "ent-posisi"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-posisi-nama_posisi",
+                                    "_parent": {
+                                        "$ref": "ent-posisi"
+                                    },
+                                    "name": "nama_posisi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 25
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-posisi-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-posisi"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-posisi-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-posisi"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-job",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-id",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-employer_id",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "employer_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-employer-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-nama_pekerjaan",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "nama_pekerjaan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-posisi",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "posisi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-requirement",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "requirement",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-deskripsi_pekerjaan",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "deskripsi_pekerjaan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-alamat",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "alamat",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-ekspektasi_gaji",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "ekspektasi_gaji",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-worktime",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "worktime",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-application_deadline",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "application_deadline",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-job"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-_kualifikasi_job",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "_kualifikasi_job",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-_kualifikasi_job-id",
+                                    "_parent": {
+                                        "$ref": "ent-_kualifikasi_job"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-_kualifikasi_job-job_id",
+                                    "_parent": {
+                                        "$ref": "ent-_kualifikasi_job"
+                                    },
+                                    "name": "job_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-job-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-_kualifikasi_job-kualifikasi",
+                                    "_parent": {
+                                        "$ref": "ent-_kualifikasi_job"
+                                    },
+                                    "name": "kualifikasi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-_kualifikasi_job-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-_kualifikasi_job"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-_kualifikasi_job-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-_kualifikasi_job"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-tugas_dan_tanggung_jawab",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "tugas_dan_tanggung_jawab",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-tugas_dan_tanggung_jawab-id",
+                                    "_parent": {
+                                        "$ref": "ent-tugas_dan_tanggung_jawab"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-tugas_dan_tanggung_jawab-job_id",
+                                    "_parent": {
+                                        "$ref": "ent-tugas_dan_tanggung_jawab"
+                                    },
+                                    "name": "job_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-job-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-tugas_dan_tanggung_jawab-tugas",
+                                    "_parent": {
+                                        "$ref": "ent-tugas_dan_tanggung_jawab"
+                                    },
+                                    "name": "tugas",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 255
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-tugas_dan_tanggung_jawab-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-tugas_dan_tanggung_jawab"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-tugas_dan_tanggung_jawab-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-tugas_dan_tanggung_jawab"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-proses",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "proses",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-proses-id",
+                                    "_parent": {
+                                        "$ref": "ent-proses"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-proses-nama_proses",
+                                    "_parent": {
+                                        "$ref": "ent-proses"
+                                    },
+                                    "name": "nama_proses",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-proses-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-proses"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-proses-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-proses"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-step",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "step",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-id",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-job_id",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "job_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-job-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-proses_id",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "proses_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-proses-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-urutan",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "urutan",
+                                    "type": "INTEGER",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-deskripsi",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "deskripsi",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-step-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-step"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-jobseeker_type",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "jobseeker_type",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker_type-id",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker_type"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker_type-jobseekerType",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker_type"
+                                    },
+                                    "name": "jobseekerType",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 15
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker_type-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker_type"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker_type-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker_type"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-jobseeker",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "jobseeker",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-id",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-user_id",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "user_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-users-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-jobseeker_type_id",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "jobseeker_type_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker_type-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-first_name",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "first_name",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 20
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-last_name",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "last_name",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 20
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-jenis_kelamin",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "jenis_kelamin",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 15
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-ttl",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "ttl",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-jobseeker-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-jobseeker"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-application",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "application",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-id",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-job_id",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "job_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-job-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-tanggal_apply",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "tanggal_apply",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-status",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "status",
+                                    "type": "ENUM",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-application-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-application"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-progress",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "progress",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-id",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-application_id",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "application_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-application-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-step_id",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "step_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-step-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-catatan",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "catatan",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-lulus",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "lulus",
+                                    "type": "BOOLEAN",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-progress-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-progress"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-organisasi",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "organisasi",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-id",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-nama_organisasi",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "nama_organisasi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 30
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-jabatan",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "jabatan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 20
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-keterangan",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "keterangan",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-organisasi-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-organisasi"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-bahasa",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "bahasa",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-bahasa-id",
+                                    "_parent": {
+                                        "$ref": "ent-bahasa"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-bahasa-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-bahasa"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-bahasa-bahasa",
+                                    "_parent": {
+                                        "$ref": "ent-bahasa"
+                                    },
+                                    "name": "bahasa",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 20
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-bahasa-keterangan",
+                                    "_parent": {
+                                        "$ref": "ent-bahasa"
+                                    },
+                                    "name": "keterangan",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-bahasa-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-bahasa"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-bahasa-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-bahasa"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-riwayat_kerja",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "riwayat_kerja",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_kerja-id",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_kerja"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_kerja-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_kerja"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_kerja-keterangan",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_kerja"
+                                    },
+                                    "name": "keterangan",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_kerja-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_kerja"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_kerja-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_kerja"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-prestasi",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "prestasi",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-id",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-nama_penghargaan",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "nama_penghargaan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 40
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-tahun",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "tahun",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 4
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-dokumen",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "dokumen",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 250
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-prestasi-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-prestasi"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-riwayat_pendidikan",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "riwayat_pendidikan",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-id",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-jenjang",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "jenjang",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 5
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-instansi",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "instansi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-indeks_nilai",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "indeks_nilai",
+                                    "type": "VARCHAR",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 4
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-keterangan",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "keterangan",
+                                    "type": "TEXT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-riwayat_pendidikan-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-riwayat_pendidikan"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-pelatihan",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "pelatihan",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-id",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-nama_pelatihan",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "nama_pelatihan",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-tahun",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "tahun",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 4
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-sertifikat",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "sertifikat",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 250
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pelatihan-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-pelatihan"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-rekomendasi",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "rekomendasi",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-id",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-jobseeker_id",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "jobseeker_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-jobseeker-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-nama_perekomendasi",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "nama_perekomendasi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 30
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-posisi",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "posisi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 20
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-no_hp",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "no_hp",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 14
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-alamat",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "alamat",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-rekomendasi-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-rekomendasi"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-membership",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "membership",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-membership-id",
+                                    "_parent": {
+                                        "$ref": "ent-membership"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-membership-nama_membership",
+                                    "_parent": {
+                                        "$ref": "ent-membership"
+                                    },
+                                    "name": "nama_membership",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-membership-durasi",
+                                    "_parent": {
+                                        "$ref": "ent-membership"
+                                    },
+                                    "name": "durasi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 25
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-membership-harga",
+                                    "_parent": {
+                                        "$ref": "ent-membership"
+                                    },
+                                    "name": "harga",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 50
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-membership-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-membership"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-membership-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-membership"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-account",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "account",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-account-nomor_rekening",
+                                    "_parent": {
+                                        "$ref": "ent-account"
+                                    },
+                                    "name": "nomor_rekening",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-account-nama_bank",
+                                    "_parent": {
+                                        "$ref": "ent-account"
+                                    },
+                                    "name": "nama_bank",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 25
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-account-atas_nama",
+                                    "_parent": {
+                                        "$ref": "ent-account"
+                                    },
+                                    "name": "atas_nama",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 35
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-account-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-account"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-account-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-account"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-pembayaran",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "pembayaran",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-id",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-user_id",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "user_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-users-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-membership_id",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "membership_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-membership-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-nomor_rekening",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "nomor_rekening",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-account-nomor_rekening"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-tgl_mulai",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "tgl_mulai",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-tgl_berakhir",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "tgl_berakhir",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-pembayaran-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-pembayaran"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-job_fair",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job_fair",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-id",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-nama",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "nama",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 100
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-deskripsi",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "deskripsi",
+                                    "type": "TEXT",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-lokasi",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "lokasi",
+                                    "type": "VARCHAR",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false,
+                                    "length": 100
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-tanggal_mulai",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "tanggal_mulai",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-tanggal_selesai",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "tanggal_selesai",
+                                    "type": "DATE",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-status",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "status",
+                                    "type": "ENUM",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDEntity",
+                            "_id": "ent-job_fair_job",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job_fair_job",
+                            "columns": [
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-id",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": true,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-job_fair_id",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "job_fair_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-job_fair-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-job_id",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "job_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-job-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-employer_id",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "employer_id",
+                                    "type": "BIGINT",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": true,
+                                    "unique": false,
+                                    "referenceTo": {
+                                        "$ref": "col-employer-id"
+                                    }
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-status",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "status",
+                                    "type": "ENUM",
+                                    "nullable": false,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-created_at",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "created_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                },
+                                {
+                                    "_type": "ERDColumn",
+                                    "_id": "col-job_fair_job-updated_at",
+                                    "_parent": {
+                                        "$ref": "ent-job_fair_job"
+                                    },
+                                    "name": "updated_at",
+                                    "type": "TIMESTAMP",
+                                    "nullable": true,
+                                    "primaryKey": false,
+                                    "foreignKey": false,
+                                    "unique": false
+                                }
+                            ]
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-1",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "user_social_media_user_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-1-e1",
+                                "_parent": {
+                                    "$ref": "rel-1"
+                                },
+                                "reference": {
+                                    "$ref": "ent-user_social_media"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-1-e2",
+                                "_parent": {
+                                    "$ref": "rel-1"
+                                },
+                                "reference": {
+                                    "$ref": "ent-users"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-2",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "user_social_media_social_media_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-2-e1",
+                                "_parent": {
+                                    "$ref": "rel-2"
+                                },
+                                "reference": {
+                                    "$ref": "ent-user_social_media"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-2-e2",
+                                "_parent": {
+                                    "$ref": "rel-2"
+                                },
+                                "reference": {
+                                    "$ref": "ent-social_media"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-3",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "notification_user_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-3-e1",
+                                "_parent": {
+                                    "$ref": "rel-3"
+                                },
+                                "reference": {
+                                    "$ref": "ent-notification"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-3-e2",
+                                "_parent": {
+                                    "$ref": "rel-3"
+                                },
+                                "reference": {
+                                    "$ref": "ent-users"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-4",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "employer_user_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-4-e1",
+                                "_parent": {
+                                    "$ref": "rel-4"
+                                },
+                                "reference": {
+                                    "$ref": "ent-employer"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-4-e2",
+                                "_parent": {
+                                    "$ref": "rel-4"
+                                },
+                                "reference": {
+                                    "$ref": "ent-users"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-5",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "employer_industriType_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-5-e1",
+                                "_parent": {
+                                    "$ref": "rel-5"
+                                },
+                                "reference": {
+                                    "$ref": "ent-employer"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-5-e2",
+                                "_parent": {
+                                    "$ref": "rel-5"
+                                },
+                                "reference": {
+                                    "$ref": "ent-industri_type"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-6",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job_employer_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-6-e1",
+                                "_parent": {
+                                    "$ref": "rel-6"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-6-e2",
+                                "_parent": {
+                                    "$ref": "rel-6"
+                                },
+                                "reference": {
+                                    "$ref": "ent-employer"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-7",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "_kualifikasi_job_job_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-7-e1",
+                                "_parent": {
+                                    "$ref": "rel-7"
+                                },
+                                "reference": {
+                                    "$ref": "ent-_kualifikasi_job"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-7-e2",
+                                "_parent": {
+                                    "$ref": "rel-7"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-8",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "tugas_dan_tanggung_jawab_job_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-8-e1",
+                                "_parent": {
+                                    "$ref": "rel-8"
+                                },
+                                "reference": {
+                                    "$ref": "ent-tugas_dan_tanggung_jawab"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-8-e2",
+                                "_parent": {
+                                    "$ref": "rel-8"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-9",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "step_job_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-9-e1",
+                                "_parent": {
+                                    "$ref": "rel-9"
+                                },
+                                "reference": {
+                                    "$ref": "ent-step"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-9-e2",
+                                "_parent": {
+                                    "$ref": "rel-9"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-10",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "step_proses_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-10-e1",
+                                "_parent": {
+                                    "$ref": "rel-10"
+                                },
+                                "reference": {
+                                    "$ref": "ent-step"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-10-e2",
+                                "_parent": {
+                                    "$ref": "rel-10"
+                                },
+                                "reference": {
+                                    "$ref": "ent-proses"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-11",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "jobseeker_user_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-11-e1",
+                                "_parent": {
+                                    "$ref": "rel-11"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-11-e2",
+                                "_parent": {
+                                    "$ref": "rel-11"
+                                },
+                                "reference": {
+                                    "$ref": "ent-users"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-12",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "jobseeker_jobseeker_type_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-12-e1",
+                                "_parent": {
+                                    "$ref": "rel-12"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-12-e2",
+                                "_parent": {
+                                    "$ref": "rel-12"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker_type"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-13",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "application_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-13-e1",
+                                "_parent": {
+                                    "$ref": "rel-13"
+                                },
+                                "reference": {
+                                    "$ref": "ent-application"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-13-e2",
+                                "_parent": {
+                                    "$ref": "rel-13"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-14",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "application_job_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-14-e1",
+                                "_parent": {
+                                    "$ref": "rel-14"
+                                },
+                                "reference": {
+                                    "$ref": "ent-application"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-14-e2",
+                                "_parent": {
+                                    "$ref": "rel-14"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-15",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "progress_application_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-15-e1",
+                                "_parent": {
+                                    "$ref": "rel-15"
+                                },
+                                "reference": {
+                                    "$ref": "ent-progress"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-15-e2",
+                                "_parent": {
+                                    "$ref": "rel-15"
+                                },
+                                "reference": {
+                                    "$ref": "ent-application"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-16",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "progress_step_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-16-e1",
+                                "_parent": {
+                                    "$ref": "rel-16"
+                                },
+                                "reference": {
+                                    "$ref": "ent-progress"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-16-e2",
+                                "_parent": {
+                                    "$ref": "rel-16"
+                                },
+                                "reference": {
+                                    "$ref": "ent-step"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-17",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "organisasi_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-17-e1",
+                                "_parent": {
+                                    "$ref": "rel-17"
+                                },
+                                "reference": {
+                                    "$ref": "ent-organisasi"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-17-e2",
+                                "_parent": {
+                                    "$ref": "rel-17"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-18",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "bahasa_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-18-e1",
+                                "_parent": {
+                                    "$ref": "rel-18"
+                                },
+                                "reference": {
+                                    "$ref": "ent-bahasa"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-18-e2",
+                                "_parent": {
+                                    "$ref": "rel-18"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-19",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "riwayat_kerja_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-19-e1",
+                                "_parent": {
+                                    "$ref": "rel-19"
+                                },
+                                "reference": {
+                                    "$ref": "ent-riwayat_kerja"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-19-e2",
+                                "_parent": {
+                                    "$ref": "rel-19"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-20",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "prestasi_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-20-e1",
+                                "_parent": {
+                                    "$ref": "rel-20"
+                                },
+                                "reference": {
+                                    "$ref": "ent-prestasi"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-20-e2",
+                                "_parent": {
+                                    "$ref": "rel-20"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-21",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "riwayat_pendidikan_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-21-e1",
+                                "_parent": {
+                                    "$ref": "rel-21"
+                                },
+                                "reference": {
+                                    "$ref": "ent-riwayat_pendidikan"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-21-e2",
+                                "_parent": {
+                                    "$ref": "rel-21"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-22",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "pelatihan_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-22-e1",
+                                "_parent": {
+                                    "$ref": "rel-22"
+                                },
+                                "reference": {
+                                    "$ref": "ent-pelatihan"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-22-e2",
+                                "_parent": {
+                                    "$ref": "rel-22"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-23",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "rekomendasi_jobseeker_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-23-e1",
+                                "_parent": {
+                                    "$ref": "rel-23"
+                                },
+                                "reference": {
+                                    "$ref": "ent-rekomendasi"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-23-e2",
+                                "_parent": {
+                                    "$ref": "rel-23"
+                                },
+                                "reference": {
+                                    "$ref": "ent-jobseeker"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-24",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "pembayaran_user_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-24-e1",
+                                "_parent": {
+                                    "$ref": "rel-24"
+                                },
+                                "reference": {
+                                    "$ref": "ent-pembayaran"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-24-e2",
+                                "_parent": {
+                                    "$ref": "rel-24"
+                                },
+                                "reference": {
+                                    "$ref": "ent-users"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-25",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "pembayaran_membership_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-25-e1",
+                                "_parent": {
+                                    "$ref": "rel-25"
+                                },
+                                "reference": {
+                                    "$ref": "ent-pembayaran"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-25-e2",
+                                "_parent": {
+                                    "$ref": "rel-25"
+                                },
+                                "reference": {
+                                    "$ref": "ent-membership"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-26",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "pembayaran_nomor_rekening_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-26-e1",
+                                "_parent": {
+                                    "$ref": "rel-26"
+                                },
+                                "reference": {
+                                    "$ref": "ent-pembayaran"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-26-e2",
+                                "_parent": {
+                                    "$ref": "rel-26"
+                                },
+                                "reference": {
+                                    "$ref": "ent-account"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-27",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job_fair_job_job_fair_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-27-e1",
+                                "_parent": {
+                                    "$ref": "rel-27"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job_fair_job"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-27-e2",
+                                "_parent": {
+                                    "$ref": "rel-27"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job_fair"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-28",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job_fair_job_job_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-28-e1",
+                                "_parent": {
+                                    "$ref": "rel-28"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job_fair_job"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-28-e2",
+                                "_parent": {
+                                    "$ref": "rel-28"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        },
+                        {
+                            "_type": "ERDRelationship",
+                            "_id": "rel-29",
+                            "_parent": {
+                                "$ref": "AAA-datamodel"
+                            },
+                            "name": "job_fair_job_employer_id_fk",
+                            "end1": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-29-e1",
+                                "_parent": {
+                                    "$ref": "rel-29"
+                                },
+                                "reference": {
+                                    "$ref": "ent-job_fair_job"
+                                },
+                                "cardinality": "0..*"
+                            },
+                            "end2": {
+                                "_type": "ERDRelationshipEnd",
+                                "_id": "rel-29-e2",
+                                "_parent": {
+                                    "$ref": "rel-29"
+                                },
+                                "reference": {
+                                    "$ref": "ent-employer"
+                                },
+                                "cardinality": "1"
+                            },
+                            "identifying": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

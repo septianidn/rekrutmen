@@ -10,6 +10,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if($application->isFinalized())
+    <div class="alert {{ $application->status === 'accepted' ? 'alert-success' : 'alert-danger' }} mb-3">
+        Lamaran sudah <strong>{{ $application->status === 'accepted' ? 'diterima' : 'ditolak' }}</strong>.
+        Tahap seleksi tidak dapat diubah lagi.
+    </div>
+@endif
 
 <div class="job-items">
     <div class="mb-3">
@@ -69,28 +82,40 @@
                                 </div>
                             </div>
 
-                            <form action="{{ route('employer.application.progress.update', [$application->id, $step->id]) }}"
-                                  method="POST" class="mt-3">
-                                @csrf
-                                <div class="row g-2 align-items-end">
-                                    <div class="col-md-3">
-                                        <label class="form-label mb-1">Hasil</label>
-                                        <select name="lulus" class="form-control">
-                                            <option value="1" {{ $progress && $progress->lulus ? 'selected' : '' }}>Lulus</option>
-                                            <option value="0" {{ $progress && !$progress->lulus ? 'selected' : '' }}>Tidak Lulus</option>
-                                        </select>
+                            @if($application->isStepEditable($step))
+                                <form action="{{ route('employer.application.progress.update', [$application->id, $step->id]) }}"
+                                      method="POST" class="mt-3">
+                                    @csrf
+                                    <div class="row g-2 align-items-end">
+                                        <div class="col-md-3">
+                                            <label class="form-label mb-1">Hasil</label>
+                                            <select name="lulus" class="form-control">
+                                                <option value="1" {{ $progress && $progress->lulus ? 'selected' : '' }}>Lulus</option>
+                                                <option value="0" {{ $progress && !$progress->lulus ? 'selected' : '' }}>Tidak Lulus</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <label class="form-label mb-1">Catatan</label>
+                                            <input type="text" name="catatan" class="form-control"
+                                                   value="{{ $progress->catatan ?? '' }}"
+                                                   placeholder="Catatan untuk pelamar (opsional)">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary w-100">Simpan</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        <label class="form-label mb-1">Catatan</label>
-                                        <input type="text" name="catatan" class="form-control"
-                                               value="{{ $progress->catatan ?? '' }}"
-                                               placeholder="Catatan untuk pelamar (opsional)">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary w-100">Simpan</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            @else
+                                <p class="text-muted small mb-0 mt-3">
+                                    @if($progress)
+                                        <i class="lni lni-lock"></i> Tahap sudah dinilai, tidak dapat diubah.
+                                    @elseif($application->isFinalized())
+                                        <i class="lni lni-lock"></i> Lamaran sudah final.
+                                    @else
+                                        <i class="lni lni-lock"></i> Selesaikan tahap sebelumnya untuk membuka tahap ini.
+                                    @endif
+                                </p>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -86,9 +86,14 @@ class EmployerController extends Controller
     public function verifikasi(){
         $assets = ['vanilla-counter', 'glightbox', 'animation','wow'];
         $user = Auth::user();
+        $employer = Employer::where('user_id', $user->id)->first();
+        $industriTypes = IndustriType::all();
 
-       $employer = Employer::where('user_id', $user->id)->join('industri_type','industri_type.id', 'employer.industriType_id')->join('users', 'users.id', 'user_id')->first();
-        return view('frontoffice.employer.verifikasi', compact('assets', 'user'));
+        if ($employer && $employer->isVerified()) {
+            return redirect()->route('employer.index');
+        }
+
+        return view('frontoffice.employer.verifikasi', compact('assets', 'user', 'employer', 'industriTypes'));
     }
 
     public function create(Request $request): Response
@@ -100,20 +105,35 @@ class EmployerController extends Controller
     {
         $request->validated();
 
-        
-        $employer = Employer::create([
-            'user_id' => $request->id_user,
+        $user = Auth::user();
+
+        $existing = Employer::where('user_id', $user->id)->first();
+        if ($existing && $existing->verification_status !== 'rejected') {
+            return redirect()->route('employer.cek_verifikasi');
+        }
+
+        $data = [
+            'user_id' => $user->id,
             'nama_perusahaan' => $request->nama_perusahaan,
             'deskripsi_perusahaan' => $request->deskripsi_perusahaan,
             'industriType_id' => $request->id_industri_type,
             'alamat_perusahaan' => $request->alamat,
             'telp_perusahaan' => $request->telp,
-            'website' => $request->website
-        ]);
+            'website' => $request->website,
+            'verification_status' => 'pending',
+            'verification_note' => null,
+            'verified_at' => null,
+            'verified_by' => null,
+        ];
 
-        $request->session()->flash('employer.id', $employer->id);
+        if ($existing) {
+            $existing->update($data);
+        } else {
+            Employer::create($data);
+        }
 
-        return $this->index();
+        return redirect()->route('employer.cek_verifikasi')
+            ->with('success', 'Data perusahaan berhasil dikirim. Mohon menunggu verifikasi admin.');
     }
 
     public function show(Request $request, Employer $employer): Response

@@ -10,23 +10,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CompleteProfile
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
+        $employer = Employer::where('user_id', $user->id)->first();
 
-        $employer = Employer::where('user_id', $user->id)->join('industri_type','industri_type.id', 'employer.industriType_id')->join('users', 'users.id', 'user_id')->first();
-
-        
-
-        // Cek apakah field 'profile_completed' sudah diisi
         if (!$employer) {
-            return redirect()->route('employer.cek_verifikasi')->with('error', 'Silakan lengkapi data Anda terlebih dahulu.');
+            return redirect()->route('employer.cek_verifikasi')
+                ->with('error', 'Silakan lengkapi data perusahaan Anda terlebih dahulu.');
         }
+
+        if ($employer->verification_status !== 'approved') {
+            return redirect()->route('employer.cek_verifikasi');
+        }
+
         return $next($request);
     }
 }

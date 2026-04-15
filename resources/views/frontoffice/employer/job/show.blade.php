@@ -3,249 +3,130 @@
 @section('page-title', 'Detail Lowongan')
 @section('page-subtitle', 'Informasi lengkap lowongan pekerjaan.')
 @section('content')
-        <!-- Main Content Start -->
-    <div class="resume">
-        <div class="container">
-            <div class="resume-inner">
-                <div class="row">
-                    <!-- Start Main Content -->
-                    {{-- <div class="col-lg-4 col-12">
-                        <div class="dashbord-sidebar">
-                            <ul>
-                                <li class="heading">Manage Account</li>
-                                <li><a class="active" href="resume.html"><i class="lni lni-clipboard"></i> My Resume</a>
-                                </li>
-                                <li><a href="bookmarked.html"><i class="lni lni-bookmark"></i> Bookmarked Jobs</a></li>
-                                <li><a href="notifications.html"><i class="lni lni-alarm"></i> Notifications <span
-                                            class="notifi">5</span></a></li>
-                                <li><a href="manage-applications.html"><i class="lni lni-envelope"></i> Manage
-                                        Applications</a></li>
-                                <li><a href="manage-resumes.html"><i class="lni lni-files"></i> Manage Resumes</a></li>
-                                <li><a href="job-alerts.html"><i class="lni lni-briefcase"></i> Job Alerts</a></li>
-                                <li><a href="change-password.html"><i class="lni lni-lock"></i> Change Password</a></li>
-                                <li><a href="index.html"><i class="lni lni-upload"></i> Sign Out</a></li>
-                            </ul>
-                        </div>
-                    </div> --}}
-                    <!-- End Main Content -->
-                    <div class="col-lg-12 col-12">
-                        <div class="inner-content">
-                            <!-- Start Personal Top Content -->
-                            <div class="personal-top-content">
-                                <div class="row">
-                                    <div class="col-lg-5 col-md-5 col-12">
-                                        <div class="name-head">
-                                            <a class="mb-2" href="#"><img class="circle-54"
-                                                    src="assets/images/resume/avater.png" alt=""></a>
-                                            <h4><a class="name" href="#">{{$jobs->nama_pekerjaan}}</a></h4>
-                                            <p><a class="deg" href="#">{{$jobs->posisi}}</a></p>
-                                            <ul class="social">
-                                                <li><a href="{{route('employer.job.edit', ['job'=>$jobs->id])}}"><i class="lni lni-facebook-original"></i></a></li>
-                                                <div>
-                                                <form action="{{route('employer.job.destroy', ['job'=>$jobs->id])}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="confirm('Are you sure?')">DELETE&nbsp;<i class="fas fa-trash"></i></i></button>
-                                                </form>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-12">
-                                        <div class="content-right">
-                                            <h5 class="title-main">Job Info</h5>
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Location</h5>
-                                                <p>{{$jobs->alamat}}</p>
-                                            </div>
-                                            <!-- Single List -->
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Worktime</h5>
-                                                <p>{{$jobs->worktime}}</p>
-                                            </div>
-                                            <!-- Single List -->
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Expected Salary</h5>
-                                                <p>{{$jobs->ekspektasi_gaji}}</p>
-                                            </div>
-                                            <!-- Single List -->
-                                            <!-- Single List -->
-                                            <div class="single-list">
-                                                <h5 class="title">Application Deadline</h5>
-                                                <p><a href="#">{{$jobs->application_deadline}}</a></p>
-                                            </div>
-                                            <!-- Single List -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Personal Top Content -->
-                            <!-- Start Single Section -->
-                            <div class="single-section">
-                                <h4>About</h4>
-                                <p class="font-size-4 mb-8">{!!$jobs->deskripsi_pekerjaan !!}</p>
-                                
-                            </div>
-                            <!-- End Single Section -->
-                            <!-- Start Single Section -->
-                            <div class="single-section skill">
-                                <h4>Skills</h4>
-                                <div>
-                                   {!!$jobs->deskripsi_pekerjaan !!}
-                                </div>
-                                <p class="font-size-4 mb-8">{!!$jobs->requirement !!}</p>
-                                <ul class="list-unstyled d-flex align-items-center flex-wrap">
-                                    <li>
-                                        <a href="#">Agile</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wireframing</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Prototyping</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Information</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Waterfall Model</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">New Layout</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Ui/Ux Design</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Web Design</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Graphics Design</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- End Single Section -->
-                            <!-- Start Recruitment Steps Section -->
-                            <div class="single-section">
-                                <h4>Tahap Seleksi</h4>
-                                @if($jobs->steps->isEmpty())
-                                    <p class="text-muted">Belum ada tahap seleksi yang diatur untuk lowongan ini.</p>
-                                @else
-                                    <ol class="ps-3">
-                                        @foreach($jobs->steps as $step)
-                                            <li class="mb-2">
-                                                <strong>{{ $step->proses->nama_proses ?? '-' }}</strong>
-                                                @if(!empty($step->deskripsi))
-                                                    <br>
-                                                    <span class="text-muted">{{ $step->deskripsi }}</span>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ol>
-                                @endif
-                            </div>
-                            <!-- End Recruitment Steps Section -->
-                            <!-- Start Single Section -->
-                            <div class="single-section exprerience">
-                                <h4>Work Exprerience</h4>
-                                <!-- Single Exp -->
-                                <div class="single-exp mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/work1.png" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Lead Product Designer</a>
-                                            </h3>
-                                            <a href="#">Airabnb</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Jun 2020 - April 2023- 3 years</a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>New York, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Exp -->
-                                <!-- Single Exp -->
-                                <div class="single-exp mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/work2.png" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Senior UI/UX Designer</a>
-                                            </h3>
-                                            <a href="#">Google Inc</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Jun 2020 - April 2023- 3 years</a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>New York, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Exp -->
-                            </div>
-                            <!-- End Single Section -->
-                            <!-- Start Single Section -->
-                            <div class="single-section education">
-                                <h4>Education</h4>
-                                <!-- Single Edu -->
-                                <div class="single-edu mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/edu1.svg" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Masters in Art Design</a>
-                                            </h3>
-                                            <a href="#">Harvard University</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Jun 2020 - April 2023- 3 years</a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>Brylin, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Edu -->
-                                <!-- Single Edu -->
-                                <div class="single-edu mb-30">
-                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
-                                        <div class="image">
-                                            <img src="assets/images/resume/edu2.svg" alt="#">
-                                        </div>
-                                        <div class="w-100 mt-n2">
-                                            <h3 class="mb-0">
-                                                <a href="#">Bachelor in Software Engineering</a>
-                                            </h3>
-                                            <a href="#">Manipal Institute of Technology</a>
-                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
-                                                <a href="#">Fed 2019 - April 2023 - 4 years </a>
-                                                <a href="#" class="font-size-3 text-gray">
-                                                    <span class="mr-2" style="margin-top: -2px"><i
-                                                            class="lni lni-map-marker"></i></span>New York, USA</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single Edu -->
-                            </div>
-                            <!-- End Single Section -->
-                        </div>
+
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+<div class="resume">
+    <div class="inner-content">
+
+        <div class="mb-3">
+            <a href="{{ route('employer.job.index') }}" class="btn btn-outline-secondary btn-sm">
+                &larr; Kembali ke Daftar Lowongan
+            </a>
+        </div>
+
+        {{-- Header card --}}
+        <div class="card border mb-3" style="border-left: 4px solid #2042e3 !important;">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                    <div>
+                        <h4 class="mb-1">{{ $jobs->nama_pekerjaan }}</h4>
+                        <p class="text-muted mb-0">
+                            <strong>{{ $jobs->employer->nama_perusahaan ?? '-' }}</strong>
+                            @if(!empty($jobs->posisi))
+                                &middot; {{ $jobs->posisi }}
+                            @endif
+                        </p>
                     </div>
+                    <div class="flex-shrink-0">
+                        <span class="badge bg-light text-dark border">{{ $jobs->worktime }}</span>
+                    </div>
+                </div>
+
+                <ul class="list-inline mb-3 small text-muted">
+                    <li class="list-inline-item me-3"><i class="lni lni-map-marker me-1"></i>{{ $jobs->alamat }}</li>
+                    <li class="list-inline-item me-3"><i class="lni lni-dollar me-1"></i>Rp.{{ number_format($jobs->ekspektasi_gaji, 0, ',', '.') }}</li>
+                    @if($jobs->application_deadline)
+                        <li class="list-inline-item me-3"><i class="lni lni-calendar me-1"></i>Deadline: {{ \Carbon\Carbon::parse($jobs->application_deadline)->format('d M Y') }}</li>
+                    @endif
+                </ul>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ route('employer.job.applicants', $jobs->id) }}" class="btn btn-primary btn-sm">
+                        <i class="lni lni-users me-1"></i> Lihat Pelamar
+                    </a>
+                    <a href="{{ route('employer.job.edit', $jobs->id) }}" class="btn btn-outline-primary btn-sm">
+                        <i class="lni lni-pencil me-1"></i> Edit
+                    </a>
+                    <form action="{{ route('employer.job.destroy', $jobs->id) }}" method="POST"
+                          onsubmit="return confirm('Yakin ingin menghapus lowongan ini?');" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="lni lni-trash-can me-1"></i> Hapus
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
+
+        {{-- Deskripsi --}}
+        <div class="card border mb-3">
+            <div class="card-body p-3">
+                <h5 class="mb-2">Deskripsi Pekerjaan</h5>
+                @if(!empty($jobs->deskripsi_pekerjaan))
+                    <div class="small">{!! $jobs->deskripsi_pekerjaan !!}</div>
+                @else
+                    <p class="text-muted mb-0"><em>Belum ada deskripsi pekerjaan.</em></p>
+                @endif
+            </div>
+        </div>
+
+        {{-- Requirement --}}
+        <div class="card border mb-3">
+            <div class="card-body p-3">
+                <h5 class="mb-2">Persyaratan</h5>
+                @if(!empty($jobs->requirement))
+                    <div class="small">{!! $jobs->requirement !!}</div>
+                @else
+                    <p class="text-muted mb-0"><em>Belum ada persyaratan yang ditentukan.</em></p>
+                @endif
+            </div>
+        </div>
+
+        {{-- Tahap Seleksi --}}
+        <div class="card border mb-3">
+            <div class="card-body p-4">
+                <h5 class="mb-3"><i class="lni lni-timer me-1"></i> Tahap Seleksi</h5>
+                @if($jobs->steps->isEmpty())
+                    <p class="text-muted mb-0"><em>Belum ada tahap seleksi yang diatur untuk lowongan ini.</em></p>
+                @else
+                    <div class="position-relative">
+                        @foreach($jobs->steps as $step)
+                            <div class="d-flex mb-4 position-relative">
+                                <div class="flex-shrink-0 text-center" style="width: 40px;">
+                                    <div style="width: 28px; height: 28px; border-radius: 50%; background: #adb5bd; color: #fff; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 3px solid #fff; box-shadow: 0 0 0 2px #adb5bd;">
+                                        {{ $loop->iteration }}
+                                    </div>
+                                    @if(!$loop->last)
+                                        <div style="width: 2px; height: calc(100% + 10px); background: #dee2e6; margin: 4px auto 0;"></div>
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1 ps-3">
+                                    <h6 class="mb-1">{{ $step->proses->nama_proses ?? '-' }}</h6>
+                                    @if(!empty($step->deskripsi))
+                                        <p class="text-muted small mb-0">{{ $step->deskripsi }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+
     </div>
+</div>
+
 @endsection
