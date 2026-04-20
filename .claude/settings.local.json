@@ -20,7 +20,23 @@
       "Bash(php -r ':*)",
       "Bash(pwd -P)",
       "Bash(php docs/generate_staruml_mdj.php)",
-      "Bash(php docs/generate_drawio.php)"
+      "Bash(php docs/generate_drawio.php)",
+      "Bash(php -l app/Models/Job.php)",
+      "Bash(php -l app/Models/JobFair.php)",
+      "Bash(php -l app/Http/Controllers/FrontOffice/JobFairController.php)",
+      "Bash(php -l app/Http/Controllers/BackOffice/JobFairController.php)",
+      "Bash(php -l database/migrations/2026_04_15_110000_add_soft_deletes_to_job_table.php)",
+      "Bash(php -l app/Http/Controllers/FrontOffice/LandingPageController.php)",
+      "Bash(php -l routes/web.php)",
+      "Bash(php -l database/migrations/2026_04_15_120000_add_status_to_job_table.php)",
+      "Bash(php -l app/Http/Controllers/BackOffice/JobController.php)",
+      "Bash(php -l database/migrations/2026_04_16_100000_backfill_default_step_for_stepless_jobs.php)",
+      "Bash(pandoc --version)",
+      "Bash(pip show *)",
+      "Bash(pip install *)",
+      "Bash(python _generate_docx.py)",
+      "Bash(ls *)",
+      "Bash(git add *)"
     ]
   }
 }

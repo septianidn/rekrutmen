@@ -29,9 +29,10 @@ class JobFairController extends Controller
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'status' => 'required|in:draft,active,completed',
+            'kuota' => 'nullable|integer|min:1',
         ]);
 
-        JobFair::create($request->only(['nama', 'deskripsi', 'lokasi', 'tanggal_mulai', 'tanggal_selesai', 'status']));
+        JobFair::create($request->only(['nama', 'deskripsi', 'lokasi', 'tanggal_mulai', 'tanggal_selesai', 'status', 'kuota']));
 
         return redirect()->route('backoffice.job-fair.index')->with('success', 'Job Fair berhasil dibuat.');
     }
@@ -57,7 +58,7 @@ class JobFairController extends Controller
             'status' => 'required|in:draft,active,completed',
         ]);
 
-        $jobFair->update($request->only(['nama', 'deskripsi', 'lokasi', 'tanggal_mulai', 'tanggal_selesai', 'status']));
+        $jobFair->update($request->only(['nama', 'deskripsi', 'lokasi', 'tanggal_mulai', 'tanggal_selesai', 'status', 'kuota']));
 
         return redirect()->route('backoffice.job-fair.index')->with('success', 'Job Fair berhasil diperbarui.');
     }

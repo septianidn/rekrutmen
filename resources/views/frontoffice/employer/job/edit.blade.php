@@ -36,12 +36,13 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Job Types*</label>
+                                        @php $currentWorktime = old('worktime', $jobs->worktime); @endphp
                                         <select class="select" name="worktime">
-                                            <option value="Full Time">Full Time</option>
-                                            <option value="Part Time">Part Time</option>
-                                            <option value="Contract">Contract</option>
-                                            <option value="Internship">Internship</option>
-                                            <option value="Office">Office</option>
+                                            <option value="Full Time" @selected($currentWorktime === 'Full Time')>Full Time</option>
+                                            <option value="Part Time" @selected($currentWorktime === 'Part Time')>Part Time</option>
+                                            <option value="Contract" @selected($currentWorktime === 'Contract')>Contract</option>
+                                            <option value="Internship" @selected($currentWorktime === 'Internship')>Internship</option>
+                                            <option value="Office" @selected($currentWorktime === 'Office')>Office</option>
                                         </select>
                                     </div>
                                 </div>
@@ -49,7 +50,7 @@
                                     <div class="form-group">
                                         <label>Application Deadline</label>
                                         <div class="input-group date" id="datetimepicker">
-                                            <input type="date" class="form-control" placeholder="{{$jobs->application_deadline}}" name="application_deadline">
+                                            <input type="date" class="form-control" value="{{ old('application_deadline', $jobs->application_deadline) }}" name="application_deadline">
                                             <span class="input-group-addon"></span>
                                             <i class="bx bx-calendar"></i>
                                         </div>
@@ -58,32 +59,33 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Salary Starting at</label>
+                                        @php $currentGaji = (string) old('ekspektasi_gaji', $jobs->ekspektasi_gaji); @endphp
                                         <select class="select" name="ekspektasi_gaji">
-                                            <option value="0">TBA</option>
-                                            <option value="1500000">Rp.1.500.000</option>
-                                            <option value="3500000">Rp.2.500.000</option>
-                                            <option value="4500000">Rp.4.500.000</option>
-                                            <option value="6500000">Rp.6.500.000</option>
-                                            <option value="8500000">Rp.8.500.000</option>
-                                            <option value="10000000">Rp.10.000.000</option>
+                                            <option value="0" @selected($currentGaji === '0')>TBA</option>
+                                            <option value="1500000" @selected($currentGaji === '1500000')>Rp.1.500.000</option>
+                                            <option value="2500000" @selected($currentGaji === '2500000')>Rp.2.500.000</option>
+                                            <option value="4500000" @selected($currentGaji === '4500000')>Rp.4.500.000</option>
+                                            <option value="6500000" @selected($currentGaji === '6500000')>Rp.6.500.000</option>
+                                            <option value="8500000" @selected($currentGaji === '8500000')>Rp.8.500.000</option>
+                                            <option value="10000000" @selected($currentGaji === '10000000')>Rp.10.000.000</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Job Requirement*</label>
-                                        <textarea name="requirement" class="form-control" rows="5" value="{{$jobs->requirement}}"></textarea>
+                                        <textarea name="requirement" class="form-control" rows="5">{{ old('requirement', $jobs->requirement) }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Job Description*</label>
-                                        <textarea name="deskripsi_pekerjaan" class="form-control" rows="5" value="{{$jobs->deskripsi_pekerjaan}}"></textarea>
+                                        <textarea name="deskripsi_pekerjaan" class="form-control" rows="5">{{ old('deskripsi_pekerjaan', $jobs->deskripsi_pekerjaan) }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h4 class="title mt-3">Tahap Seleksi</h4>
+                                    <h4 class="title mt-3">Tahap Seleksi <span class="text-danger">*</span></h4>
                                     @php
                                         $progressExists = \App\Models\Progress::whereHas('step', fn($q) => $q->where('job_id', $jobs->id))->exists();
                                     @endphp
@@ -93,8 +95,12 @@
                                         </div>
                                     @endif
                                     <p class="text-muted mb-2">
-                                        Tentukan tahapan yang harus dilalui pelamar. Urutan mengikuti urutan baris di bawah.
+                                        Tentukan tahapan yang harus dilalui pelamar. Minimal satu tahap. Urutan mengikuti urutan baris di bawah.
                                     </p>
+                                    @error('steps')<div class="text-danger mb-2">{{ $message }}</div>@enderror
+                                    @foreach($errors->get('steps.*.proses_id') as $msgs)
+                                        @foreach($msgs as $msg)<div class="text-danger mb-2">{{ $msg }}</div>@endforeach
+                                    @endforeach
                                     <div id="steps-wrapper">
                                         @php
                                             $existingSteps = old('steps', $jobs->steps->map(fn($s) => [

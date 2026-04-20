@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Job extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'job';
     /**
      * The attributes that are mass assignable.
@@ -27,6 +29,7 @@ class Job extends Model
         'ekspektasi_gaji',
         'worktime',
         'application_deadline',
+        'status',
     ];
 
     /**
@@ -65,5 +68,15 @@ class Job extends Model
         return $this->belongsToMany(JobFair::class, 'job_fair_job', 'job_id', 'job_fair_id')
             ->withPivot('employer_id', 'status')
             ->withTimestamps();
+    }
+
+    public function isOpen(): bool
+    {
+        return $this->status === 'active';
+    }
+
+    public function scopeOpen($query)
+    {
+        return $query->where('status', 'active');
     }
 }

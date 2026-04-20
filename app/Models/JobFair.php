@@ -19,11 +19,13 @@ class JobFair extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'status',
+        'kuota',
     ];
 
     protected $casts = [
         'tanggal_mulai' => 'date',
         'tanggal_selesai' => 'date',
+        'kuota' => 'integer',
     ];
 
     public function jobs(): BelongsToMany
@@ -36,5 +38,31 @@ class JobFair extends Model
     public function isActive(): bool
     {
         return $this->status === 'active';
+    }
+
+    /**
+     * Registration is open while the fair is active and the start date
+     * has not yet passed (employers must register before the event starts).
+     */
+    public function isRegistrationOpen(): bool
+    {
+        return $this->isActive() && $this->tanggal_mulai->isFuture();
+    }
+
+    /**
+     * Count registrations that count against kuota (pending + approved).
+     * Rejected registrations free up the slot.
+     */
+    public function registeredCount(): int
+    {
+        return $this->jobs()->wherePivotIn('status', ['pending', 'approved'])->count();
+    }
+
+    public function hasCapacity(): bool
+    {
+        if ($this->kuota === null) {
+            return true;
+        }
+        return $this->registeredCount() < $this->kuota;
     }
 }

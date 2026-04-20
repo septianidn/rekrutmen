@@ -57,22 +57,25 @@ class JobFairController extends Controller
         $employer = Auth::user()->employer;
         $job = $employer->jobs()->findOrFail($request->job_id);
 
-        $exists = DB::table('job_fair_job')
-            ->where('job_fair_id', $jobFair->id)
-            ->where('job_id', $job->id)
-            ->exists();
+        if (!$jobFair->isActive()) {
+            return back()->with('error', 'Job fair ini belum dibuka atau sudah berakhir.');
+        }
 
-        if ($exists) {
+        if (!$jobFair->tanggal_mulai->isFuture()) {
+            return back()->with('error', 'Pendaftaran sudah ditutup: job fair telah dimulai.');
+        }
+
+        if ($jobFair->jobs()->wherePivot('job_id', $job->id)->exists()) {
             return back()->with('error', 'Lowongan ini sudah terdaftar di job fair ini.');
         }
 
-        DB::table('job_fair_job')->insert([
-            'job_fair_id' => $jobFair->id,
-            'job_id' => $job->id,
+        if (!$jobFair->hasCapacity()) {
+            return back()->with('error', 'Kuota job fair sudah penuh.');
+        }
+
+        $jobFair->jobs()->attach($job->id, [
             'employer_id' => $employer->id,
             'status' => 'pending',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         // Notify all admins
@@ -95,11 +98,10 @@ class JobFairController extends Controller
     {
         $employer = Auth::user()->employer;
 
-        DB::table('job_fair_job')
-            ->where('job_fair_id', $jobFair->id)
-            ->where('job_id', $jobId)
-            ->where('employer_id', $employer->id)
-            ->delete();
+        $jobFair->jobs()
+            ->wherePivot('employer_id', $employer->id)
+            ->wherePivot('job_id', $jobId)
+            ->detach($jobId);
 
         return back()->with('success', 'Pendaftaran dibatalkan.');
     }
@@ -116,6 +118,7 @@ class JobFairController extends Controller
     {
         $jobs = $jobFair->jobs()
             ->wherePivot('status', 'approved')
+            ->where('job.status', 'active')
             ->with('employer')
             ->get();
 

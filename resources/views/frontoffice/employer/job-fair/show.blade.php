@@ -30,8 +30,28 @@
 {{-- Register a job --}}
 <div class="job-items mb-3">
     <h5 class="mb-3">Daftarkan Lowongan</h5>
+
+    @php
+        $registrationOpen = $jobFair->isRegistrationOpen();
+        $hasCapacity = $jobFair->hasCapacity();
+        $registered = $jobFair->registeredCount();
+    @endphp
+
+    <p class="text-muted small mb-2">
+        Kuota terpakai: <strong>{{ $registered }}</strong> / {{ $jobFair->kuota ?? 'tanpa batas' }}
+        @if(!$registrationOpen)
+            &middot; <span class="text-danger">Pendaftaran ditutup</span>
+        @elseif(!$hasCapacity)
+            &middot; <span class="text-danger">Kuota penuh</span>
+        @endif
+    </p>
+
     @if($jobs->isEmpty())
         <div class="alert alert-warning mb-0">Anda belum memiliki lowongan. Buat lowongan terlebih dahulu.</div>
+    @elseif(!$registrationOpen)
+        <div class="alert alert-secondary mb-0">Pendaftaran untuk job fair ini sudah ditutup.</div>
+    @elseif(!$hasCapacity)
+        <div class="alert alert-secondary mb-0">Kuota pendaftar untuk job fair ini sudah penuh.</div>
     @else
         <form action="{{ route('employer.job-fair.register', $jobFair) }}" method="POST" class="row">
             @csrf

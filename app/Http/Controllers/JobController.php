@@ -90,41 +90,46 @@ class JobController extends Controller
             ->with('success', 'Lowongan berhasil diperbarui.');
     }
 
-    public function destroy(Request $request, Job $job)
+    public function close(Job $job)
     {
         $this->authorizeJob($job);
 
-        $job->delete();
+        $job->update(['status' => 'closed']);
 
-        return redirect()->route('employer.job.index');
+        return redirect()->route('employer.job.index')
+            ->with('success', 'Lowongan ditutup. Pelamar baru tidak dapat melamar, tetapi riwayat lamaran tetap tersedia.');
+    }
+
+    public function reopen(Job $job)
+    {
+        $this->authorizeJob($job);
+
+        $job->update(['status' => 'active']);
+
+        return redirect()->route('employer.job.index')
+            ->with('success', 'Lowongan dibuka kembali.');
     }
 
     /**
      * Sync the recruitment steps attached to a job.
      *
-     * Expects repeating fields from the form:
-     *   steps[0][proses_id], steps[0][deskripsi]
-     *   steps[1][proses_id], steps[1][deskripsi]
-     *   ...
-     * Order in the submitted array defines `urutan`.
-     *
-     * Note: we only re-sync when the job has no existing progress records.
-     * If any applicant has already started moving through the pipeline we
-     * preserve the existing steps to avoid breaking their progress.
+     * Order in the submitted array defines `urutan`. Validation
+     * (JobStoreRequest/JobUpdateRequest) guarantees ≥1 row with a valid
+     * proses_id unless the job is locked — so we only need to guard the
+     * locked case here to preserve existing progress.
      */
     protected function syncSteps(Job $job, Request $request): void
     {
+        $hasProgress = \App\Models\Progress::whereHas('step', fn ($q) => $q->where('job_id', $job->id))->exists();
+        if ($hasProgress) {
+            return;
+        }
+
         $steps = collect($request->input('steps', []))
             ->filter(fn ($s) => !empty($s['proses_id']))
             ->values();
 
         if ($steps->isEmpty()) {
-            return;
-        }
-
-        // If any applicant already has progress on this job, don't wipe steps.
-        $hasProgress = \App\Models\Progress::whereHas('step', fn ($q) => $q->where('job_id', $job->id))->exists();
-        if ($hasProgress) {
             return;
         }
 

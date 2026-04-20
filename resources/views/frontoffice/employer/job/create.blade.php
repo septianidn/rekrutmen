@@ -60,7 +60,7 @@
                                         <select class="select" name="ekspektasi_gaji">
                                             <option value="0">TBA</option>
                                             <option value="1500000">Rp.1.500.000</option>
-                                            <option value="3500000">Rp.2.500.000</option>
+                                            <option value="2500000">Rp.2.500.000</option>
                                             <option value="4500000">Rp.4.500.000</option>
                                             <option value="6500000">Rp.6.500.000</option>
                                             <option value="8500000">Rp.8.500.000</option>
@@ -82,10 +82,14 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h4 class="title mt-3">Tahap Seleksi</h4>
+                                    <h4 class="title mt-3">Tahap Seleksi <span class="text-danger">*</span></h4>
                                     <p class="text-muted mb-2">
-                                        Tentukan tahapan yang harus dilalui pelamar. Urutan mengikuti urutan baris di bawah.
+                                        Tentukan tahapan yang harus dilalui pelamar. Minimal satu tahap. Urutan mengikuti urutan baris di bawah.
                                     </p>
+                                    @error('steps')<div class="text-danger mb-2">{{ $message }}</div>@enderror
+                                    @foreach($errors->get('steps.*.proses_id') as $msgs)
+                                        @foreach($msgs as $msg)<div class="text-danger mb-2">{{ $msg }}</div>@endforeach
+                                    @endforeach
                                     <div id="steps-wrapper">
                                         @php
                                             $oldSteps = old('steps', [

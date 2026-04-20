@@ -69,7 +69,7 @@ class JobseekerController extends Controller
         }
 
         // Latest jobs
-        $latestJobs = Job::with('employer')->latest()->take(6)->get();
+        $latestJobs = Job::open()->with('employer')->latest()->take(6)->get();
 
         // Applied job IDs (to show badge on latest jobs)
         $appliedJobIds = [];
@@ -242,7 +242,7 @@ class JobseekerController extends Controller
     }
 
     public function joblist(){
-        $jobs = Job::paginate(3);
+        $jobs = Job::open()->paginate(3);
         $appliedJobIds = [];
 
         if (Auth::user()->jobseeker) {
@@ -258,6 +258,10 @@ class JobseekerController extends Controller
     {
         $user = Auth::user();
         $jobseeker = $user->jobseeker;
+
+        if (!$job->isOpen()) {
+            return back()->with('error', 'Lowongan ini sudah ditutup dan tidak menerima lamaran baru.');
+        }
 
         // Profile must exist
         if (!$jobseeker) {

@@ -13,6 +13,7 @@ use App\Http\Controllers\BackOffice\ProdiController;
 use App\Http\Controllers\BackOffice\KontenController;
 
 use App\Http\Controllers\BackOffice\JenjangController;
+use App\Http\Controllers\BackOffice\JobController as BackofficeJobController;
 use App\Http\Controllers\BackOffice\JobFairController;
 use App\Http\Controllers\BackOffice\EmailBoxController;
 use App\Http\Controllers\BackOffice\FakultasController;
@@ -90,7 +91,9 @@ Route::group(['middleware' => 'role:employer'], function () {
         // Route::get('/job/create', [JobController::class, 'create'])->name('job.create');      
         // Route::post('/job/store', [JobController::class, 'store'])->name('job.store');   
         // Route::post('/job/store', [JobController::class, 'store'])->name('job.store');   
-        Route::resource('job', JobController::class);
+        Route::patch('/job/{job}/close', [JobController::class, 'close'])->name('job.close');
+        Route::patch('/job/{job}/reopen', [JobController::class, 'reopen'])->name('job.reopen');
+        Route::resource('job', JobController::class)->except(['destroy']);
         Route::get('/job/{job}/applicants', [ApplicationController::class, 'applicants'])->name('job.applicants');
         Route::patch('/application/{application}/status', [ApplicationController::class, 'updateStatus'])->name('application.update-status');
         Route::get('/application/{application}/progress', [ApplicationController::class, 'progress'])->name('application.progress');
@@ -180,6 +183,11 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
         Route::resource('/job-fair', JobFairController::class);
         Route::patch('/job-fair/{job_fair}/participant/{pivot}', [JobFairController::class, 'updateParticipant'])->name('job-fair.participant.update');
+
+        Route::get('/job', [BackofficeJobController::class, 'index'])->name('job.index');
+        Route::get('/job/{job}', [BackofficeJobController::class, 'show'])->name('job.show');
+        Route::delete('/job/{job}', [BackofficeJobController::class, 'destroy'])->name('job.destroy');
+        Route::patch('/job/{job}/restore', [BackofficeJobController::class, 'restore'])->name('job.restore');
 
         Route::get('/employer-verification', [EmployerVerificationController::class, 'index'])->name('employer-verification.index');
         Route::get('/employer-verification/{employer}', [EmployerVerificationController::class, 'show'])->name('employer-verification.show');
