@@ -26,9 +26,31 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('employer.profile.update') }}" method="POST">
+                        <form action="{{ route('employer.profile.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+
+                            {{-- Logo Upload --}}
+                            <div class="form-group mb-4">
+                                <label class="form-label">Logo Perusahaan</label>
+                                <div class="d-flex align-items-center gap-3">
+                                    @if($employer->getFirstMediaUrl('logo'))
+                                        <img src="{{ $employer->getFirstMediaUrl('logo') }}" alt="Logo" id="logo-preview"
+                                            style="width:80px;height:80px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:4px;">
+                                    @else
+                                        <div id="logo-preview-placeholder"
+                                            style="width:80px;height:80px;border:2px dashed #dee2e6;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#adb5bd;">
+                                            <i class="lni lni-apartment" style="font-size:2rem;"></i>
+                                        </div>
+                                        <img src="" alt="Logo" id="logo-preview"
+                                            style="width:80px;height:80px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:4px;display:none;">
+                                    @endif
+                                    <div>
+                                        <input type="file" name="logo" id="logo-input" class="form-control" accept="image/jpg,image/jpeg,image/png,image/webp" style="max-width:280px;">
+                                        <small class="text-muted">JPG, PNG, WEBP — maks. 2MB. Logo lama akan diganti.</small>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-12 col-md-6">
@@ -96,4 +118,21 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+document.getElementById('logo-input').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const preview = document.getElementById('logo-preview');
+    const placeholder = document.getElementById('logo-preview-placeholder');
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+        preview.src = ev.target.result;
+        preview.style.display = 'block';
+        if (placeholder) placeholder.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+});
+</script>
+@endpush
 @endsection

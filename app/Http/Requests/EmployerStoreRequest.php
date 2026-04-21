@@ -24,7 +24,8 @@ class EmployerStoreRequest extends FormRequest
             'nama_perusahaan' => ['required', 'string', 'max:50'],
             'deskripsi_perusahaan' => ['required', 'string'],
             'id_industri_type' => ['required'],
-            'alamat' => ['nullable', 'string', 'max:150']
+            'alamat' => ['nullable', 'string', 'max:150'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

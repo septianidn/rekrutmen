@@ -28,7 +28,18 @@
         @forelse($jobs as $j)
         <div class="card border mb-3" style="border-left: 4px solid #2042e3 !important;">
             <div class="card-body p-3">
-                <div class="d-flex align-items-start">
+                <div class="d-flex align-items-start gap-3">
+                    {{-- Company logo --}}
+                    <div class="flex-shrink-0">
+                        @if($j->employer && $j->employer->getFirstMediaUrl('logo'))
+                            <img src="{{ $j->employer->getFirstMediaUrl('logo') }}" alt="Logo"
+                                style="width:56px;height:56px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:3px;">
+                        @else
+                            <div style="width:56px;height:56px;border:1px solid #dee2e6;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#f8f9fa;">
+                                <i class="lni lni-apartment text-muted" style="font-size:1.4rem;"></i>
+                            </div>
+                        @endif
+                    </div>
                     <div class="flex-grow-1">
                         <div class="d-flex justify-content-between align-items-start mb-1">
                             <h5 class="mb-0">{{ $j->nama_pekerjaan }}</h5>
@@ -45,6 +56,7 @@
                             <li class="list-inline-item"><i class="lni lni-map-marker me-1"></i>{{ $j->alamat }}</li>
                             <li class="list-inline-item"><i class="lni lni-dollar me-1"></i>Rp.{{ number_format($j->ekspektasi_gaji, 0, ',', '.') }}</li>
                         </ul>
+                    </div>
                     </div>
                 </div>
                 @if(!in_array($j->id, $appliedJobIds))

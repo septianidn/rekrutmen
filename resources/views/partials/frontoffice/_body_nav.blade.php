@@ -124,7 +124,7 @@
                     </div>
                   </div>
 
-                  <form action="{{route('employer.logout')}}" method="POST">
+                  <form action="{{ auth()->user()->hasRole('employer') ? route('employer.logout') : route('.user.logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-success">Logout</button>
                   </form>

@@ -11,17 +11,24 @@
                     <div class="card-body p-4">
                         {{-- Header --}}
                         <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap">
-                            <div class="me-3">
-                                <h4 class="mb-1">
-                                    <i class="lni lni-apartment me-2 text-primary"></i>
-                                    {{ $employer->nama_perusahaan ?? '-' }}
-                                </h4>
-                                @if($employer->industriType?->nama_industri)
-                                    <p class="text-muted mb-0 small">
-                                        <i class="lni lni-briefcase me-1"></i>
-                                        {{ $employer->industriType->nama_industri }}
-                                    </p>
+                            <div class="d-flex align-items-center gap-3 me-3">
+                                @if($employer->getFirstMediaUrl('logo'))
+                                    <img src="{{ $employer->getFirstMediaUrl('logo') }}" alt="Logo"
+                                        style="width:72px;height:72px;object-fit:contain;border:1px solid #dee2e6;border-radius:10px;padding:4px;flex-shrink:0;">
+                                @else
+                                    <div style="width:72px;height:72px;border:1px solid #dee2e6;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#f8f9fa;flex-shrink:0;">
+                                        <i class="lni lni-apartment text-muted" style="font-size:2rem;"></i>
+                                    </div>
                                 @endif
+                                <div>
+                                    <h4 class="mb-1">{{ $employer->nama_perusahaan ?? '-' }}</h4>
+                                    @if($employer->industriType?->nama_industri)
+                                        <p class="text-muted mb-0 small">
+                                            <i class="lni lni-briefcase me-1"></i>
+                                            {{ $employer->industriType->nama_industri }}
+                                        </p>
+                                    @endif
+                                </div>
                             </div>
                             <a href="{{ route('employer.profile.edit') }}" class="btn btn-primary btn-sm">
                                 <i class="lni lni-pencil-alt me-1"></i> Edit Profil

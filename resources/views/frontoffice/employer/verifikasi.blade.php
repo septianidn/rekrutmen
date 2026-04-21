@@ -77,7 +77,7 @@
                                 </div>
                             @endif
 
-                            <form method="POST" action="{{ route('employer.verifikasi') }}">
+                            <form method="POST" action="{{ route('employer.verifikasi') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" value="{{ $user->id }}" name="id_user">
                                 <div class="row">
@@ -136,6 +136,28 @@
                                                 value="{{ old('website', $employer->website ?? '') }}">
                                         </div>
                                     </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="logo">Logo Perusahaan</label>
+                                            <div class="d-flex align-items-center gap-3">
+                                                @if(isset($employer) && $employer && $employer->getFirstMediaUrl('logo'))
+                                                    <img src="{{ $employer->getFirstMediaUrl('logo') }}" alt="Logo" id="logo-preview"
+                                                        style="width:72px;height:72px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:4px;">
+                                                @else
+                                                    <div id="logo-preview-placeholder"
+                                                        style="width:72px;height:72px;border:2px dashed #dee2e6;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#adb5bd;">
+                                                        <i class="lni lni-apartment" style="font-size:2rem;"></i>
+                                                    </div>
+                                                    <img src="" alt="Logo" id="logo-preview"
+                                                        style="width:72px;height:72px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:4px;display:none;">
+                                                @endif
+                                                <div>
+                                                    <input type="file" name="logo" id="logo-input" class="form-control" accept="image/jpg,image/jpeg,image/png,image/webp">
+                                                    <small class="text-muted">JPG, PNG, WEBP — maks. 2MB (opsional)</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12 button">
                                     <button class="btn" type="submit" name="verifikasi">
@@ -151,4 +173,23 @@
         </div>
     </section>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('logo-input');
+    if (!input) return;
+    input.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const preview = document.getElementById('logo-preview');
+        const placeholder = document.getElementById('logo-preview-placeholder');
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            preview.src = ev.target.result;
+            preview.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+});
+</script>
 </x-front-office-layout>

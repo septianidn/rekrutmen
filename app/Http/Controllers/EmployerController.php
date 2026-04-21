@@ -78,7 +78,7 @@ class EmployerController extends Controller
         $assets = ['vanilla-counter', 'glightbox', 'animation','wow'];
 
         $user = Auth::user();
-        $employer = Employer::with('industriType')->where('user_id', $user->id)->first();
+        $employer = Employer::with('industriType', 'media')->where('user_id', $user->id)->first();
 
         return view('frontoffice.employer.profile.profile', compact('assets', 'employer'));
     }
@@ -128,8 +128,13 @@ class EmployerController extends Controller
 
         if ($existing) {
             $existing->update($data);
+            $employer = $existing;
         } else {
-            Employer::create($data);
+            $employer = Employer::create($data);
+        }
+
+        if ($request->hasFile('logo')) {
+            $employer->addMediaFromRequest('logo')->toMediaCollection('logo');
         }
 
         return redirect()->route('employer.cek_verifikasi')
@@ -160,6 +165,7 @@ class EmployerController extends Controller
             'alamat_perusahaan' => 'nullable|string|max:150',
             'telp_perusahaan' => 'nullable|string|max:20',
             'website' => 'nullable|string|max:255',
+            'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $user = Auth::user();
@@ -173,6 +179,10 @@ class EmployerController extends Controller
             'telp_perusahaan',
             'website',
         ]));
+
+        if ($request->hasFile('logo')) {
+            $employer->addMediaFromRequest('logo')->toMediaCollection('logo');
+        }
 
         return redirect()->route('employer.profile')->with('success', 'Profil berhasil diperbarui.');
     }
