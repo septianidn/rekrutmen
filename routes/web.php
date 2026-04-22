@@ -24,6 +24,7 @@ use App\Http\Controllers\BackOffice\EmailSendController;
 use App\Http\Controllers\BackOffice\GrupKontenController;
 use App\Http\Controllers\BackOffice\KelolaAdminController;
 use App\Http\Controllers\BackOffice\EmployerVerificationController;
+use App\Http\Controllers\BackOffice\AnalyticsController;
 use App\Http\Controllers\BackOffice\UploadAvatarController;
 use App\Http\Controllers\FrontOffice\JobFairController as FrontJobFairController;
 use App\Http\Controllers\FrontOffice\LandingPageController;
@@ -193,6 +194,8 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         Route::get('/employer-verification/{employer}', [EmployerVerificationController::class, 'show'])->name('employer-verification.show');
         Route::post('/employer-verification/{employer}/approve', [EmployerVerificationController::class, 'approve'])->name('employer-verification.approve');
         Route::post('/employer-verification/{employer}/reject', [EmployerVerificationController::class, 'reject'])->name('employer-verification.reject');
+
+        Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
 
         Route::group(['prefix' => 'konten'], function () {
             Route::resource('/grup-konten', GrupKontenController::class);

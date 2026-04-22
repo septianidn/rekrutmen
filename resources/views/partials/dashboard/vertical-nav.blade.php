@@ -155,6 +155,21 @@
         </a>
     </li>
     {{-- END EMPLOYER VERIFICATION SECTION --}}
+
+    {{-- START ANALYTICS SECTION --}}
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.analytics.index')) }}" aria-current="page"
+            href="{{ route('backoffice.analytics.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M22 7v10a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4Z" fill="currentColor"/>
+                    <path d="M8 17v-5M12 17v-9M16 17v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </i>
+            <span class="item-name">Analitik Rekrutmen</span>
+        </a>
+    </li>
+    {{-- END ANALYTICS SECTION --}}
     {{-- END REKRUTMEN MENU SECTION --}}
 
     <li>
