@@ -50,6 +50,16 @@
                                 <dd class="col-sm-9">{{ $employer->website ?: '-' }}</dd>
                                 <dt class="col-sm-3">Dikirim pada</dt>
                                 <dd class="col-sm-9">{{ optional($employer->created_at)->format('d M Y H:i') }}</dd>
+                                <dt class="col-sm-3">Dokumen Legalitas</dt>
+                                <dd class="col-sm-9">
+                                    @if($employer->dokumen_legalitas)
+                                        <a href="{{ route('employer.dokumen-legalitas') }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                            <i class="lni lni-download"></i> Lihat Dokumen
+                                        </a>
+                                    @else
+                                        <span class="text-muted">Tidak ada</span>
+                                    @endif
+                                </dd>
                             </dl>
                         </div>
                     @else
@@ -140,8 +150,8 @@
                                         <div class="form-group">
                                             <label for="logo">Logo Perusahaan</label>
                                             <div class="d-flex align-items-center gap-3">
-                                                @if(isset($employer) && $employer && $employer->getFirstMediaUrl('logo'))
-                                                    <img src="{{ $employer->getFirstMediaUrl('logo') }}" alt="Logo" id="logo-preview"
+                                                @if(isset($employer) && $employer && $employer->logo_url)
+                                                    <img src="{{ $employer->logo_url }}" alt="Logo" id="logo-preview"
                                                         style="width:72px;height:72px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:4px;">
                                                 @else
                                                     <div id="logo-preview-placeholder"
@@ -159,6 +169,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="dokumen_legalitas">Dokumen Legalitas Usaha <span class="text-danger">*</span></label>
+                                            @if(isset($employer) && $employer && $employer->dokumen_legalitas)
+                                                <div class="mb-2">
+                                                    <small class="text-muted">Sudah ada dokumen tersimpan. Upload file baru untuk mengganti.</small>
+                                                </div>
+                                            @endif
+                                            <input type="file" name="dokumen_legalitas" id="dokumen_legalitas" class="form-control"
+                                                   accept=".pdf,.jpg,.jpeg,.png,.webp">
+                                            <small class="text-muted">PDF atau gambar (JPG, PNG, WEBP) — maks. 5MB. Contoh: SKU, NIB, Akta Pendirian.</small>
+                                        </div>
+                                    </div>
+
                                 <div class="col-lg-12 button">
                                     <button class="btn" type="submit" name="verifikasi">
                                         Kirim untuk Verifikasi

@@ -12,8 +12,8 @@
                         {{-- Header --}}
                         <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap">
                             <div class="d-flex align-items-center gap-3 me-3">
-                                @if($employer->getFirstMediaUrl('logo'))
-                                    <img src="{{ $employer->getFirstMediaUrl('logo') }}" alt="Logo"
+                                @if($employer->logo_url)
+                                    <img src="{{ $employer->logo_url }}" alt="Logo"
                                         style="width:72px;height:72px;object-fit:contain;border:1px solid #dee2e6;border-radius:10px;padding:4px;flex-shrink:0;">
                                 @else
                                     <div style="width:72px;height:72px;border:1px solid #dee2e6;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#f8f9fa;flex-shrink:0;">
@@ -76,6 +76,22 @@
                                 <p class="mb-0" style="line-height: 1.7;">{{ $employer->deskripsi_perusahaan }}</p>
                             @else
                                 <p class="text-muted mb-0">Belum ada deskripsi perusahaan.</p>
+                            @endif
+                        </div>
+
+                        <hr class="my-3">
+
+                        {{-- Legal document --}}
+                        <div>
+                            <p class="text-muted small mb-1">
+                                <i class="lni lni-files me-1"></i> Dokumen Legalitas Usaha
+                            </p>
+                            @if($employer->dokumen_legalitas)
+                                <a href="{{ route('employer.dokumen-legalitas') }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                    <i class="lni lni-download me-1"></i> Lihat Dokumen
+                                </a>
+                            @else
+                                <p class="text-muted mb-0">Belum ada dokumen yang diunggah.</p>
                             @endif
                         </div>
                     </div>

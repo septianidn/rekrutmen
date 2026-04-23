@@ -15,8 +15,8 @@
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex align-items-start gap-3 mb-2">
                                 <div class="flex-shrink-0">
-                                    @if($job->employer && $job->employer->getFirstMediaUrl('logo'))
-                                        <img src="{{ $job->employer->getFirstMediaUrl('logo') }}" alt="Logo"
+                                    @if($job->employer && $job->employer->logo_url)
+                                        <img src="{{ $job->employer->logo_url }}" alt="Logo"
                                             style="width:56px;height:56px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:3px;">
                                     @else
                                         <div style="width:56px;height:56px;border:1px solid #dee2e6;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#f8f9fa;">

@@ -6,18 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Support\Facades\Storage;
 
-class Employer extends Model implements HasMedia
+class Employer extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $table = 'employer';
     protected $fillable = [
         'user_id',
@@ -27,17 +21,14 @@ class Employer extends Model implements HasMedia
         'alamat_perusahaan',
         'telp_perusahaan',
         'website',
+        'logo',
+        'dokumen_legalitas',
         'verification_status',
         'verified_at',
         'verification_note',
         'verified_by',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
         'user_id' => 'integer',
@@ -59,6 +50,11 @@ class Employer extends Model implements HasMedia
     public function isRejected(): bool
     {
         return $this->verification_status === 'rejected';
+    }
+
+    public function getLogoUrlAttribute(): ?string
+    {
+        return $this->logo ? Storage::disk('public')->url($this->logo) : null;
     }
 
     public function verifier(): BelongsTo
@@ -84,15 +80,5 @@ class Employer extends Model implements HasMedia
     public function industriType(): BelongsTo
     {
         return $this->belongsTo(IndustriType::class, 'industriType_id');
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('logo')->singleFile();
-    }
-
-    public function getLogoUrlAttribute(): string
-    {
-        return $this->getFirstMediaUrl('logo');
     }
 }

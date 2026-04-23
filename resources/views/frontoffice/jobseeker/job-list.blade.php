@@ -31,8 +31,8 @@
                 <div class="d-flex align-items-start gap-3">
                     {{-- Company logo --}}
                     <div class="flex-shrink-0">
-                        @if($j->employer && $j->employer->getFirstMediaUrl('logo'))
-                            <img src="{{ $j->employer->getFirstMediaUrl('logo') }}" alt="Logo"
+                        @if($j->employer && $j->employer->logo_url)
+                            <img src="{{ $j->employer->logo_url }}" alt="Logo"
                                 style="width:56px;height:56px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:3px;">
                         @else
                             <div style="width:56px;height:56px;border:1px solid #dee2e6;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#f8f9fa;">

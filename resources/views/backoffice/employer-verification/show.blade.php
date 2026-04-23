@@ -45,6 +45,17 @@
                         <dt class="col-sm-4">Deskripsi</dt>
                         <dd class="col-sm-8">{{ $employer->deskripsi_perusahaan }}</dd>
 
+                        <dt class="col-sm-4">Dokumen Legalitas</dt>
+                        <dd class="col-sm-8">
+                            @if($employer->dokumen_legalitas)
+                                <a href="{{ route('backoffice.employer-verification.dokumen', $employer) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-file"></i> Buka Dokumen
+                                </a>
+                            @else
+                                <span class="text-muted">Tidak ada dokumen</span>
+                            @endif
+                        </dd>
+
                         <dt class="col-sm-4">Tgl Pengajuan</dt>
                         <dd class="col-sm-8">{{ $employer->created_at?->format('d M Y H:i') }}</dd>
 

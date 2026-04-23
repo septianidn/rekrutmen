@@ -70,14 +70,16 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Job Requirement*</label>
-                                        <textarea name="requirement" class="form-control" rows="5" value="{{old('requirement')}}"></textarea>
+                                        <label>Job Description*</label>
+                                        <div id="deskripsi_editor" style="height:250px"></div>
+                                        <textarea name="deskripsi_pekerjaan" id="deskripsi_pekerjaan" style="display:none">{{old('deskripsi_pekerjaan')}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Job Description*</label>
-                                        <textarea name="deskripsi_pekerjaan" class="form-control" rows="5" value="{{old('deskripsi_pekerjaan')}}"></textarea>
+                                        <label>Job Requirement*</label>
+                                        <div id="requirement_editor" style="height:250px"></div>
+                                        <textarea name="requirement" id="requirement" style="display:none">{{old('requirement')}}</textarea>
                                     </div>
                                 </div>
 
@@ -234,23 +236,27 @@
         </div>
     </section>
 <script>
-        CKEDITOR.replace('deskripsi_pekerjaan', {
-            toolbar: [
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
-                { name: 'styles', items: ['Format'] },
-                { name: 'clipboard', items: ['Undo', 'Redo'] }
-            ],
-            height: 300
-        });
-        CKEDITOR.replace('requirement', {
-            toolbar: [
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
-                { name: 'styles', items: ['Format'] },
-                { name: 'clipboard', items: ['Undo', 'Redo'] }
-            ],
-            height: 300
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline'],
+            [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+            [{ header: [1, 2, 3, false] }],
+            ['clean']
+        ];
+
+        const descEditor = new Quill('#deskripsi_editor', { theme: 'snow', modules: { toolbar: toolbarOptions } });
+        const reqEditor  = new Quill('#requirement_editor',  { theme: 'snow', modules: { toolbar: toolbarOptions } });
+
+        const descInit = document.getElementById('deskripsi_pekerjaan').value;
+        if (descInit) descEditor.clipboard.dangerouslyPasteHTML(descInit);
+
+        const reqInit = document.getElementById('requirement').value;
+        if (reqInit) reqEditor.clipboard.dangerouslyPasteHTML(reqInit);
+
+        document.querySelector('form').addEventListener('submit', function () {
+            document.getElementById('deskripsi_pekerjaan').value =
+                descEditor.getText().trim() === '' ? '' : descEditor.root.innerHTML;
+            document.getElementById('requirement').value =
+                reqEditor.getText().trim() === '' ? '' : reqEditor.root.innerHTML;
         });
 
         (function () {

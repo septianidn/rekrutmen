@@ -11,18 +11,16 @@ use App\Models\JobFair;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class EmployerController extends Controller
 {
-    
-
     public function home()
     {
         $user = Auth::user();
         $employer = $user->employer;
 
-        // Job stats
         $totalJobs = Job::where('employer_id', $employer->id)->count();
         $activeJobs = Job::where('employer_id', $employer->id)
             ->where(function ($q) {
@@ -30,40 +28,36 @@ class EmployerController extends Controller
                   ->orWhere('application_deadline', '>=', now());
             })->count();
 
-        // Application stats
         $jobIds = Job::where('employer_id', $employer->id)->pluck('id');
         $stats = [
-            'total' => Application::whereIn('job_id', $jobIds)->count(),
-            'pending' => Application::whereIn('job_id', $jobIds)->where('status', 'pending')->count(),
+            'total'    => Application::whereIn('job_id', $jobIds)->count(),
+            'pending'  => Application::whereIn('job_id', $jobIds)->where('status', 'pending')->count(),
             'accepted' => Application::whereIn('job_id', $jobIds)->where('status', 'accepted')->count(),
             'rejected' => Application::whereIn('job_id', $jobIds)->where('status', 'rejected')->count(),
         ];
 
-        // Recent applications
         $recentApplications = Application::whereIn('job_id', $jobIds)
             ->with(['job', 'jobseeker.user'])
             ->latest()
             ->take(5)
             ->get();
 
-        // Active job fairs
         $activeJobFairs = JobFair::where('status', 'active')
             ->where('tanggal_selesai', '>=', now())
             ->latest()
             ->take(3)
             ->get();
 
-        // Company profile completeness
         $profileItems = [
-            ['label' => 'Nama Perusahaan', 'filled' => (bool) $employer->nama_perusahaan],
-            ['label' => 'Deskripsi Perusahaan', 'filled' => (bool) $employer->deskripsi_perusahaan],
-            ['label' => 'Tipe Industri', 'filled' => (bool) $employer->industriType_id],
-            ['label' => 'Alamat', 'filled' => (bool) $employer->alamat_perusahaan],
-            ['label' => 'Telepon', 'filled' => (bool) $employer->telp_perusahaan],
-            ['label' => 'Website', 'filled' => (bool) $employer->website],
+            ['label' => 'Nama Perusahaan',    'filled' => (bool) $employer->nama_perusahaan],
+            ['label' => 'Deskripsi Perusahaan','filled' => (bool) $employer->deskripsi_perusahaan],
+            ['label' => 'Tipe Industri',       'filled' => (bool) $employer->industriType_id],
+            ['label' => 'Alamat',              'filled' => (bool) $employer->alamat_perusahaan],
+            ['label' => 'Telepon',             'filled' => (bool) $employer->telp_perusahaan],
+            ['label' => 'Website',             'filled' => (bool) $employer->website],
         ];
-        $profileScore = collect($profileItems)->where('filled', true)->count();
-        $profileTotal = count($profileItems);
+        $profileScore   = collect($profileItems)->where('filled', true)->count();
+        $profileTotal   = count($profileItems);
         $profilePercent = $profileTotal > 0 ? round(($profileScore / $profileTotal) * 100) : 0;
 
         return view('frontoffice.employer.home', compact(
@@ -75,18 +69,18 @@ class EmployerController extends Controller
 
     public function index()
     {
-        $assets = ['vanilla-counter', 'glightbox', 'animation','wow'];
-
-        $user = Auth::user();
-        $employer = Employer::with('industriType', 'media')->where('user_id', $user->id)->first();
+        $assets   = ['vanilla-counter', 'glightbox', 'animation', 'wow'];
+        $user     = Auth::user();
+        $employer = Employer::where('user_id', $user->id)->first();
 
         return view('frontoffice.employer.profile.profile', compact('assets', 'employer'));
     }
 
-    public function verifikasi(){
-        $assets = ['vanilla-counter', 'glightbox', 'animation','wow'];
-        $user = Auth::user();
-        $employer = Employer::where('user_id', $user->id)->first();
+    public function verifikasi()
+    {
+        $assets        = ['vanilla-counter', 'glightbox', 'animation', 'wow'];
+        $user          = Auth::user();
+        $employer      = Employer::where('user_id', $user->id)->first();
         $industriTypes = IndustriType::all();
 
         if ($employer && $employer->isVerified()) {
@@ -96,61 +90,60 @@ class EmployerController extends Controller
         return view('frontoffice.employer.verifikasi', compact('assets', 'user', 'employer', 'industriTypes'));
     }
 
-    public function create(Request $request): Response
-    {
-        return view('employer.create');
-    }
-
     public function store(EmployerStoreRequest $request)
     {
         $request->validated();
 
-        $user = Auth::user();
-
+        $user     = Auth::user();
         $existing = Employer::where('user_id', $user->id)->first();
+
         if ($existing && $existing->verification_status !== 'rejected') {
             return redirect()->route('employer.cek_verifikasi');
         }
 
         $data = [
-            'user_id' => $user->id,
-            'nama_perusahaan' => $request->nama_perusahaan,
+            'user_id'              => $user->id,
+            'nama_perusahaan'      => $request->nama_perusahaan,
             'deskripsi_perusahaan' => $request->deskripsi_perusahaan,
-            'industriType_id' => $request->id_industri_type,
-            'alamat_perusahaan' => $request->alamat,
-            'telp_perusahaan' => $request->telp,
-            'website' => $request->website,
-            'verification_status' => 'pending',
-            'verification_note' => null,
-            'verified_at' => null,
-            'verified_by' => null,
+            'industriType_id'      => $request->id_industri_type,
+            'alamat_perusahaan'    => $request->alamat,
+            'telp_perusahaan'      => $request->telp,
+            'website'              => $request->website,
+            'verification_status'  => 'pending',
+            'verification_note'    => null,
+            'verified_at'          => null,
+            'verified_by'          => null,
         ];
+
+        if ($request->hasFile('logo')) {
+            if ($existing && $existing->logo) {
+                Storage::disk('public')->delete($existing->logo);
+            }
+            $data['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        if ($request->hasFile('dokumen_legalitas')) {
+            if ($existing && $existing->dokumen_legalitas) {
+                Storage::delete($existing->dokumen_legalitas);
+            }
+            $data['dokumen_legalitas'] = $request->file('dokumen_legalitas')->store('dokumen-legalitas');
+        }
 
         if ($existing) {
             $existing->update($data);
-            $employer = $existing;
         } else {
-            $employer = Employer::create($data);
-        }
-
-        if ($request->hasFile('logo')) {
-            $employer->addMediaFromRequest('logo')->toMediaCollection('logo');
+            Employer::create($data);
         }
 
         return redirect()->route('employer.cek_verifikasi')
             ->with('success', 'Data perusahaan berhasil dikirim. Mohon menunggu verifikasi admin.');
     }
 
-    public function show(Request $request, Employer $employer): Response
-    {
-        return view('employer.show', compact('employer'));
-    }
-
     public function edit()
     {
-        $assets = ['vanilla-counter', 'glightbox', 'animation', 'wow'];
-        $user = Auth::user();
-        $employer = Employer::where('user_id', $user->id)->first();
+        $assets        = ['vanilla-counter', 'glightbox', 'animation', 'wow'];
+        $user          = Auth::user();
+        $employer      = Employer::where('user_id', $user->id)->first();
         $industriTypes = IndustriType::all();
 
         return view('frontoffice.employer.profile.edit', compact('assets', 'employer', 'user', 'industriTypes'));
@@ -159,38 +152,51 @@ class EmployerController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'nama_perusahaan' => 'required|string|max:50',
+            'nama_perusahaan'      => 'required|string|max:50',
             'deskripsi_perusahaan' => 'required|string',
-            'industriType_id' => 'required|exists:industri_type,id',
-            'alamat_perusahaan' => 'nullable|string|max:150',
-            'telp_perusahaan' => 'nullable|string|max:20',
-            'website' => 'nullable|string|max:255',
-            'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'industriType_id'      => 'required|exists:industri_type,id',
+            'alamat_perusahaan'    => 'nullable|string|max:150',
+            'telp_perusahaan'      => 'nullable|string|max:20',
+            'website'              => 'nullable|string|max:255',
+            'logo'                 => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'dokumen_legalitas'    => 'nullable|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
         ]);
 
-        $user = Auth::user();
+        $user     = Auth::user();
         $employer = Employer::where('user_id', $user->id)->first();
 
         $employer->update($request->only([
-            'nama_perusahaan',
-            'deskripsi_perusahaan',
-            'industriType_id',
-            'alamat_perusahaan',
-            'telp_perusahaan',
-            'website',
+            'nama_perusahaan', 'deskripsi_perusahaan', 'industriType_id',
+            'alamat_perusahaan', 'telp_perusahaan', 'website',
         ]));
 
         if ($request->hasFile('logo')) {
-            $employer->addMediaFromRequest('logo')->toMediaCollection('logo');
+            if ($employer->logo) {
+                Storage::disk('public')->delete($employer->logo);
+            }
+            $employer->update(['logo' => $request->file('logo')->store('logos', 'public')]);
+        }
+
+        if ($request->hasFile('dokumen_legalitas')) {
+            if ($employer->dokumen_legalitas) {
+                Storage::delete($employer->dokumen_legalitas);
+            }
+            $employer->update([
+                'dokumen_legalitas' => $request->file('dokumen_legalitas')->store('dokumen-legalitas'),
+            ]);
         }
 
         return redirect()->route('employer.profile')->with('success', 'Profil berhasil diperbarui.');
     }
 
-    public function destroy(Request $request, Employer $employer): Response
+    public function serveDocument()
     {
-        $employer->delete();
+        $employer = Auth::user()->employer;
 
-        return redirect()->route('employer.index');
+        if (!$employer || !$employer->dokumen_legalitas) {
+            abort(404);
+        }
+
+        return Storage::download($employer->dokumen_legalitas, basename($employer->dokumen_legalitas));
     }
 }

@@ -59,14 +59,24 @@
                     <a href="{{ route('employer.job.edit', $jobs->id) }}" class="btn btn-outline-primary btn-sm">
                         <i class="lni lni-pencil me-1"></i> Edit
                     </a>
-                    <form action="{{ route('employer.job.destroy', $jobs->id) }}" method="POST"
-                          onsubmit="return confirm('Yakin ingin menghapus lowongan ini?');" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                            <i class="lni lni-trash-can me-1"></i> Hapus
-                        </button>
-                    </form>
+                    @if($jobs->status === 'closed')
+                        <form action="{{ route('employer.job.reopen', $jobs->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-outline-success btn-sm">
+                                <i class="lni lni-checkmark-circle me-1"></i> Buka Kembali
+                            </button>
+                        </form>
+                    @else
+                        <form action="{{ route('employer.job.close', $jobs->id) }}" method="POST"
+                              onsubmit="return confirm('Yakin ingin menutup lowongan ini? Pelamar baru tidak dapat melamar.');" class="d-inline">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="lni lni-close me-1"></i> Tutup Lowongan
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

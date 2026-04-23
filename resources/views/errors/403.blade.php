@@ -13,10 +13,17 @@
     {{ asset(__('images/error/4032.png')) }}
 @endsection
 @section('button')
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="btn btn-block" type="submit">
-            {{ __('Log out') }}
-        </button>
-    </form>
+    @auth
+        @php
+            $user = auth()->user();
+            $home = $user->hasRole('employer')
+                ? route('employer.index')
+                : ($user->hasRole('mahasiswa')
+                    ? route('jobseeker.index')
+                    : route('backoffice.dashboard'));
+        @endphp
+        <a href="{{ $home }}" class="btn btn-block">Ke Dashboard</a>
+    @else
+        <a href="{{ route('landingpage') }}" class="btn btn-block">Ke Beranda</a>
+    @endauth
 @endsection

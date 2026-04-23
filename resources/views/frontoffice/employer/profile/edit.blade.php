@@ -34,8 +34,8 @@
                             <div class="form-group mb-4">
                                 <label class="form-label">Logo Perusahaan</label>
                                 <div class="d-flex align-items-center gap-3">
-                                    @if($employer->getFirstMediaUrl('logo'))
-                                        <img src="{{ $employer->getFirstMediaUrl('logo') }}" alt="Logo" id="logo-preview"
+                                    @if($employer->logo_url)
+                                        <img src="{{ $employer->logo_url }}" alt="Logo" id="logo-preview"
                                             style="width:80px;height:80px;object-fit:contain;border:1px solid #dee2e6;border-radius:8px;padding:4px;">
                                     @else
                                         <div id="logo-preview-placeholder"
@@ -103,6 +103,21 @@
                             <div class="form-group mb-3">
                                 <label class="form-label">Deskripsi Perusahaan <span class="text-danger">*</span></label>
                                 <textarea name="deskripsi_perusahaan" class="form-control" rows="5" required>{{ old('deskripsi_perusahaan', $employer->deskripsi_perusahaan) }}</textarea>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">Dokumen Legalitas Usaha</label>
+                                @if($employer->dokumen_legalitas)
+                                    <div class="mb-2">
+                                        <a href="{{ route('employer.dokumen-legalitas') }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                            <i class="lni lni-download me-1"></i> Lihat Dokumen Tersimpan
+                                        </a>
+                                        <small class="text-muted ms-2">Upload file baru untuk mengganti.</small>
+                                    </div>
+                                @endif
+                                <input type="file" name="dokumen_legalitas" class="form-control"
+                                       accept=".pdf,.jpg,.jpeg,.png,.webp" style="max-width:400px;">
+                                <small class="text-muted">PDF atau gambar (JPG, PNG, WEBP) — maks. 5MB. Upload file baru untuk mengganti dokumen yang ada.</small>
                             </div>
 
                             <div class="d-flex gap-2 mt-4">

@@ -7,6 +7,7 @@ use App\Models\Employer;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EmployerVerificationController extends Controller
 {
@@ -62,6 +63,15 @@ class EmployerVerificationController extends Controller
 
         return redirect()->route('backoffice.employer-verification.index')
             ->with('success', 'Employer berhasil diverifikasi.');
+    }
+
+    public function serveDocument(Employer $employer)
+    {
+        if (!$employer->dokumen_legalitas) {
+            abort(404);
+        }
+
+        return Storage::download($employer->dokumen_legalitas, basename($employer->dokumen_legalitas));
     }
 
     public function reject(Request $request, Employer $employer)
