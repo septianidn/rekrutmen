@@ -19,7 +19,7 @@ class LandingPageController extends Controller
 
     public function vacancy(Request $request)
     {
-        $jobs = Job::open()->with('employer')->latest()->paginate(9);
+        $jobs = Job::open()->with(['employer.media'])->latest()->paginate(9);
         return view('frontoffice.vacancy', compact('jobs'));
     }
 }

@@ -197,6 +197,19 @@
 </div>
 
 <style>
+/* Make auth modals scrollable on small screens */
+.form-modal {
+    overflow-y: auto !important;
+}
+.form-modal .modal-dialog {
+    max-height: calc(100vh - 2rem);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.form-modal .login-modal-main {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+}
 .btn-peek {
     position: absolute;
     right: 10px;

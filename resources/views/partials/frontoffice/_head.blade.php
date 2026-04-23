@@ -56,5 +56,90 @@
         font-size: 12px;
     }
 
-  
+    /* Suppress the green underline pseudo-element on auth nav items */
+    #nav .nav-auth-item > a::before,
+    #nav .nav-auth-item:hover > a::before {
+        display: none !important;
+        width: 0 !important;
+        opacity: 0 !important;
+    }
+
+    /* Both auth items: flex container so content is centred in the nav row height */
+    #nav .nav-auth-item {
+        display: flex !important;
+        align-items: center;
+    }
+
+    /* Masuk — remove inherited vertical padding, flex keeps it centred via the li */
+    #nav .nav-auth-item .nav-masuk {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 5px;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        color: #009a4b;
+        font-weight: 500;
+        font-size: 14px;
+        margin-left: 20px;
+    }
+    #nav .nav-auth-item .nav-masuk i {
+        font-size: 14px;
+        display: inline !important;
+    }
+    #nav .nav-auth-item .nav-masuk:hover {
+        color: #026d36 !important;
+    }
+
+    /* Daftar — compact button, same vertical centre as Masuk via the shared li rule */
+    #nav .nav-auth-item .nav-daftar {
+        background: #009a4b;
+        color: #fff !important;
+        border-radius: 4px;
+        padding: 10px 24px !important;
+        margin-left: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.4 !important;
+        height: auto !important;
+    }
+    #nav .nav-auth-item .nav-daftar:hover {
+        background: #026d36;
+        color: #fff !important;
+    }
+
+    /* Logged-in li — row layout, centred vertically */
+    #nav .nav-auth-loggedin {
+        display: flex !important;
+        align-items: center;
+        gap: 12px;
+        padding-left: 20px;
+    }
+    .nav-notif-trigger {
+        color: #333;
+        font-size: 20px;
+    }
+
+    /* Mobile collapsed state */
+    @media (max-width: 991px) {
+        #nav .nav-auth-item {
+            border-top: 1px solid #eee;
+            margin-top: 4px;
+            padding-top: 8px;
+        }
+        #nav .nav-auth-item .nav-masuk {
+            margin-left: 0;
+        }
+        #nav .nav-auth-item .nav-daftar {
+            margin-left: 0;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            background: none;
+            color: #009a4b !important;
+            border-radius: 0;
+        }
+        #nav .nav-auth-loggedin {
+            padding-left: 0;
+            flex-wrap: wrap;
+        }
+    }
 </style>

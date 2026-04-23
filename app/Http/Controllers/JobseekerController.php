@@ -180,7 +180,7 @@ class JobseekerController extends Controller
         $user->update($request->only(['first_name', 'last_name', 'phone_number', 'street_addr']));
 
         // Update jobseeker personal info
-        $jobseeker->update($request->only(['first_name', 'last_name', 'jenis_kelamin', 'ttl', 'jobseeker_type_id']));
+        $jobseeker->update($request->only(['first_name', 'last_name', 'jenis_kelamin', 'ttl']));
 
         // Sync riwayat pendidikan
         $jobseeker->riwayatPendidikans()->delete();

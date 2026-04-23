@@ -36,7 +36,15 @@
       "Bash(pip install *)",
       "Bash(python _generate_docx.py)",
       "Bash(ls *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(php --version)",
+      "Bash(composer --version)",
+      "Bash(git commit *)",
+      "Bash(git config *)",
+      "Bash(git push *)",
+      "Bash(php -l app/Http/Controllers/BackOffice/AnalyticsController.php)",
+      "Bash(php docs/generate_fr.php)",
+      "PowerShell(Get-ChildItem \"D:\\\\rekrutmen_hidden\" -Force | Select-Object Name; Write-Output \"---\"; Get-ChildItem \"D:\\\\rekrutmen\" -Force | Where-Object { $_.Name -match \"CLAUDE|claude|docs|blueprint|draft\" } | Select-Object Name)"
     ]
   }
 }

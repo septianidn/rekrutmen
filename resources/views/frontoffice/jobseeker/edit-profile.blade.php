@@ -60,11 +60,8 @@
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label">Tipe Jobseeker</label>
-                                <select name="jobseeker_type_id" class="form-select">
-                                    @foreach($jobseekerTypes as $type)
-                                        <option value="{{ $type->id }}" @selected($jobseeker->jobseeker_type_id == $type->id)>{{ $type->jobseekerType }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" value="{{ $jobseeker->jobseekerType->jobseekerType ?? '-' }}" disabled>
+                                <small class="text-muted">Tipe tidak dapat diubah setelah pendaftaran.</small>
                             </div>
                         </div>
                     </div>
