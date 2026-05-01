@@ -189,4 +189,5 @@
         <i class="lni lni-chevron-up"></i>
     </a>
 
+    @stack('scripts')
     </x-front-office-layout>

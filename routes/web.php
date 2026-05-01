@@ -82,6 +82,7 @@ Route::prefix('employer')->name('employer.')->group(function(){
 Route::group(['middleware' => 'role:employer'], function () {
         Route::get('/verifikasi', [EmployerController::class, 'verifikasi'])->name('cek_verifikasi');
         Route::post('/verifikasi', [EmployerController::class, 'store'])->name('verifikasi');
+        Route::get('/dokumen-legalitas', [EmployerController::class, 'serveDocument'])->name('dokumen-legalitas');
 
     Route::group(['middleware' => 'verified_employer'], function(){
         Route::get('/index', [EmployerController::class, 'home'])->name('index');
@@ -106,6 +107,13 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::get('/job-fair/{jobFair}', [FrontJobFairController::class, 'employerShow'])->name('job-fair.show');
         Route::post('/job-fair/{jobFair}/register', [FrontJobFairController::class, 'employerRegister'])->name('job-fair.register');
         Route::delete('/job-fair/{jobFair}/cancel/{jobId}', [FrontJobFairController::class, 'employerCancel'])->name('job-fair.cancel');
+        Route::patch('/job-fair/{jobFair}/booth/{pivotId}/lokasi', [FrontJobFairController::class, 'updateBoothLokasi'])->name('job-fair.booth-lokasi');
+        Route::get('/job-fair/{jobFair}/queue', [FrontJobFairController::class, 'employerQueue'])->name('job-fair.queue');
+        Route::get('/job-fair/{jobFair}/scan', [FrontJobFairController::class, 'employerScanForm'])->name('job-fair.scan.form');
+        Route::post('/job-fair/{jobFair}/scan', [FrontJobFairController::class, 'employerScan'])->name('job-fair.scan');
+        Route::post('/job-fair/queue/{scan}/call', [FrontJobFairController::class, 'employerCall'])->name('job-fair.queue.call');
+        Route::post('/job-fair/queue/{scan}/absent', [FrontJobFairController::class, 'employerMarkAbsent'])->name('job-fair.queue.absent');
+        Route::post('/job-fair/queue/{scan}/reactivate', [FrontJobFairController::class, 'employerReactivate'])->name('job-fair.queue.reactivate');
 
         });
         
@@ -132,7 +140,13 @@ Route::prefix('jobseeker')->name('jobseeker.')->group(function(){
         Route::get('my-applications/{application}/progress', [JobseekerController::class, 'applicationProgress'])->name('application.progress');
         Route::get('cv-pdf', [JobseekerController::class, 'downloadCvPdf'])->name('cv-pdf');
         Route::get('job-fair', [FrontJobFairController::class, 'studentIndex'])->name('job-fair.index');
+        Route::get('job-fair/booth-jobs', [FrontJobFairController::class, 'boothJobs'])->name('job-fair.booth-jobs');
         Route::get('job-fair/{jobFair}', [FrontJobFairController::class, 'studentShow'])->name('job-fair.show');
+        Route::post('job-fair/{jobFair}/register', [FrontJobFairController::class, 'jobseekerRegister'])->name('job-fair.register');
+        Route::get('job-fair/{jobFair}/qr', [FrontJobFairController::class, 'jobseekerQr'])->name('job-fair.qr');
+        Route::post('job-fair/checkin', [FrontJobFairController::class, 'jobseekerCheckin'])->name('job-fair.checkin');
+        Route::post('job-fair/booth-scan', [FrontJobFairController::class, 'boothScan'])->name('job-fair.booth-scan');
+        Route::post('job-fair/queue/{scan}/ack', [FrontJobFairController::class, 'jobseekerAck'])->name('job-fair.queue.ack');
     });
 });
 
@@ -192,6 +206,7 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
         Route::get('/employer-verification', [EmployerVerificationController::class, 'index'])->name('employer-verification.index');
         Route::get('/employer-verification/{employer}', [EmployerVerificationController::class, 'show'])->name('employer-verification.show');
+        Route::get('/employer-verification/{employer}/dokumen', [EmployerVerificationController::class, 'serveDocument'])->name('employer-verification.dokumen');
         Route::post('/employer-verification/{employer}/approve', [EmployerVerificationController::class, 'approve'])->name('employer-verification.approve');
         Route::post('/employer-verification/{employer}/reject', [EmployerVerificationController::class, 'reject'])->name('employer-verification.reject');
 

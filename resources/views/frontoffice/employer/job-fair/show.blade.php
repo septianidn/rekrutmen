@@ -6,6 +6,11 @@
 
 <div class="mb-3">
     <a href="{{ route('employer.job-fair.index') }}" class="btn btn-outline-secondary btn-sm">&larr; Kembali</a>
+    @if(!$jobFair->tanggal_mulai->isFuture())
+        <a href="{{ route('employer.job-fair.queue', $jobFair) }}" class="btn btn-primary btn-sm ms-2">
+            <i class="lni lni-list"></i> Lihat Antrian
+        </a>
+    @endif
 </div>
 
 @if(session('success'))
@@ -33,8 +38,8 @@
 
     @php
         $registrationOpen = $jobFair->isRegistrationOpen();
-        $hasCapacity = $jobFair->hasCapacity();
-        $registered = $jobFair->registeredCount();
+        $hasCapacity      = $jobFair->hasCapacity();
+        $registered       = $jobFair->registeredCount();
     @endphp
 
     <p class="text-muted small mb-2">
@@ -79,42 +84,64 @@
 @if($registrations->isNotEmpty())
 <div class="job-items mb-3">
     <h5 class="mb-3">Lowongan Terdaftar</h5>
-    <div class="table-responsive">
-        <table class="table table-striped mb-0">
-            <thead>
-                <tr>
-                    <th>Lowongan</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($registrations as $reg)
-                <tr>
-                    <td>{{ $reg->nama_pekerjaan }}</td>
-                    <td>
-                        @if($reg->status === 'pending')
-                            <span class="badge bg-warning text-dark">Menunggu</span>
-                        @elseif($reg->status === 'approved')
-                            <span class="badge bg-success">Disetujui</span>
-                        @else
-                            <span class="badge bg-danger">Ditolak</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($reg->status === 'pending')
-                            <form action="{{ route('employer.job-fair.cancel', [$jobFair, $reg->job_id]) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Batalkan pendaftaran?')">Batalkan</button>
-                            </form>
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+
+    @foreach($registrations as $reg)
+    <div class="border rounded p-3 mb-3">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+                <strong>{{ $reg->job->nama_pekerjaan }}</strong>
+                @if($reg->status === 'pending')
+                    <span class="badge bg-warning text-dark ms-2">Menunggu</span>
+                @elseif($reg->status === 'approved')
+                    <span class="badge bg-success ms-2">Disetujui</span>
+                @else
+                    <span class="badge bg-danger ms-2">Ditolak</span>
+                @endif
+            </div>
+            @if($reg->status === 'pending')
+                <form action="{{ route('employer.job-fair.cancel', [$jobFair, $reg->job_id]) }}" method="POST">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-outline-danger btn-sm"
+                            onclick="return confirm('Batalkan pendaftaran?')">Batalkan</button>
+                </form>
+            @endif
+        </div>
+
+        @if($reg->status === 'approved')
+        <div class="row mt-3">
+            {{-- Booth location form --}}
+            <div class="col-md-6">
+                <p class="mb-1 small text-muted">Lokasi Booth</p>
+                @if($jobFair->tanggal_mulai->isFuture())
+                    <form action="{{ route('employer.job-fair.booth-lokasi', [$jobFair, $reg->id]) }}" method="POST" class="d-flex gap-2">
+                        @csrf @method('PATCH')
+                        <input type="text" name="lokasi_booth" class="form-control form-control-sm"
+                               placeholder="cth: Booth A3, Lantai 2 Stand 7"
+                               value="{{ $reg->lokasi_booth }}" required>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Simpan</button>
+                    </form>
+                    @if($reg->lokasi_booth)
+                        <p class="text-muted small mt-1 mb-0">Saat ini: <strong>{{ $reg->lokasi_booth }}</strong></p>
+                    @endif
+                @else
+                    <p class="mb-0">{{ $reg->lokasi_booth ?? '<em class="text-muted">Belum diisi</em>' }}</p>
+                @endif
+            </div>
+
+            {{-- Booth QR --}}
+            <div class="col-md-6 text-center">
+                @if($reg->kode_booth)
+                    <p class="mb-1 small text-muted">QR Booth (tunjukkan ke jobseeker)</p>
+                    {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(130)->generate($reg->kode_booth) !!}
+                    <p class="mt-1 mb-0 small font-monospace text-secondary">{{ $reg->kode_booth }}</p>
+                @else
+                    <p class="text-muted small mb-0">QR booth akan muncul setelah lokasi booth diisi.</p>
+                @endif
+            </div>
+        </div>
+        @endif
     </div>
+    @endforeach
 </div>
 @endif
 
