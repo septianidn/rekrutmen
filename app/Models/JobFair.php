@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class JobFair extends Model
 {
@@ -31,8 +32,18 @@ class JobFair extends Model
     public function jobs(): BelongsToMany
     {
         return $this->belongsToMany(Job::class, 'job_fair_job', 'job_fair_id', 'job_id')
-            ->withPivot('id', 'employer_id', 'status')
+            ->withPivot('id', 'employer_id', 'status', 'lokasi_booth', 'kode_booth')
             ->withTimestamps();
+    }
+
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(JobFairAttendance::class, 'job_fair_id');
+    }
+
+    public function boothScans(): HasMany
+    {
+        return $this->hasMany(JobFairBoothScan::class, 'job_fair_id');
     }
 
     public function isActive(): bool
