@@ -13,6 +13,9 @@
 @if(session('error'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ session('error') }}
+        @if(session('redirect_profile'))
+            <br><a href="{{ session('redirect_profile') }}" class="alert-link">Lengkapi Profil Sekarang</a>
+        @endif
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif

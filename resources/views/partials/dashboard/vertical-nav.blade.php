@@ -138,6 +138,7 @@
     {{-- START EMPLOYER VERIFICATION SECTION --}}
     @php
         $pendingEmployers = \App\Models\Employer::where('verification_status', 'pending')->count();
+        $pendingChangeRequests = \App\Models\EmployerChangeRequest::where('status', 'pending')->count();
     @endphp
     <li class="nav-item">
         <a class="nav-link {{ activeRoute(route('backoffice.employer-verification.index')) }}" aria-current="page"
@@ -151,6 +152,21 @@
             <span class="item-name">Verifikasi Employer</span>
             @if ($pendingEmployers > 0)
                 <span class="badge bg-warning ms-auto">{{ $pendingEmployers }}</span>
+            @endif
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.employer-change-request.index')) }}" aria-current="page"
+            href="{{ route('backoffice.employer-change-request.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M19 10h-1V6a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h1v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-8a3 3 0 0 0-3-3Z" fill="currentColor"/>
+                    <path d="M14 12.5a1 1 0 0 1-.71-.29l-2-2a1 1 0 1 1 1.42-1.42L14 10.09l3.29-3.3a1 1 0 1 1 1.42 1.42l-4 4a1 1 0 0 1-.71.29Z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Permintaan Perubahan</span>
+            @if ($pendingChangeRequests > 0)
+                <span class="badge bg-warning ms-auto">{{ $pendingChangeRequests }}</span>
             @endif
         </a>
     </li>

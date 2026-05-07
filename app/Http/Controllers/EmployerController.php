@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmployerStoreRequest;
 use App\Models\Application;
 use App\Models\Employer;
+use App\Models\EmployerChangeRequest;
 use App\Models\IndustriType;
 use App\Models\Job;
 use App\Models\JobFair;
+use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -145,13 +148,18 @@ class EmployerController extends Controller
         $user          = Auth::user();
         $employer      = Employer::where('user_id', $user->id)->first();
         $industriTypes = IndustriType::all();
+        $pendingRequest = $employer && $employer->isVerified()
+            ? $employer->pendingChangeRequest()
+            : null;
 
-        return view('frontoffice.employer.profile.edit', compact('assets', 'employer', 'user', 'industriTypes'));
+        return view('frontoffice.employer.profile.edit', compact(
+            'assets', 'employer', 'user', 'industriTypes', 'pendingRequest'
+        ));
     }
 
     public function update(Request $request)
     {
-        $request->validate([
+        $rules = [
             'nama_perusahaan'      => 'required|string|max:50',
             'deskripsi_perusahaan' => 'required|string',
             'industriType_id'      => 'required|exists:industri_type,id',
@@ -160,10 +168,16 @@ class EmployerController extends Controller
             'website'              => 'nullable|string|max:255',
             'logo'                 => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'dokumen_legalitas'    => 'nullable|file|mimes:pdf,jpg,jpeg,png,webp|max:5120',
-        ]);
+        ];
 
         $user     = Auth::user();
         $employer = Employer::where('user_id', $user->id)->first();
+
+        if ($employer && $employer->isVerified()) {
+            return $this->updateVerified($request, $employer, $rules);
+        }
+
+        $request->validate($rules);
 
         $employer->update($request->only([
             'nama_perusahaan', 'deskripsi_perusahaan', 'industriType_id',
@@ -187,6 +201,68 @@ class EmployerController extends Controller
         }
 
         return redirect()->route('employer.profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    protected function updateVerified(Request $request, Employer $employer, array $rules): RedirectResponse
+    {
+        if ($employer->pendingChangeRequest()) {
+            return redirect()->route('employer.profile.edit')
+                ->with('error', 'Anda sudah memiliki permintaan perubahan yang sedang ditinjau. Tunggu keputusan admin sebelum mengajukan perubahan baru.');
+        }
+
+        $proposedGated = [];
+
+        if ($request->filled('nama_perusahaan') && $request->nama_perusahaan !== $employer->nama_perusahaan) {
+            $proposedGated['nama_perusahaan'] = $request->nama_perusahaan;
+        }
+        if ($request->filled('alamat_perusahaan') && $request->alamat_perusahaan !== $employer->alamat_perusahaan) {
+            $proposedGated['alamat_perusahaan'] = $request->alamat_perusahaan;
+        }
+        $hasGatedFile = $request->hasFile('logo') || $request->hasFile('dokumen_legalitas');
+
+        $rules['reason'] = (!empty($proposedGated) || $hasGatedFile)
+            ? 'required|string|max:1000'
+            : 'nullable|string|max:1000';
+
+        $request->validate($rules);
+
+        $employer->update($request->only([
+            'deskripsi_perusahaan', 'industriType_id', 'telp_perusahaan', 'website',
+        ]));
+
+        if (empty($proposedGated) && !$hasGatedFile) {
+            return redirect()->route('employer.profile')
+                ->with('success', 'Profil berhasil diperbarui.');
+        }
+
+        if ($request->hasFile('logo')) {
+            $proposedGated['logo'] = $request->file('logo')->store('change-requests/logos', 'public');
+        }
+        if ($request->hasFile('dokumen_legalitas')) {
+            $proposedGated['dokumen_legalitas'] = $request->file('dokumen_legalitas')
+                ->store('change-requests/dokumen-legalitas');
+        }
+
+        $changeRequest = EmployerChangeRequest::create([
+            'employer_id' => $employer->id,
+            'payload'     => $proposedGated,
+            'reason'      => $request->input('reason'),
+            'status'      => EmployerChangeRequest::STATUS_PENDING,
+        ]);
+
+        $admins = User::role('admin')->pluck('id');
+        foreach ($admins as $adminId) {
+            NotificationService::send(
+                $adminId,
+                'employer_change_request',
+                'Permintaan Perubahan Profil Employer',
+                "{$employer->nama_perusahaan} mengajukan perubahan profil yang memerlukan persetujuan.",
+                route('backoffice.employer-change-request.show', $changeRequest)
+            );
+        }
+
+        return redirect()->route('employer.profile')
+            ->with('success', 'Permintaan perubahan profil dikirim ke admin. Profil saat ini tetap aktif sampai keputusan diterima.');
     }
 
     public function serveDocument()

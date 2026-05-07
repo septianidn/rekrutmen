@@ -302,6 +302,11 @@ class JobFairController extends Controller
     {
         $jobseeker = Auth::user()->jobseeker;
 
+        if (!$jobseeker) {
+            return back()->with('error', 'Anda harus melengkapi profil terlebih dahulu sebelum mendaftar job fair.')
+                         ->with('redirect_profile', route('jobseeker.profile.edit'));
+        }
+
         if (!$jobFair->isActive()) {
             return back()->with('error', 'Job fair ini tidak aktif.');
         }
@@ -334,6 +339,11 @@ class JobFairController extends Controller
     {
         $jobseeker = Auth::user()->jobseeker;
 
+        if (!$jobseeker) {
+            return redirect()->route('jobseeker.profile.edit')
+                ->with('error', 'Lengkapi profil Anda terlebih dahulu untuk mengakses QR job fair.');
+        }
+
         $attendance = JobFairAttendance::where('job_fair_id', $jobFair->id)
             ->where('jobseeker_id', $jobseeker->id)
             ->firstOrFail();
@@ -352,6 +362,11 @@ class JobFairController extends Controller
 
         $jobFair = JobFair::findOrFail($request->kode_fair);
         $jobseeker = Auth::user()->jobseeker;
+
+        if (!$jobseeker) {
+            return back()->with('error', 'Anda harus melengkapi profil terlebih dahulu.')
+                         ->with('redirect_profile', route('jobseeker.profile.edit'));
+        }
 
         $attendance = JobFairAttendance::where('job_fair_id', $jobFair->id)
             ->where('jobseeker_id', $jobseeker->id)
@@ -376,6 +391,11 @@ class JobFairController extends Controller
         ]);
 
         $jobseeker = Auth::user()->jobseeker;
+
+        if (!$jobseeker) {
+            return back()->with('error', 'Anda harus melengkapi profil terlebih dahulu.')
+                         ->with('redirect_profile', route('jobseeker.profile.edit'));
+        }
 
         $pivot = JobFairJob::where('kode_booth', $request->kode_booth)
             ->where('status', 'approved')
@@ -443,7 +463,7 @@ class JobFairController extends Controller
     {
         $jobseeker = Auth::user()->jobseeker;
 
-        if ($scan->jobseeker_id !== $jobseeker->id) {
+        if (!$jobseeker || $scan->jobseeker_id !== $jobseeker->id) {
             abort(403);
         }
 
