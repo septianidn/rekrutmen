@@ -102,6 +102,11 @@ class Employer extends Model
         return $this->hasMany(EmployerContract::class);
     }
 
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
     public function activeMemberships()
     {
         return $this->pembayarans()

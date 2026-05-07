@@ -139,6 +139,7 @@
     @php
         $pendingEmployers = \App\Models\Employer::where('verification_status', 'pending')->count();
         $pendingChangeRequests = \App\Models\EmployerChangeRequest::where('status', 'pending')->count();
+        $pendingArticles = \App\Models\Article::where('status', 'pending')->count();
     @endphp
     <li class="nav-item">
         <a class="nav-link {{ activeRoute(route('backoffice.employer-verification.index')) }}" aria-current="page"
@@ -167,6 +168,21 @@
             <span class="item-name">Permintaan Perubahan</span>
             @if ($pendingChangeRequests > 0)
                 <span class="badge bg-warning ms-auto">{{ $pendingChangeRequests }}</span>
+            @endif
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.article-review.index')) }}" aria-current="page"
+            href="{{ route('backoffice.article-review.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M19 2H8a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h11a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Z" fill="currentColor"/>
+                    <path d="M9 8h9v2H9zm0 4h9v2H9zm0 4h6v2H9z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Review Artikel</span>
+            @if ($pendingArticles > 0)
+                <span class="badge bg-warning ms-auto">{{ $pendingArticles }}</span>
             @endif
         </a>
     </li>

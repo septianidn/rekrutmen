@@ -30,6 +30,7 @@
                   </li>
                   @php
                     $karirActive = request()->routeIs('vacancy') ||
+                                   request()->routeIs('artikel.*') ||
                                    request()->routeIs('employer.job.index') ||
                                    request()->routeIs('jobseeker.jobs');
                   @endphp
@@ -38,7 +39,7 @@
                     <ul class="sub-menu">
                       <li><a href="@auth @if(auth()->user()->hasRole('employer')){{ route('employer.job.index') }}@elseif(auth()->user()->hasRole('mahasiswa')){{ route('jobseeker.jobs') }}@else{{ route('vacancy') }}@endif @else{{ route('vacancy') }}@endauth" class="{{ $karirActive ? 'active' : '' }}">Vacancy</a></li>
                       <li><a href="#">Test Call</a></li>
-                      <li><a href="#">Article</a></li>
+                      <li><a href="{{ route('artikel.index') }}" class="{{ request()->routeIs('artikel.*') ? 'active' : '' }}">Article</a></li>
                     </ul>
                   </li>
                   <li class="nav-item">

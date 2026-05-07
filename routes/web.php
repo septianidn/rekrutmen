@@ -37,10 +37,12 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobseekerController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\BackOffice\MembershipController as BackofficeMembershipController;
 use App\Http\Controllers\BackOffice\EmployerContractController;
 use App\Http\Controllers\BackOffice\PembayaranController as BackofficePembayaranController;
+use App\Http\Controllers\BackOffice\ArticleReviewController;
 use App\Livewire\RiwayatPendidikan;
 use App\Models\Jobseeker;
 use Illuminate\Routing\RouteGroup;
@@ -65,6 +67,8 @@ Route::get('/storage', function () {
 //Front Office Landing Page
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/vacancy', [LandingPageController::class, 'vacancy'])->name('vacancy');
+Route::get('/artikel', [LandingPageController::class, 'articleIndex'])->name('artikel.index');
+Route::get('/artikel/{slug}', [LandingPageController::class, 'articleShow'])->name('artikel.show');
 Route::post('/register', [AuthenticatedSessionControllerEmployer::class, 'register'])->name('register')->middleware('guest');
 
 // Midtrans webhook — public (signature verified inside controller, CSRF excluded in VerifyCsrfToken)
@@ -126,6 +130,8 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::post('/membership/checkout', [PembayaranController::class, 'checkout'])->name('membership.checkout');
         Route::get('/membership/checkout/{pembayaran}', [PembayaranController::class, 'resumeCheckout'])->name('membership.checkout.resume');
         Route::post('/membership/checkout/{pembayaran}/cancel', [PembayaranController::class, 'cancelPending'])->name('membership.checkout.cancel');
+
+        Route::resource('article', ArticleController::class);
 
         });
         
@@ -244,6 +250,12 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
         Route::get('/pembayaran', [BackofficePembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [BackofficePembayaranController::class, 'show'])->name('pembayaran.show');
+
+        Route::get('/article-review', [ArticleReviewController::class, 'index'])->name('article-review.index');
+        Route::get('/article-review/{article}', [ArticleReviewController::class, 'show'])->name('article-review.show');
+        Route::get('/article-review/{article}/cover', [ArticleReviewController::class, 'serveCover'])->name('article-review.cover');
+        Route::post('/article-review/{article}/approve', [ArticleReviewController::class, 'approve'])->name('article-review.approve');
+        Route::post('/article-review/{article}/reject', [ArticleReviewController::class, 'reject'])->name('article-review.reject');
 
         Route::group(['prefix' => 'konten'], function () {
             Route::resource('/grup-konten', GrupKontenController::class);

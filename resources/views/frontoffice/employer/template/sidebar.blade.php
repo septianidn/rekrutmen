@@ -6,6 +6,7 @@
             </li>
             <li><a class="@yield('jobs')" href="{{route('employer.job.index')}}"><i class="lni lni-bookmark"></i> Jobs</a></li>
             <li><a class="@yield('jobfair')" href="{{route('employer.job-fair.index')}}"><i class="lni lni-calendar"></i> Job Fair</a></li>
+            <li><a class="@yield('article')" href="{{route('employer.article.index')}}"><i class="lni lni-write"></i> Artikel</a></li>
             <li><a class="@yield('membership')" href="{{route('employer.membership.index')}}"><i class="lni lni-credit-cards"></i> Membership</a></li>
                 {{-- <li><a href="manage-applications.html"><i class="lni lni-envelope"></i> Manage
                     Applications</a></li>
