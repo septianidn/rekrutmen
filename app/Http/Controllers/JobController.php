@@ -25,6 +25,17 @@ class JobController extends Controller
     {
         $user = Auth::user();
         $employer = Employer::where('user_id', $user->id)->first();
+
+        if ($employer && $employer->pendingChangeRequest()) {
+            return redirect()->route('employer.job.index')
+                ->with('error', 'Anda tidak dapat memposting lowongan baru selama permintaan perubahan profil sedang ditinjau admin.');
+        }
+
+        if ($employer && !$employer->canPostJob()) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Anda perlu membership aktif (paket dengan akses posting lowongan) atau status mitra kerja untuk memposting lowongan.');
+        }
+
         $prosesList = Proses::orderBy('id')->get();
 
         return view('frontoffice.employer.job.create', compact('employer', 'prosesList'));
@@ -32,6 +43,17 @@ class JobController extends Controller
 
     public function store(JobStoreRequest $request)
     {
+        $employer = Auth::user()->employer;
+        if ($employer && $employer->pendingChangeRequest()) {
+            return redirect()->route('employer.job.index')
+                ->with('error', 'Anda tidak dapat memposting lowongan baru selama permintaan perubahan profil sedang ditinjau admin.');
+        }
+
+        if ($employer && !$employer->canPostJob()) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Anda perlu membership aktif (paket dengan akses posting lowongan) atau status mitra kerja untuk memposting lowongan.');
+        }
+
         $data = $request->validated();
 
         $job = Job::create([

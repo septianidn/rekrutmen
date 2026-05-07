@@ -37,6 +37,10 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobseekerController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\BackOffice\MembershipController as BackofficeMembershipController;
+use App\Http\Controllers\BackOffice\EmployerContractController;
+use App\Http\Controllers\BackOffice\PembayaranController as BackofficePembayaranController;
 use App\Livewire\RiwayatPendidikan;
 use App\Models\Jobseeker;
 use Illuminate\Routing\RouteGroup;
@@ -62,6 +66,9 @@ Route::get('/storage', function () {
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/vacancy', [LandingPageController::class, 'vacancy'])->name('vacancy');
 Route::post('/register', [AuthenticatedSessionControllerEmployer::class, 'register'])->name('register')->middleware('guest');
+
+// Midtrans webhook — public (signature verified inside controller, CSRF excluded in VerifyCsrfToken)
+Route::post('/midtrans/webhook', [PembayaranController::class, 'webhook'])->name('midtrans.webhook');
 
 // Notifications (all authenticated users)
 Route::middleware('auth')->group(function () {
@@ -114,6 +121,11 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::post('/job-fair/queue/{scan}/call', [FrontJobFairController::class, 'employerCall'])->name('job-fair.queue.call');
         Route::post('/job-fair/queue/{scan}/absent', [FrontJobFairController::class, 'employerMarkAbsent'])->name('job-fair.queue.absent');
         Route::post('/job-fair/queue/{scan}/reactivate', [FrontJobFairController::class, 'employerReactivate'])->name('job-fair.queue.reactivate');
+
+        Route::get('/membership', [PembayaranController::class, 'index'])->name('membership.index');
+        Route::post('/membership/checkout', [PembayaranController::class, 'checkout'])->name('membership.checkout');
+        Route::get('/membership/checkout/{pembayaran}', [PembayaranController::class, 'resumeCheckout'])->name('membership.checkout.resume');
+        Route::post('/membership/checkout/{pembayaran}/cancel', [PembayaranController::class, 'cancelPending'])->name('membership.checkout.cancel');
 
         });
         
@@ -210,7 +222,28 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         Route::post('/employer-verification/{employer}/approve', [EmployerVerificationController::class, 'approve'])->name('employer-verification.approve');
         Route::post('/employer-verification/{employer}/reject', [EmployerVerificationController::class, 'reject'])->name('employer-verification.reject');
 
+        Route::get('/employer-change-request', [\App\Http\Controllers\BackOffice\EmployerChangeRequestController::class, 'index'])->name('employer-change-request.index');
+        Route::get('/employer-change-request/{changeRequest}', [\App\Http\Controllers\BackOffice\EmployerChangeRequestController::class, 'show'])->name('employer-change-request.show');
+        Route::get('/employer-change-request/{changeRequest}/dokumen', [\App\Http\Controllers\BackOffice\EmployerChangeRequestController::class, 'serveProposedDocument'])->name('employer-change-request.dokumen');
+        Route::get('/employer-change-request/{changeRequest}/logo', [\App\Http\Controllers\BackOffice\EmployerChangeRequestController::class, 'serveProposedLogo'])->name('employer-change-request.logo');
+        Route::post('/employer-change-request/{changeRequest}/approve', [\App\Http\Controllers\BackOffice\EmployerChangeRequestController::class, 'approve'])->name('employer-change-request.approve');
+        Route::post('/employer-change-request/{changeRequest}/decline', [\App\Http\Controllers\BackOffice\EmployerChangeRequestController::class, 'decline'])->name('employer-change-request.decline');
+
         Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+
+        Route::resource('/membership', BackofficeMembershipController::class)->except(['show']);
+
+        Route::get('/employer-contract', [EmployerContractController::class, 'index'])->name('employer-contract.index');
+        Route::get('/employer-contract/create', [EmployerContractController::class, 'create'])->name('employer-contract.create');
+        Route::post('/employer-contract', [EmployerContractController::class, 'store'])->name('employer-contract.store');
+        Route::get('/employer-contract/{contract}', [EmployerContractController::class, 'show'])->name('employer-contract.show');
+        Route::get('/employer-contract/{contract}/edit', [EmployerContractController::class, 'edit'])->name('employer-contract.edit');
+        Route::put('/employer-contract/{contract}', [EmployerContractController::class, 'update'])->name('employer-contract.update');
+        Route::post('/employer-contract/{contract}/revoke', [EmployerContractController::class, 'revoke'])->name('employer-contract.revoke');
+        Route::get('/employer-contract/{contract}/mou', [EmployerContractController::class, 'serveMou'])->name('employer-contract.mou');
+
+        Route::get('/pembayaran', [BackofficePembayaranController::class, 'index'])->name('pembayaran.index');
+        Route::get('/pembayaran/{pembayaran}', [BackofficePembayaranController::class, 'show'])->name('pembayaran.show');
 
         Route::group(['prefix' => 'konten'], function () {
             Route::resource('/grup-konten', GrupKontenController::class);

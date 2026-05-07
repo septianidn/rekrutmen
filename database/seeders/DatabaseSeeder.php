@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ProsesSeeder::class,
             JobseekerTypeSeeder::class,
             SocialMediaSeeder::class,
+            MembershipSeeder::class,
         ]);
 
         // Create 6 additional users with different user types

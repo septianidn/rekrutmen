@@ -23,8 +23,10 @@ class EmployerStoreRequest extends FormRequest
             'id_user'             => ['required', 'exists:users,id'],
             'nama_perusahaan'     => ['required', 'string', 'max:50'],
             'deskripsi_perusahaan'=> ['required', 'string'],
-            'id_industri_type'    => ['required'],
-            'alamat'              => ['nullable', 'string', 'max:150'],
+            'id_industri_type'    => ['required', 'exists:industri_type,id'],
+            'alamat'              => ['required', 'string', 'max:150'],
+            'telp'                => ['required', 'string', 'max:20'],
+            'website'             => ['nullable', 'string', 'max:255'],
             'logo'                => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'dokumen_legalitas'   => [
                 $hasExistingDoc ? 'nullable' : 'required',
@@ -38,9 +40,15 @@ class EmployerStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'dokumen_legalitas.required' => 'Dokumen legalitas usaha wajib diunggah.',
-            'dokumen_legalitas.mimes'    => 'Dokumen harus berupa PDF atau gambar (JPG, PNG, WEBP).',
-            'dokumen_legalitas.max'      => 'Ukuran dokumen maksimal 5MB.',
+            'nama_perusahaan.required'      => 'Nama perusahaan wajib diisi.',
+            'deskripsi_perusahaan.required' => 'Deskripsi perusahaan wajib diisi.',
+            'id_industri_type.required'     => 'Tipe industri wajib dipilih.',
+            'id_industri_type.exists'       => 'Tipe industri yang dipilih tidak valid.',
+            'alamat.required'               => 'Alamat perusahaan wajib diisi.',
+            'telp.required'                 => 'Nomor telepon perusahaan wajib diisi.',
+            'dokumen_legalitas.required'    => 'Dokumen legalitas usaha wajib diunggah.',
+            'dokumen_legalitas.mimes'       => 'Dokumen harus berupa PDF atau gambar (JPG, PNG, WEBP).',
+            'dokumen_legalitas.max'         => 'Ukuran dokumen maksimal 5MB.',
         ];
     }
 }

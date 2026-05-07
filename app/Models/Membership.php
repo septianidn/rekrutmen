@@ -10,24 +10,23 @@ class Membership extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    protected $table = 'membership';
+
     protected $fillable = [
         'nama_membership',
-        'durasi',
         'harga',
+        'durasi_hari',
+        'can_post_job',
+        'can_post_article',
+        'deskripsi',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
+        'harga' => 'decimal:2',
+        'durasi_hari' => 'integer',
+        'can_post_job' => 'boolean',
+        'can_post_article' => 'boolean',
     ];
 
     public function pembayarans(): HasMany

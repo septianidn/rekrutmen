@@ -81,4 +81,68 @@ class Employer extends Model
     {
         return $this->belongsTo(IndustriType::class, 'industriType_id');
     }
+
+    public function changeRequests(): HasMany
+    {
+        return $this->hasMany(EmployerChangeRequest::class);
+    }
+
+    public function pendingChangeRequest(): ?EmployerChangeRequest
+    {
+        return $this->changeRequests()->pending()->latest()->first();
+    }
+
+    public function pembayarans(): HasMany
+    {
+        return $this->hasMany(Pembayaran::class);
+    }
+
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(EmployerContract::class);
+    }
+
+    public function activeMemberships()
+    {
+        return $this->pembayarans()
+            ->activeMembership()
+            ->with('membership')
+            ->orderByDesc('tgl_berakhir')
+            ->get();
+    }
+
+    public function activeMembership(): ?Pembayaran
+    {
+        return $this->activeMemberships()->first();
+    }
+
+    public function activeContract(): ?EmployerContract
+    {
+        return $this->contracts()->active()->latest('tanggal_berakhir')->first();
+    }
+
+    public function hasActiveContract(): bool
+    {
+        return $this->activeContract() !== null;
+    }
+
+    public function canPostJob(): bool
+    {
+        if ($this->hasActiveContract()) {
+            return true;
+        }
+
+        return $this->activeMemberships()
+            ->contains(fn ($p) => $p->membership && $p->membership->can_post_job);
+    }
+
+    public function canPostArticle(): bool
+    {
+        if ($this->hasActiveContract()) {
+            return true;
+        }
+
+        return $this->activeMemberships()
+            ->contains(fn ($p) => $p->membership && $p->membership->can_post_article);
+    }
 }

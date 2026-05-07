@@ -172,6 +172,45 @@
     </li>
     {{-- END EMPLOYER VERIFICATION SECTION --}}
 
+    {{-- START MONETISASI SECTION --}}
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.membership.index')) }}" aria-current="page"
+            href="{{ route('backoffice.membership.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M19 4H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Z" fill="currentColor"/>
+                    <path d="M2 9h20v3H2zM6 16h4v-2H6z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Paket Membership</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.employer-contract.index')) }}" aria-current="page"
+            href="{{ route('backoffice.employer-contract.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Z" fill="currentColor"/>
+                    <path d="M7 8h10v2H7zm0 4h10v2H7zm0 4h6v2H7z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Kontrak Mitra</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.pembayaran.index')) }}" aria-current="page"
+            href="{{ route('backoffice.pembayaran.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z" fill="currentColor"/>
+                    <path d="M12 8a4 4 0 1 0 4 4 4 4 0 0 0-4-4Zm0 6a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Riwayat Pembayaran</span>
+        </a>
+    </li>
+    {{-- END MONETISASI SECTION --}}
+
     {{-- START ANALYTICS SECTION --}}
     <li class="nav-item">
         <a class="nav-link {{ activeRoute(route('backoffice.analytics.index')) }}" aria-current="page"
