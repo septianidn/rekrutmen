@@ -140,6 +140,8 @@
         $pendingEmployers = \App\Models\Employer::where('verification_status', 'pending')->count();
         $pendingChangeRequests = \App\Models\EmployerChangeRequest::where('status', 'pending')->count();
         $pendingArticles = \App\Models\Article::where('status', 'pending')->count();
+        $pendingPembayaranVerifications = \App\Models\Pembayaran::where('metode_pembayaran', 'manual')
+            ->where('status', 'awaiting_verification')->count();
     @endphp
     <li class="nav-item">
         <a class="nav-link {{ activeRoute(route('backoffice.employer-verification.index')) }}" aria-current="page"
@@ -211,6 +213,33 @@
                 </svg>
             </i>
             <span class="item-name">Kontrak Mitra</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.account.index')) }}" aria-current="page"
+            href="{{ route('backoffice.account.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M3 10h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9Z" fill="currentColor"/>
+                    <path d="M12 2 2 8v2h20V8L12 2Z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Rekening Bank</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.pembayaran-verification.index')) }}" aria-current="page"
+            href="{{ route('backoffice.pembayaran-verification.index') }}">
+            <i class="icon">
+                <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.4" d="M19 2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3Z" fill="currentColor"/>
+                    <path d="M11 16.5a1 1 0 0 1-.71-.29l-3-3a1 1 0 1 1 1.42-1.42L11 14.09l5.29-5.3a1 1 0 1 1 1.42 1.42l-6 6a1 1 0 0 1-.71.29Z" fill="currentColor"/>
+                </svg>
+            </i>
+            <span class="item-name">Verifikasi Pembayaran</span>
+            @if ($pendingPembayaranVerifications > 0)
+                <span class="badge bg-warning ms-auto">{{ $pendingPembayaranVerifications }}</span>
+            @endif
         </a>
     </li>
     <li class="nav-item">

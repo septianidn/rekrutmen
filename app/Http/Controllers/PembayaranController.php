@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Membership;
 use App\Models\Pembayaran;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,6 +36,13 @@ class PembayaranController extends Controller
             }
         }
 
+        $awaitingVerification = $employer->pembayarans()
+            ->where('kategori', Pembayaran::KATEGORI_MEMBERSHIP)
+            ->where('status', Pembayaran::STATUS_AWAITING_VERIFICATION)
+            ->with('membership', 'account')
+            ->latest()
+            ->first();
+
         $activeMemberships = $employer->activeMemberships();
         $activePembayaran = $activeMemberships->first();
         $activeContract = $employer->activeContract();
@@ -55,6 +62,7 @@ class PembayaranController extends Controller
             'activePembayaran',
             'activeContract',
             'pendingPembayaran',
+            'awaitingVerification',
             'history',
             'hasJobAccess',
             'hasArticleAccess',
@@ -73,6 +81,11 @@ class PembayaranController extends Controller
         if ($employer->hasActiveContract()) {
             return redirect()->route('employer.membership.index')
                 ->with('info', 'Akun Anda terdaftar sebagai mitra kerja sehingga tidak memerlukan pembayaran membership.');
+        }
+
+        if ($this->hasAwaitingVerification($employer)) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Anda masih memiliki pembayaran manual yang menunggu verifikasi admin. Tunggu hingga diproses sebelum membuat pembayaran baru.');
         }
 
         $membership = Membership::findOrFail($data['membership_id']);
@@ -231,28 +244,7 @@ class PembayaranController extends Controller
         DB::transaction(function () use ($pembayaran, $transactionStatus, $fraudStatus, $payload) {
             if (in_array($transactionStatus, ['capture', 'settlement'], true)
                 && (!$fraudStatus || $fraudStatus === 'accept')) {
-                if ($pembayaran->status !== Pembayaran::STATUS_LUNAS) {
-                    $start = now()->toDateString();
-                    $durasi = $pembayaran->membership?->durasi_hari ?? 365;
-                    $end = Carbon::parse($start)->addDays($durasi)->toDateString();
-
-                    $pembayaran->update([
-                        'status'                  => Pembayaran::STATUS_LUNAS,
-                        'midtrans_transaction_id' => $payload['transaction_id'] ?? null,
-                        'paid_at'                 => now(),
-                        'tgl_mulai'               => $start,
-                        'tgl_berakhir'            => $end,
-                    ]);
-
-                    NotificationService::send(
-                        $pembayaran->employer->user_id,
-                        'membership_activated',
-                        'Membership Aktif',
-                        'Pembayaran berhasil. Membership ' . ($pembayaran->membership->nama_membership ?? '-')
-                            . ' aktif sampai ' . Carbon::parse($end)->format('d M Y') . '.',
-                        route('employer.membership.index'),
-                    );
-                }
+                $pembayaran->activate($payload['transaction_id'] ?? null);
             } elseif (in_array($transactionStatus, ['deny', 'expire', 'cancel'], true)) {
                 $pembayaran->update([
                     'status'                  => $transactionStatus === 'expire'
@@ -272,6 +264,96 @@ class PembayaranController extends Controller
         });
 
         return response()->json(['message' => 'OK']);
+    }
+
+    public function manualCheckout(Membership $membership)
+    {
+        $employer = Auth::user()->employer;
+        abort_unless($employer, 403);
+
+        if ($employer->hasActiveContract()) {
+            return redirect()->route('employer.membership.index')
+                ->with('info', 'Akun Anda terdaftar sebagai mitra kerja sehingga tidak memerlukan pembayaran membership.');
+        }
+
+        if ($this->hasAwaitingVerification($employer)) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Pembayaran manual sebelumnya masih menunggu verifikasi admin.');
+        }
+
+        if ($employer->activeMemberships()->contains('membership_id', $membership->id)) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Paket ini sudah aktif. Tunggu sampai periode berakhir untuk memperbarui.');
+        }
+
+        $accounts = Account::active()->orderBy('nama_bank')->get();
+
+        if ($accounts->isEmpty()) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Belum ada rekening pembayaran yang tersedia. Hubungi admin.');
+        }
+
+        return view('frontoffice.employer.membership.manual-checkout', compact('membership', 'accounts'));
+    }
+
+    public function submitManual(Request $request, Membership $membership)
+    {
+        $employer = Auth::user()->employer;
+        abort_unless($employer, 403);
+
+        if ($employer->hasActiveContract()) {
+            return redirect()->route('employer.membership.index')
+                ->with('info', 'Akun Anda terdaftar sebagai mitra kerja.');
+        }
+
+        if ($this->hasAwaitingVerification($employer)) {
+            return redirect()->route('employer.membership.index')
+                ->with('error', 'Pembayaran manual sebelumnya masih menunggu verifikasi admin.');
+        }
+
+        $data = $request->validate([
+            'account_id'     => 'required|exists:account,id',
+            'bukti_transfer' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        $account = Account::active()->findOrFail($data['account_id']);
+
+        // Cancel any leftover Midtrans pending — employer is committing to manual now.
+        $existingPending = $employer->pembayarans()
+            ->where('kategori', Pembayaran::KATEGORI_MEMBERSHIP)
+            ->where('status', Pembayaran::STATUS_PENDING)
+            ->latest()
+            ->first();
+        if ($existingPending) {
+            $existingPending->update(['status' => Pembayaran::STATUS_GAGAL]);
+        }
+
+        $path = $request->file('bukti_transfer')->store('bukti_transfer', 'local');
+
+        $orderId = sprintf('PAY-MAN-%d-%d', $employer->id, now()->timestamp);
+
+        Pembayaran::create([
+            'employer_id'       => $employer->id,
+            'kategori'          => Pembayaran::KATEGORI_MEMBERSHIP,
+            'membership_id'     => $membership->id,
+            'amount'            => $membership->harga,
+            'metode_pembayaran' => Pembayaran::METODE_MANUAL,
+            'status'            => Pembayaran::STATUS_AWAITING_VERIFICATION,
+            'midtrans_order_id' => $orderId,
+            'account_id'        => $account->id,
+            'bukti_transfer'    => $path,
+        ]);
+
+        return redirect()->route('employer.membership.index')
+            ->with('success', 'Bukti transfer berhasil diunggah. Pembayaran sedang menunggu verifikasi admin (biasanya 1x24 jam kerja).');
+    }
+
+    protected function hasAwaitingVerification($employer): bool
+    {
+        return $employer->pembayarans()
+            ->where('kategori', Pembayaran::KATEGORI_MEMBERSHIP)
+            ->where('status', Pembayaran::STATUS_AWAITING_VERIFICATION)
+            ->exists();
     }
 
     protected function configureMidtrans(): void
@@ -305,17 +387,7 @@ class PembayaranController extends Controller
         $transactionId = is_object($status) ? ($status->transaction_id ?? null) : ($status['transaction_id'] ?? null);
 
         if (in_array($tx, ['settlement', 'capture'], true) && (!$fraud || $fraud === 'accept')) {
-            $start = now()->toDateString();
-            $durasi = $pembayaran->membership?->durasi_hari ?? 365;
-            $end = Carbon::parse($start)->addDays($durasi)->toDateString();
-
-            $pembayaran->update([
-                'status'                  => Pembayaran::STATUS_LUNAS,
-                'midtrans_transaction_id' => $transactionId,
-                'paid_at'                 => now(),
-                'tgl_mulai'               => $start,
-                'tgl_berakhir'            => $end,
-            ]);
+            $pembayaran->activate($transactionId);
         } elseif (in_array($tx, ['expire', 'cancel', 'deny'], true)) {
             $pembayaran->update([
                 'status'                  => $tx === 'expire'

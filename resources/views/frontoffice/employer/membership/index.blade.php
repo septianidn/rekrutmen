@@ -191,6 +191,25 @@
             </div>
         </div>
     </div>
+@elseif($awaitingVerification)
+    <div class="job-items mb-3" style="background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%); color: #fff;">
+        <div class="status-row">
+            <div class="status-icon"><i class="lni lni-shield"></i></div>
+            <div class="flex-grow-1">
+                <h4 class="mb-1 text-white">Menunggu Verifikasi Admin</h4>
+                <p class="mb-1" style="opacity: .9;">
+                    Bukti transfer untuk paket
+                    <strong>{{ $awaitingVerification->membership->nama_membership ?? '-' }}</strong>
+                    sudah diunggah {{ $awaitingVerification->created_at->diffForHumans() }}.
+                </p>
+                <small style="opacity: .85;">
+                    <i class="lni lni-information me-1"></i>
+                    Membership akan aktif otomatis setelah admin memverifikasi pembayaran Anda
+                    (biasanya 1x24 jam kerja).
+                </small>
+            </div>
+        </div>
+    </div>
 @elseif($pendingPembayaran)
     <div class="job-items mb-3" style="background: linear-gradient(135deg, #ffc107 0%, #f0a500 100%); color: #fff;">
         <div class="status-row">
@@ -337,35 +356,43 @@
                             </div>
                         </div>
 
-                        <form method="POST" action="{{ route('employer.membership.checkout') }}" class="mt-auto">
-                            @csrf
-                            <input type="hidden" name="membership_id" value="{{ $m->id }}">
-                            @if($isCurrent)
-                                <button type="button" class="btn btn-success w-100" disabled>
-                                    <i class="lni lni-checkmark-circle me-1"></i> Sedang Aktif
-                                </button>
-                            @elseif($activeContract)
-                                <button type="button" class="btn btn-outline-secondary w-100" disabled>
-                                    Mitra Kerja
-                                </button>
-                            @elseif($isPendingTier)
-                                <button type="button" class="btn btn-warning w-100" disabled>
-                                    <i class="lni lni-timer me-1"></i> Menunggu Pembayaran
-                                </button>
-                            @elseif($addsNothing)
-                                <button type="button" class="btn btn-outline-secondary w-100" disabled>
-                                    <i class="lni lni-checkmark me-1"></i> Sudah Tercakup
-                                </button>
-                            @else
-                                <button type="submit" class="btn w-100"
-                                    style="background: {{ $tierColor }}; color: #fff; border-color: {{ $tierColor }};">
-                                    Pilih Paket <i class="lni lni-arrow-right ms-1"></i>
-                                </button>
-                                @if($addsHint)
-                                    <small class="text-muted d-block text-center mt-1" style="font-size: 11px;">
-                                        ({{ $addsHint }})
-                                    </small>
-                                @endif
+                        <div class="mt-auto">
+                            <form method="POST" action="{{ route('employer.membership.checkout') }}">
+                                @csrf
+                                <input type="hidden" name="membership_id" value="{{ $m->id }}">
+                                @if($isCurrent)
+                                    <button type="button" class="btn btn-success w-100" disabled>
+                                        <i class="lni lni-checkmark-circle me-1"></i> Sedang Aktif
+                                    </button>
+                                @elseif($activeContract)
+                                    <button type="button" class="btn btn-outline-secondary w-100" disabled>
+                                        Mitra Kerja
+                                    </button>
+                                @elseif($awaitingVerification)
+                                    <button type="button" class="btn btn-info w-100" disabled>
+                                        <i class="lni lni-shield me-1"></i> Menunggu Verifikasi
+                                    </button>
+                                @elseif($isPendingTier)
+                                    <button type="button" class="btn btn-warning w-100" disabled>
+                                        <i class="lni lni-timer me-1"></i> Menunggu Pembayaran
+                                    </button>
+                                @elseif($addsNothing)
+                                    <button type="button" class="btn btn-outline-secondary w-100" disabled>
+                                        <i class="lni lni-checkmark me-1"></i> Sudah Tercakup
+                                    </button>
+                                @else
+                                    <button type="submit" class="btn w-100"
+                                        style="background: {{ $tierColor }}; color: #fff; border-color: {{ $tierColor }};">
+                                        <i class="lni lni-credit-cards me-1"></i> Bayar via Midtrans
+                                    </button>
+                                    <a href="{{ route('employer.membership.manual-checkout', $m) }}" class="btn btn-outline-secondary w-100 mt-2">
+                                        <i class="lni lni-bank me-1"></i> Bayar Manual (Transfer Bank)
+                                    </a>
+                                    @if($addsHint)
+                                        <small class="text-muted d-block text-center mt-1" style="font-size: 11px;">
+                                            ({{ $addsHint }})
+                                        </small>
+                                    @endif
 
                                 @if($hasRedundancy && $overlapExpiry)
                                     <div class="mt-2" style="border-left: 3px solid #ffc107; background: #fff8e1; padding: 8px 10px; border-radius: 6px; font-size: 11px; line-height: 1.45;">
@@ -383,6 +410,7 @@
                                 @endif
                             @endif
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -401,11 +429,12 @@
         @foreach($history as $h)
             @php
                 [$borderColor, $statusBg, $statusColor, $statusLabel, $statusIcon] = match($h->status) {
-                    'lunas'   => ['#28a745', '#d4edda', '#155724', 'Lunas',   'lni-checkmark-circle'],
-                    'pending' => ['#ffc107', '#fff3cd', '#856404', 'Pending', 'lni-timer'],
-                    'gagal'   => ['#dc3545', '#f8d7da', '#721c24', 'Gagal',   'lni-close'],
-                    'expired' => ['#6c757d', '#e9ecef', '#383d41', 'Expired', 'lni-alarm-clock'],
-                    default   => ['#adb5bd', '#f1f3f5', '#383d41', ucfirst($h->status), 'lni-question-circle'],
+                    'lunas'                 => ['#28a745', '#d4edda', '#155724', 'Lunas',              'lni-checkmark-circle'],
+                    'pending'               => ['#ffc107', '#fff3cd', '#856404', 'Pending',            'lni-timer'],
+                    'awaiting_verification' => ['#17a2b8', '#d1ecf1', '#0c5460', 'Menunggu Verifikasi','lni-shield'],
+                    'gagal'                 => ['#dc3545', '#f8d7da', '#721c24', 'Gagal',              'lni-close'],
+                    'expired'               => ['#6c757d', '#e9ecef', '#383d41', 'Expired',            'lni-alarm-clock'],
+                    default                 => ['#adb5bd', '#f1f3f5', '#383d41', ucfirst($h->status),  'lni-question-circle'],
                 };
             @endphp
             <div class="card border mb-2" style="border-left: 4px solid {{ $borderColor }} !important;">

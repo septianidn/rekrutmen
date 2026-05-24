@@ -42,6 +42,8 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\BackOffice\MembershipController as BackofficeMembershipController;
 use App\Http\Controllers\BackOffice\EmployerContractController;
 use App\Http\Controllers\BackOffice\PembayaranController as BackofficePembayaranController;
+use App\Http\Controllers\BackOffice\PembayaranVerificationController;
+use App\Http\Controllers\BackOffice\AccountController as BackofficeAccountController;
 use App\Http\Controllers\BackOffice\ArticleReviewController;
 use App\Livewire\RiwayatPendidikan;
 use App\Models\Jobseeker;
@@ -130,6 +132,8 @@ Route::group(['middleware' => 'role:employer'], function () {
         Route::post('/membership/checkout', [PembayaranController::class, 'checkout'])->name('membership.checkout');
         Route::get('/membership/checkout/{pembayaran}', [PembayaranController::class, 'resumeCheckout'])->name('membership.checkout.resume');
         Route::post('/membership/checkout/{pembayaran}/cancel', [PembayaranController::class, 'cancelPending'])->name('membership.checkout.cancel');
+        Route::get('/membership/manual-checkout/{membership}', [PembayaranController::class, 'manualCheckout'])->name('membership.manual-checkout');
+        Route::post('/membership/manual-checkout/{membership}', [PembayaranController::class, 'submitManual'])->name('membership.manual-checkout.submit');
 
         Route::resource('article', ArticleController::class);
 
@@ -250,6 +254,14 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
 
         Route::get('/pembayaran', [BackofficePembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [BackofficePembayaranController::class, 'show'])->name('pembayaran.show');
+
+        Route::resource('/account', BackofficeAccountController::class)->except(['show']);
+
+        Route::get('/pembayaran-verification', [PembayaranVerificationController::class, 'index'])->name('pembayaran-verification.index');
+        Route::get('/pembayaran-verification/{pembayaran}', [PembayaranVerificationController::class, 'show'])->name('pembayaran-verification.show');
+        Route::get('/pembayaran-verification/{pembayaran}/bukti', [PembayaranVerificationController::class, 'serveBukti'])->name('pembayaran-verification.bukti');
+        Route::post('/pembayaran-verification/{pembayaran}/approve', [PembayaranVerificationController::class, 'approve'])->name('pembayaran-verification.approve');
+        Route::post('/pembayaran-verification/{pembayaran}/reject', [PembayaranVerificationController::class, 'reject'])->name('pembayaran-verification.reject');
 
         Route::get('/article-review', [ArticleReviewController::class, 'index'])->name('article-review.index');
         Route::get('/article-review/{article}', [ArticleReviewController::class, 'show'])->name('article-review.show');
