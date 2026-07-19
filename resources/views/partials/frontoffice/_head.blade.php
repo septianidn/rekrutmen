@@ -115,9 +115,29 @@
         gap: 12px;
         padding-left: 20px;
     }
-    .nav-notif-trigger {
+    #nav .nav-notif-trigger {
         color: #333;
-        font-size: 20px;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+    }
+    #nav .nav-notif-trigger i {
+        font-size: 26px;
+        line-height: 1;
+    }
+    /* Isolate dropdown items from the .navbar-nav .nav-item a theme rule
+       (padding:30px 0 strips their horizontal padding and adds hover underlines) */
+    #nav .nav-notif-wrap .dropdown-menu {
+        overflow: hidden;
+    }
+    #nav .nav-notif-wrap .dropdown-item {
+        padding-left: 16px;
+        padding-right: 16px;
+        text-transform: none;
+    }
+    #nav .nav-notif-wrap .dropdown-item::before,
+    #nav .nav-notif-wrap .dropdown-item::after {
+        display: none;
     }
 
     /* Mobile collapsed state */

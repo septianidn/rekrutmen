@@ -86,7 +86,7 @@
                         <a href="#" class="position-relative nav-notif-trigger" id="frontNotifDrop" data-bs-toggle="dropdown">
                           <i class="lni lni-alarm"></i>
                           @if($notifCount > 0)
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">{{ $notifCount }}</span>
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger border border-light" style="top: 18px; left: 90%; font-size: 11px;">{{ $notifCount }}</span>
                           @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-end p-0 shadow" style="width: min(340px, calc(100vw - 30px)); max-height: 400px;" aria-labelledby="frontNotifDrop">
