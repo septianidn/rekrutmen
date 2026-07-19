@@ -254,6 +254,20 @@ class JobseekerController extends Controller
         return view('frontoffice.jobseeker.job-list', compact('jobs', 'appliedJobIds'));
     }
 
+    public function jobDetail(Job $job)
+    {
+        $job->load(['employer', 'steps.proses']);
+
+        $applied = false;
+        if (Auth::user()->jobseeker) {
+            $applied = Application::where('jobseeker_id', Auth::user()->jobseeker->id)
+                ->where('job_id', $job->id)
+                ->exists();
+        }
+
+        return view('frontoffice.jobseeker.job-detail', compact('job', 'applied'));
+    }
+
     public function applyJob(Job $job)
     {
         $user = Auth::user();

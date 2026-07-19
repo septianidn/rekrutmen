@@ -157,6 +157,7 @@ Route::prefix('jobseeker')->name('jobseeker.')->group(function(){
         Route::put('profile/update', [JobseekerController::class, 'updateProfile'])->name('profile.update');
         Route::get('profile/riwayat-pendidikan', RiwayatPendidikan::class)->name('profile.riwayat-pendidikan');
         Route::get('jobs', [JobseekerController::class, 'joblist'])->name('jobs');
+        Route::get('jobs/{job}', [JobseekerController::class, 'jobDetail'])->name('jobs.show');
         Route::post('jobs/{job}/apply', [JobseekerController::class, 'applyJob'])->name('jobs.apply');
         Route::get('my-applications', [JobseekerController::class, 'myApplications'])->name('my-applications');
         Route::get('my-applications/{application}/progress', [JobseekerController::class, 'applicationProgress'])->name('application.progress');

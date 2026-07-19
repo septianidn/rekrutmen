@@ -59,16 +59,19 @@
                     </div>
                     </div>
                 </div>
-                @if(!in_array($j->id, $appliedJobIds))
-                <div class="mt-3">
+                <div class="mt-3 d-flex gap-2">
+                    <a href="{{ route('jobseeker.jobs.show', $j->id) }}" class="btn btn-info btn-sm text-white">
+                        <i class="lni lni-eye me-1"></i> Detail
+                    </a>
+                    @if(!in_array($j->id, $appliedJobIds))
                     <form action="{{ route('jobseeker.jobs.apply', $j->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Apakah Anda yakin ingin melamar pekerjaan ini?')">
                             <i class="lni lni-envelope me-1"></i> Lamar Sekarang
                         </button>
                     </form>
+                    @endif
                 </div>
-                @endif
             </div>
         </div>
         @empty
