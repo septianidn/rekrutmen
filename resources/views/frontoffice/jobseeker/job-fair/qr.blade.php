@@ -126,6 +126,13 @@
                     <span class="badge bg-primary">Sedang Diproses</span>
                 @elseif($scan->status === 'selesai')
                     <span class="badge bg-success">Selesai</span>
+                    @php $applicationId = $applicationMap[$scan->job_id] ?? null; @endphp
+                    @if($applicationId)
+                        <a href="{{ route('jobseeker.application.progress', $applicationId) }}"
+                           class="btn btn-sm btn-outline-success mt-1">
+                            <i class="lni lni-files"></i> Lihat Lamaran
+                        </a>
+                    @endif
                 @elseif($scan->status === 'tidak_hadir')
                     <span class="badge bg-danger">Tidak Hadir</span>
                 @endif

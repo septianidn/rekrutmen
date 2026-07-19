@@ -125,10 +125,18 @@
 <div class="job-items mb-3">
     <h5 class="mb-3 text-success"><i class="lni lni-checkmark-circle"></i> Selesai ({{ $selesai->count() }})</h5>
     @foreach($selesai as $scan)
-    <div class="border border-success rounded p-3 mb-2">
-        <strong>{{ $scan->jobseeker->first_name }} {{ $scan->jobseeker->last_name }}</strong>
-        <span class="text-muted ms-2 small">{{ $scan->job->nama_pekerjaan }}</span>
-        <small class="text-muted ms-2">Selesai {{ $scan->selesai_at->diffForHumans() }}</small>
+    @php $applicationId = $applicationMap[$scan->jobseeker_id . '-' . $scan->job_id] ?? null; @endphp
+    <div class="border border-success rounded p-3 mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+            <strong>{{ $scan->jobseeker->first_name }} {{ $scan->jobseeker->last_name }}</strong>
+            <span class="text-muted ms-2 small">{{ $scan->job->nama_pekerjaan }}</span>
+            <small class="text-muted ms-2">Selesai {{ $scan->selesai_at->diffForHumans() }}</small>
+        </div>
+        @if($applicationId)
+            <a href="{{ route('employer.application.progress', $applicationId) }}" class="btn btn-sm btn-outline-success">
+                <i class="lni lni-files"></i> Lihat Lamaran
+            </a>
+        @endif
     </div>
     @endforeach
 </div>

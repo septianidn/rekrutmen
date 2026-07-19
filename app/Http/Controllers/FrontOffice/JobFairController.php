@@ -149,7 +149,19 @@ class JobFairController extends Controller
 
         $this->expireStaleEntries($jobFair, $scans->flatten());
 
-        return view('frontoffice.employer.job-fair.queue', compact('jobFair', 'scans'));
+        // Map (jobseeker_id, job_id) → application_id so the queue view can
+        // link "Selesai" scans straight to the regular application pipeline.
+        $selesaiScans = $scans['selesai'] ?? collect();
+        $applicationMap = [];
+        if ($selesaiScans->isNotEmpty()) {
+            $applicationMap = Application::whereIn('jobseeker_id', $selesaiScans->pluck('jobseeker_id'))
+                ->whereIn('job_id', $selesaiScans->pluck('job_id'))
+                ->get(['id', 'jobseeker_id', 'job_id'])
+                ->mapWithKeys(fn ($a) => [$a->jobseeker_id . '-' . $a->job_id => $a->id])
+                ->toArray();
+        }
+
+        return view('frontoffice.employer.job-fair.queue', compact('jobFair', 'scans', 'applicationMap'));
     }
 
     public function employerScanForm(JobFair $jobFair)
@@ -218,7 +230,7 @@ class JobFairController extends Controller
             'Giliran Anda Dipanggil',
             "Giliran Anda di booth {$employer->nama_perusahaan}" .
                 ($pivot->lokasi_booth ? " — {$pivot->lokasi_booth}" : '') . ". Segera hadir.",
-            route('employer.job-fair.queue', $scan->job_fair_id)
+            route('jobseeker.job-fair.qr', $scan->job_fair_id)
         );
 
         return back()->with('success', 'Jobseeker berhasil dipanggil.');
@@ -353,7 +365,18 @@ class JobFairController extends Controller
             ->where('jobseeker_id', $jobseeker->id)
             ->get();
 
-        return view('frontoffice.jobseeker.job-fair.qr', compact('jobFair', 'attendance', 'myScans'));
+        // Map job_id → application_id for selesai scans so the jobseeker can
+        // jump from the booth result to the regular "my application" progress.
+        $applicationMap = [];
+        $selesaiScans = $myScans->where('status', 'selesai');
+        if ($selesaiScans->isNotEmpty()) {
+            $applicationMap = Application::where('jobseeker_id', $jobseeker->id)
+                ->whereIn('job_id', $selesaiScans->pluck('job_id'))
+                ->pluck('id', 'job_id')
+                ->toArray();
+        }
+
+        return view('frontoffice.jobseeker.job-fair.qr', compact('jobFair', 'attendance', 'myScans', 'applicationMap'));
     }
 
     public function jobseekerCheckin(Request $request)
