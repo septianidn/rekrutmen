@@ -10,7 +10,7 @@
                 <div class="col-lg-12 col-12">
                     <div class="job-information">
                         <h3 class="title">Job Information</h3>
-                        <form action="{{route('employer.job.update', ['job'=>$jobs->id])}}" method="POST">
+                        <form id="job-form" action="{{route('employer.job.update', ['job'=>$jobs->id])}}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -272,7 +272,7 @@
         const reqInit = document.getElementById('requirement').value;
         if (reqInit) reqEditor.clipboard.dangerouslyPasteHTML(reqInit);
 
-        document.querySelector('form').addEventListener('submit', function () {
+        document.getElementById('job-form').addEventListener('submit', function () {
             document.getElementById('deskripsi_pekerjaan').value =
                 descEditor.getText().trim() === '' ? '' : descEditor.root.innerHTML;
             document.getElementById('requirement').value =

@@ -10,7 +10,7 @@
                 <div class="col-lg-12 col-12">
                     <div class="job-information">
                         <h3 class="title">Job Information</h3>
-                        <form action="{{route('employer.job.store')}}" method="POST">
+                        <form id="job-form" action="{{route('employer.job.store')}}" method="POST">
                             @csrf
                             <div class="row">
                                 <input type="hidden" name="employer_id" value="{{$employer->id}}">
@@ -252,7 +252,7 @@
         const reqInit = document.getElementById('requirement').value;
         if (reqInit) reqEditor.clipboard.dangerouslyPasteHTML(reqInit);
 
-        document.querySelector('form').addEventListener('submit', function () {
+        document.getElementById('job-form').addEventListener('submit', function () {
             document.getElementById('deskripsi_pekerjaan').value =
                 descEditor.getText().trim() === '' ? '' : descEditor.root.innerHTML;
             document.getElementById('requirement').value =
