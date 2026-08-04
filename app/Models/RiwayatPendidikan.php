@@ -23,6 +23,7 @@ class RiwayatPendidikan extends Model
         'instansi',
         'indeks_nilai',
         'keterangan',
+        'dokumen',
     ];
 
     /**

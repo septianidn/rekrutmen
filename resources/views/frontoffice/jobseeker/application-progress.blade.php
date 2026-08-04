@@ -1,6 +1,6 @@
 @extends('frontoffice.jobseeker.templates.body')
 @section('applications', 'active')
-@section('page-title', 'Progress Seleksi')
+@section('page-title', 'Progres Seleksi')
 @section('page-subtitle', 'Pantau kemajuan tahap seleksi lamaran Anda.')
 @section('content')
 
@@ -30,7 +30,7 @@
                         @elseif($application->status === 'rejected')
                             <span class="badge bg-danger">Ditolak</span>
                         @endif
-                        <span class="badge bg-light text-dark border">{{ $job->worktime }}</span>
+                        <span class="badge bg-light text-dark border">{{ worktimeLabel($job->worktime) }}</span>
                     </div>
                 </div>
                 <p class="text-muted mb-2"><strong>{{ $job->employer->nama_perusahaan ?? '-' }}</strong></p>
@@ -44,23 +44,27 @@
 
         <div class="card border mb-3">
             <div class="card-body p-4">
-                <h5 class="mb-3"><i class="lni lni-timer me-1"></i> Progress Seleksi</h5>
+                <h5 class="mb-3"><i class="lni lni-timer me-1"></i> Progres Seleksi</h5>
 
                 @if($steps->isEmpty())
                     <div class="alert alert-info mb-0">
                         Employer belum mengatur tahap seleksi untuk lowongan ini.
                     </div>
                 @else
-                    @if($currentStep)
+                    @if($application->status === 'rejected')
+                        <div class="alert alert-danger mb-3">
+                            Lamaran Anda tidak lolos pada salah satu tahap seleksi.
+                        </div>
+                    @elseif(!$currentStep)
+                        <div class="alert alert-success mb-3">
+                            Semua tahap seleksi telah selesai.
+                        </div>
+                    @else
                         <div class="alert alert-warning mb-3">
-                            <strong>Tahap saat ini:</strong> {{ $currentStep->proses->nama_proses ?? '-' }}
+                            <strong>Tahap saat ini:</strong> {{ $currentStep->label ?? '-' }}
                             @if($currentStep->deskripsi)
                                 <br><span class="small">{{ $currentStep->deskripsi }}</span>
                             @endif
-                        </div>
-                    @else
-                        <div class="alert alert-success mb-3">
-                            Semua tahap seleksi telah selesai.
                         </div>
                     @endif
 
@@ -85,6 +89,11 @@
                                     $dotColor = '#ffc107';
                                     $badgeClass = 'bg-warning text-dark';
                                     $badgeLabel = 'Sedang Berjalan';
+                                } elseif ($application->status === 'rejected') {
+                                    $state = 'skipped';
+                                    $dotColor = '#ced4da';
+                                    $badgeClass = 'bg-light text-muted border';
+                                    $badgeLabel = 'Tidak Dilanjutkan';
                                 } else {
                                     $state = 'waiting';
                                     $dotColor = '#adb5bd';
@@ -103,7 +112,7 @@
                                 <div class="flex-grow-1 ps-3">
                                     <div class="d-flex align-items-center mb-1 flex-wrap">
                                         <h6 class="mb-0 me-2">
-                                            {{ $loop->iteration }}. {{ $step->proses->nama_proses ?? '-' }}
+                                            {{ $loop->iteration }}. {{ $step->label ?? '-' }}
                                         </h6>
                                         <span class="badge {{ $badgeClass }}">{{ $badgeLabel }}</span>
                                     </div>

@@ -21,6 +21,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class JobseekerController extends Controller
@@ -176,6 +178,61 @@ class JobseekerController extends Controller
         $user = Auth::user();
         $jobseeker = $user->jobseeker;
 
+        $fileRule = ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:2048'];
+
+        // ===== Validasi =====
+        // WAJIB   : data pribadi, Riwayat Pendidikan, Bahasa.
+        // OPSIONAL: Organisasi, Pengalaman Kerja, Prestasi, Pelatihan, Referensi
+        //           (dianjurkan, divalidasi hanya bila diisi). Dokumen bukti opsional.
+        $request->validate([
+            'first_name'    => ['required', 'string', 'max:255'],
+            'last_name'     => ['required', 'string', 'max:255'],
+            'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
+            'ttl'           => ['required', 'date'],
+
+            // Wajib
+            'pendidikan'                => ['required', 'array', 'min:1'],
+            'pendidikan.*.jenjang'      => ['required', 'string', 'max:5'],
+            'pendidikan.*.instansi'     => ['required', 'string', 'max:50'],
+            'pendidikan.*.indeks_nilai' => ['required', 'string', 'max:4'],
+            'pendidikan.*.keterangan'   => ['required', 'string'],
+            'pendidikan.*.dokumen'      => $fileRule,
+
+            'bahasa'              => ['required', 'array', 'min:1'],
+            'bahasa.*.bahasa'     => ['required', 'string', 'max:20'],
+            'bahasa.*.keterangan' => ['required', 'string'],
+            'bahasa.*.dokumen'    => $fileRule,
+
+            // Opsional (dianjurkan) — divalidasi hanya jika diisi
+            'kerja.*.keterangan'           => ['nullable', 'string'],
+            'kerja.*.dokumen'              => $fileRule,
+            'organisasi.*.nama_organisasi' => ['nullable', 'string', 'max:30'],
+            'organisasi.*.jabatan'         => ['nullable', 'string', 'max:20'],
+            'organisasi.*.keterangan'      => ['nullable', 'string'],
+            'organisasi.*.dokumen'         => $fileRule,
+            'prestasi.*.nama_penghargaan'  => ['nullable', 'string', 'max:40'],
+            'prestasi.*.tahun'             => ['nullable', 'string', 'max:4'],
+            'prestasi.*.dokumen'           => $fileRule,
+        ], [
+            'jenis_kelamin.in'       => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'ttl.required'           => 'Tanggal lahir wajib diisi.',
+            'pendidikan.required'    => 'Riwayat pendidikan wajib diisi minimal 1 data.',
+            'pendidikan.min'         => 'Riwayat pendidikan wajib diisi minimal 1 data.',
+            'bahasa.required'        => 'Bahasa wajib diisi minimal 1 data.',
+            'bahasa.min'             => 'Bahasa wajib diisi minimal 1 data.',
+        ]);
+
+        // File baru diunggah -> disimpan; jika tidak, pertahankan file lama.
+        $resolveDokumen = function (array $row, string $sec, $i) use ($request) {
+            $file = $request->file("$sec.$i.dokumen");
+            $row['dokumen'] = $file
+                ? $file->store("jobseeker/$sec", 'public')
+                : ($row['dokumen_lama'] ?? null);
+            unset($row['dokumen_lama']);
+            return $row;
+        };
+
         // Update user contact info
         $user->update($request->only(['first_name', 'last_name', 'phone_number', 'street_addr']));
 
@@ -184,55 +241,50 @@ class JobseekerController extends Controller
 
         // Sync riwayat pendidikan
         $jobseeker->riwayatPendidikans()->delete();
-        foreach ($request->input('pendidikan', []) as $edu) {
-            if (!empty($edu['instansi'])) {
-                $jobseeker->riwayatPendidikans()->create($edu);
-            }
+        foreach ((array) $request->input('pendidikan', []) as $i => $edu) {
+            if (empty($edu['instansi'])) continue;
+            $jobseeker->riwayatPendidikans()->create($resolveDokumen($edu, 'pendidikan', $i));
         }
 
         // Sync riwayat kerja
         $jobseeker->riwayatKerjas()->delete();
-        foreach ($request->input('kerja', []) as $work) {
-            if (!empty($work['keterangan'])) {
-                $jobseeker->riwayatKerjas()->create($work);
-            }
+        foreach ((array) $request->input('kerja', []) as $i => $work) {
+            if (empty($work['keterangan'])) continue;
+            $jobseeker->riwayatKerjas()->create($resolveDokumen($work, 'kerja', $i));
         }
 
         // Sync organisasi
         $jobseeker->organisasis()->delete();
-        foreach ($request->input('organisasi', []) as $org) {
-            if (!empty($org['nama_organisasi'])) {
-                $jobseeker->organisasis()->create($org);
-            }
+        foreach ((array) $request->input('organisasi', []) as $i => $org) {
+            if (empty($org['nama_organisasi'])) continue;
+            $jobseeker->organisasis()->create($resolveDokumen($org, 'organisasi', $i));
         }
 
         // Sync prestasi
         $jobseeker->prestasis()->delete();
-        foreach ($request->input('prestasi', []) as $award) {
-            if (!empty($award['nama_penghargaan'])) {
-                $jobseeker->prestasis()->create($award);
-            }
+        foreach ((array) $request->input('prestasi', []) as $i => $award) {
+            if (empty($award['nama_penghargaan'])) continue;
+            $jobseeker->prestasis()->create($resolveDokumen($award, 'prestasi', $i));
         }
 
-        // Sync pelatihan
+        // Sync bahasa
+        $jobseeker->bahasas()->delete();
+        foreach ((array) $request->input('bahasa', []) as $i => $lang) {
+            if (empty($lang['bahasa'])) continue;
+            $jobseeker->bahasas()->create($resolveDokumen($lang, 'bahasa', $i));
+        }
+
+        // Sync pelatihan (opsional)
         $jobseeker->pelatihans()->delete();
-        foreach ($request->input('pelatihan', []) as $training) {
+        foreach ((array) $request->input('pelatihan', []) as $training) {
             if (!empty($training['nama_pelatihan'])) {
                 $jobseeker->pelatihans()->create($training);
             }
         }
 
-        // Sync bahasa
-        $jobseeker->bahasas()->delete();
-        foreach ($request->input('bahasa', []) as $lang) {
-            if (!empty($lang['bahasa'])) {
-                $jobseeker->bahasas()->create($lang);
-            }
-        }
-
-        // Sync rekomendasi
+        // Sync rekomendasi (opsional)
         $jobseeker->rekomendasis()->delete();
-        foreach ($request->input('rekomendasi', []) as $ref) {
+        foreach ((array) $request->input('rekomendasi', []) as $ref) {
             if (!empty($ref['nama_perekomendasi'])) {
                 $jobseeker->rekomendasis()->create($ref);
             }
@@ -242,7 +294,10 @@ class JobseekerController extends Controller
     }
 
     public function joblist(){
-        $jobs = Job::open()->paginate(3);
+        // Lowongan ditutup tetap ditampilkan (setelah yang aktif); lamaran diblokir di UI dan server.
+        $jobs = Job::orderByRaw("CASE WHEN status = 'active' THEN 0 ELSE 1 END")
+            ->latest()
+            ->paginate(3);
         $appliedJobIds = [];
 
         if (Auth::user()->jobseeker) {

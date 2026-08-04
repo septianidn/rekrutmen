@@ -45,7 +45,7 @@
                         <div class="d-flex justify-content-between align-items-start mb-1">
                             <h4 class="mb-0">{{ $job->nama_pekerjaan }}</h4>
                             <div class="flex-shrink-0 ms-2">
-                                <span class="badge bg-light text-dark border">{{ $job->worktime }}</span>
+                                <span class="badge bg-light text-dark border">{{ worktimeLabel($job->worktime) }}</span>
                                 @if($job->isOpen())
                                     <span class="badge bg-success">Aktif</span>
                                 @else
@@ -96,7 +96,7 @@
                     <div class="d-flex align-items-start gap-2 mb-2">
                         <span class="badge rounded-pill bg-success flex-shrink-0">{{ $step->urutan }}</span>
                         <div>
-                            <strong class="small">{{ $step->proses->nama_proses ?? '-' }}</strong>
+                            <strong class="small">{{ $step->label ?? '-' }}</strong>
                             @if($step->deskripsi)
                                 <div class="small text-muted">{{ $step->deskripsi }}</div>
                             @endif

@@ -47,6 +47,17 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>Hak Kontrak</th>
+                            <td>
+                                @if($contract->can_post_job)
+                                    <span class="badge bg-primary">Posting Lowongan</span>
+                                @endif
+                                @if($contract->can_post_article)
+                                    <span class="badge bg-info">Posting Artikel</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
                             <th>MoU</th>
                             <td>
                                 @if($contract->mou_file)

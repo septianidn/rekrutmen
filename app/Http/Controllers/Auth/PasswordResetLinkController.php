@@ -13,9 +13,11 @@ class PasswordResetLinkController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('auth.recoverpw');
+        return view($request->routeIs('user.*')
+            ? 'frontoffice.auth.forgot-password'
+            : 'auth.recoverpw');
     }
 
     /**
@@ -40,9 +42,17 @@ class PasswordResetLinkController extends Controller
             $request->only('email')
         );
 
-        return $status === Password::RESET_LINK_SENT
-            ? view('auth.confirm-mail')->with(['status' => __($status), 'email' => $request->email])
-            : back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
+        if ($status !== Password::RESET_LINK_SENT) {
+            return back()->withInput($request->only('email'))->withErrors(['email' => __($status)]);
+        }
 
+        // Frontoffice (employer/jobseeker): kembali ke form dengan pesan sukses
+        // berbahasa Indonesia. Backoffice tetap memakai halaman konfirmasi bawaan.
+        if ($request->routeIs('user.*')) {
+            return redirect()->route('user.password.request')
+                ->with('status', 'Tautan untuk mengatur ulang kata sandi telah dikirim ke email Anda. Silakan periksa kotak masuk Anda.');
+        }
+
+        return view('auth.confirm-mail')->with(['status' => __($status), 'email' => $request->email]);
     }
 }

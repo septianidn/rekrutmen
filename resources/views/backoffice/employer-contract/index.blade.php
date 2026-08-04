@@ -37,6 +37,7 @@
                             <thead>
                                 <tr>
                                     <th>Perusahaan</th>
+                                    <th>Hak Kontrak</th>
                                     <th>Mulai</th>
                                     <th>Berakhir</th>
                                     <th>Dibuat oleh</th>
@@ -47,6 +48,14 @@
                                 @forelse ($contracts as $c)
                                     <tr>
                                         <td>{{ $c->employer->nama_perusahaan ?? '-' }}</td>
+                                        <td>
+                                            @if($c->can_post_job)
+                                                <span class="badge bg-primary">Lowongan</span>
+                                            @endif
+                                            @if($c->can_post_article)
+                                                <span class="badge bg-info">Artikel</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $c->tanggal_mulai->format('d M Y') }}</td>
                                         <td>{{ $c->tanggal_berakhir->format('d M Y') }}</td>
                                         <td>{{ $c->creator->name ?? '-' }}</td>
@@ -55,7 +64,7 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="5" class="text-center text-muted">Tidak ada data.</td></tr>
+                                    <tr><td colspan="6" class="text-center text-muted">Tidak ada data.</td></tr>
                                 @endforelse
                             </tbody>
                         </table>

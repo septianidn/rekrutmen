@@ -29,7 +29,7 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4"><strong>Lokasi:</strong> {{ $job->alamat }}</div>
-                        <div class="col-md-4"><strong>Tipe:</strong> {{ $job->worktime }}</div>
+                        <div class="col-md-4"><strong>Tipe:</strong> {{ worktimeLabel($job->worktime) }}</div>
                         <div class="col-md-4"><strong>Gaji:</strong> {{ $job->ekspektasi_gaji }}</div>
                         <div class="col-md-4 mt-2"><strong>Deadline:</strong>
                             {{ $job->application_deadline ? \Carbon\Carbon::parse($job->application_deadline)->format('d M Y') : '-' }}
@@ -51,7 +51,7 @@
                         <h6>Tahap Seleksi</h6>
                         <ol>
                             @foreach($job->steps as $step)
-                                <li>{{ $step->proses->nama ?? '-' }} @if($step->deskripsi)<span class="text-muted">— {{ $step->deskripsi }}</span>@endif</li>
+                                <li>{{ $step->label ?? '-' }} @if($step->deskripsi)<span class="text-muted">— {{ $step->deskripsi }}</span>@endif</li>
                             @endforeach
                         </ol>
                     @endif
@@ -80,7 +80,7 @@
                                             @elseif($app->status === 'rejected')
                                                 <span class="badge bg-danger">Rejected</span>
                                             @else
-                                                <span class="badge bg-warning text-dark">Pending</span>
+                                                <span class="badge bg-warning text-dark">Menunggu</span>
                                             @endif
                                         </td>
                                     </tr>

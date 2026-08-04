@@ -40,7 +40,7 @@
                         </p>
                     </div>
                     <div class="flex-shrink-0">
-                        <span class="badge bg-light text-dark border">{{ $jobs->worktime }}</span>
+                        <span class="badge bg-light text-dark border">{{ worktimeLabel($jobs->worktime) }}</span>
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                     <li class="list-inline-item me-3"><i class="lni lni-map-marker me-1"></i>{{ $jobs->alamat }}</li>
                     <li class="list-inline-item me-3"><i class="lni lni-dollar me-1"></i>Rp.{{ number_format($jobs->ekspektasi_gaji, 0, ',', '.') }}</li>
                     @if($jobs->application_deadline)
-                        <li class="list-inline-item me-3"><i class="lni lni-calendar me-1"></i>Deadline: {{ \Carbon\Carbon::parse($jobs->application_deadline)->format('d M Y') }}</li>
+                        <li class="list-inline-item me-3"><i class="lni lni-calendar me-1"></i>Batas Lamaran: {{ \Carbon\Carbon::parse($jobs->application_deadline)->format('d M Y') }}</li>
                     @endif
                 </ul>
 
@@ -124,7 +124,7 @@
                                     @endif
                                 </div>
                                 <div class="flex-grow-1 ps-3">
-                                    <h6 class="mb-1">{{ $step->proses->nama_proses ?? '-' }}</h6>
+                                    <h6 class="mb-1">{{ $step->label ?? '-' }}</h6>
                                     @if(!empty($step->deskripsi))
                                         <p class="text-muted small mb-0">{{ $step->deskripsi }}</p>
                                     @endif

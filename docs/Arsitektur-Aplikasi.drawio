@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-07-20T00:00:00Z" agent="pusatkarir-generator" version="22.0.0" type="device">
+  <diagram id="arsitektur-aplikasi" name="Arsitektur Aplikasi">
+    <mxGraphModel dx="1200" dy="760" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Judul -->
+        <mxCell id="title" value="Arsitektur Aplikasi Sistem Informasi Rekrutmen CDC Universitas Andalas" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="0" width="640" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Kontainer aplikasi -->
+        <mxCell id="app" value="Aplikasi Sistem Informasi Rekrutmen (Laravel 10 — MVC)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=13;fontStyle=1;fillColor=none;strokeColor=#000000;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="220" y="40" width="560" height="620" as="geometry" />
+        </mxCell>
+
+        <!-- Pengguna -->
+        <mxCell id="pc" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;outlineConnect=0;align=center;shape=mxgraph.networks.pc;fillColor=#4E79C4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="288" width="110" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="pcLabel" value="Pengguna&#10;(Pengunjung, Jobseeker,&#10;Employer, Admin)" style="text;html=1;align=center;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="35" y="380" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Komponen MVC -->
+        <mxCell id="routes" value="Routes" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="90" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="controllers" value="Controllers" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="430" y="250" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="view" value="View&#10;(Blade + Bootstrap)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="250" y="440" width="160" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="model" value="Model&#10;(Eloquent ORM)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="440" width="160" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Komponen pendukung & sumber daya eksternal -->
+        <mxCell id="qr" value="QR Code Generator" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="850" y="80" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="pdf" value="PDF Generator&#10;(DomPDF)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="850" y="170" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" value="Penyimpanan Berkas&#10;(logo, dokumen legalitas,&#10;bukti transfer)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="850" y="262" width="180" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="Database&#10;MySQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="870" y="430" width="130" height="95" as="geometry" />
+        </mxCell>
+
+        <!-- Alur utama -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;" edge="1" parent="1" source="pc" target="routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="1. Pengguna melakukan&#10;request melalui browser" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=11;" vertex="1" connectable="0" parent="e1">
+          <mxGeometry x="-0.1" relative="1" as="geometry"><mxPoint x="10" y="-18" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;" edge="1" parent="1" source="routes" target="controllers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" value="2. Route meneruskan request ke&#10;controller sesuai hak akses pengguna" style="edgeLabel;html=1;align=left;verticalAlign=middle;fontSize=11;" vertex="1" connectable="0" parent="e2">
+          <mxGeometry x="-0.05" relative="1" as="geometry"><mxPoint x="12" y="0" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.65;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;" edge="1" parent="1" source="controllers" target="model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3l" value="3. Controller memproses request&#10;dengan mengakses model" style="edgeLabel;html=1;align=left;verticalAlign=middle;fontSize=11;" vertex="1" connectable="0" parent="e3">
+          <mxGeometry x="-0.05" relative="1" as="geometry"><mxPoint x="14" y="0" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;" edge="1" parent="1" source="model" target="db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="4. Model membaca dan menyimpan&#10;data ke database" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=11;" vertex="1" connectable="0" parent="e4">
+          <mxGeometry x="-0.05" relative="1" as="geometry"><mxPoint x="0" y="-20" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;dashed=1;" edge="1" parent="1" source="controllers" target="view">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5l" value="5. Controller mengirim&#10;data hasil olahan ke view" style="edgeLabel;html=1;align=right;verticalAlign=middle;fontSize=11;" vertex="1" connectable="0" parent="e5">
+          <mxGeometry x="0.1" relative="1" as="geometry"><mxPoint x="-14" y="0" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#000000;dashed=1;" edge="1" parent="1" source="view" target="pc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6l" value="6. View menampilkan&#10;data kepada pengguna" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=11;" vertex="1" connectable="0" parent="e6">
+          <mxGeometry x="0.1" relative="1" as="geometry"><mxPoint x="0" y="22" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Interaksi dengan komponen pendukung -->
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#B85450;" edge="1" parent="1" source="controllers" target="qr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7l" value="Membangkitkan kode QR&#10;tiket dan booth job fair" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#B85450;" vertex="1" connectable="0" parent="e7">
+          <mxGeometry x="0.2" relative="1" as="geometry"><mxPoint x="0" y="-16" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#B85450;" edge="1" parent="1" source="controllers" target="pdf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8l" value="Menghasilkan berkas CV&#10;dalam format PDF" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#B85450;" vertex="1" connectable="0" parent="e8">
+          <mxGeometry x="0.15" relative="1" as="geometry"><mxPoint x="0" y="-16" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#B85450;" edge="1" parent="1" source="controllers" target="storage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9l" value="Menyimpan dan mengambil&#10;berkas unggahan" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#B85450;" vertex="1" connectable="0" parent="e9">
+          <mxGeometry x="0.15" relative="1" as="geometry"><mxPoint x="0" y="-16" as="offset" /></mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

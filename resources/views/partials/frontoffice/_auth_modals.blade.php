@@ -11,32 +11,11 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="heading">
-                            <h3>Masuk Disini</h3>
+                            <h3>Masuk Di Sini</h3>
                             <p>
-                                Log in to continue your account <br />
-                                and explore new jobs.
+                                Masuk untuk melanjutkan ke akun Anda <br />
+                                dan menjelajahi lowongan baru.
                             </p>
-                        </div>
-                        <div class="social-login">
-                            <ul>
-                                <li>
-                                    <a class="linkedin" href="#"><i class="lni lni-linkedin-original"></i>
-                                        Log in with
-                                        LinkedIn</a>
-                                </li>
-                                <li>
-                                    <a class="google" href="#"><i class="lni lni-google"></i> Log in with
-                                        Google</a>
-                                </li>
-                                <li>
-                                    <a class="facebook" href="#"><i class="lni lni-facebook-original"></i>
-                                        Log in with
-                                        Facebook</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="or-devider">
-                            <span>Or</span>
                         </div>
                         <form action="{{ route('employer.login.store') }}" method="POST">
                             @csrf
@@ -59,16 +38,15 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value
                                         id="flexCheckDefault" />
-                                    <label class="form-check-label" for="flexCheckDefault">Remember
-                                        password</label>
+                                    <label class="form-check-label" for="flexCheckDefault">Ingat Saya</label>
                                 </div>
-                                <a href class="font-size-3 text-dodger line-height-reset">Lupa Password?</a>
+                                <a href="{{ route('user.password.request') }}" class="font-size-3 text-dodger line-height-reset">Lupa Password?</a>
                             </div>
                             <div class="form-group mb-8 button">
                                 <button class="btn" type="submit">Masuk</button>
                             </div>
                             <p class="text-center create-new-account">
-                                Don't have an account? <a href="#">Create a free account</a>
+                                Belum punya akun? <a href="javascript:void(0)" data-switch-modal="signup" data-from-modal="login">Buat akun gratis</a>
                             </p>
                         </form>
                     </div>
@@ -92,34 +70,13 @@
                     <div class="row">
                         <div class="heading">
                             <h3>
-                                Create a free Account <br />
-                                Today
+                                Buat Akun Gratis <br />
+                                Sekarang
                             </h3>
                             <p>
-                                Create your account to continue <br />
-                                and explore new jobs.
+                                Buat akun Anda untuk melanjutkan <br />
+                                dan menjelajahi lowongan baru.
                             </p>
-                        </div>
-                        <div class="social-login">
-                            <ul>
-                                <li>
-                                    <a class="linkedin" href="#"><i class="lni lni-linkedin-original"></i>
-                                        Import from
-                                        LinkedIn</a>
-                                </li>
-                                <li>
-                                    <a class="google" href="#"><i class="lni lni-google"></i> Import from
-                                        Google</a>
-                                </li>
-                                <li>
-                                    <a class="facebook" href="#"><i class="lni lni-facebook-original"></i>
-                                        Import from
-                                        Facebook</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="or-devider">
-                            <span>Or</span>
                         </div>
                         <form action="{{ route('register') }}" method="POST" id="signupForm">
                             @csrf
@@ -168,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="label">Confirm Password</label>
+                                <label class="label">Konfirmasi Password</label>
                                 <div class="position-relative">
                                     <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password" required minlength="8" />
                                     <button type="button" class="btn-peek" onclick="togglePassword(this)">
@@ -181,13 +138,16 @@
                             <div class="form-group d-flex flex-wrap justify-content-between">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" required />
-                                    <label class="form-check-label">Agree to the <a
-                                            href="#">Terms & Conditions</a></label>
+                                    <label class="form-check-label">Setuju dengan <a
+                                            href="#">Syarat &amp; Ketentuan</a></label>
                                 </div>
                             </div>
                             <div class="form-group mb-8 button">
-                                <button class="btn" type="submit">Sign Up</button>
+                                <button class="btn" type="submit">Daftar</button>
                             </div>
+                            <p class="text-center create-new-account">
+                                Sudah punya akun? <a href="javascript:void(0)" data-switch-modal="login" data-from-modal="signup">Masuk</a>
+                            </p>
                         </form>
                     </div>
                 </div>
@@ -297,5 +257,28 @@ function togglePassword(btn) {
             $(modal).modal('show');
         }
     @endif
+})();
+
+(function () {
+    // Beralih antar modal masuk/daftar tanpa meninggalkan halaman.
+    function switchModal(fromId, toId) {
+        if (!document.getElementById(toId) || typeof $ === 'undefined') return;
+        var $from = $('#' + fromId);
+        var $to = $('#' + toId);
+        // Treat a modal that is open OR mid-open-animation as "present" so we
+        // always close it before opening the target (avoids stacked backdrops).
+        if ($from.length && ($from.hasClass('show') || $from.is(':visible'))) {
+            $from.one('hidden.bs.modal.switch', function () { $to.modal('show'); });
+            $from.modal('hide');
+        } else {
+            $to.modal('show');
+        }
+    }
+    document.querySelectorAll('[data-switch-modal]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchModal(el.getAttribute('data-from-modal'), el.getAttribute('data-switch-modal'));
+        });
+    });
 })();
 </script>

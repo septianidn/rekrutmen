@@ -1,6 +1,6 @@
 @extends('frontoffice.employer.index')
 @section('jobs', 'active')
-@section('page-title', 'Progress Seleksi')
+@section('page-title', 'Progres Seleksi')
 @section('page-subtitle', 'Pantau kemajuan tahap seleksi pelamar.')
 @section('content')
 
@@ -31,7 +31,7 @@
         </a>
     </div>
 
-    <h4 class="mb-1">Progress Seleksi</h4>
+    <h4 class="mb-1">Progres Seleksi</h4>
     <p class="text-muted mb-4">
         <strong>{{ $application->jobseeker->user->first_name ?? '' }} {{ $application->jobseeker->user->last_name ?? '' }}</strong>
         &middot; {{ $application->job->nama_pekerjaan }}
@@ -62,13 +62,15 @@
                             <div class="d-flex justify-content-between align-items-start flex-wrap">
                                 <div>
                                     <h5 class="mb-1">
-                                        {{ $loop->iteration }}. {{ $step->proses->nama_proses ?? '-' }}
+                                        {{ $loop->iteration }}. {{ $step->label ?? '-' }}
                                         @if($progress && $progress->lulus)
                                             <span class="badge bg-success ms-2">Lulus</span>
                                         @elseif($progress && !$progress->lulus)
                                             <span class="badge bg-danger ms-2">Tidak Lulus</span>
                                         @elseif($isCurrent)
                                             <span class="badge bg-warning text-dark ms-2">Sedang Berjalan</span>
+                                        @elseif($application->status === 'rejected')
+                                            <span class="badge bg-light text-muted border ms-2">Tidak Dilanjutkan</span>
                                         @else
                                             <span class="badge bg-secondary ms-2">Menunggu</span>
                                         @endif

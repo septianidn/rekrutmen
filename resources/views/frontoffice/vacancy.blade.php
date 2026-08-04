@@ -33,7 +33,7 @@
                             <ul class="list-unstyled small text-muted mt-auto mb-0">
                                 <li class="mb-1"><i class="lni lni-map-marker me-1"></i>{{ $job->alamat }}</li>
                                 <li class="mb-1"><i class="lni lni-dollar me-1"></i>Rp.{{ number_format($job->ekspektasi_gaji, 0, ',', '.') }}</li>
-                                <li class="mb-1"><i class="lni lni-briefcase me-1"></i>{{ $job->worktime }}</li>
+                                <li class="mb-1"><i class="lni lni-briefcase me-1"></i>{{ worktimeLabel($job->worktime) }}</li>
                                 @if($job->application_deadline)
                                 <li><i class="lni lni-calendar me-1"></i>Deadline: {{ \Carbon\Carbon::parse($job->application_deadline)->format('d M Y') }}</li>
                                 @endif

@@ -16,7 +16,7 @@
                         <dt class="col-sm-4">Status</dt>
                         <dd class="col-sm-8">
                             @if ($changeRequest->status === 'pending')
-                                <span class="badge bg-warning">Pending</span>
+                                <span class="badge bg-warning">Menunggu</span>
                             @elseif ($changeRequest->status === 'approved')
                                 <span class="badge bg-success">Approved</span>
                             @else

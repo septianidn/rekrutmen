@@ -30,7 +30,7 @@
                             @elseif($app->status === 'rejected')
                                 <span class="badge bg-danger">Ditolak</span>
                             @endif
-                            <span class="badge bg-light text-dark border">{{ $app->job->worktime }}</span>
+                            <span class="badge bg-light text-dark border">{{ worktimeLabel($app->job->worktime) }}</span>
                         </div>
                     </div>
                     <p class="text-muted mb-2"><strong>{{ $app->job->employer->nama_perusahaan ?? '-' }}</strong></p>
@@ -47,7 +47,7 @@
                             $stepFg = '#6c757d';
                             $stepBorder = '#dee2e6';
                         } elseif ($currentStep) {
-                            $stepLabel = 'Tahap saat ini: ' . ($currentStep->proses->nama_proses ?? '-');
+                            $stepLabel = 'Tahap saat ini: ' . ($currentStep->label ?? '-');
                             $stepBg = '#fff8e1';
                             $stepFg = '#8a6d00';
                             $stepBorder = '#ffe08a';
@@ -66,7 +66,7 @@
                     </div>
 
                     <a href="{{ route('jobseeker.application.progress', $app->id) }}" class="btn btn-outline-primary btn-sm">
-                        <i class="lni lni-timer me-1"></i> Lihat Progress Seleksi
+                        <i class="lni lni-timer me-1"></i> Lihat Progres Seleksi
                     </a>
                 </div>
             </div>

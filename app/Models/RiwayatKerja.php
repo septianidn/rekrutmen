@@ -20,6 +20,7 @@ class RiwayatKerja extends Model
     protected $fillable = [
         'jobseeker_id',
         'keterangan',
+        'dokumen',
     ];
 
     /**

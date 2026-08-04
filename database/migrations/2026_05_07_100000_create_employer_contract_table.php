@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->date('tanggal_mulai');
             $table->date('tanggal_berakhir');
             $table->string('mou_file');
+            $table->boolean('can_post_job')->default(true);
+            $table->boolean('can_post_article')->default(true);
             $table->text('catatan')->nullable();
             $table->enum('status', ['active', 'expired', 'revoked'])->default('active');
             $table->foreignId('created_by')

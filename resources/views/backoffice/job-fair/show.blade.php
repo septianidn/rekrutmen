@@ -51,7 +51,7 @@
                                         <td>{{ $job->posisi }}</td>
                                         <td>
                                             @if($job->pivot->status === 'pending')
-                                                <span class="badge bg-warning text-dark">Pending</span>
+                                                <span class="badge bg-warning text-dark">Menunggu</span>
                                             @elseif($job->pivot->status === 'approved')
                                                 <span class="badge bg-success">Approved</span>
                                             @else

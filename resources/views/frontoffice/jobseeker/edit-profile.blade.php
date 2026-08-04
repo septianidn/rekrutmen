@@ -13,10 +13,17 @@
 
             <h4 class="mb-3">Edit Profil</h4>
 
-            <div class="alert alert-info py-2 px-3 small mb-4">
+            <div class="alert alert-info py-2 px-3 small mb-3">
                 <i class="lni lni-information"></i>
-                Bagian bertanda <span class="badge bg-danger">Wajib</span> harus diisi minimal 1 data agar dapat melamar pekerjaan.
-                Bagian bertanda <span class="badge bg-secondary">Opsional</span> tidak wajib, namun disarankan untuk dilengkapi.
+                Bagian bertanda <span class="badge bg-danger">Wajib</span> harus diisi minimal 1 data agar dapat melamar pekerjaan
+                (Data Pribadi, Riwayat Pendidikan, dan Bahasa).
+            </div>
+            <div class="alert alert-warning py-2 px-3 small mb-4">
+                <i class="lni lni-star"></i>
+                Bagian bertanda <span class="badge bg-warning text-dark">Direkomendasikan</span>
+                (Organisasi, Pengalaman Kerja, Prestasi, Pelatihan, dan Referensi) bersifat opsional,
+                namun <strong>sangat disarankan untuk dilengkapi beserta dokumen buktinya</strong> agar profil Anda
+                lebih bernilai di mata perusahaan.
             </div>
 
             @if($errors->any())
@@ -29,13 +36,13 @@
                 </div>
             @endif
 
-            <form action="{{ route('jobseeker.profile.update') }}" method="POST">
+            <form action="{{ route('jobseeker.profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 {{-- ============ DATA PRIBADI ============ --}}
                 <div class="card mb-4">
-                    <div class="card-header bg-primary text-white"><strong>Data Pribadi</strong></div>
+                    <div class="card-header bg-primary text-white"><strong>Data Pribadi</strong> <span class="badge bg-danger ms-1">Wajib</span></div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-md-6 mb-3">
@@ -48,15 +55,15 @@
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-select">
-                                    <option value="-" @selected($jobseeker->jenis_kelamin == '-')>-- Pilih --</option>
+                                <select name="jenis_kelamin" class="form-select" required>
+                                    <option value="" @selected(!in_array($jobseeker->jenis_kelamin, ['Laki-laki','Perempuan']))>-- Pilih --</option>
                                     <option value="Laki-laki" @selected($jobseeker->jenis_kelamin == 'Laki-laki')>Laki-laki</option>
                                     <option value="Perempuan" @selected($jobseeker->jenis_kelamin == 'Perempuan')>Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="ttl" class="form-control" value="{{ old('ttl', $jobseeker->ttl?->format('Y-m-d')) }}">
+                                <input type="date" name="ttl" class="form-control" value="{{ old('ttl', $jobseeker->ttl?->format('Y-m-d')) }}" required>
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label">Tipe Jobseeker</label>
@@ -84,7 +91,7 @@
                     </div>
                 </div>
 
-                {{-- ============ RIWAYAT PENDIDIKAN ============ --}}
+                {{-- ============ RIWAYAT PENDIDIKAN (WAJIB) ============ --}}
                 <div class="card mb-4">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                         <span><strong>Riwayat Pendidikan</strong> <span class="badge bg-danger ms-1">Wajib</span></span>
@@ -116,6 +123,14 @@
                             <div class="col-12 col-md-1 d-flex align-items-end">
                                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
                             </div>
+                            <div class="col-12 mt-2">
+                                <label class="form-label">Ijazah/Transkrip <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label>
+                                <input type="file" name="pendidikan[{{ $i }}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                                @if($edu->dokumen)
+                                    <small class="d-block mt-1 text-muted">File saat ini: <a href="{{ Storage::url($edu->dokumen) }}" target="_blank">Lihat</a> — unggah baru untuk mengganti.</small>
+                                    <input type="hidden" name="pendidikan[{{ $i }}][dokumen_lama]" value="{{ $edu->dokumen }}">
+                                @endif
+                            </div>
                         </div>
                         @empty
                         <p class="text-muted" id="pendidikan-empty">Belum ada data. Klik "+ Tambah" untuk menambahkan.</p>
@@ -123,36 +138,49 @@
                     </div>
                 </div>
 
-                {{-- ============ PENGALAMAN KERJA ============ --}}
+                {{-- ============ BAHASA (WAJIB) ============ --}}
                 <div class="card mb-4">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <span><strong>Pengalaman Kerja</strong> <span class="badge bg-secondary ms-1">Opsional</span></span>
-                        <button type="button" class="btn btn-light btn-sm" onclick="addRow('kerja')">+ Tambah</button>
+                        <span><strong>Bahasa</strong> <span class="badge bg-danger ms-1">Wajib</span></span>
+                        <button type="button" class="btn btn-light btn-sm" onclick="addRow('bahasa')">+ Tambah</button>
                     </div>
-                    <div class="card-body" id="kerja-container">
-                        @forelse($jobseeker->riwayatKerjas as $i => $work)
+                    <div class="card-body" id="bahasa-container">
+                        @forelse($jobseeker->bahasas as $i => $lang)
                         <div class="row mb-3 item-row">
-                            <div class="col-12 col-md-11">
-                                <label class="form-label">Keterangan</label>
-                                <textarea name="kerja[{{ $i }}][keterangan]" class="form-control" rows="2">{{ $work->keterangan }}</textarea>
+                            <div class="col-12 col-md-5">
+                                <label class="form-label">Bahasa</label>
+                                <input type="text" name="bahasa[{{ $i }}][bahasa]" class="form-control" value="{{ $lang->bahasa }}">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Keterangan (level)</label>
+                                <input type="text" name="bahasa[{{ $i }}][keterangan]" class="form-control" value="{{ $lang->keterangan }}">
                             </div>
                             <div class="col-12 col-md-1 d-flex align-items-end">
                                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
                             </div>
+                            <div class="col-12 mt-2">
+                                <label class="form-label">Sertifikat Bahasa <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label>
+                                <input type="file" name="bahasa[{{ $i }}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                                @if($lang->dokumen)
+                                    <small class="d-block mt-1 text-muted">File saat ini: <a href="{{ Storage::url($lang->dokumen) }}" target="_blank">Lihat</a> — unggah baru untuk mengganti.</small>
+                                    <input type="hidden" name="bahasa[{{ $i }}][dokumen_lama]" value="{{ $lang->dokumen }}">
+                                @endif
+                            </div>
                         </div>
                         @empty
-                        <p class="text-muted" id="kerja-empty">Belum ada data.</p>
+                        <p class="text-muted" id="bahasa-empty">Belum ada data.</p>
                         @endforelse
                     </div>
                 </div>
 
-                {{-- ============ ORGANISASI ============ --}}
-                <div class="card mb-4">
+                {{-- ============ ORGANISASI (DIREKOMENDASIKAN) ============ --}}
+                <div class="card mb-4 border-warning">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <span><strong>Organisasi</strong> <span class="badge bg-secondary ms-1">Opsional</span></span>
+                        <span><strong>Organisasi</strong> <span class="badge bg-warning text-dark ms-1">Direkomendasikan</span></span>
                         <button type="button" class="btn btn-light btn-sm" onclick="addRow('organisasi')">+ Tambah</button>
                     </div>
                     <div class="card-body" id="organisasi-container">
+                        <p class="small text-muted mb-3"><i class="lni lni-star"></i> Menambahkan pengalaman organisasi beserta buktinya memberi nilai lebih di mata perusahaan.</p>
                         @forelse($jobseeker->organisasis as $i => $org)
                         <div class="row mb-3 item-row">
                             <div class="col-12 col-md-4">
@@ -170,6 +198,14 @@
                             <div class="col-12 col-md-1 d-flex align-items-end">
                                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
                             </div>
+                            <div class="col-12 mt-2">
+                                <label class="form-label">Bukti Keanggotaan <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label>
+                                <input type="file" name="organisasi[{{ $i }}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                                @if($org->dokumen)
+                                    <small class="d-block mt-1 text-muted">File saat ini: <a href="{{ Storage::url($org->dokumen) }}" target="_blank">Lihat</a> — unggah baru untuk mengganti.</small>
+                                    <input type="hidden" name="organisasi[{{ $i }}][dokumen_lama]" value="{{ $org->dokumen }}">
+                                @endif
+                            </div>
                         </div>
                         @empty
                         <p class="text-muted" id="organisasi-empty">Belum ada data.</p>
@@ -177,29 +213,66 @@
                     </div>
                 </div>
 
-                {{-- ============ PRESTASI ============ --}}
-                <div class="card mb-4">
+                {{-- ============ PENGALAMAN KERJA (DIREKOMENDASIKAN) ============ --}}
+                <div class="card mb-4 border-warning">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <span><strong>Prestasi / Penghargaan</strong> <span class="badge bg-secondary ms-1">Opsional</span></span>
-                        <button type="button" class="btn btn-light btn-sm" onclick="addRow('prestasi')">+ Tambah</button>
+                        <span><strong>Pengalaman Kerja</strong> <span class="badge bg-warning text-dark ms-1">Direkomendasikan</span></span>
+                        <button type="button" class="btn btn-light btn-sm" onclick="addRow('kerja')">+ Tambah</button>
                     </div>
-                    <div class="card-body" id="prestasi-container">
-                        @forelse($jobseeker->prestasis as $i => $award)
+                    <div class="card-body" id="kerja-container">
+                        <p class="small text-muted mb-3"><i class="lni lni-star"></i> Riwayat kerja beserta buktinya memperkuat profil Anda.</p>
+                        @forelse($jobseeker->riwayatKerjas as $i => $work)
                         <div class="row mb-3 item-row">
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Nama Penghargaan</label>
-                                <input type="text" name="prestasi[{{ $i }}][nama_penghargaan]" class="form-control" value="{{ $award->nama_penghargaan }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label class="form-label">Tahun</label>
-                                <input type="text" name="prestasi[{{ $i }}][tahun]" class="form-control" value="{{ $award->tahun }}" maxlength="4">
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <label class="form-label">Dokumen</label>
-                                <input type="text" name="prestasi[{{ $i }}][dokumen]" class="form-control" value="{{ $award->dokumen }}">
+                            <div class="col-12 col-md-11">
+                                <label class="form-label">Keterangan</label>
+                                <textarea name="kerja[{{ $i }}][keterangan]" class="form-control" rows="2">{{ $work->keterangan }}</textarea>
                             </div>
                             <div class="col-12 col-md-1 d-flex align-items-end">
                                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label class="form-label">Bukti/Surat Pengalaman <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label>
+                                <input type="file" name="kerja[{{ $i }}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                                @if($work->dokumen)
+                                    <small class="d-block mt-1 text-muted">File saat ini: <a href="{{ Storage::url($work->dokumen) }}" target="_blank">Lihat</a> — unggah baru untuk mengganti.</small>
+                                    <input type="hidden" name="kerja[{{ $i }}][dokumen_lama]" value="{{ $work->dokumen }}">
+                                @endif
+                            </div>
+                        </div>
+                        @empty
+                        <p class="text-muted" id="kerja-empty">Belum ada data.</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                {{-- ============ PRESTASI (DIREKOMENDASIKAN) ============ --}}
+                <div class="card mb-4 border-warning">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span><strong>Prestasi / Penghargaan</strong> <span class="badge bg-warning text-dark ms-1">Direkomendasikan</span></span>
+                        <button type="button" class="btn btn-light btn-sm" onclick="addRow('prestasi')">+ Tambah</button>
+                    </div>
+                    <div class="card-body" id="prestasi-container">
+                        <p class="small text-muted mb-3"><i class="lni lni-star"></i> Lampirkan sertifikat/piagam sebagai bukti prestasi.</p>
+                        @forelse($jobseeker->prestasis as $i => $award)
+                        <div class="row mb-3 item-row">
+                            <div class="col-12 col-md-8">
+                                <label class="form-label">Nama Penghargaan</label>
+                                <input type="text" name="prestasi[{{ $i }}][nama_penghargaan]" class="form-control" value="{{ $award->nama_penghargaan }}">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label">Tahun</label>
+                                <input type="text" name="prestasi[{{ $i }}][tahun]" class="form-control" value="{{ $award->tahun }}" maxlength="4">
+                            </div>
+                            <div class="col-12 col-md-1 d-flex align-items-end">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <label class="form-label">Sertifikat/Dokumen <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label>
+                                <input type="file" name="prestasi[{{ $i }}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png">
+                                @if($award->dokumen)
+                                    <small class="d-block mt-1 text-muted">File saat ini: <a href="{{ Storage::url($award->dokumen) }}" target="_blank">Lihat</a> — unggah baru untuk mengganti.</small>
+                                    <input type="hidden" name="prestasi[{{ $i }}][dokumen_lama]" value="{{ $award->dokumen }}">
+                                @endif
                             </div>
                         </div>
                         @empty
@@ -208,13 +281,14 @@
                     </div>
                 </div>
 
-                {{-- ============ PELATIHAN ============ --}}
-                <div class="card mb-4">
+                {{-- ============ PELATIHAN (DIREKOMENDASIKAN) ============ --}}
+                <div class="card mb-4 border-warning">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <span><strong>Pelatihan / Sertifikasi</strong> <span class="badge bg-secondary ms-1">Opsional</span></span>
+                        <span><strong>Pelatihan / Sertifikasi</strong> <span class="badge bg-warning text-dark ms-1">Direkomendasikan</span></span>
                         <button type="button" class="btn btn-light btn-sm" onclick="addRow('pelatihan')">+ Tambah</button>
                     </div>
                     <div class="card-body" id="pelatihan-container">
+                        <p class="small text-muted mb-3"><i class="lni lni-star"></i> Pelatihan/sertifikasi menunjukkan kompetensi tambahan Anda.</p>
                         @forelse($jobseeker->pelatihans as $i => $t)
                         <div class="row mb-3 item-row">
                             <div class="col-12 col-md-5">
@@ -239,40 +313,14 @@
                     </div>
                 </div>
 
-                {{-- ============ BAHASA ============ --}}
-                <div class="card mb-4">
+                {{-- ============ REFERENSI (DIREKOMENDASIKAN) ============ --}}
+                <div class="card mb-4 border-warning">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <span><strong>Bahasa</strong> <span class="badge bg-danger ms-1">Wajib</span></span>
-                        <button type="button" class="btn btn-light btn-sm" onclick="addRow('bahasa')">+ Tambah</button>
-                    </div>
-                    <div class="card-body" id="bahasa-container">
-                        @forelse($jobseeker->bahasas as $i => $lang)
-                        <div class="row mb-3 item-row">
-                            <div class="col-12 col-md-5">
-                                <label class="form-label">Bahasa</label>
-                                <input type="text" name="bahasa[{{ $i }}][bahasa]" class="form-control" value="{{ $lang->bahasa }}">
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Keterangan (level)</label>
-                                <input type="text" name="bahasa[{{ $i }}][keterangan]" class="form-control" value="{{ $lang->keterangan }}">
-                            </div>
-                            <div class="col-12 col-md-1 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
-                            </div>
-                        </div>
-                        @empty
-                        <p class="text-muted" id="bahasa-empty">Belum ada data.</p>
-                        @endforelse
-                    </div>
-                </div>
-
-                {{-- ============ REKOMENDASI ============ --}}
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <span><strong>Referensi</strong> <span class="badge bg-secondary ms-1">Opsional</span></span>
+                        <span><strong>Referensi</strong> <span class="badge bg-warning text-dark ms-1">Direkomendasikan</span></span>
                         <button type="button" class="btn btn-light btn-sm" onclick="addRow('rekomendasi')">+ Tambah</button>
                     </div>
                     <div class="card-body" id="rekomendasi-container">
+                        <p class="small text-muted mb-3"><i class="lni lni-star"></i> Referensi dari atasan/dosen menambah kredibilitas profil Anda.</p>
                         @forelse($jobseeker->rekomendasis as $i => $ref)
                         <div class="row mb-3 item-row">
                             <div class="col-12 col-md-3">
@@ -317,32 +365,36 @@ const templates = {
         <div class="col-12 col-md-2"><label class="form-label">IPK/Nilai</label><input type="text" name="pendidikan[${i}][indeks_nilai]" class="form-control"></div>
         <div class="col-12 col-md-3"><label class="form-label">Keterangan</label><input type="text" name="pendidikan[${i}][keterangan]" class="form-control"></div>
         <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
+        <div class="col-12 mt-2"><label class="form-label">Ijazah/Transkrip <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label><input type="file" name="pendidikan[${i}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png"></div>
     </div>`,
-    kerja: (i) => `<div class="row mb-3 item-row">
-        <div class="col-12 col-md-11"><label class="form-label">Keterangan</label><textarea name="kerja[${i}][keterangan]" class="form-control" rows="2"></textarea></div>
+    bahasa: (i) => `<div class="row mb-3 item-row">
+        <div class="col-12 col-md-5"><label class="form-label">Bahasa</label><input type="text" name="bahasa[${i}][bahasa]" class="form-control"></div>
+        <div class="col-12 col-md-6"><label class="form-label">Keterangan (level)</label><input type="text" name="bahasa[${i}][keterangan]" class="form-control"></div>
         <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
+        <div class="col-12 mt-2"><label class="form-label">Sertifikat Bahasa <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label><input type="file" name="bahasa[${i}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png"></div>
     </div>`,
     organisasi: (i) => `<div class="row mb-3 item-row">
         <div class="col-12 col-md-4"><label class="form-label">Nama Organisasi</label><input type="text" name="organisasi[${i}][nama_organisasi]" class="form-control"></div>
         <div class="col-12 col-md-3"><label class="form-label">Jabatan</label><input type="text" name="organisasi[${i}][jabatan]" class="form-control"></div>
         <div class="col-12 col-md-4"><label class="form-label">Keterangan</label><input type="text" name="organisasi[${i}][keterangan]" class="form-control"></div>
         <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
+        <div class="col-12 mt-2"><label class="form-label">Bukti Keanggotaan <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label><input type="file" name="organisasi[${i}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png"></div>
+    </div>`,
+    kerja: (i) => `<div class="row mb-3 item-row">
+        <div class="col-12 col-md-11"><label class="form-label">Keterangan</label><textarea name="kerja[${i}][keterangan]" class="form-control" rows="2"></textarea></div>
+        <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
+        <div class="col-12 mt-2"><label class="form-label">Bukti/Surat Pengalaman <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label><input type="file" name="kerja[${i}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png"></div>
     </div>`,
     prestasi: (i) => `<div class="row mb-3 item-row">
-        <div class="col-12 col-md-6"><label class="form-label">Nama Penghargaan</label><input type="text" name="prestasi[${i}][nama_penghargaan]" class="form-control"></div>
-        <div class="col-12 col-md-2"><label class="form-label">Tahun</label><input type="text" name="prestasi[${i}][tahun]" class="form-control" maxlength="4"></div>
-        <div class="col-12 col-md-3"><label class="form-label">Dokumen</label><input type="text" name="prestasi[${i}][dokumen]" class="form-control"></div>
+        <div class="col-12 col-md-8"><label class="form-label">Nama Penghargaan</label><input type="text" name="prestasi[${i}][nama_penghargaan]" class="form-control"></div>
+        <div class="col-12 col-md-3"><label class="form-label">Tahun</label><input type="text" name="prestasi[${i}][tahun]" class="form-control" maxlength="4"></div>
         <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
+        <div class="col-12 mt-2"><label class="form-label">Sertifikat/Dokumen <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label><input type="file" name="prestasi[${i}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png"></div>
     </div>`,
     pelatihan: (i) => `<div class="row mb-3 item-row">
         <div class="col-12 col-md-5"><label class="form-label">Nama Pelatihan</label><input type="text" name="pelatihan[${i}][nama_pelatihan]" class="form-control"></div>
         <div class="col-12 col-md-2"><label class="form-label">Tahun</label><input type="text" name="pelatihan[${i}][tahun]" class="form-control" maxlength="4"></div>
         <div class="col-12 col-md-4"><label class="form-label">Sertifikat</label><input type="text" name="pelatihan[${i}][sertifikat]" class="form-control"></div>
-        <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
-    </div>`,
-    bahasa: (i) => `<div class="row mb-3 item-row">
-        <div class="col-12 col-md-5"><label class="form-label">Bahasa</label><input type="text" name="bahasa[${i}][bahasa]" class="form-control"></div>
-        <div class="col-12 col-md-6"><label class="form-label">Keterangan (level)</label><input type="text" name="bahasa[${i}][keterangan]" class="form-control"></div>
         <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
     </div>`,
     rekomendasi: (i) => `<div class="row mb-3 item-row">

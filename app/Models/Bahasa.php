@@ -21,6 +21,7 @@ class Bahasa extends Model
         'jobseeker_id',
         'bahasa',
         'keterangan',
+        'dokumen',
     ];
 
     /**

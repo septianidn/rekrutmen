@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\Progress;
+use App\Models\Proses;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class JobUpdateRequest extends FormRequest
 {
@@ -49,6 +51,7 @@ class JobUpdateRequest extends FormRequest
             'steps' => $stepsRules,
             'steps.*.proses_id' => $stepsItemRules,
             'steps.*.deskripsi' => ['nullable', 'string'],
+            'steps.*.nama_custom' => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -60,5 +63,30 @@ class JobUpdateRequest extends FormRequest
             'steps.*.proses_id.required' => 'Setiap baris tahap seleksi wajib memilih tahap.',
             'steps.*.proses_id.exists' => 'Tahap seleksi yang dipilih tidak valid.',
         ];
+    }
+
+    /**
+     * When a step uses the "Lainnya" stage, the custom stage name is
+     * mandatory. Locked jobs submit disabled (empty) step fields, so the
+     * check naturally no-ops there.
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator) {
+            $lainnyaId = Proses::where('nama_proses', 'Lainnya')->value('id');
+            if (!$lainnyaId) {
+                return;
+            }
+
+            foreach ((array) $this->input('steps', []) as $i => $step) {
+                if ((int) ($step['proses_id'] ?? 0) === (int) $lainnyaId
+                    && trim((string) ($step['nama_custom'] ?? '')) === '') {
+                    $validator->errors()->add(
+                        "steps.$i.nama_custom",
+                        'Nama tahap wajib diisi saat memilih tahap "Lainnya".'
+                    );
+                }
+            }
+        });
     }
 }

@@ -133,7 +133,8 @@ class Employer extends Model
 
     public function canPostJob(): bool
     {
-        if ($this->hasActiveContract()) {
+        $contract = $this->activeContract();
+        if ($contract && $contract->can_post_job) {
             return true;
         }
 
@@ -143,7 +144,8 @@ class Employer extends Model
 
     public function canPostArticle(): bool
     {
-        if ($this->hasActiveContract()) {
+        $contract = $this->activeContract();
+        if ($contract && $contract->can_post_article) {
             return true;
         }
 

@@ -11,7 +11,7 @@
                             sebelum Anda dapat memposting lowongan.</p>
                     </div>
                     <ul class="breadcrumb-nav">
-                        <li><a href="{{ route('landingpage') }}">Home</a></li>
+                        <li><a href="{{ route('landingpage') }}">Beranda</a></li>
                         <li>Verifikasi</li>
                     </ul>
                 </div>

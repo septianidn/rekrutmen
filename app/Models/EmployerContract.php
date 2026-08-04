@@ -22,6 +22,8 @@ class EmployerContract extends Model
         'tanggal_mulai',
         'tanggal_berakhir',
         'mou_file',
+        'can_post_job',
+        'can_post_article',
         'catatan',
         'status',
         'created_by',
@@ -31,6 +33,8 @@ class EmployerContract extends Model
         'employer_id' => 'integer',
         'tanggal_mulai' => 'date',
         'tanggal_berakhir' => 'date',
+        'can_post_job' => 'boolean',
+        'can_post_article' => 'boolean',
         'created_by' => 'integer',
     ];
 

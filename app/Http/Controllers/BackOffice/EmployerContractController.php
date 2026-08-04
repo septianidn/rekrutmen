@@ -59,8 +59,17 @@ class EmployerContractController extends Controller
             'tanggal_mulai'    => 'required|date',
             'tanggal_berakhir' => 'required|date|after_or_equal:tanggal_mulai',
             'mou_file'         => 'required|file|mimes:pdf|max:10240',
+            'can_post_job'     => 'nullable|boolean',
+            'can_post_article' => 'nullable|boolean',
             'catatan'          => 'nullable|string|max:1000',
         ]);
+
+        $canPostJob = $request->boolean('can_post_job');
+        $canPostArticle = $request->boolean('can_post_article');
+        if (!$canPostJob && !$canPostArticle) {
+            return back()->withInput()
+                ->withErrors(['can_post_job' => 'Pilih minimal satu hak kontrak: posting lowongan atau artikel.']);
+        }
 
         $path = $request->file('mou_file')->store('mou-files');
 
@@ -69,6 +78,8 @@ class EmployerContractController extends Controller
             'tanggal_mulai'    => $data['tanggal_mulai'],
             'tanggal_berakhir' => $data['tanggal_berakhir'],
             'mou_file'         => $path,
+            'can_post_job'     => $canPostJob,
+            'can_post_article' => $canPostArticle,
             'catatan'          => $data['catatan'] ?? null,
             'status'           => EmployerContract::STATUS_ACTIVE,
             'created_by'       => Auth::id(),
@@ -82,7 +93,8 @@ class EmployerContractController extends Controller
             'Status Mitra Kerja Aktif',
             'Akun perusahaan Anda terdaftar sebagai mitra kerja sampai '
                 . $contract->tanggal_berakhir->format('d M Y')
-                . '. Anda dapat memposting lowongan dan artikel tanpa membayar membership.',
+                . '. Anda dapat memposting ' . $this->scopeLabel($contract)
+                . ' tanpa membayar membership.',
             route('employer.membership.index'),
         );
 
@@ -115,13 +127,24 @@ class EmployerContractController extends Controller
             'tanggal_mulai'    => 'required|date',
             'tanggal_berakhir' => 'required|date|after_or_equal:tanggal_mulai',
             'mou_file'         => 'nullable|file|mimes:pdf|max:10240',
+            'can_post_job'     => 'nullable|boolean',
+            'can_post_article' => 'nullable|boolean',
             'catatan'          => 'nullable|string|max:1000',
             'status'           => 'required|in:active,expired,revoked',
         ]);
 
+        $canPostJob = $request->boolean('can_post_job');
+        $canPostArticle = $request->boolean('can_post_article');
+        if (!$canPostJob && !$canPostArticle) {
+            return back()->withInput()
+                ->withErrors(['can_post_job' => 'Pilih minimal satu hak kontrak: posting lowongan atau artikel.']);
+        }
+
         $updates = [
             'tanggal_mulai'    => $data['tanggal_mulai'],
             'tanggal_berakhir' => $data['tanggal_berakhir'],
+            'can_post_job'     => $canPostJob,
+            'can_post_article' => $canPostArticle,
             'catatan'          => $data['catatan'] ?? null,
             'status'           => $data['status'],
         ];
@@ -167,5 +190,17 @@ class EmployerContractController extends Controller
             abort(404);
         }
         return Storage::download($contract->mou_file, basename($contract->mou_file));
+    }
+
+    private function scopeLabel(EmployerContract $contract): string
+    {
+        $parts = [];
+        if ($contract->can_post_job) {
+            $parts[] = 'lowongan';
+        }
+        if ($contract->can_post_article) {
+            $parts[] = 'artikel';
+        }
+        return implode(' dan ', $parts);
     }
 }

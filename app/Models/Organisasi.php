@@ -22,6 +22,7 @@ class Organisasi extends Model
         'nama_organisasi',
         'jabatan',
         'keterangan',
+        'dokumen',
     ];
 
     /**

@@ -16,7 +16,7 @@
                         <dt class="col-sm-4">Status</dt>
                         <dd class="col-sm-8">
                             @if ($employer->verification_status === 'pending')
-                                <span class="badge bg-warning">Pending</span>
+                                <span class="badge bg-warning">Menunggu</span>
                             @elseif ($employer->verification_status === 'approved')
                                 <span class="badge bg-success">Approved</span>
                             @else

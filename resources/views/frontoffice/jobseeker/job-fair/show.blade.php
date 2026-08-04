@@ -88,7 +88,7 @@
                 <ul class="list-inline mb-0 small text-muted">
                     <li class="list-inline-item"><i class="lni lni-map-marker"></i> {{ $job->alamat }}</li>
                     <li class="list-inline-item"><i class="lni lni-dollar"></i> Rp.{{ number_format($job->ekspektasi_gaji, 0, ',', '.') }}</li>
-                    <li class="list-inline-item"><i class="lni lni-briefcase"></i> {{ $job->worktime }}</li>
+                    <li class="list-inline-item"><i class="lni lni-briefcase"></i> {{ worktimeLabel($job->worktime) }}</li>
                 </ul>
             </div>
         </div>

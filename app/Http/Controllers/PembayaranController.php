@@ -78,11 +78,6 @@ class PembayaranController extends Controller
             'membership_id' => 'required|exists:membership,id',
         ]);
 
-        if ($employer->hasActiveContract()) {
-            return redirect()->route('employer.membership.index')
-                ->with('info', 'Akun Anda terdaftar sebagai mitra kerja sehingga tidak memerlukan pembayaran membership.');
-        }
-
         if ($this->hasAwaitingVerification($employer)) {
             return redirect()->route('employer.membership.index')
                 ->with('error', 'Anda masih memiliki pembayaran manual yang menunggu verifikasi admin. Tunggu hingga diproses sebelum membuat pembayaran baru.');
@@ -91,11 +86,12 @@ class PembayaranController extends Controller
         $membership = Membership::findOrFail($data['membership_id']);
 
         // Block only if this tier adds nothing new on top of what employer already has
+        // (whether that access came from a mitra contract or an active membership).
         $tierAddsJob = $membership->can_post_job && !$employer->canPostJob();
         $tierAddsArticle = $membership->can_post_article && !$employer->canPostArticle();
         if (!$tierAddsJob && !$tierAddsArticle) {
             return redirect()->route('employer.membership.index')
-                ->with('error', 'Akses dari paket ini sudah tercakup oleh membership aktif Anda.');
+                ->with('error', 'Akses dari paket ini sudah Anda miliki melalui mitra kerja atau membership aktif.');
         }
 
         // Block buying the exact same tier twice (would just extend a duplicate)
@@ -271,9 +267,9 @@ class PembayaranController extends Controller
         $employer = Auth::user()->employer;
         abort_unless($employer, 403);
 
-        if ($employer->hasActiveContract()) {
+        if ($this->membershipAddsNothing($employer, $membership)) {
             return redirect()->route('employer.membership.index')
-                ->with('info', 'Akun Anda terdaftar sebagai mitra kerja sehingga tidak memerlukan pembayaran membership.');
+                ->with('info', 'Akses dari paket ini sudah Anda miliki melalui mitra kerja atau membership aktif.');
         }
 
         if ($this->hasAwaitingVerification($employer)) {
@@ -301,9 +297,9 @@ class PembayaranController extends Controller
         $employer = Auth::user()->employer;
         abort_unless($employer, 403);
 
-        if ($employer->hasActiveContract()) {
+        if ($this->membershipAddsNothing($employer, $membership)) {
             return redirect()->route('employer.membership.index')
-                ->with('info', 'Akun Anda terdaftar sebagai mitra kerja.');
+                ->with('info', 'Akses dari paket ini sudah Anda miliki melalui mitra kerja atau membership aktif.');
         }
 
         if ($this->hasAwaitingVerification($employer)) {
@@ -354,6 +350,18 @@ class PembayaranController extends Controller
             ->where('kategori', Pembayaran::KATEGORI_MEMBERSHIP)
             ->where('status', Pembayaran::STATUS_AWAITING_VERIFICATION)
             ->exists();
+    }
+
+    /**
+     * A membership adds nothing when every access it grants is already held by
+     * the employer (via an active mitra contract or another active membership).
+     */
+    protected function membershipAddsNothing($employer, Membership $membership): bool
+    {
+        $addsJob = $membership->can_post_job && !$employer->canPostJob();
+        $addsArticle = $membership->can_post_article && !$employer->canPostArticle();
+
+        return !$addsJob && !$addsArticle;
     }
 
     protected function configureMidtrans(): void

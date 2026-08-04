@@ -26,7 +26,7 @@
               >
                 <ul id="nav" class="navbar-nav ml-auto">
                   <li class="nav-item">
-                    <a href="{{ route('landingpage') }}" class="{{ request()->routeIs('landingpage') ? 'active' : '' }}">Home</a>
+                    <a href="{{ route('landingpage') }}" class="{{ request()->routeIs('landingpage') ? 'active' : '' }}">Beranda</a>
                   </li>
                   @php
                     $karirActive = request()->routeIs('vacancy') ||

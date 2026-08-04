@@ -38,7 +38,7 @@
                 @foreach ($jobs as $j)
                 <tr>
                     <td><a href="{{ route('employer.job.show', ['job' => $j->id]) }}"><strong>{{ $j->nama_pekerjaan }}</strong></a></td>
-                    <td><span class="time">{{ $j->worktime }}</span></td>
+                    <td><span class="time">{{ worktimeLabel($j->worktime) }}</span></td>
                     <td>
                         @if($j->isOpen())
                             <span class="badge bg-success">Aktif</span>

@@ -9,44 +9,44 @@
             <div class="row">
                 <div class="col-lg-12 col-12">
                     <div class="job-information">
-                        <h3 class="title">Job Information</h3>
+                        <h3 class="title">Informasi Lowongan</h3>
                         <form id="job-form" action="{{route('employer.job.store')}}" method="POST">
                             @csrf
                             <div class="row">
                                 <input type="hidden" name="employer_id" value="{{$employer->id}}">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Job title*</label>
+                                        <label>Judul Lowongan*</label>
                                         <input class="form-control" type="text" name="nama_pekerjaan" value="{{old('nama_pekerjaan')}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Job address*</label>
+                                        <label>Lokasi Kerja*</label>
                                         <input class="form-control" type="text" name="alamat" value="{{old('alamat')}}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <label>Position</label>
-                                        <input class="form-control" type="text" name="posisi" value="{{old('posisi')}}">                                        
+                                        <label>Posisi</label>
+                                        <input class="form-control" type="text" name="posisi" value="{{old('posisi')}}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <label>Job Types*</label>
+                                        <label>Tipe Pekerjaan*</label>
                                         <select class="select" name="worktime">
-                                            <option value="Full Time">Full Time</option>
-                                            <option value="Part Time">Part Time</option>
-                                            <option value="Contract">Contract</option>
-                                            <option value="Internship">Internship</option>
-                                            <option value="Office">Office</option>
+                                            <option value="Full Time">Penuh Waktu</option>
+                                            <option value="Part Time">Paruh Waktu</option>
+                                            <option value="Contract">Kontrak</option>
+                                            <option value="Internship">Magang</option>
+                                            <option value="Office">Kantor</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <label>Application Deadline</label>
+                                        <label>Batas Akhir Lamaran</label>
                                         <div class="input-group date" id="datetimepicker">
                                             <input type="date" class="form-control" placeholder="1/01/2025" name="application_deadline">
                                             <span class="input-group-addon"></span>
@@ -56,9 +56,9 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
-                                        <label>Salary Starting at</label>
+                                        <label>Gaji Mulai Dari</label>
                                         <select class="select" name="ekspektasi_gaji">
-                                            <option value="0">TBA</option>
+                                            <option value="0">Belum Ditentukan</option>
                                             <option value="1500000">Rp.1.500.000</option>
                                             <option value="2500000">Rp.2.500.000</option>
                                             <option value="4500000">Rp.4.500.000</option>
@@ -70,14 +70,14 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Job Description*</label>
+                                        <label>Deskripsi Pekerjaan*</label>
                                         <div id="deskripsi_editor" style="height:250px"></div>
                                         <textarea name="deskripsi_pekerjaan" id="deskripsi_pekerjaan" style="display:none">{{old('deskripsi_pekerjaan')}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>Job Requirement*</label>
+                                        <label>Persyaratan Pekerjaan*</label>
                                         <div id="requirement_editor" style="height:250px"></div>
                                         <textarea name="requirement" id="requirement" style="display:none">{{old('requirement')}}</textarea>
                                     </div>
@@ -94,8 +94,9 @@
                                     @endforeach
                                     <div id="steps-wrapper">
                                         @php
+                                            $lainnyaId = optional($prosesList->firstWhere('nama_proses', 'Lainnya'))->id;
                                             $oldSteps = old('steps', [
-                                                ['proses_id' => '', 'deskripsi' => ''],
+                                                ['proses_id' => '', 'deskripsi' => '', 'nama_custom' => ''],
                                             ]);
                                         @endphp
                                         @foreach($oldSteps as $i => $step)
@@ -103,7 +104,7 @@
                                             <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label>Tahap</label>
-                                                    <select class="form-control" name="steps[{{ $i }}][proses_id]">
+                                                    <select class="form-control" name="steps[{{ $i }}][proses_id]" data-proses-select>
                                                         <option value="">-- Pilih Tahap --</option>
                                                         @foreach($prosesList as $proses)
                                                             <option value="{{ $proses->id }}" {{ (string)($step['proses_id'] ?? '') === (string)$proses->id ? 'selected' : '' }}>
@@ -111,6 +112,12 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    @php $isLainnya = $lainnyaId && (string)($step['proses_id'] ?? '') === (string)$lainnyaId; @endphp
+                                                    <input type="text" class="form-control mt-2" name="steps[{{ $i }}][nama_custom]"
+                                                           value="{{ $step['nama_custom'] ?? '' }}"
+                                                           data-custom-input placeholder="Nama tahap, mis. Tes Fisik"
+                                                           style="{{ $isLainnya ? '' : 'display:none;' }}">
+                                                    @error('steps.'.$i.'.nama_custom')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-7">
@@ -134,102 +141,11 @@
 
                                 <div class="col-lg-12 button">
                                     <button class="btn">
-                                        Post a Job
+                                        Posting Lowongan
                                     </button>
                                 </div>
                             </div>
                         </form>
-
-                            <h3 class="title mt-4">Informasi Tambahan</h3>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Nama Perusahaan</label>
-                                        <input class="form-control" type="text" name="Company">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Company Website</label>
-                                        <input class="form-control" type="text" name="Website">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Company Industry</label>
-                                        <input class="form-control" type="text" name="Industry">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Facebook Page (Link)</label>
-                                        <input class="form-control" type="text" name="Link">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Linkedin Page (Link)</label>
-                                        <input class="form-control" type="text" name="Link">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Twitter Page (Link)</label>
-                                        <input class="form-control" type="text" name="Link">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Instagram Page (Link)</label>
-                                        <input class="form-control" type="text" name="Link">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label>Company Description*</label>
-                                        <textarea name="message" class="form-control" rows="5"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="choose-img">
-                                        <p>Logo (Optional)</p>
-                                        <label for="img">Select image:</label>
-                                        <input type="file" id="img" name="img" accept="image/*">
-                                        <p>Maximum file size: 2 MB</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <h3 class="title">Recruiter Information</h3>
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Full Name</label>
-                                        <input class="form-control" type="text" name="Name">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input class="form-control" type="email" name="email">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group checkboxs">
-                                        <input type="checkbox" class="checkboxs" id="chb2">
-                                        <p>
-                                            By clicking checkbox, you agree to our <a href="terms-conditions.html">Terms
-                                                &
-                                                Conditions</a> And <a href="privacy-policy.html">Privacy Policy.</a>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 button">
-                                    <button class="btn" type="submit">
-                                        Post a Job
-                                    </button>
-                                </div>
-                            </div>
-                        
                     </div>
                 </div>
             </div>
@@ -265,6 +181,7 @@
             if (!wrapper || !addBtn) return;
 
             const prosesOptions = @json($prosesList->map(fn($p) => ['id' => $p->id, 'nama' => $p->nama_proses])->values());
+            const LAINNYA_ID = @json($lainnyaId);
 
             function reindex() {
                 wrapper.querySelectorAll('[data-step-row]').forEach((row, i) => {
@@ -272,6 +189,20 @@
                         el.name = el.name.replace(/steps\[\d+\]/, `steps[${i}]`);
                     });
                 });
+            }
+
+            // Show the custom-name field only when the "Lainnya" stage is picked.
+            function toggleCustom(select) {
+                const row = select.closest('[data-step-row]');
+                if (!row) return;
+                const custom = row.querySelector('[data-custom-input]');
+                if (!custom) return;
+                if (LAINNYA_ID !== null && String(select.value) === String(LAINNYA_ID)) {
+                    custom.style.display = '';
+                } else {
+                    custom.style.display = 'none';
+                    custom.value = '';
+                }
             }
 
             addBtn.addEventListener('click', function () {
@@ -284,7 +215,8 @@
                         <div class="col-12 col-md-4">
                             <div class="form-group">
                                 <label>Tahap</label>
-                                <select class="form-control" name="steps[${i}][proses_id]">${optsHtml}</select>
+                                <select class="form-control" name="steps[${i}][proses_id]" data-proses-select>${optsHtml}</select>
+                                <input type="text" class="form-control mt-2" name="steps[${i}][nama_custom]" data-custom-input placeholder="Nama tahap, mis. Tes Fisik" style="display:none;">
                             </div>
                         </div>
                         <div class="col-12 col-md-7">
@@ -300,6 +232,10 @@
                 wrapper.insertAdjacentHTML('beforeend', html);
             });
 
+            wrapper.addEventListener('change', function (e) {
+                if (e.target.matches('[data-proses-select]')) toggleCustom(e.target);
+            });
+
             wrapper.addEventListener('click', function (e) {
                 if (e.target.matches('[data-remove-step]')) {
                     const row = e.target.closest('[data-step-row]');
@@ -307,6 +243,9 @@
                     reindex();
                 }
             });
+
+            // Initialise visibility for rows already present on load.
+            wrapper.querySelectorAll('[data-proses-select]').forEach(toggleCustom);
         })();
     </script>
 @endsection

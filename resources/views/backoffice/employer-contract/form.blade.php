@@ -63,6 +63,23 @@
                             @endif
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label d-block">Hak Kontrak (tipe kontrak)</label>
+                            <small class="text-muted d-block mb-2">Menentukan apa yang boleh diposting employer selama kontrak aktif.</small>
+                            @php
+                                $jobChecked = old('can_post_job', $mode === 'create' ? 1 : ($contract->can_post_job ? 1 : 0));
+                                $articleChecked = old('can_post_article', $mode === 'create' ? 1 : ($contract->can_post_article ? 1 : 0));
+                            @endphp
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="can_post_job" name="can_post_job" value="1" {{ $jobChecked ? 'checked' : '' }}>
+                                <label class="form-check-label" for="can_post_job">Boleh memposting <strong>lowongan</strong></label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="can_post_article" name="can_post_article" value="1" {{ $articleChecked ? 'checked' : '' }}>
+                                <label class="form-check-label" for="can_post_article">Boleh memposting <strong>artikel</strong></label>
+                            </div>
+                        </div>
+
                         @if($mode === 'edit')
                             <div class="mb-3">
                                 <label class="form-label">Status</label>

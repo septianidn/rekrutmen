@@ -43,7 +43,7 @@
                         <td><small>{{ $app->tanggal_apply->format('d/m/Y') }}</small></td>
                         <td>
                             @if($app->status === 'pending')
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">Menunggu</span>
                             @elseif($app->status === 'accepted')
                                 <span class="badge bg-success">Diterima</span>
                             @elseif($app->status === 'rejected')

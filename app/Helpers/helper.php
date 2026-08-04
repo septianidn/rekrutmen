@@ -1,4 +1,23 @@
 <?php
+
+/**
+ * Peta tampilan tipe pekerjaan (kolom worktime). Nilai yang tersimpan di
+ * database tetap bahasa Inggris demi kompatibilitas data & filter; fungsi
+ * ini hanya menerjemahkan teks yang ditampilkan ke pengguna.
+ */
+function worktimeLabel($value): string
+{
+    $map = [
+        'Full Time'  => 'Penuh Waktu',
+        'Part Time'  => 'Paruh Waktu',
+        'Contract'   => 'Kontrak',
+        'Internship' => 'Magang',
+        'Office'     => 'Kantor',
+    ];
+
+    return $map[$value] ?? (string) $value;
+}
+
 function removeSession($session){
     if(\Session::has($session)){
         \Session::forget($session);

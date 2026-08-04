@@ -164,7 +164,7 @@
                             <ul class="list-unstyled small mb-0">
                                 <li class="mb-1"><i class="lni lni-map-marker me-1"></i> {{ $job->alamat ?? '-' }}</li>
                                 <li class="mb-1"><i class="lni lni-dollar me-1"></i> Rp.{{ number_format($job->ekspektasi_gaji, 0, ',', '.') }}</li>
-                                <li><i class="lni lni-timer me-1"></i> {{ $job->worktime }}</li>
+                                <li><i class="lni lni-timer me-1"></i> {{ worktimeLabel($job->worktime) }}</li>
                             </ul>
                             @if(!in_array($job->id, $appliedJobIds))
                             <form action="{{ route('jobseeker.jobs.apply', $job->id) }}" method="POST" class="mt-2">

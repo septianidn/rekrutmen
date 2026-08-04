@@ -155,13 +155,18 @@ class JobController extends Controller
             return;
         }
 
+        $lainnyaId = Proses::where('nama_proses', 'Lainnya')->value('id');
+
         $job->steps()->delete();
 
         foreach ($steps as $i => $step) {
+            $isLainnya = $lainnyaId && (int) $step['proses_id'] === (int) $lainnyaId;
+
             $job->steps()->create([
                 'proses_id' => (int) $step['proses_id'],
                 'urutan' => $i + 1,
                 'deskripsi' => $step['deskripsi'] ?? '',
+                'nama_custom' => $isLainnya ? trim((string) ($step['nama_custom'] ?? '')) : null,
             ]);
         }
     }

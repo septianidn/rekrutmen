@@ -17,6 +17,7 @@ class ProsesSeeder extends Seeder
             ['nama_proses' => 'Uji Kompetensi'],
             ['nama_proses' => 'Wawancara'],
             ['nama_proses' => 'Pengumuman'],
+            ['nama_proses' => 'Lainnya'],
         ];
 
         foreach ($proses as $value) {

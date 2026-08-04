@@ -44,7 +44,10 @@
                         <div class="d-flex justify-content-between align-items-start mb-1">
                             <h5 class="mb-0">{{ $j->nama_pekerjaan }}</h5>
                             <div class="flex-shrink-0 ms-2">
-                                <span class="badge bg-light text-dark border">{{ $j->worktime }}</span>
+                                <span class="badge bg-light text-dark border">{{ worktimeLabel($j->worktime) }}</span>
+                                @if(!$j->isOpen())
+                                    <span class="badge bg-danger">Ditutup</span>
+                                @endif
                                 @if(in_array($j->id, $appliedJobIds))
                                     <span class="badge bg-info text-white">Sudah Dilamar</span>
                                 @endif
@@ -63,7 +66,14 @@
                     <a href="{{ route('jobseeker.jobs.show', $j->id) }}" class="btn btn-info btn-sm text-white">
                         <i class="lni lni-eye me-1"></i> Detail
                     </a>
-                    @if(!in_array($j->id, $appliedJobIds))
+                    @if(in_array($j->id, $appliedJobIds))
+                        {{-- sudah dilamar: tanpa tombol lamar --}}
+                    @elseif(!$j->isOpen())
+                        <button type="button" class="btn btn-secondary btn-sm" disabled
+                            title="Lowongan ini sudah ditutup dan tidak menerima lamaran baru">
+                            <i class="lni lni-lock me-1"></i> Lowongan Ditutup
+                        </button>
+                    @else
                     <form action="{{ route('jobseeker.jobs.apply', $j->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Apakah Anda yakin ingin melamar pekerjaan ini?')">

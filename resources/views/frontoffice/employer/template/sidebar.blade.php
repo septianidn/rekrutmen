@@ -1,13 +1,13 @@
 <div class="dashbord-sidebar">
         <ul>
-            <li class="heading">Manage Account</li>
-            <li><a class="@yield('home')" href="{{route('employer.index')}}"><i class="lni lni-home"></i>Home</a></li>
-            <li><a class="@yield('profile')" href="{{route('employer.profile')}}"><i class="lni lni-clipboard"></i>Profile</a>
+            <li class="heading">Kelola Akun</li>
+            <li><a class="@yield('home')" href="{{route('employer.index')}}"><i class="lni lni-home"></i>Beranda</a></li>
+            <li><a class="@yield('profile')" href="{{route('employer.profile')}}"><i class="lni lni-clipboard"></i>Profil</a>
             </li>
-            <li><a class="@yield('jobs')" href="{{route('employer.job.index')}}"><i class="lni lni-bookmark"></i> Jobs</a></li>
+            <li><a class="@yield('jobs')" href="{{route('employer.job.index')}}"><i class="lni lni-bookmark"></i> Lowongan</a></li>
             <li><a class="@yield('jobfair')" href="{{route('employer.job-fair.index')}}"><i class="lni lni-calendar"></i> Job Fair</a></li>
             <li><a class="@yield('article')" href="{{route('employer.article.index')}}"><i class="lni lni-write"></i> Artikel</a></li>
-            <li><a class="@yield('membership')" href="{{route('employer.membership.index')}}"><i class="lni lni-credit-cards"></i> Membership</a></li>
+            <li><a class="@yield('membership')" href="{{route('employer.membership.index')}}"><i class="lni lni-credit-cards"></i> Keanggotaan</a></li>
                 {{-- <li><a href="manage-applications.html"><i class="lni lni-envelope"></i> Manage
                     Applications</a></li>
                     <li><a href="manage-resumes.html"><i class="lni lni-files"></i> Manage Resumes</a></li>
