@@ -20,13 +20,13 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class,
             RoleTableSeeder::class,
             UserTableSeeder::class,
-            BidangSeeder::class,
             IndustriTypeSeeder::class,
             ProsesSeeder::class,
             JobseekerTypeSeeder::class,
             SocialMediaSeeder::class,
             MembershipSeeder::class,
             AccountSeeder::class,
+            PosisiSeeder::class,
         ]);
 
         // Create 6 additional users with different user types

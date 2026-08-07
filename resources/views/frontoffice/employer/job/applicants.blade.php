@@ -17,7 +17,7 @@
     </div>
 
     <h4 class="mb-3">Pelamar untuk: {{ $job->nama_pekerjaan }}</h4>
-    <p class="text-muted mb-4">{{ $job->posisi }} &middot; {{ $job->alamat }}</p>
+    <p class="text-muted mb-4">{{ $job->posisi?->nama_posisi }} &middot; {{ $job->alamat }}</p>
 
     @if($applications->isEmpty())
         <div class="alert alert-info">Belum ada pelamar untuk lowongan ini.</div>

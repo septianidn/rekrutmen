@@ -48,7 +48,7 @@
                                     <tr>
                                         <td>{{ $job->employer->nama_perusahaan ?? '-' }}</td>
                                         <td>{{ $job->nama_pekerjaan }}</td>
-                                        <td>{{ $job->posisi }}</td>
+                                        <td>{{ $job->posisi?->nama_posisi }}</td>
                                         <td>
                                             @if($job->pivot->status === 'pending')
                                                 <span class="badge bg-warning text-dark">Menunggu</span>

@@ -208,7 +208,7 @@ Route::prefix('backoffic3')->name('backoffice.')->group(function(){
         Route::group(['prefix' => 'datamaster'], function () {
             Route::resource('/jenjang', JenjangController::class);
             Route::resource('/fakultas', FakultasController::class);
-
+            Route::resource('/posisi', \App\Http\Controllers\PosisiController::class)->except(['show']);
         });
 
 

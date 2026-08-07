@@ -29,7 +29,12 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Posisi</label>
-                                        <input class="form-control" type="text" name="posisi" value="{{old('posisi')}}">
+                                        <input class="form-control" type="text" name="posisi" list="posisi-options" value="{{ old('posisi') }}" autocomplete="off" placeholder="Pilih atau ketik posisi">
+                                        <datalist id="posisi-options">
+                                            @foreach($posisiList as $p)
+                                                <option value="{{ $p->nama_posisi }}"></option>
+                                            @endforeach
+                                        </datalist>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">

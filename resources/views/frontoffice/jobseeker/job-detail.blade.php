@@ -58,8 +58,8 @@
                         </div>
                         <p class="text-muted mb-2"><strong>{{ $job->employer->nama_perusahaan ?? '-' }}</strong></p>
                         <ul class="list-inline mb-0 small text-muted">
-                            @if($job->posisi && !is_object($job->posisi))
-                                <li class="list-inline-item me-3"><i class="lni lni-briefcase me-1"></i>{{ $job->posisi }}</li>
+                            @if($job->posisi)
+                                <li class="list-inline-item me-3"><i class="lni lni-briefcase me-1"></i>{{ $job->posisi->nama_posisi }}</li>
                             @endif
                             <li class="list-inline-item me-3"><i class="lni lni-map-marker me-1"></i>{{ $job->alamat }}</li>
                             <li class="list-inline-item me-3"><i class="lni lni-dollar me-1"></i>Rp.{{ number_format($job->ekspektasi_gaji, 0, ',', '.') }}</li>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\Employer;
 use App\Models\Proses;
+use App\Models\Posisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\JobStoreRequest;
@@ -15,6 +16,7 @@ class JobController extends Controller
     public function index(Request $request)
     {
         $jobs = Job::where('employer_id', Auth::user()->employer->id)
+            ->with('posisi')
             ->withCount('applications')
             ->get();
 
@@ -37,8 +39,9 @@ class JobController extends Controller
         }
 
         $prosesList = Proses::orderBy('id')->get();
+        $posisiList = Posisi::orderBy('nama_posisi')->get();
 
-        return view('frontoffice.employer.job.create', compact('employer', 'prosesList'));
+        return view('frontoffice.employer.job.create', compact('employer', 'prosesList', 'posisiList'));
     }
 
     public function store(JobStoreRequest $request)
@@ -60,7 +63,7 @@ class JobController extends Controller
             'employer_id' => $data['employer_id'],
             'nama_pekerjaan' => $data['nama_pekerjaan'],
             'alamat' => $data['alamat'],
-            'posisi' => $data['posisi'],
+            'posisi_id' => $this->resolvePosisiId($data['posisi']),
             'requirement' => $data['requirement'],
             'deskripsi_pekerjaan' => $data['deskripsi_pekerjaan'],
             'ekspektasi_gaji' => $data['ekspektasi_gaji'],
@@ -91,10 +94,12 @@ class JobController extends Controller
 
         $job->load('steps.proses');
         $prosesList = Proses::orderBy('id')->get();
+        $posisiList = Posisi::orderBy('nama_posisi')->get();
 
         return view('frontoffice.employer.job.edit', [
             'jobs' => $job,
             'prosesList' => $prosesList,
+            'posisiList' => $posisiList,
         ]);
     }
 
@@ -102,7 +107,9 @@ class JobController extends Controller
     {
         $this->authorizeJob($job);
 
-        $job->update($request->safe()->except('steps'));
+        $payload = $request->safe()->except(['steps', 'posisi']);
+        $payload['posisi_id'] = $this->resolvePosisiId($request->validated()['posisi']);
+        $job->update($payload);
 
         $this->syncSteps($job, $request);
 
@@ -130,6 +137,21 @@ class JobController extends Controller
 
         return redirect()->route('employer.job.index')
             ->with('success', 'Lowongan dibuka kembali.');
+    }
+
+    /**
+     * Resolve a submitted position name to a `posisi` master row id,
+     * creating the row when it does not exist yet — keeps the master
+     * catalog populated while storage stays normalized to an FK.
+     */
+    protected function resolvePosisiId(?string $nama): ?int
+    {
+        $nama = trim((string) $nama);
+        if ($nama === '') {
+            return null;
+        }
+
+        return Posisi::firstOrCreate(['nama_posisi' => mb_substr($nama, 0, 100)])->id;
     }
 
     /**

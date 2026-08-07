@@ -356,6 +356,19 @@
         </ul>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link {{ activeRoute(route('backoffice.posisi.index')) }}"
+            href="{{ route('backoffice.posisi.index') }}">
+            <i class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+                </svg>
+            </i>
+            <span class="item-name">Data Posisi</span>
+        </a>
+    </li>
+
     {{-- <li class="nav-item">
                     <a class="nav-link {{ activeRoute(route('prodi.index')) }}" href="{{ route('prodi.index') }}">
                         <i class="icon">

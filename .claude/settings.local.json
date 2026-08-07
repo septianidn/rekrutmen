@@ -309,7 +309,8 @@
       "Bash(echo \"exit=$?\")",
       "Bash(python compare.py)",
       "Bash(PYTHONIOENCODING=utf-8 python -c ' *)",
-      "Bash(git reset *)"
+      "Bash(git reset *)",
+      "Bash(git checkout *)"
     ]
   }
 }

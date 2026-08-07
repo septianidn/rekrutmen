@@ -6,7 +6,7 @@
                     <div>
                         <h4 class="card-title mb-1">{{ $job->nama_pekerjaan }}</h4>
                         <p class="text-muted mb-0">
-                            {{ $job->posisi }} &middot; {{ $job->employer->nama_perusahaan ?? '-' }}
+                            {{ $job->posisi?->nama_posisi }} &middot; {{ $job->employer->nama_perusahaan ?? '-' }}
                         </p>
                     </div>
                     <div>

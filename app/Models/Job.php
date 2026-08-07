@@ -23,7 +23,7 @@ class Job extends Model
         'employer_id',
         'nama_pekerjaan',
         'alamat',
-        'posisi',
+        'posisi_id',
         'requirement',
         'deskripsi_pekerjaan',
         'ekspektasi_gaji',

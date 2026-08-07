@@ -64,7 +64,7 @@
                 <select name="job_id" class="form-select">
                     @foreach($jobs as $job)
                         @if(!in_array($job->id, $registeredJobIds))
-                            <option value="{{ $job->id }}">{{ $job->nama_pekerjaan }} ({{ $job->posisi }})</option>
+                            <option value="{{ $job->id }}">{{ $job->nama_pekerjaan }} ({{ $job->posisi?->nama_posisi }})</option>
                         @endif
                     @endforeach
                 </select>

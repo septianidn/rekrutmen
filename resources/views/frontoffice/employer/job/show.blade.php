@@ -34,8 +34,8 @@
                         <h4 class="mb-1">{{ $jobs->nama_pekerjaan }}</h4>
                         <p class="text-muted mb-0">
                             <strong>{{ $jobs->employer->nama_perusahaan ?? '-' }}</strong>
-                            @if(!empty($jobs->posisi))
-                                &middot; {{ $jobs->posisi }}
+                            @if($jobs->posisi)
+                                &middot; {{ $jobs->posisi->nama_posisi }}
                             @endif
                         </p>
                     </div>

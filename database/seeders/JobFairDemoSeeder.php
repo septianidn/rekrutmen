@@ -107,7 +107,7 @@ class JobFairDemoSeeder extends Seeder
         $job = Job::updateOrCreate(
             ['employer_id' => $employer->id, 'nama_pekerjaan' => 'Software Engineer'],
             [
-                'posisi'               => 'Junior Software Engineer',
+                'posisi_id'            => \App\Models\Posisi::firstOrCreate(['nama_posisi' => 'Junior Software Engineer'])->id,
                 'requirement'          => '<p>Menguasai PHP/Laravel atau JavaScript. Fresh graduate dipersilakan.</p>',
                 'deskripsi_pekerjaan'  => '<p>Mengembangkan aplikasi web internal perusahaan.</p>',
                 'alamat'               => 'Padang',

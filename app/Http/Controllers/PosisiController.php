@@ -2,59 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PosisiDataTable;
+use App\Helpers\AuthHelper;
 use App\Http\Requests\PosisiStoreRequest;
 use App\Http\Requests\PosisiUpdateRequest;
 use App\Models\Posisi;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class PosisiController extends Controller
 {
-    public function index(Request $request): Response
+    /**
+     * Daftar posisi (master) dengan DataTables — mengikuti pola datamaster
+     * (jenjang/prodi): tabel server-side + form tambah/edit lewat modal.
+     */
+    public function index(PosisiDataTable $dataTable)
     {
-        $posisis = Posisi::all();
+        $pageTitle = 'Data Posisi';
+        $auth_user = AuthHelper::authSession();
+        $assets = ['data-table'];
+        $headerAction = '<a data--href="' . route('backoffice.posisi.create') . '" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-modal-form="form" data-icon="person_add" data-app-title="Tambah Data Posisi" data-placement="top" title="Tambah Data">Tambah Data Posisi</a>';
 
-        return view('posisi.index', compact('posisis'));
+        return $dataTable->render('global.datatable', compact('pageTitle', 'auth_user', 'assets', 'headerAction'));
     }
 
-    public function create(Request $request): Response
+    public function create(Request $request)
     {
-        return view('posisi.create');
+        $view = view('backoffice.datamaster.posisi.form')->render();
+
+        return response()->json(['data' => $view, 'status' => true]);
     }
 
-    public function store(PosisiStoreRequest $request): Response
+    public function store(PosisiStoreRequest $request)
     {
-        $posisi = Posisi::create($request->validated());
+        Posisi::create($request->validated());
 
-        $request->session()->flash('posisi.id', $posisi->id);
-
-        return redirect()->route('posisi.index');
+        return redirect()->route('backoffice.posisi.index')
+            ->withSuccess('Data posisi berhasil ditambahkan.');
     }
 
-    public function show(Request $request, Posisi $posisi): Response
+    public function edit(Request $request, $id)
     {
-        return view('posisi.show', compact('posisi'));
+        $data = Posisi::findOrFail($id);
+        $view = view('backoffice.datamaster.posisi.form', compact('request', 'data', 'id'))->render();
+
+        return response()->json(['data' => $view, 'status' => true]);
     }
 
-    public function edit(Request $request, Posisi $posisi): Response
+    public function update(PosisiUpdateRequest $request, $id)
     {
-        return view('posisi.edit', compact('posisi'));
+        $posisi = Posisi::findOrFail($id);
+        $posisi->fill($request->validated())->update();
+
+        return redirect()->route('backoffice.posisi.index')
+            ->withSuccess('Data posisi berhasil diperbarui.');
     }
 
-    public function update(PosisiUpdateRequest $request, Posisi $posisi): Response
+    public function destroy($id)
     {
-        $posisi->update($request->validated());
-
-        $request->session()->flash('posisi.id', $posisi->id);
-
-        return redirect()->route('posisi.index');
-    }
-
-    public function destroy(Request $request, Posisi $posisi): Response
-    {
+        $posisi = Posisi::findOrFail($id);
+        $message = 'Data posisi berhasil dihapus.';
         $posisi->delete();
 
-        return redirect()->route('posisi.index');
+        if (request()->ajax()) {
+            return response()->json(['status' => true, 'message' => $message, 'datatable_reload' => 'dataTable_wrapper']);
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 }

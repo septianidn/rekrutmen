@@ -53,7 +53,7 @@
                                 <tr>
                                     <td>
                                         <a href="{{ route('backoffice.job.show', $job->id) }}"><strong>{{ $job->nama_pekerjaan }}</strong></a>
-                                        <div class="text-muted small">{{ $job->posisi }}</div>
+                                        <div class="text-muted small">{{ $job->posisi?->nama_posisi }}</div>
                                     </td>
                                     <td>{{ $job->employer->nama_perusahaan ?? '-' }}</td>
                                     <td>{{ $job->application_deadline ? \Carbon\Carbon::parse($job->application_deadline)->format('d/m/Y') : '-' }}</td>

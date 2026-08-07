@@ -20,7 +20,7 @@ class PosisiStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_posisi' => ['required', 'string', 'max:25'],
+            'nama_posisi' => ['required', 'string', 'max:100'],
         ];
     }
 }

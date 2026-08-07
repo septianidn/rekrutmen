@@ -13,7 +13,7 @@ class JobController extends Controller
         $filter = $request->input('filter', 'all');
         $search = trim((string) $request->input('q', ''));
 
-        $query = Job::with(['employer'])->withCount('applications');
+        $query = Job::with(['employer', 'posisi'])->withCount('applications');
 
         match ($filter) {
             'active' => $query->where('status', 'active'),
@@ -25,7 +25,7 @@ class JobController extends Controller
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_pekerjaan', 'like', "%{$search}%")
-                  ->orWhere('posisi', 'like', "%{$search}%")
+                  ->orWhereHas('posisi', fn ($p) => $p->where('nama_posisi', 'like', "%{$search}%"))
                   ->orWhereHas('employer', fn ($e) => $e->where('nama_perusahaan', 'like', "%{$search}%"));
             });
         }
@@ -45,7 +45,7 @@ class JobController extends Controller
     public function show($id)
     {
         $job = Job::withTrashed()
-            ->with(['employer', 'steps.proses', 'applications.jobseeker'])
+            ->with(['employer', 'posisi', 'steps.proses', 'applications.jobseeker'])
             ->findOrFail($id);
 
         return view('backoffice.job.show', compact('job'));
