@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             MembershipSeeder::class,
             AccountSeeder::class,
             PosisiSeeder::class,
+            JenjangSeeder::class,
         ]);
 
         // Create 6 additional users with different user types

@@ -52,7 +52,7 @@
         <div class="section-title">Riwayat Pendidikan</div>
         @foreach($jobseeker->riwayatPendidikans as $edu)
         <div class="item">
-            <span class="badge">{{ $edu->jenjang }}</span>
+            <span class="badge">{{ $edu->jenjang?->nama_jenjang }}</span>
             <span class="item-title">{{ $edu->instansi }}</span>
             @if($edu->indeks_nilai)
                 <span class="item-subtitle">&mdash; IPK: {{ $edu->indeks_nilai }}</span>

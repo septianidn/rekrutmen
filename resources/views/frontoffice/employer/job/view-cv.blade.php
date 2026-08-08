@@ -56,7 +56,7 @@
             <div class="single-edu mb-3">
                 <div class="d-flex align-items-start">
                     <div class="me-3">
-                        <span class="badge bg-primary px-2 py-1">{{ $edu->jenjang }}</span>
+                        <span class="badge bg-primary px-2 py-1">{{ $edu->jenjang?->nama_jenjang }}</span>
                     </div>
                     <div>
                         <h5 class="mb-0">{{ $edu->instansi }}</h5>

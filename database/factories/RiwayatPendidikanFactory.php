@@ -23,7 +23,7 @@ class RiwayatPendidikanFactory extends Factory
     {
         return [
             'jobseeker_id' => Jobseeker::factory(),
-            'jenjang' => $this->faker->regexify('[A-Za-z0-9]{5}'),
+            'jenjang_id' => \App\Models\Jenjang::inRandomOrder()->value('id'),
             'instansi' => $this->faker->regexify('[A-Za-z0-9]{50}'),
             'indeks_nilai' => $this->faker->regexify('[A-Za-z0-9]{4}'),
             'keterangan' => $this->faker->text(),

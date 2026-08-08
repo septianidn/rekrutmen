@@ -98,13 +98,14 @@
                         <button type="button" class="btn btn-light btn-sm" onclick="addRow('pendidikan')">+ Tambah</button>
                     </div>
                     <div class="card-body" id="pendidikan-container">
+                        @php $jenjangList = \App\Models\Jenjang::orderBy('id')->get(); @endphp
                         @forelse($jobseeker->riwayatPendidikans as $i => $edu)
                         <div class="row mb-3 item-row">
                             <div class="col-12 col-md-2">
                                 <label class="form-label">Jenjang</label>
-                                <select name="pendidikan[{{ $i }}][jenjang]" class="form-select">
-                                    @foreach(['SD','SMP','SMA','D3','S1','S2','S3'] as $j)
-                                        <option value="{{ $j }}" @selected($edu->jenjang == $j)>{{ $j }}</option>
+                                <select name="pendidikan[{{ $i }}][jenjang_id]" class="form-select">
+                                    @foreach($jenjangList as $j)
+                                        <option value="{{ $j->id }}" @selected($edu->jenjang_id == $j->id)>{{ $j->nama_jenjang }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -360,7 +361,7 @@
 <script>
 const templates = {
     pendidikan: (i) => `<div class="row mb-3 item-row">
-        <div class="col-12 col-md-2"><label class="form-label">Jenjang</label><select name="pendidikan[${i}][jenjang]" class="form-select"><option value="SD">SD</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="D3">D3</option><option value="S1" selected>S1</option><option value="S2">S2</option><option value="S3">S3</option></select></div>
+        <div class="col-12 col-md-2"><label class="form-label">Jenjang</label><select name="pendidikan[${i}][jenjang_id]" class="form-select">@foreach($jenjangList as $j)<option value="{{ $j->id }}">{{ $j->nama_jenjang }}</option>@endforeach</select></div>
         <div class="col-12 col-md-4"><label class="form-label">Instansi</label><input type="text" name="pendidikan[${i}][instansi]" class="form-control"></div>
         <div class="col-12 col-md-2"><label class="form-label">IPK/Nilai</label><input type="text" name="pendidikan[${i}][indeks_nilai]" class="form-control"></div>
         <div class="col-12 col-md-3"><label class="form-label">Keterangan</label><input type="text" name="pendidikan[${i}][keterangan]" class="form-control"></div>

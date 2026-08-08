@@ -54,7 +54,7 @@ class JenjangController extends Controller
         
        $jenjang = Jenjang::create($request->all());
 
-       return redirect()->route('jenjang.index')->withSuccess(__('message.jenjang_msg_added',['name' => __('jenjang.store')]));
+       return redirect()->route('backoffice.jenjang.index')->withSuccess('Data jenjang berhasil ditambahkan.');
     }
 
     /**

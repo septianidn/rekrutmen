@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 
 class JenjangRequest extends FormRequest
@@ -33,12 +34,12 @@ class JenjangRequest extends FormRequest
         switch ($method) {
             case 'post':
                 $rules = [
-                    'nama_jenjang' => 'required|max:10',
+                    'nama_jenjang' => ['required', 'max:10', Rule::unique('jenjang', 'nama_jenjang')],
                 ];
                 break;
             case 'patch':
                 $rules = [
-                    'nama_jenjang' => 'required|max:10',
+                    'nama_jenjang' => ['required', 'max:10', Rule::unique('jenjang', 'nama_jenjang')->ignore($this->route('jenjang'))],
                 ];
                 break;
 

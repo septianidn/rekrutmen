@@ -100,7 +100,7 @@
                 @foreach($jobseeker->riwayatPendidikans as $edu)
                 <div class="d-flex align-items-start {{ !$loop->last ? 'mb-3 pb-3 border-bottom' : '' }}">
                     <div class="me-3">
-                        <span class="badge bg-primary px-2 py-1">{{ $edu->jenjang }}</span>
+                        <span class="badge bg-primary px-2 py-1">{{ $edu->jenjang?->nama_jenjang }}</span>
                     </div>
                     <div class="flex-grow-1">
                         <h6 class="mb-1">{{ $edu->instansi }}</h6>

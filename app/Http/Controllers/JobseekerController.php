@@ -192,7 +192,7 @@ class JobseekerController extends Controller
 
             // Wajib
             'pendidikan'                => ['required', 'array', 'min:1'],
-            'pendidikan.*.jenjang'      => ['required', 'string', 'max:5'],
+            'pendidikan.*.jenjang_id'   => ['required', 'integer', 'exists:jenjang,id'],
             'pendidikan.*.instansi'     => ['required', 'string', 'max:50'],
             'pendidikan.*.indeks_nilai' => ['required', 'string', 'max:4'],
             'pendidikan.*.keterangan'   => ['required', 'string'],
