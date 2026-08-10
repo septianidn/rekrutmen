@@ -60,6 +60,9 @@
                     </div>
                     <div>
                         <h5 class="mb-0">{{ $edu->instansi }}</h5>
+                        @if($edu->prodi || $edu->prodi_lain)
+                            <div class="small text-muted">{{ $edu->prodi?->nama_prodi ?? $edu->prodi_lain }}</div>
+                        @endif
                         @if($edu->indeks_nilai)
                             <small class="text-muted">IPK/Nilai: {{ $edu->indeks_nilai }}</small>
                         @endif

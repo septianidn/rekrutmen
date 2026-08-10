@@ -104,6 +104,9 @@
                     </div>
                     <div class="flex-grow-1">
                         <h6 class="mb-1">{{ $edu->instansi }}</h6>
+                        @if($edu->prodi || $edu->prodi_lain)
+                            <div class="small text-muted">{{ $edu->prodi?->nama_prodi ?? $edu->prodi_lain }}</div>
+                        @endif
                         @if($edu->indeks_nilai)
                             <small class="text-muted">IPK/Nilai: {{ $edu->indeks_nilai }}</small>
                         @endif

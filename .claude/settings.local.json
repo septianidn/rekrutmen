@@ -310,7 +310,10 @@
       "Bash(python compare.py)",
       "Bash(PYTHONIOENCODING=utf-8 python -c ' *)",
       "Bash(git reset *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(PYTHONIOENCODING=utf-8 python read_tracer.py)",
+      "PowerShell(cd \"C:\\\\Users\\\\eltia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Septian-Sistem-Informasi-Tugas-Akhir-Backup-pusatkarir-v1\\\\242cd7d7-c1a1-4973-a924-6cfc2565aa06\\\\scratchpad\"; $env:PYTHONIOENCODING=\"utf-8\"; python read_tracer.py)",
+      "PowerShell($py = \"C:\\\\Users\\\\eltia\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python39\\\\python.exe\"; cd \"C:\\\\Users\\\\eltia\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Septian-Sistem-Informasi-Tugas-Akhir-Backup-pusatkarir-v1\\\\242cd7d7-c1a1-4973-a924-6cfc2565aa06\\\\scratchpad\"; $env:PYTHONIOENCODING=\"utf-8\"; & $py read_tracer.py)"
     ]
   }
 }

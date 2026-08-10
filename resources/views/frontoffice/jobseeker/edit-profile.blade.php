@@ -98,14 +98,14 @@
                         <button type="button" class="btn btn-light btn-sm" onclick="addRow('pendidikan')">+ Tambah</button>
                     </div>
                     <div class="card-body" id="pendidikan-container">
-                        @php $jenjangList = \App\Models\Jenjang::orderBy('id')->get(); @endphp
+                        @php $jenjangList = \App\Models\Jenjang::orderBy('jenjang_id')->get(); $prodiList = \App\Models\Prodi::with('jenjang')->orderBy('nama_prodi')->get(); @endphp
                         @forelse($jobseeker->riwayatPendidikans as $i => $edu)
                         <div class="row mb-3 item-row">
                             <div class="col-12 col-md-2">
                                 <label class="form-label">Jenjang</label>
                                 <select name="pendidikan[{{ $i }}][jenjang_id]" class="form-select">
                                     @foreach($jenjangList as $j)
-                                        <option value="{{ $j->id }}" @selected($edu->jenjang_id == $j->id)>{{ $j->nama_jenjang }}</option>
+                                        <option value="{{ $j->jenjang_id }}" @selected($edu->jenjang_id == $j->jenjang_id)>{{ $j->nama_jenjang }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -123,6 +123,17 @@
                             </div>
                             <div class="col-12 col-md-1 d-flex align-items-end">
                                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button>
+                            </div>
+                            <div class="col-12 col-md-6 mt-2">
+                                <label class="form-label">Program Studi <small class="text-muted">(prodi Unand; pilih "Lainnya" untuk non-Unand)</small></label>
+                                <select name="pendidikan[{{ $i }}][kode_prodi_id]" class="form-select prodi-select" onchange="toggleProdiLain(this)">
+                                    <option value="">- Tidak diisi -</option>
+                                    @foreach($prodiList as $pr)
+                                        <option value="{{ $pr->kode_prodi }}" @selected($edu->kode_prodi_id == $pr->kode_prodi)>{{ $pr->nama_prodi }} ({{ $pr->jenjang?->nama_jenjang }})</option>
+                                    @endforeach
+                                    <option value="lain" @selected(!$edu->kode_prodi_id && $edu->prodi_lain)>Lainnya (non-Unand)</option>
+                                </select>
+                                <input type="text" name="pendidikan[{{ $i }}][prodi_lain]" class="form-control mt-1 prodi-lain" placeholder="Nama program studi (non-Unand)" value="{{ $edu->prodi_lain }}" style="{{ (!$edu->kode_prodi_id && $edu->prodi_lain) ? '' : 'display:none;' }}">
                             </div>
                             <div class="col-12 mt-2">
                                 <label class="form-label">Ijazah/Transkrip <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label>
@@ -361,11 +372,12 @@
 <script>
 const templates = {
     pendidikan: (i) => `<div class="row mb-3 item-row">
-        <div class="col-12 col-md-2"><label class="form-label">Jenjang</label><select name="pendidikan[${i}][jenjang_id]" class="form-select">@foreach($jenjangList as $j)<option value="{{ $j->id }}">{{ $j->nama_jenjang }}</option>@endforeach</select></div>
+        <div class="col-12 col-md-2"><label class="form-label">Jenjang</label><select name="pendidikan[${i}][jenjang_id]" class="form-select">@foreach($jenjangList as $j)<option value="{{ $j->jenjang_id }}">{{ $j->nama_jenjang }}</option>@endforeach</select></div>
         <div class="col-12 col-md-4"><label class="form-label">Instansi</label><input type="text" name="pendidikan[${i}][instansi]" class="form-control"></div>
         <div class="col-12 col-md-2"><label class="form-label">IPK/Nilai</label><input type="text" name="pendidikan[${i}][indeks_nilai]" class="form-control"></div>
         <div class="col-12 col-md-3"><label class="form-label">Keterangan</label><input type="text" name="pendidikan[${i}][keterangan]" class="form-control"></div>
         <div class="col-12 col-md-1 d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.item-row').remove()">X</button></div>
+        <div class="col-12 col-md-6 mt-2"><label class="form-label">Program Studi <small class="text-muted">(prodi Unand; "Lainnya" untuk non-Unand)</small></label><select name="pendidikan[${i}][kode_prodi_id]" class="form-select prodi-select" onchange="toggleProdiLain(this)"><option value="">- Tidak diisi -</option>@foreach($prodiList as $pr)<option value="{{ $pr->kode_prodi }}">{{ $pr->nama_prodi }} ({{ $pr->jenjang?->nama_jenjang }})</option>@endforeach<option value="lain">Lainnya (non-Unand)</option></select><input type="text" name="pendidikan[${i}][prodi_lain]" class="form-control mt-1 prodi-lain" placeholder="Nama program studi (non-Unand)" style="display:none;"></div>
         <div class="col-12 mt-2"><label class="form-label">Ijazah/Transkrip <small class="text-muted">(opsional, PDF/JPG/PNG)</small></label><input type="file" name="pendidikan[${i}][dokumen]" class="form-control form-control-sm" accept=".pdf,.jpg,.jpeg,.png"></div>
     </div>`,
     bahasa: (i) => `<div class="row mb-3 item-row">
@@ -419,6 +431,12 @@ function addRow(section) {
     }
     counters[section]++;
     container.insertAdjacentHTML('beforeend', templates[section](counters[section]));
+}
+
+function toggleProdiLain(sel) {
+    const inp = sel.closest('div').querySelector('.prodi-lain');
+    if (!inp) return;
+    if (sel.value === 'lain') { inp.style.display = ''; } else { inp.style.display = 'none'; inp.value = ''; }
 }
 </script>
 

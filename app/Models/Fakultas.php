@@ -10,6 +10,7 @@ class Fakultas extends Model
     use HasFactory;
 
     protected $table = 'fakultas';
+    protected $primaryKey = 'fakultas_id';
     /**
      * The attributes that are mass assignable.
      *

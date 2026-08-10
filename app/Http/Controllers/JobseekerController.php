@@ -16,6 +16,7 @@ use App\Models\Prestasi;
 use App\Models\Rekomendasi;
 use App\Models\RiwayatKerja;
 use App\Models\RiwayatPendidikan;
+use App\Models\Prodi;
 use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
@@ -192,11 +193,13 @@ class JobseekerController extends Controller
 
             // Wajib
             'pendidikan'                => ['required', 'array', 'min:1'],
-            'pendidikan.*.jenjang_id'   => ['required', 'integer', 'exists:jenjang,id'],
+            'pendidikan.*.jenjang_id'   => ['required', 'integer', 'exists:jenjang,jenjang_id'],
             'pendidikan.*.instansi'     => ['required', 'string', 'max:50'],
             'pendidikan.*.indeks_nilai' => ['required', 'string', 'max:4'],
             'pendidikan.*.keterangan'   => ['required', 'string'],
             'pendidikan.*.dokumen'      => $fileRule,
+            'pendidikan.*.kode_prodi_id'=> ['nullable', 'string'],
+            'pendidikan.*.prodi_lain'   => ['nullable', 'string', 'max:100'],
 
             'bahasa'              => ['required', 'array', 'min:1'],
             'bahasa.*.bahasa'     => ['required', 'string', 'max:20'],
@@ -243,6 +246,10 @@ class JobseekerController extends Controller
         $jobseeker->riwayatPendidikans()->delete();
         foreach ((array) $request->input('pendidikan', []) as $i => $edu) {
             if (empty($edu['instansi'])) continue;
+            // Prodi: FK ke master hanya untuk prodi Unand yang valid; selain itu (non-Unand/kosong) simpan teks.
+            $kode = $edu['kode_prodi_id'] ?? null;
+            $edu['kode_prodi_id'] = (is_numeric($kode) && Prodi::whereKey((int) $kode)->exists()) ? (int) $kode : null;
+            $edu['prodi_lain'] = $edu['kode_prodi_id'] ? null : (trim((string) ($edu['prodi_lain'] ?? '')) ?: null);
             $jobseeker->riwayatPendidikans()->create($resolveDokumen($edu, 'pendidikan', $i));
         }
 

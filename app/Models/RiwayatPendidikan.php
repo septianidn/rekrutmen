@@ -20,6 +20,8 @@ class RiwayatPendidikan extends Model
     protected $fillable = [
         'jobseeker_id',
         'jenjang_id',
+        'kode_prodi_id',
+        'prodi_lain',
         'instansi',
         'indeks_nilai',
         'keterangan',
@@ -35,6 +37,7 @@ class RiwayatPendidikan extends Model
         'id' => 'integer',
         'jobseeker_id' => 'integer',
         'jenjang_id' => 'integer',
+        'kode_prodi_id' => 'integer',
     ];
 
     public function jobseeker(): BelongsTo
@@ -45,5 +48,10 @@ class RiwayatPendidikan extends Model
     public function jenjang(): BelongsTo
     {
         return $this->belongsTo(Jenjang::class);
+    }
+
+    public function prodi(): BelongsTo
+    {
+        return $this->belongsTo(Prodi::class, 'kode_prodi_id', 'kode_prodi');
     }
 }

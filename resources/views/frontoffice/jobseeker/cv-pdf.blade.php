@@ -54,6 +54,9 @@
         <div class="item">
             <span class="badge">{{ $edu->jenjang?->nama_jenjang }}</span>
             <span class="item-title">{{ $edu->instansi }}</span>
+            @if($edu->prodi || $edu->prodi_lain)
+                <span class="item-subtitle">&mdash; {{ $edu->prodi?->nama_prodi ?? $edu->prodi_lain }}</span>
+            @endif
             @if($edu->indeks_nilai)
                 <span class="item-subtitle">&mdash; IPK: {{ $edu->indeks_nilai }}</span>
             @endif

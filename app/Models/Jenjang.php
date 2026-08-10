@@ -10,6 +10,7 @@ class Jenjang extends Model
     use HasFactory;
 
     protected $table = 'jenjang';
+    protected $primaryKey = 'jenjang_id';
     /**
      * The attributes that are mass assignable.
      *
